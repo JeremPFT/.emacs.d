@@ -10,3 +10,4 @@ server/server
 transient/
 *.elc
 *~
+ido.last
