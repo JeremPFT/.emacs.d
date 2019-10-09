@@ -92,7 +92,9 @@
     (("jpi" . "~/.emacs.d/package-repo-jpi/")
      ("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/"))))
- '(package-selected-packages (quote (wisi ada-mode magit org flx-isearch flx-ido)))
+ '(package-selected-packages
+   (quote
+    (paradox wisi ada-mode magit org flx-isearch flx-ido)))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
