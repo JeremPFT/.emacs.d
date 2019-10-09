@@ -1,0 +1,12 @@
+auto-save-list/
+backup/
+bookmarks*
+elpa/
+el-get/
+eshell/
+semanticdb/
+server/server
+.session
+transient/
+*.elc
+*~
