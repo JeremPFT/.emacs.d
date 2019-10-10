@@ -17,8 +17,7 @@
  '(ada-xref-full-path t)
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
- '(bmkp-last-as-first-bookmark-file
-   "d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico/.emacs.d/bookmarks")
+ '(bmkp-last-as-first-bookmark-file #("~/.emacs.d/bookmarks" 2 11 (face flx-highlight-face)))
  '(c-default-style
    (quote
     ((c-mode . "ingenico")

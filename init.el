@@ -1,5 +1,7 @@
 ;;;; D:\Users\jpiffret\emacs-26.1-i686\bin\runemacs.exe --eval "(setenv \"HOME\" \"d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico\")" --load d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico/.emacs
-(setenv "HOME" "d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico")
+(let ((local-home "d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico"))
+  (when (file-directory-p local-home)
+    (setenv "HOME" local-home)))
 
 ;; git: JeremPFT TCiBpZifai9m3Gk2
 ;; cbb240b4c6ca715746c2a0cdbc4fd990b7464713
@@ -46,7 +48,7 @@
 (package-initialize)
 
 (add-to-list 'package-archives
-             '("jpi" . "~/package-repo-jpi/") t)
+             '("jpi" . "~/.emacs.d/package-repo-jpi/") t)
 
 ;; (add-to-list 'load-path "~/.emacs.d/elpa/benchmark-init-20150905.938")
 ;; (require 'benchmark-init)
