@@ -100,6 +100,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Courier New" :foundry "outline" :slant normal :weight normal :height 120 :width normal))))
  '(diredp-compressed-file-suffix ((t (:foreground "#00006DE06DE0"))))
  '(diredp-dir-name ((t (:foreground "Blue"))))
  '(diredp-dir-priv ((t nil)))
