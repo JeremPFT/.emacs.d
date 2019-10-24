@@ -222,13 +222,13 @@
   (setq start-pos (point))
 
   (setq group-operators '("[" "]" "(" ")" "{" "}"))
-  (setq operators '("," "*" "&" "+" "-" "/"))
+  (setq operators '("," "*" "&" "+" "-" "/" "<=" ">=" "<" ">"))
 
   (while group-operators
     (let (operator regexp)
       (setq operator (car group-operators)
             group-operators (cdr group-operators)
-            regexp "[]A-Za-z_0-9*&[()+/*,\"]")
+            regexp "[]A-Za-z_0-9*&<>[()+/*,\"]")
 
       (goto-char start-pos)
 
@@ -246,8 +246,8 @@
           (forward-char 1)
           (when (looking-at regexp)
             (unless (looking-at ",")
-                    (insert " "))))
-
+              (insert " ")))
+          ) ;; unless inside
         ) ;; while search
       ) ;; let
     ) ;; while group-operators
@@ -269,8 +269,10 @@
             (unless (= (point) (line-beginning-position))
               (forward-char -1)
               (when (looking-back regexp)
-                (unless (or (string= (buffer-substring-no-properties (point) (+ 2 (point))) "->")
-                            (string= (buffer-substring-no-properties (point) (+ 2 (point))) "*/"))
+                (unless (or (string= (buffer-substring-no-properties
+                                      (point) (+ 2 (point))) "->")
+                            (string= (buffer-substring-no-properties
+                                      (point) (+ 2 (point))) "*/"))
                   (insert " ")))
               (forward-char)))
 
