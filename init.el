@@ -277,7 +277,9 @@
               (forward-char)))
 
           (when (looking-at regexp)
-            (insert " ")))
+            (unless (string= (buffer-substring-no-properties
+                              (- (point) 2) (point)) "->")
+            (insert " "))))
         ) ;; while search
       ) ;; let
     ) ;; while operators
