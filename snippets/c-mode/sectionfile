@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: fileSection
+# key: fileSection
+# --
+/*******************************************************************************
+ * $0local functions definitions
+ */

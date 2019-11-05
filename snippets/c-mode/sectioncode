@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: codeSection
+# key: codeSection
+# --
+  //
+  // 0. declaration & initialization
+  //

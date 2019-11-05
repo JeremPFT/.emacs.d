@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: subprogramSpec
+# key: subprogramSpec
+# expand-env: ((yas-indent-line nil))
+# --
+${1:$(make-string (+ (string-width yas-text) 8) ?-)}
+--  $1  --
+${1:$(make-string (+ (string-width yas-text) 8) ?-)}
+
+not overriding
+${2:$$(yas-choose-value '("function" "procedure"))} ${1:Subprogram_Name}
+(Self : in Object_T)
+return $0;

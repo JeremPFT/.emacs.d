@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: statusIngenico
+# key: statusIngenico
+# --
+  if ( STATUS_OK )
+  {
+    // iReturnedStatus = ${1:someProcess} ( $0 ); // TODO
+
+    if ( ! STATUS_OK )
+    {
+      // TODO
+    }
+  }

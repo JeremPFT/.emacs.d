@@ -45,6 +45,9 @@
  '(grep-find-command
    (quote
     ("gfind . -type f -name \"*[.][hc]\" -exec grep --color=always -nH  {} \";\"" . 64)))
+ '(hippie-expand-try-functions-list
+   (quote
+    (try-expand-dabbrev try-expand-dabbrev-all-buffers try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-dabbrev-from-kill try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
  '(ido-decorations
    (quote
     ("
@@ -52,6 +55,7 @@
    " "
    ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
  '(indent-tabs-mode nil)
+ '(linum-format "%6d")
  '(org-adapt-indentation nil)
  '(org-agenda-files
    (quote
@@ -85,6 +89,7 @@
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m org-collector)))
  '(org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
+ '(org-startup-shrink-all-tables t)
  '(org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>")))
  '(package-archives
    (quote
@@ -93,7 +98,9 @@
      ("melpa" . "http://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (paradox wisi ada-mode magit org flx-isearch flx-ido)))
+    (immaterial flycheck elpy immaterial-theme wisi ada-mode magit org flx-isearch flx-ido)))
+ '(python-fill-docstring-style (quote symmetric))
+ '(python-indent-guess-indent-offset nil)
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -101,14 +108,29 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Courier New" :foundry "outline" :slant normal :weight normal :height 120 :width normal))))
+ '(diredp-compressed-file-name ((t (:foreground "ivory"))))
  '(diredp-compressed-file-suffix ((t (:foreground "#00006DE06DE0"))))
- '(diredp-dir-name ((t (:foreground "Blue"))))
+ '(diredp-dir-name ((t (:foreground "deep sky blue"))))
  '(diredp-dir-priv ((t nil)))
  '(diredp-exec-priv ((t nil)))
- '(diredp-file-name ((t (:foreground "black"))))
+ '(diredp-file-name ((t (:foreground "white smoke"))))
  '(diredp-link-priv ((t nil)))
  '(diredp-no-priv ((t nil)))
  '(diredp-omit-file-name ((t (:inherit diredp-ignored-file-name))))
  '(diredp-read-priv ((t nil)))
  '(diredp-write-priv ((t nil)))
- '(magit-branch-local ((t (:foreground "orange")))))
+ '(font-lock-comment-delimiter-face ((t (:foreground "chocolate"))))
+ '(font-lock-comment-face ((t (:foreground "chocolate"))))
+ '(font-lock-doc-face ((t (:foreground "grey60"))))
+ '(highlight-indentation-current-column-face ((t (:background "gray15"))))
+ '(highlight-indentation-face ((t (:inherit fringe :background "gray30"))))
+ '(hl-line ((t (:background "dim gray"))))
+ '(internal-border ((t (:background "white"))))
+ '(isearch ((t (:background "gray20" :foreground "#eeeeee" :underline t :weight ultra-bold))))
+ '(linum ((t (:background "#102027" :foreground "#777777" :weight normal :height 100))))
+ '(magit-branch-local ((t (:foreground "orange"))))
+ '(mode-line ((t (:background "midnight blue" :foreground "#eeeeee" :box (:line-width 1 :color "#102027")))))
+ '(mode-line-inactive ((t (:background "gray22" :foreground "#eeeeee" :box (:line-width 1 :color "#102027")))))
+ '(package-name ((t (:foreground "light goldenrod"))))
+ '(region ((t (:background "gray30" :foreground "#eeeeee"))))
+ '(replacep-msg-emphasis ((t (:foreground "brown")))))

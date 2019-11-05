@@ -33,6 +33,8 @@
 
 (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-jpi/recipes")
 
+(defvar my-packages)
+
 (setq my-packages
       (append
        '(el-get)
@@ -54,20 +56,32 @@
 ;; (require 'benchmark-init)
 ;; (add-hook 'after-init-hook 'benchmark-init/deactivate)
 
-(unless (file-exists-p package-user-dir)
+(unless package-archive-contents
   (package-refresh-contents))
 
-(setq package-list '(
-                     flx-ido
-                     flx-isearch
-                     flx
-                     magit
-                     org
-                     ada-mode
-                     paradox
-                     ))
+(setq my-packages
+      '(
+        flycheck
+        magit
 
-(dolist (package package-list)
+        immaterial-theme
+        ;; dark colors. Better than default white...
+
+        ada-mode org
+        ;; to ensure last version is installed over built-in
+
+        elpy
+        ;; Python env. From https://realpython.com/emacs-the-best-python-editor/
+
+        flx flx-ido
+        ;; flx mode. Used with completion list
+        ;; flx-isearch exists, but take a long time inside a long file
+
+        ;; paradox
+        ;; ;; new *Packages* interface. Not used, I find it too heavy
+        ))
+
+(dolist (package my-packages)
   (unless (package-installed-p package)
     (package-install package)))
 
@@ -199,9 +213,12 @@
 
 (add-hook 'python-mode-hook (lambda () (electric-pair-mode)))
 
-;; following work with C-s but not with M-% ... :(
-(define-key minibuffer-local-map "(" 'self-insert-command )
-(define-key minibuffer-local-ns-map "(" 'self-insert-command )
+(elpy-enable) ;; config: "M-x elpy-config"
+
+;; Enable Flycheck
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 ;; pretty print
 ;;
@@ -279,7 +296,7 @@
           (when (looking-at regexp)
             (unless (string= (buffer-substring-no-properties
                               (- (point) 2) (point)) "->")
-            (insert " "))))
+              (insert " "))))
         ) ;; while search
       ) ;; let
     ) ;; while operators
@@ -305,23 +322,59 @@
 ;;;; TODO: categorize
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;;
+;; trying some session extensions, not so good ...  I prefere simple ibuffer and
+;; it's filters
+;;;;
 ;; (provide 'virtual-desktops)
 ;; seems to corrupt ibuffer
 ;; (require 'session)
 ;; (add-hook 'after-init-hook 'session-initialize)
 ;; (desktop-save-mode -1)
-
+;;;;
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+;;;;
+;; may only activate for prog-modes:
+;;
 ;; (defun my-prog-nuke-trailing-whitespace ()
 ;;   (when (derived-mode-p 'prog-mode)
 ;;     (delete-trailing-whitespace)))
 ;; (add-hook 'before-save-hook 'my-prog-nuke-trailing-whitespace)
+;;;;
 
 (global-hl-line-mode 1)
 
-;; (require 'grep-edit)
+;;;;
+;; customize linum-format
+;; source: https://www.emacswiki.org/emacs/LineNumbers#toc8
+
+(unless window-system
+  (add-hook 'linum-before-numbering-hook
+	    (lambda ()
+	      (setq-local linum-format-fmt
+			  (let ((w (length (number-to-string
+					    (count-lines (point-min) (point-max))))))
+			    (concat "%" (number-to-string w) "d"))))))
+
+(defun linum-format-func (line)
+  (concat
+   (propertize (format linum-format-fmt line) 'face 'linum)
+   (propertize " " 'face 'mode-line)))
+
+(unless window-system
+  (setq linum-format 'linum-format-func))
+
+;;;; end linum
+
+;;;;
+;; fill-column-indicator
+;; activate with "M-x fci-mode"
 (require 'fill-column-indicator)
+
+;;;; using immaterial theme
+;; more infos on Google
+(load-theme 'immaterial t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; magit
@@ -374,10 +427,15 @@
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key (kbd "C-x C-g") 'goto-line)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "M-/") 'hippie-expand)
 
 (defun indent-buffer ()
   (interactive)
   (indent-region (point-min) (point-max)))
+
+;; following work with C-s but not with M-% ... :(
+(define-key minibuffer-local-map "(" 'self-insert-command )
+(define-key minibuffer-local-ns-map "(" 'self-insert-command )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; flx (completion engine for Ido)
@@ -464,7 +522,8 @@
 
 ;; (require 'org-collector)
 ;; removed: default behavior is better ...
-;; see https://orgmode.org/manual/Capturing-column-view.html: C-c C-x i (org-insert-columns-dblock))
+;; see https://orgmode.org/manual/Capturing-column-view.html:
+;;    C-c C-x i (org-insert-columns-dblock)
 
 (global-set-key (kbd "C-c c") 'org-capture)
 
@@ -601,6 +660,12 @@ contents as a string, or nil if it is empty."
   (let ((win (get-buffer-window (current-buffer))))
     (if win
         (select-window win))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; yasnippet
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(yas-global-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; emacs client

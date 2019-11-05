@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: getset
+# key: getset
+# group: dunder methods
+# --
+    @property
+    def ${1:field}(self):
+        return self.__$1
+
+    def __set_$1(self, $1):
+        $0if $1 != None: assert_type($1, int)
+        self.__$1 = $1
