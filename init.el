@@ -77,6 +77,9 @@
         ;; flx mode. Used with completion list
         ;; flx-isearch exists, but take a long time inside a long file
 
+        ido-completing-read+ amx crm-custom
+        ;; https://github.com/DarwinAwardWinner/ido-completing-read-plus
+
         ;; paradox
         ;; ;; new *Packages* interface. Not used, I find it too heavy
         ))
@@ -458,12 +461,18 @@
 (flx-ido-mode 1)
 ;; disable ido faces to see flx highlights.
 (setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
+(setq ido-use-faces t)
+
+(ido-ubiquitous-mode 1)
+(amx-mode 1)
+(crm-custom-mode 1)
 
 (defun ido-bookmark-jump (bname)
   "*Switch to bookmark interactively using `ido'."
   (interactive (list (ido-completing-read "Bookmark: " (bookmark-all-names) nil t)))
   (bookmark-jump bname))
+
+(setq magit-completing-read-function 'magit-ido-completing-read)
 
 (global-set-key (kbd "C-x b") 'ido-switch-buffer)
 (global-set-key (kbd "C-x r b") 'ido-bookmark-jump)
