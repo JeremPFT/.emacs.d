@@ -47,10 +47,15 @@
 ;;;; packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(package-initialize)
+(require 'package)
+
+(add-to-list 'package-archives
+             '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
 
 (add-to-list 'package-archives
              '("jpi" . "~/.emacs.d/package-repo-jpi/") t)
+
+(package-initialize)
 
 ;; (add-to-list 'load-path "~/.emacs.d/elpa/benchmark-init-20150905.938")
 ;; (require 'benchmark-init)
