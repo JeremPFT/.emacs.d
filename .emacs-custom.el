@@ -136,6 +136,7 @@
  '(magit-branch-local ((t (:foreground "orange"))))
  '(mode-line ((t (:background "midnight blue" :foreground "#eeeeee" :box (:line-width 1 :color "#102027")))))
  '(mode-line-inactive ((t (:background "gray22" :foreground "#eeeeee" :box (:line-width 1 :color "#102027")))))
+ '(org-link ((t (:inherit link :foreground "dark turquoise"))))
  '(package-name ((t (:foreground "light goldenrod"))))
  '(region ((t (:background "dim gray" :foreground "#eeeeee"))))
  '(replacep-msg-emphasis ((t (:foreground "brown")))))
