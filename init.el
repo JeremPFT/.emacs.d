@@ -445,6 +445,12 @@
 (define-key minibuffer-local-map "(" 'self-insert-command )
 (define-key minibuffer-local-ns-map "(" 'self-insert-command )
 
+(defun fetch_all_repositories ()
+  (interactive)
+  (shell-command "fetch_all_repositories.py"))
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; flx (completion engine for Ido)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
