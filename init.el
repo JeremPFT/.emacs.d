@@ -69,6 +69,8 @@
         flycheck
         magit
 
+        dired-filter
+
         immaterial-theme
         ;; dark colors. Better than default white...
 
@@ -449,7 +451,7 @@
   (interactive)
   (shell-command "fetch_all_repositories.py"))
 
-
+(define-key dired-mode-map (kbd "/") dired-filter-map)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; flx (completion engine for Ido)
