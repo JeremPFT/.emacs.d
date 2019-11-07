@@ -451,7 +451,9 @@
 
 (defun fetch_all_repositories ()
   (interactive)
-  (shell-command "fetch_all_repositories.py"))
+  (cd (concat (getenv "HOME") "/workspace/0_fetch_all" ))
+  (shell-command "fetch_all_repositories.py")
+  (cd (concat (getenv "HOME") "/.emacs.d" )))
 
 (define-key dired-mode-map (kbd "/") dired-filter-map)
 
