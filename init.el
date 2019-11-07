@@ -33,15 +33,15 @@
 
 (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-jpi/recipes")
 
-(defvar my-packages)
+(defvar mypackages)
 
-(setq my-packages
+(setq mypackages
       (append
        '(el-get)
        ;; '(el-get ada-mode)
        (mapcar 'el-get-source-name el-get-sources)))
 
-(el-get 'sync my-packages)
+(el-get 'sync mypackages)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; packages
@@ -64,10 +64,12 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-(setq my-packages
+(setq mypackages
       '(
         flycheck
         magit
+
+        org-brain
 
         dired-filter
 
@@ -91,7 +93,7 @@
         ;; ;; new *Packages* interface. Not used, I find it too heavy
         ))
 
-(dolist (package my-packages)
+(dolist (package mypackages)
   (unless (package-installed-p package)
     (package-install package)))
 
