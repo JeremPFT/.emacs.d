@@ -70,6 +70,8 @@
         magit
 
         org-brain
+        org-mind-map
+        ;; mind map
 
         dired-filter
 
@@ -387,6 +389,11 @@
 ;;;; using immaterial theme
 ;; more infos on Google
 (load-theme 'immaterial t)
+
+;;;;
+;; org-mind-map configuration
+(require 'ox-org)
+(setq org-mind-map-engine "dot")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; magit
