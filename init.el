@@ -66,6 +66,8 @@
 
 (setq mypackages
       '(
+        ;; multiple-cursors ;; TODO
+
         flycheck
         magit
 
