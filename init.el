@@ -10,7 +10,7 @@
 ;;;; custom
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq custom-file "~/.emacs.d/.emacs-custom.el")
+(setq custom-file "~/.emacs.d/emacs-custom.el")
 (load custom-file)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")

@@ -17,7 +17,7 @@
  '(ada-xref-full-path t)
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
- '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
+ '(bmkp-last-as-first-bookmark-file "d:/Users/jpiffret/AppData/Roaming/.emacs.d/bookmarks")
  '(c-default-style
    (quote
     ((c-mode . "ingenico")
@@ -89,6 +89,7 @@
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m org-collector)))
+ '(org-publish-timestamp-directory "~/workspace/org/.org-timestamps/")
  '(org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
  '(org-startup-shrink-all-tables t)
  '(org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>")))
@@ -99,7 +100,7 @@
      ("melpa" . "http://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (org-brain dired-filter amx ido-completing-read+ crm-custom immaterial flycheck elpy immaterial-theme wisi ada-mode magit org flx-isearch flx-ido)))
+    (org-mind-map org-brain dired-filter amx ido-completing-read+ crm-custom immaterial flycheck elpy immaterial-theme wisi ada-mode magit org flx-isearch flx-ido)))
  '(python-fill-docstring-style (quote symmetric))
  '(python-indent-guess-indent-offset nil)
  '(show-paren-mode t))
@@ -117,6 +118,7 @@
  '(diredp-dir-priv ((t nil)))
  '(diredp-exec-priv ((t nil)))
  '(diredp-file-name ((t (:foreground "white smoke"))))
+ '(diredp-ignored-file-name ((t (:foreground "red"))))
  '(diredp-link-priv ((t nil)))
  '(diredp-no-priv ((t nil)))
  '(diredp-number ((t (:foreground "pale turquoise"))))
