@@ -88,6 +88,16 @@
  '(org-default-notes-file "~/Dropbox/org/notes.org")
  '(org-html-table-default-attributes nil)
  '(org-indent-indentation-per-level 0)
+ '(org-mind-map-default-graph-attribs
+   (quote
+    (("autosize" . "false")
+     ("size" . "9,12")
+     ("resolution" . "100")
+     ("nodesep" . "0.75")
+     ("overlap" . "false")
+     ("splines" . "ortho")
+     ("rankdir" . "LR"))))
+ '(org-mind-map-dot-output (quote ("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff")))
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m org-collector)))
