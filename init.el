@@ -702,6 +702,8 @@ contents as a string, or nil if it is empty."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; yasnippet
+;;;; https://github.com/joaotavora/yasnippet
+;;;; http://joaotavora.github.io/yasnippet/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (yas-global-mode 1)
