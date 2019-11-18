@@ -595,38 +595,6 @@
   (defvar org-html-postamble)
   (setq org-html-postamble nil))
 
-(declare-function org-html--format-toc-headline "ext:org-mode")
-(declare-function org-export-get-relative-level "ext:org-mode")
-(declare-function org-export-collect-headlines "ext:org-mode")
-(declare-function org-html-html5-p "ext:org-mode")
-(declare-function org-html--toc-text "ext:org-mode")
-
-(defun org-html-toc (depth info)
-  "Redefines function from ox-html.el to remove 'Table of Contents'
-Build a table of contents.
-DEPTH is an integer specifying the depth of the table.  INFO is a
-plist used as a communication channel.  Return the table of
-contents as a string, or nil if it is empty."
-  (let ((toc-entries
-	 (mapcar (lambda (headline)
-		   (cons (org-html--format-toc-headline headline info)
-			 (org-export-get-relative-level headline info)))
-		 (org-export-collect-headlines info depth)))
-	(outer-tag (if (and (org-html-html5-p info)
-			    (plist-get info :html-html5-fancy))
-		       "nav"
-		     "div")))
-    (when toc-entries
-      (concat (format "<%s id=\"table-of-contents\">\n" outer-tag)
-	      ;; (format "<h%d>%s</h%d>\n"
-	      ;;         org-html-toplevel-hlevel
-	      ;;         (org-html--translate "Table of Contents" info)
-	      ;;         org-html-toplevel-hlevel)
-	      "<div id=\"text-table-of-contents\">"
-	      (org-html--toc-text toc-entries)
-	      "</div>\n"
-	      (format "</%s>\n" outer-tag)))))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; auto remove mouse pointer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
