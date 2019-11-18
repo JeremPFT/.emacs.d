@@ -97,6 +97,11 @@
         ido-completing-read+ amx crm-custom
         ;; https://github.com/DarwinAwardWinner/ido-completing-read-plus
 
+        deft
+        ;; Emacs mode for quickly browsing, filtering, and editing directories
+        ;; of plain text notes
+        ;; https://github.com/jrblevin/deft
+
         ;; paradox
         ;; ;; new *Packages* interface. Not used, I find it too heavy
         ))
@@ -707,6 +712,15 @@ contents as a string, or nil if it is empty."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (yas-global-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Emacs mode for quickly browsing, filtering, and editing directories
+;;;; of plain text notes
+;;;; https://github.com/jrblevin/deft
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq deft-extensions '("org" "txt" "tex"))
+(setq deft-directory "~/workspace/bookmarks")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; hydra
