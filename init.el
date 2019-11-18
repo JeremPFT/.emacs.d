@@ -698,16 +698,16 @@
 
 (defhydra hydra-magit (:color red :hint nil)
   "
-_mp_ magit push   _mc_ magit-commit
-_md_ magit diff   _mla_ magit diff
-_ms_ magit status
+_p_ push   _c_ commit
+_d_ diff   _la_ log all
+_s_ status
 "
   ;;Magit part
-  ("mp" magit-push)
-  ("mc" magit-commit)
-  ("md" magit-diff)
-  ("mla" magit-log-all)
-  ("ms" magit-status)
+  ("p" magit-push)
+  ("c" magit-commit)
+  ("d" magit-diff)
+  ("la" magit-log-all)
+  ("s" magit-status)
   )
 (global-set-key (kbd "<f1>") 'hydra-magit/body)
 (global-set-key (kbd "<f1>") 'hydra-magit/body)
