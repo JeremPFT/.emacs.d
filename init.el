@@ -742,6 +742,11 @@ _ms_ magit status
   ("ms" magit-status)
   )
 (global-set-key (kbd "<f1>") 'hydra-magit/body)
+(global-set-key (kbd "<f1>") 'hydra-magit/body)
+
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (local-set-key (kbd "<f1>") (quote hydra-magit/body))))
 
 (defhydra hydra-zoom (global-map "<f2>")
   "zoom"
