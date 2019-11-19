@@ -710,7 +710,7 @@
 ;;;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defhydra hydra-magit (:color red :hint nil)
+(defhydra hydra-magit (:hint nil)
   "
 _F_ fetch all _s_ status
 _p_ push      _c_ commit
@@ -727,22 +727,26 @@ _d_ diff      _la_ log all
 (defvar HOME (file-name-as-directory (getenv "HOME")))
 (defvar org-dir (file-name-as-directory (concat HOME "workspace/org/bookmarks")))
 
-(defhydra hydra-bmk (:color red :hint nil)
-  "
-_d_ directory
-_c_ current      _l_ loisir
-"
-  ("d" (find-file org-dir))
-  ("c" (find-file (concat org-dir "bookmarks-current.org.txt")))
-  ("l" (find-file (concat org-dir "bookmarks-loisirs.org.txt")))
+(defhydra hydra-bookmarks ()
+  ("D"  (find-file org-dir)                                      "directory" :column "my bookmarks")
+  ("bc" (find-file (concat org-dir "bookmarks-current.org.txt")) "current")
+  ("bl" (find-file (concat org-dir "bookmarks-loisirs.org.txt")) "loisir")
+
+  ("sv" bookmark-save "save" :column "bookmark-mode")
+  ("l" bookmark-load  "load")
+
+  ("a" bmkp-add-tags       "add" :column "tags")
+  ("c" bmkp-copy-tags      "copy")
+  ("p" bmkp-paste-add-tags "past")
   )
 
-(defhydra hydra-summary (:color red :hint nil)
+(defhydra hydra-summary (:hint nil)
+;; (defhydra hydra-summary (:color red)
   "
 _m_ magit _b_ bookmarks
 "
   ("m" hydra-magit/body :exit t)
-  ("b" hydra-bmk/body :exit t)
+  ("b" hydra-bookmarks/body :exit t)
   )
 
 (global-set-key (kbd "<f1>") 'hydra-summary/body)
