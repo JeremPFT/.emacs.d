@@ -685,10 +685,15 @@
 ;;;; Emacs mode for quickly browsing, filtering, and editing directories
 ;;;; of plain text notes
 ;;;; https://github.com/jrblevin/deft
+;;;;
+;;;; http://pragmaticemacs.com/emacs/make-quick-notes-with-deft/
+;;;; https://irreal.org/blog/?p=256
+;;;; https://jingsi.space/post/2017/04/05/organizing-a-complex-directory-for-emacs-org-mode-and-deft/
+;;;; https://jonathanchu.is/posts/setting-up-deft-mode-in-emacs-with-org-mode/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq deft-extensions '("org" "txt" "tex"))
-(setq deft-directory "~/workspace/bookmarks")
+(setq deft-directory "~/workspace/org")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; hydra
