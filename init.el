@@ -95,12 +95,16 @@
         elpy
         ;; Python env. From https://realpython.com/emacs-the-best-python-editor/
 
-        flx flx-ido
+        flx
         ;; flx mode. Used with completion list
         ;; flx-isearch exists, but take a long time inside a long file
 
-        ido-completing-read+ amx crm-custom
-        ;; https://github.com/DarwinAwardWinner/ido-completing-read-plus
+        ivy swiper counsel
+        ;; completion
+        ;; https://github.com/abo-abo/swiper
+        ;; https://oremacs.com/swiper/
+        ;; https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/
+        ;; https://www.reddit.com/r/emacs/comments/6yi6dl/most_useful_parts_of_ivycounselswiper_manual_too/
 
         deft
         ;; Emacs mode for quickly browsing, filtering, and editing directories
@@ -482,41 +486,15 @@
 (define-key dired-mode-map (kbd "/") dired-filter-map)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; flx (completion engine for Ido)
+;;;; ivy (completion engine)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; recommended: https://docs.projectile.mx/en/latest/configuration/#ido
 
-(require 'flx-ido)
+(global-set-key (kbd "C-x r b") 'counsel-bookmark)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-s") 'swiper-isearch)
+(global-set-key (kbd "C-r") 'swiper-isearch-backward)
+(global-set-key (kbd "C-h f") 'counsel-describe-function)
 
-(setq my-ido-decorations
-      '("\n-> " "" "\n   " "\n   ..." "[" "]"
-        " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
-(setq orig-ido-decorations
-      '("{" "}" " | " " | ..." "[" "]"
-        " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
-
-;; M-x customize-variable ido-decorations
-
-(ido-mode 1)
-(ido-everywhere 1)
-(flx-ido-mode 1)
-;; disable ido faces to see flx highlights.
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces t)
-
-(ido-ubiquitous-mode 1)
-(amx-mode 1)
-(crm-custom-mode 1)
-
-(defun ido-bookmark-jump (bname)
-  "*Switch to bookmark interactively using `ido'."
-  (interactive (list (ido-completing-read "Bookmark: " (bookmark-all-names) nil t)))
-  (bookmark-jump bname))
-
-(setq magit-completing-read-function 'magit-ido-completing-read)
-
-(global-set-key (kbd "C-x b") 'ido-switch-buffer)
-(global-set-key (kbd "C-x r b") 'ido-bookmark-jump)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; asn1-mode

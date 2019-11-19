@@ -112,7 +112,7 @@
      ("melpa" . "http://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (org-web-tools fic-mode deft hydra org-mind-map org-brain dired-filter amx ido-completing-read+ crm-custom immaterial flycheck elpy immaterial-theme wisi ada-mode magit org flx-isearch flx-ido)))
+    (counsel swiper ivy org-web-tools fic-mode deft hydra org-mind-map org-brain dired-filter amx ido-completing-read+ crm-custom immaterial flycheck elpy immaterial-theme wisi ada-mode magit org flx-isearch flx-ido)))
  '(python-fill-docstring-style (quote symmetric))
  '(python-indent-guess-indent-offset nil)
  '(show-paren-mode t))
