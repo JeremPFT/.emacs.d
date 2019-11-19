@@ -19,7 +19,7 @@
  '(amx-show-key-bindings nil)
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
- '(bmkp-last-as-first-bookmark-file "d:/Users/jpiffret/AppData/Roaming/.emacs.d/bookmarks")
+ '(bmkp-last-as-first-bookmark-file nil)
  '(c-default-style
    (quote
     ((c-mode . "ingenico")
