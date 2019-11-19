@@ -699,12 +699,15 @@
 ;;;; hydra
 ;;;; bindings keys
 ;;;; https://github.com/abo-abo/hydra
+;;;;
+;;;; https://github.com/abo-abo/hydra/wiki/Org-agenda
+;;;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defhydra hydra-magit (:color red :hint nil)
   "
-_p_ push   _c_ commit
-_d_ diff   _la_ log all
+_p_ push     _c_ commit
+_d_ diff     _la_ log all
 _s_ status
 "
   ;;Magit part
@@ -714,12 +717,34 @@ _s_ status
   ("la" magit-log-all)
   ("s" magit-status)
   )
-(global-set-key (kbd "<f1>") 'hydra-magit/body)
-(global-set-key (kbd "<f1>") 'hydra-magit/body)
+
+(defvar HOME (file-name-as-directory (getenv "HOME")))
+(defvar org-dir (file-name-as-directory (concat HOME "workspace/org/bookmarks")))
+
+(defhydra hydra-bmk (:color red :hint nil)
+  "
+_d_ directory
+_c_ current      _l_ loisir
+"
+  ;;Magit part
+  ("d" (find-file org-dir))
+  ("c" (find-file (concat org-dir "bookmarks-current.org.txt")))
+  ("l" (find-file (concat org-dir "bookmarks-loisirs.org.txt")))
+  )
+
+(defhydra hydra-summary (:color red :hint nil)
+  "
+_m_ magit _b_ bookmarks
+"
+  ("m" hydra-magit/body :exit t)
+  ("b" hydra-bmk/body :exit t)
+  )
+
+(global-set-key (kbd "<f1>") 'hydra-summary/body)
 
 (add-hook 'dired-mode-hook
           (lambda ()
-            (local-set-key (kbd "<f1>") (quote hydra-magit/body))))
+            (local-set-key (kbd "<f1>") (quote hydra-summary/body))))
 
 (defhydra hydra-zoom (global-map "<f2>")
   "zoom"
