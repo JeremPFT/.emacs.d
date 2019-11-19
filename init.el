@@ -72,12 +72,17 @@
 
         ;; multiple-cursors ;; TODO
 
+        fic-mode
+        ;; highlight TODO/FIXME/...
+
         flycheck
         magit
 
         org-brain
         org-mind-map
         ;; mind map
+
+        org-web-tools
 
         dired-filter
 
@@ -749,6 +754,19 @@ _m_ magit _b_ bookmarks
   "zoom"
   ("g" text-scale-increase "in")
   ("l" text-scale-decrease "out"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; fic-mode
+;;;; highlight TODO/FIXME/...
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-hook 'prog-mode-hook 'fic-mode)
+
+(defun fic-view-listing ()
+  "Use occur to list related FIXME keywords"
+  (interactive)
+  (occur "\\<\\(FIXME\\|WRITEME\\|WRITEME!\\|TODO\\|BUG\\):?"))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; emacs client
