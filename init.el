@@ -401,6 +401,7 @@
 ;; fill-column-indicator
 ;; activate with "M-x fci-mode"
 (require 'fill-column-indicator)
+(add-hook 'prog-mode-hook 'fci-mode)
 
 ;;;; using immaterial theme
 ;; more infos on Google
