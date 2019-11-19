@@ -706,11 +706,11 @@
 
 (defhydra hydra-magit (:color red :hint nil)
   "
-_p_ push     _c_ commit
-_d_ diff     _la_ log all
-_s_ status
+_F_ fetch all _s_ status
+_p_ push      _c_ commit
+_d_ diff      _la_ log all
 "
-  ;;Magit part
+  ("F" fetch_all_repositories :exit t)
   ("p" magit-push)
   ("c" magit-commit)
   ("d" magit-diff)
@@ -726,7 +726,6 @@ _s_ status
 _d_ directory
 _c_ current      _l_ loisir
 "
-  ;;Magit part
   ("d" (find-file org-dir))
   ("c" (find-file (concat org-dir "bookmarks-current.org.txt")))
   ("l" (find-file (concat org-dir "bookmarks-loisirs.org.txt")))
