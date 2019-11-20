@@ -1,5 +1,5 @@
-;;;; to startup emacs using another directory on Windows, change the shortcut:
-;;;; D:\Users\jpiffret\emacs-26.1-i686\bin\runemacs.exe --eval "(setenv \"HOME\" \"d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico\")" --load d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico/.emacs.d/init.d
+;; to startup emacs using another directory on Windows, change the shortcut:
+;; D:\Users\jpiffret\emacs-26.1-i686\bin\runemacs.exe --eval "(setenv \"HOME\" \"d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico\")" --load d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico/.emacs.d/init.d
 ;;
 ;; comment HOME change since .emacs.d is no more shared using Dropbox
 ;; (let ((local-home "d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico"))
@@ -18,8 +18,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; el-get
-;;;; source: https://github.com/dimitri/el-get/blob/master/README.md
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; source: https://github.com/dimitri/el-get/blob/master/README.md
 
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
@@ -64,32 +64,25 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+;; https://github.com/jwiegley/use-package
+
+
 (setq mypackages
       '(
-        hydra
-        ;; bindings keys
-        ;; https://github.com/abo-abo/hydra
 
         ;; multiple-cursors ;; TODO
 
-        fic-mode
-        ;; highlight TODO/FIXME/...
-
         flycheck
         magit
-
-        org-brain
-        org-mind-map
-        ;; mind map
-
-        org-web-tools
 
         dired-filter
 
         immaterial-theme
         ;; dark colors. Better than default white...
 
-        ada-mode org
+
         ;; to ensure last version is installed over built-in
 
         elpy
@@ -99,17 +92,10 @@
         ;; flx mode. Used with completion list
         ;; flx-isearch exists, but take a long time inside a long file
 
-        ivy swiper counsel
+        ivy swiper counsel ivy-hydra
         ;; completion
-        ;; https://github.com/abo-abo/swiper
-        ;; https://oremacs.com/swiper/
-        ;; https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/
-        ;; https://www.reddit.com/r/emacs/comments/6yi6dl/most_useful_parts_of_ivycounselswiper_manual_too/
 
-        deft
-        ;; Emacs mode for quickly browsing, filtering, and editing directories
-        ;; of plain text notes
-        ;; https://github.com/jrblevin/deft
+
 
         ;; paradox
         ;; ;; new *Packages* interface. Not used, I find it too heavy
@@ -118,6 +104,114 @@
 (dolist (package mypackages)
   (unless (package-installed-p package)
     (package-install package)))
+
+(use-package use-package-ensure-system-package
+  :ensure t
+  )
+
+(use-package key-chord
+  :ensure t
+  )
+
+(use-package use-package-chords
+  :ensure t
+  )
+
+(use-package use-package-el-get
+  :ensure t
+  )
+
+(use-package hydra
+  ;; bindings keys
+  ;; https://github.com/abo-abo/hydra
+  :ensure t
+  :pin melpa
+  )
+
+(use-package use-package-hydra
+  ;; https://gitlab.com/to1ne/use-package-hydra
+  :ensure t
+  :after use-package hydra
+  )
+
+(use-package org
+  :ensure t
+  :pin gnu
+  )
+
+(use-package org-web-tools
+  :ensure t
+  )
+
+(use-package org-mind-map
+  ;; mind map
+  :ensure t
+  :init (require 'ox-org)
+  :config (setq org-mind-map-engine "dot")
+  )
+
+(use-package org-brain
+  ;; mind map
+  :ensure t
+  )
+
+(use-package yasnippet
+  ;; https://github.com/joaotavora/yasnippet
+  ;; http://joaotavora.github.io/yasnippet/
+  :ensure t
+  :config
+  (yas-global-mode 1)
+  )
+
+(use-package ada-mode
+  :ensure t
+  :pin jpi
+  )
+
+(use-package wisi
+  :ensure t
+  :pin jpi
+  )
+
+(use-package fic-mode
+  ;; highlight TODO/FIXME/...
+  :ensure t
+  )
+
+(use-package deft
+  ;; Emacs mode for quickly browsing, filtering, and editing directories
+  ;; of plain text notes
+  ;;
+  ;; https://github.com/jrblevin/deft
+  :ensure t
+  )
+
+(use-package dired-filter
+  ;; TODO replace shortcuts with hydra
+  :ensure t
+  :bind (:map dired-mode-map ("/" . hydra-dired-filter/body))
+  :hydra (hydra-dired-filter
+          ()
+          "dired-filter
+
+"
+          ("n" dired-filter-by-name "by name" :column "filter by")
+          ("r" dired-filter-by-regexp "regexp")
+          ("e" dired-filter-by-extension "extension")
+          ("f" dired-filter-by-file "files" :column "filter only")
+          ("p" dired-filter-pop "pop last filter" :column "others")
+          ("H" (package-menu-describe-package dired-filter) "Help" :column "manual")
+          )
+  )
+
+
+;; (use-package amx
+;; :ensure t
+;; )
+
+;; (use-package crm-custom
+;; :ensure t
+;; )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; clone package repository
@@ -130,7 +224,9 @@
 ;;;; environment
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setenv "PATH" (concat "C:\\Program Files (x86)\\GnuWin32\\bin;"  (getenv "PATH")))
+(setenv "PATH"
+        (concat "C:\\Program Files (x86)\\GnuWin32\\bin;"
+                (getenv "PATH")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; development
@@ -261,7 +357,8 @@
   (interactive)
   (let ((start (region-beginning))(stop (region-end)))
     (indent-region start stop)
-    (align nil nil)
+    (align start stop)
+    ;; (align nil nil)
     (indent-region start stop)
     (align nil nil)
     ))
@@ -343,8 +440,6 @@
 
 (add-hook 'after-change-major-mode-hook #'ada-when-open-hook)
 
-(add-hook 'before-save-hook #'ada-before-save-hook)
-
 (defun ada-before-save-hook ()
   (when (eq major-mode 'ada-mode)
     (ada-case-adjust-buffer)
@@ -380,7 +475,21 @@
 (global-hl-line-mode 1)
 
 ;;;;
-;; customize linum-format
+;; fill-column-indicator
+;; activate with "M-x fci-mode"
+(require 'fill-column-indicator)
+(add-hook 'prog-mode-hook 'fci-mode)
+
+;;;; using immaterial theme
+;; more infos on Google
+(load-theme 'immaterial t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; linum
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; customize -format
 ;; source: https://www.emacswiki.org/emacs/LineNumbers#toc8
 
 (unless window-system
@@ -398,23 +507,6 @@
 
 (unless window-system
   (setq linum-format 'linum-format-func))
-
-;;;; end linum
-
-;;;;
-;; fill-column-indicator
-;; activate with "M-x fci-mode"
-(require 'fill-column-indicator)
-(add-hook 'prog-mode-hook 'fci-mode)
-
-;;;; using immaterial theme
-;; more infos on Google
-(load-theme 'immaterial t)
-
-;;;;
-;; org-mind-map configuration
-(require 'ox-org)
-(setq org-mind-map-engine "dot")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; magit
@@ -486,15 +578,30 @@
 (define-key dired-mode-map (kbd "/") dired-filter-map)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; ivy (completion engine)
+;;;; ivy swiper counsel
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  completion engine
+;;
+;;  https://github.com/abo-abo/swiper
+;;  https://oremacs.com/swiper/
+;;  https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/
+;;  https://www.reddit.com/r/emacs/comments/6yi6dl/most_useful_parts_of_ivycounselswiper_manual_too/
+;;  https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (global-set-key (kbd "C-x r b") 'counsel-bookmark)
+(global-set-key (kbd "C-x b") 'counsel-switch-buffer)
 (global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-s") 'swiper-isearch)
-(global-set-key (kbd "C-r") 'swiper-isearch-backward)
 (global-set-key (kbd "C-h f") 'counsel-describe-function)
+(global-set-key (kbd "C-h v") 'counsel-describe-variable)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
 
+(global-set-key (kbd "C-s") 'isearch-forward)
+(global-set-key (kbd "C-r") 'isearch-backward)
+
+(setq ivy-re-builders-alist
+      '((swiper-isearch . ivy--regex-plus)
+        (t      . ivy--regex-fuzzy)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; asn1-mode
@@ -508,8 +615,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; dsl-mode
-;;;; personal mode for my domain specific langage
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; personal mode for my domain specific langage
 
 (add-to-list 'auto-mode-alist '("\\.dsl\\'" . dsl-mode))
 
@@ -551,15 +658,19 @@
 (add-to-list 'auto-mode-alist '("\\.org\\.txt\\'" . org-mode))
 (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
 
-;;; patched function org-translate-time from org.el
-;;; replaced
+;; patched function org-translate-time from org.el
+;; replaced
+;;
 ;; (concat
 ;;  (if inactive "[" "<") (substring tf 1 -1)
 ;;  (if inactive "]" ">"))
-;;; with
-
+;;
+;; with
+;;
 ;; (require 'org-collector)
+;;
 ;; removed: default behavior is better ...
+;;
 ;; see https://orgmode.org/manual/Capturing-column-view.html:
 ;;    C-c C-x i (org-insert-columns-dblock)
 
@@ -634,22 +745,6 @@
 ;; removed jpi (perspeen-mode nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; completion: ido + flx
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'flx-ido)
-(ido-mode 1)
-(flx-ido-mode 1)
-(ido-everywhere 1)
-
-;; disable ido faces to see flx highlights.
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
-
-(define-key (cdr ido-minor-mode-map-entry) [remap write-file] nil)
-(define-key (cdr ido-minor-mode-map-entry) [remap dired-create-directory] nil)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; replace+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; from https://www.emacswiki.org/emacs/OccurMode
@@ -668,35 +763,29 @@
         (select-window win))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; yasnippet
-;;;; https://github.com/joaotavora/yasnippet
-;;;; http://joaotavora.github.io/yasnippet/
+;;;; deft
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(yas-global-mode 1)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Emacs mode for quickly browsing, filtering, and editing directories
-;;;; of plain text notes
-;;;; https://github.com/jrblevin/deft
-;;;;
-;;;; http://pragmaticemacs.com/emacs/make-quick-notes-with-deft/
-;;;; https://irreal.org/blog/?p=256
-;;;; https://jingsi.space/post/2017/04/05/organizing-a-complex-directory-for-emacs-org-mode-and-deft/
-;;;; https://jonathanchu.is/posts/setting-up-deft-mode-in-emacs-with-org-mode/
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Emacs mode for quickly browsing, filtering, and editing directories
+;; of plain text notes
+;;
+;; https://github.com/jrblevin/deft
+;;
+;; http://pragmaticemacs.com/emacs/make-quick-notes-with-deft/
+;; https://irreal.org/blog/?p=256
+;; https://jingsi.space/post/2017/04/05/organizing-a-complex-directory-for-emacs-org-mode-and-deft/
+;; https://jonathanchu.is/posts/setting-up-deft-mode-in-emacs-with-org-mode/
 
 (setq deft-extensions '("org" "txt" "tex"))
 (setq deft-directory "~/workspace/org")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; hydra
-;;;; bindings keys
-;;;; https://github.com/abo-abo/hydra
-;;;;
-;;;; https://github.com/abo-abo/hydra/wiki/Org-agenda
-;;;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; bindings keys
+;;
+;; https://github.com/abo-abo/hydra
+;; https://github.com/abo-abo/hydra/wiki/Org-agenda
+;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
 
 (defhydra hydra-magit (:hint nil)
   "
@@ -729,7 +818,7 @@ _d_ diff      _la_ log all
   )
 
 (defhydra hydra-summary (:hint nil)
-;; (defhydra hydra-summary (:color red)
+  ;; (defhydra hydra-summary (:color red)
   "
 _m_ magit _b_ bookmarks
 "
@@ -750,8 +839,8 @@ _m_ magit _b_ bookmarks
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; fic-mode
-;;;; highlight TODO/FIXME/...
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; highlight TODO/FIXME/...
 
 (add-hook 'prog-mode-hook 'fic-mode)
 
