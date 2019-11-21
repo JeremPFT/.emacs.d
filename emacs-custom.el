@@ -148,6 +148,8 @@
  '(ediff-fine-diff-B ((t (:background "navy"))))
  '(ediff-odd-diff-A ((t (:background "dark olive green"))))
  '(ediff-odd-diff-B ((t (:background "dark olive green"))))
+ '(fic-author-face ((t (:background "steel blue" :foreground "orangered" :underline t))))
+ '(fic-face ((t (:foreground "coral" :slant oblique :weight bold))))
  '(font-lock-comment-delimiter-face ((t (:foreground "chocolate"))))
  '(font-lock-comment-face ((t (:foreground "chocolate"))))
  '(font-lock-constant-face ((t (:foreground "chartreuse"))))
