@@ -13,7 +13,6 @@
 (setq custom-file "~/.emacs.d/emacs-custom.el")
 (load custom-file)
 
-(add-to-list 'load-path "~/.emacs.d/lisp/")
 (byte-recompile-directory "~/.emacs.d/lisp/" 0)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -38,7 +37,6 @@
 (setq mypackages
       (append
        '(el-get)
-       ;; '(el-get ada-mode)
        (mapcar 'el-get-source-name el-get-sources)))
 
 (el-get 'sync mypackages)
@@ -67,43 +65,8 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 ;; https://github.com/jwiegley/use-package
-
-
-(setq mypackages
-      '(
-
-        ;; multiple-cursors ;; TODO
-
-        flycheck
-        magit
-
-        dired-filter
-
-        immaterial-theme
-        ;; dark colors. Better than default white...
-
-
-        ;; to ensure last version is installed over built-in
-
-        elpy
-        ;; Python env. From https://realpython.com/emacs-the-best-python-editor/
-
-        flx
-        ;; flx mode. Used with completion list
-        ;; flx-isearch exists, but take a long time inside a long file
-
-        ivy swiper counsel ivy-hydra
-        ;; completion
-
-
-
-        ;; paradox
-        ;; ;; new *Packages* interface. Not used, I find it too heavy
-        ))
-
-(dolist (package mypackages)
-  (unless (package-installed-p package)
-    (package-install package)))
+;;
+;; see leaf.el too. But doesn't have a :pin keyword
 
 (use-package use-package-ensure-system-package
   :ensure t
@@ -124,8 +87,8 @@
 (use-package hydra
   ;; bindings keys
   ;; https://github.com/abo-abo/hydra
-  :ensure t
   :pin melpa
+  :ensure t
   )
 
 (use-package use-package-hydra
@@ -135,8 +98,9 @@
   )
 
 (use-package org
-  :ensure t
   :pin gnu
+  :ensure t
+  :mode ("\\.\\(org\\|txt\\)\\'" . org-mode)
   )
 
 (use-package org-web-tools
@@ -163,19 +127,73 @@
   (yas-global-mode 1)
   )
 
-(use-package ada-mode
+(use-package fill-column-indicator
+  :pin melpa
   :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'fci-mode)
+  (add-hook 'ada-mode-hook 'fci-mode)
+  )
+
+(use-package ada-mode
   :pin jpi
+  :ensure t
+  :after fill-column-indicator
+  :config
+  (setq fci-rule-column 78)
+
+  (defun ada-before-save ()
+    (when (eq major-mode 'ada-mode)
+      (ada-case-adjust-buffer)
+      (indent-buffer)))
+  (add-hook 'before-save-hook 'ada-before-save)
   )
 
 (use-package wisi
-  :ensure t
   :pin jpi
+  :ensure t
+  )
+
+(use-package flycheck
+  :pin melpa
+  :ensure t
+)
+
+(use-package magit
+  ;;
+  ;; TODO see magit-gitflow
+  ;;
+  :pin gnu
+  :ensure t
+  :config
+
+  ;; speed up magit
+  (when (eq system-type 'windows-nt)
+    (setq exec-path (add-to-list 'exec-path "C:/Program Files/Git/cmd"))
+    (setq exec-path (add-to-list 'exec-path "C:/Program Files/Git/bin"))
+    (setenv "PATH" (concat "C:\\Program Files\\Git\\cmd;"
+                           "C:\\Program Files\\Git\\bin;"
+                           (getenv "PATH"))))
+
+  ;; fetch my repositories
+  (defun fetch_all_repositories ()
+    (interactive)
+    (cd (concat (getenv "HOME") "/workspace/0_fetch_all" ))
+    (shell-command "fetch_all_repositories.py")
+    (cd (concat (getenv "HOME") "/.emacs.d" )))
+
   )
 
 (use-package fic-mode
   ;; highlight TODO/FIXME/...
   :ensure t
+  :config
+  (add-hook 'prog-mode-hook #'fic-mode)
+  (add-hook 'ada-mode-hook #'fic-mode)
+  (defun fic-view-listing ()
+    "Use occur to list related FIXME keywords"
+    (interactive)
+    (occur "\\<\\(FIXME\\|TODO\\|BUG\\):?"))
   )
 
 (use-package deft
@@ -183,12 +201,22 @@
   ;; of plain text notes
   ;;
   ;; https://github.com/jrblevin/deft
+  ;;
+  ;; http://pragmaticemacs.com/emacs/make-quick-notes-with-deft/
+  ;; https://irreal.org/blog/?p=256
+  ;; https://jingsi.space/post/2017/04/05/organizing-a-complex-directory-for-emacs-org-mode-and-deft/
+  ;; https://jonathanchu.is/posts/setting-up-deft-mode-in-emacs-with-org-mode/
   :ensure t
+  :config
+  (setq deft-extensions '("org" "txt" "tex"))
+  (setq deft-directory "~/workspace/org")
   )
 
 (use-package dired-filter
   ;; TODO replace shortcuts with hydra
+  :pin melpa
   :ensure t
+  :after hydra
   :bind (:map dired-mode-map ("/" . hydra-dired-filter/body))
   :hydra (hydra-dired-filter
           ()
@@ -204,21 +232,106 @@
           )
   )
 
+(use-package immaterial-theme
+  ;; dark colors. Better than default white...
+  :pin melpa
+  :ensure t
+  :config
+  (load-theme 'immaterial t)
+  )
+
+(use-package elpy
+  ;; Python env. From https://realpython.com/emacs-the-best-python-editor/
+  :pin melpa
+  :ensure t
+  )
+
+(use-package flx
+  ;; flx mode. Used with completion list
+  ;; flx-isearch exists, but take a long time inside a long file
+  :pin melpa
+  :ensure t
+  )
+
+(use-package ivy
+  ;; completion
+  :pin melpa
+  :ensure t
+  )
+
+(use-package swiper
+  ;; completion
+  :pin melpa
+  :ensure t
+  )
+
+(use-package counsel
+  ;; completion
+  :pin melpa
+  :ensure t
+  )
+
+(use-package ivy-hydra
+  ;; completion
+  :pin melpa
+  :ensure t
+  )
+
+(use-package wgrep
+  ;; editable grep results
+  :pin melpa
+  :ensure t
+  :after hydra
+  :bind (
+         :map dired-mode-map
+              ("<f3>" . hydra-wgrep/body))
+  :hydra (hydra-wgrep
+          ()
+          "wgrep commands
+
+"
+          ("p" wgrep-change-to-wgrep-mode "start")
+          ("u" wgrep-remove-change "remove region changes")
+          ("U" wgrep-remove-all-change "remove all changes")
+          ("a" wgrep-apply-change "apply")
+          ("s" wgrep-save-all-buffers "save all")
+          )
+  )
+
+(use-package htmlize
+  :ensure t
+  )
+
+
+(use-package dired+
+  :load-path "lisp/"
+  :config
+  ;; I want the same color for file name and extension
+  (setq diredp-file-suffix diredp-file-name)
+)
+
+(use-package elpa-mirror
+  :load-path "lisp/elpa-mirror/"
+  )
+
+(use-package bookmark+
+  :load-path "lisp/bookmark-plus/"
+  )
+
+;; multiple-cursors ;; TODO
+
+;; paradox
+;; ;; new *Packages* interface. Not used, I find it too heavy
 
 ;; (use-package amx
+;; ;; completion
 ;; :ensure t
 ;; )
 
 ;; (use-package crm-custom
+;; ;; completion
 ;; :ensure t
 ;; )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; clone package repository
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-to-list 'load-path "~/.emacs.d/lisp/elpa-mirror")
-(require 'elpa-mirror)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; environment
@@ -433,20 +546,6 @@
     ) ;; while operators
   )
 
-(defun ada-when-open-hook ()
-  (when (eq major-mode 'ada-mode)
-    (fci-mode)
-    (setq fci-rule-column 78)))
-
-(add-hook 'after-change-major-mode-hook #'ada-when-open-hook)
-
-(defun ada-before-save-hook ()
-  (when (eq major-mode 'ada-mode)
-    (ada-case-adjust-buffer)
-    (indent-buffer)))
-
-(add-hook 'before-save-hook #'ada-before-save-hook)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; TODO: categorize
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -473,17 +572,6 @@
 ;;;;
 
 (global-hl-line-mode 1)
-
-;;;;
-;; fill-column-indicator
-;; activate with "M-x fci-mode"
-(require 'fill-column-indicator)
-(add-hook 'prog-mode-hook 'fci-mode)
-
-;;;; using immaterial theme
-;; more infos on Google
-(load-theme 'immaterial t)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; linum
@@ -512,43 +600,9 @@
 ;;;; magit
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (add-to-list 'load-path "~/.emacs.d/lisp/magit-gitflow-master")
-;; (byte-recompile-directory "~/.emacs.d/lisp/magit-gitflow-master" 0)
-;; (require 'magit-gitflow)
-;; (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
-
-;; speed up magit
-(if (eq system-type 'windows-nt)
-    (progn
-      (setq exec-path (add-to-list 'exec-path "C:/Program Files/Git/bin"))
-      (setenv "PATH" (concat "C:\\Program Files\\Git\\bin;" (getenv "PATH")))))
-
-;; ajoute une liste de fichiers suivi sous git.
-;; PROBLEM : n'est pas récursif, n'affiche que les éléments du répertoire racine ...
-;;
-;; (magit-add-section-hook
-;;    'magit-status-sections-hook
-;;    'magit-insert-tracked-files
-;;    nil
-;;    'append)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; elisp (personal, imported)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'dired+)
-;; I want the same color for file name and extension
-(setq diredp-file-suffix diredp-file-name)
-
-(require 'htmlize)
-
-(add-to-list 'load-path "~/.emacs.d/lisp/Emacs-wgrep-master")
-(byte-recompile-directory "~/.emacs.d/lisp/Emacs-wgrep-master" 0)
-(require 'wgrep)
-
-(add-to-list 'load-path "~/.emacs.d/lisp/bookmark-plus")
-(byte-recompile-directory "~/.emacs.d/lisp/bookmark-plus" 0)
-(require 'bookmark+)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/openssl-cipher")
 (byte-recompile-directory "~/.emacs.d/lisp/openssl-cipher" 0)
@@ -568,14 +622,6 @@
 ;; following work with C-s but not with M-% ... :(
 (define-key minibuffer-local-map "(" 'self-insert-command )
 (define-key minibuffer-local-ns-map "(" 'self-insert-command )
-
-(defun fetch_all_repositories ()
-  (interactive)
-  (cd (concat (getenv "HOME") "/workspace/0_fetch_all" ))
-  (shell-command "fetch_all_repositories.py")
-  (cd (concat (getenv "HOME") "/.emacs.d" )))
-
-(define-key dired-mode-map (kbd "/") dired-filter-map)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ivy swiper counsel
@@ -765,18 +811,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; deft
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Emacs mode for quickly browsing, filtering, and editing directories
-;; of plain text notes
-;;
 ;; https://github.com/jrblevin/deft
-;;
-;; http://pragmaticemacs.com/emacs/make-quick-notes-with-deft/
-;; https://irreal.org/blog/?p=256
-;; https://jingsi.space/post/2017/04/05/organizing-a-complex-directory-for-emacs-org-mode-and-deft/
-;; https://jonathanchu.is/posts/setting-up-deft-mode-in-emacs-with-org-mode/
 
-(setq deft-extensions '("org" "txt" "tex"))
-(setq deft-directory "~/workspace/org")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; hydra
@@ -793,7 +829,7 @@ _F_ fetch all _s_ status
 _p_ push      _c_ commit
 _d_ diff      _la_ log all
 "
-  ("F" fetch_all_repositories :exit t)
+  ("F" fetch_all_repositories)
   ("p" magit-push)
   ("c" magit-commit)
   ("d" magit-diff)
@@ -805,9 +841,9 @@ _d_ diff      _la_ log all
 (defvar org-dir (file-name-as-directory (concat HOME "workspace/org/bookmarks")))
 
 (defhydra hydra-bookmarks ()
-  ("D"  (find-file org-dir)                                      "directory" :column "my bookmarks")
-  ("bc" (find-file (concat org-dir "bookmarks-current.org.txt")) "current")
-  ("bl" (find-file (concat org-dir "bookmarks-loisirs.org.txt")) "loisir")
+  ("D"  (find-file org-dir)                                      "directory" :column "my bookmarks" :exit t)
+  ("bc" (find-file (concat org-dir "bookmarks-current.org.txt")) "current" :exit t)
+  ("bl" (find-file (concat org-dir "bookmarks-loisirs.org.txt")) "loisir" :exit t)
 
   ("sv" bookmark-save "save" :column "bookmark-mode")
   ("l" bookmark-load  "load")
@@ -817,13 +853,10 @@ _d_ diff      _la_ log all
   ("p" bmkp-paste-add-tags "past")
   )
 
-(defhydra hydra-summary (:hint nil)
-  ;; (defhydra hydra-summary (:color red)
-  "
-_m_ magit _b_ bookmarks
-"
-  ("m" hydra-magit/body :exit t)
-  ("b" hydra-bookmarks/body :exit t)
+(defhydra hydra-summary ()
+  ("m" hydra-magit/body "magit" :exit t)
+  ("b" hydra-bookmarks/body "bookmarks" :exit t)
+  ("z" hydra-zoom/body "zoom" :exit t)
   )
 
 (global-set-key (kbd "<f1>") 'hydra-summary/body)
@@ -832,23 +865,10 @@ _m_ magit _b_ bookmarks
           (lambda ()
             (local-set-key (kbd "<f1>") (quote hydra-summary/body))))
 
-(defhydra hydra-zoom (global-map "<f2>")
+(defhydra hydra-zoom ()
   "zoom"
-  ("g" text-scale-increase "in")
-  ("l" text-scale-decrease "out"))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; fic-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; highlight TODO/FIXME/...
-
-(add-hook 'prog-mode-hook 'fic-mode)
-
-(defun fic-view-listing ()
-  "Use occur to list related FIXME keywords"
-  (interactive)
-  (occur "\\<\\(FIXME\\|WRITEME\\|WRITEME!\\|TODO\\|BUG\\):?"))
-
+  ("+" text-scale-increase "in")
+  ("-" text-scale-decrease "out"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; emacs client

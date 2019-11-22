@@ -113,9 +113,10 @@
      ("melpa" . "http://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (use-package use-package-chords use-package-el-get use-package-ensure-system-package use-package-hydra key-chord ivy-hydra counsel swiper ivy org-web-tools fic-mode deft hydra org-mind-map org-brain dired-filter amx ido-completing-read+ crm-custom immaterial flycheck elpy immaterial-theme wisi ada-mode magit org flx-isearch flx-ido)))
+    (htmlize wgrep use-package use-package-chords use-package-el-get use-package-ensure-system-package use-package-hydra key-chord ivy-hydra counsel swiper ivy org-web-tools fic-mode deft hydra org-mind-map org-brain dired-filter amx ido-completing-read+ crm-custom immaterial flycheck elpy immaterial-theme wisi ada-mode magit org flx-isearch flx-ido)))
  '(python-fill-docstring-style (quote symmetric))
  '(python-indent-guess-indent-offset nil)
+ '(remember-data-file "~/.emacs.d/notes.org")
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
