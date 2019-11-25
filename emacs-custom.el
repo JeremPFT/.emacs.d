@@ -103,7 +103,7 @@
  '(org-mind-map-dot-output (quote ("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff")))
  '(org-modules
    (quote
-    (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m org-collector)))
+    (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
  '(org-publish-timestamp-directory "~/workspace/org/.org-timestamps/")
  '(org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
  '(org-startup-shrink-all-tables t)
