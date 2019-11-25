@@ -4,11 +4,11 @@
 ;; Description: Macros for Bookmark+.
 ;; Author: Drew Adams
 ;; Maintainer: Drew Adams
-;; Copyright (C) 2000-2018, Drew Adams, all rights reserved.
+;; Copyright (C) 2000-2019, Drew Adams, all rights reserved.
 ;; Created: Sun Aug 15 11:12:30 2010 (-0700)
-;; Last-Updated: Mon Jan  1 09:52:17 2018 (-0800)
+;; Last-Updated: Mon Feb 18 22:16:19 2019 (-0800)
 ;;           By: dradams
-;;     Update #: 210
+;;     Update #: 211
 ;; URL: https://www.emacswiki.org/emacs/download/bookmark%2b-mac.el
 ;; Doc URL: https://www.emacswiki.org/emacs/BookmarkPlus
 ;; Keywords: bookmarks, bookmark+, placeholders, annotations, search, info, url, eww, w3m, gnus
@@ -77,7 +77,7 @@
 ;;      updated macros.)
 ;;
 ;;    ******************
- 
+
 ;;(@> "Index")
 ;;
 ;;  If you have library `linkd.el' and Emacs 22 or later, load
@@ -90,7 +90,7 @@
 ;;  (@> "Things Defined Here")
 ;;  (@> "Functions")
 ;;  (@> "Macros")
- 
+
 ;;(@* "Things Defined Here")
 ;;
 ;;  Things Defined Here
@@ -140,7 +140,7 @@
 ;; bookmark-bmenu-surreptitiously-rebuild-list, bookmark-get-bookmark,
 ;; bookmark-get-filename
 
- 
+
 ;;(@* "Functions")
 
 ;; Some general Renamings.
@@ -176,7 +176,7 @@
   (if (fboundp 'replace-regexp-in-string) ; Emacs > 20.
       (replace-regexp-in-string regexp rep string fixedcase literal subexp start)
     (if (string-match regexp string) (replace-match rep nil nil string) string))) ; Emacs 20
- 
+
 ;;(@* "Macros")
 
 ;;; Macros -----------------------------------------------------------
