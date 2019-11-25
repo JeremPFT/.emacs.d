@@ -57,6 +57,8 @@
    " "
    ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
  '(indent-tabs-mode nil)
+ '(inhibit-startup-screen t)
+ '(initial-buffer-choice "~/workspace/org/startup.org")
  '(ivy-wrap t)
  '(linum-format "%6d")
  '(ls-lisp-verbosity nil)
@@ -113,7 +115,7 @@
      ("melpa" . "http://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (htmlize wgrep use-package use-package-chords use-package-el-get use-package-ensure-system-package use-package-hydra key-chord ivy-hydra counsel swiper ivy org-web-tools fic-mode deft hydra org-mind-map org-brain dired-filter amx ido-completing-read+ crm-custom immaterial flycheck elpy immaterial-theme wisi ada-mode magit org flx-isearch flx-ido)))
+    (fill-column-indicator htmlize wgrep use-package use-package-chords use-package-el-get use-package-ensure-system-package use-package-hydra key-chord ivy-hydra counsel swiper ivy org-web-tools fic-mode deft hydra org-mind-map org-brain dired-filter amx ido-completing-read+ crm-custom immaterial flycheck elpy immaterial-theme wisi ada-mode magit org flx-isearch flx-ido)))
  '(python-fill-docstring-style (quote symmetric))
  '(python-indent-guess-indent-offset nil)
  '(remember-data-file "~/.emacs.d/notes.org")
@@ -160,6 +162,7 @@
  '(hl-line ((t (:background "gray30"))))
  '(internal-border ((t (:background "white"))))
  '(isearch ((t (:background "gray20" :foreground "#eeeeee" :underline t :weight ultra-bold))))
+ '(link ((t (:foreground "turquoise" :underline t))))
  '(linum ((t (:background "#102027" :foreground "#777777" :weight normal :height 100))))
  '(magit-branch-local ((t (:foreground "orange"))))
  '(mode-line ((t (:background "midnight blue" :foreground "#eeeeee" :box (:line-width 1 :color "#102027")))))
