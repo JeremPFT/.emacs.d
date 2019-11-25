@@ -57,6 +57,8 @@
    " "
    ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
  '(indent-tabs-mode nil)
+ '(inhibit-startup-screen t)
+ '(initial-buffer-choice "~/workspace/org/startup.org")
  '(ivy-wrap t)
  '(linum-format "%6d")
  '(ls-lisp-verbosity nil)
