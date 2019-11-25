@@ -100,7 +100,9 @@
 (use-package org
   :pin gnu
   :ensure t
-  :mode ("\\.\\(org\\|txt\\)\\'" . org-mode)
+  :mode
+  ("\\.\\(org\\|txt\\)\\'" . org-mode)
+  ("\\*notes\\*" . org-mode)
   )
 
 (use-package org-web-tools
@@ -700,9 +702,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; org-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-to-list 'auto-mode-alist '("\\.org\\.txt\\'" . org-mode))
-(add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
 
 ;; patched function org-translate-time from org.el
 ;; replaced
