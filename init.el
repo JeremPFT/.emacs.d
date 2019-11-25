@@ -316,6 +316,7 @@
 
 (use-package bookmark+
   :load-path "lisp/bookmark-plus/"
+  :init (load-file "~/.emacs.d/lisp/bookmark-plus/bookmark+-mac.el")
   )
 
 ;; multiple-cursors ;; TODO
@@ -605,7 +606,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-to-list 'load-path "~/.emacs.d/lisp/openssl-cipher")
-(byte-recompile-directory "~/.emacs.d/lisp/openssl-cipher" 0)
 (require 'openssl-cipher)
 
 (require 'ingenico-parse-log)
