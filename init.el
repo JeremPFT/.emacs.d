@@ -133,7 +133,10 @@
   :pin melpa
   :ensure t
   :config
+  (defun set-fci-to-80 ()
+    (setq fci-rule-column 80))
   (add-hook 'prog-mode-hook 'fci-mode)
+  (add-hook 'prog-mode-hook 'set-fci-to-80)
   (add-hook 'ada-mode-hook 'fci-mode)
   )
 
