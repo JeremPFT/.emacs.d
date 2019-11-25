@@ -162,6 +162,7 @@
  '(hl-line ((t (:background "gray30"))))
  '(internal-border ((t (:background "white"))))
  '(isearch ((t (:background "gray20" :foreground "#eeeeee" :underline t :weight ultra-bold))))
+ '(link ((t (:foreground "turquoise" :underline t))))
  '(linum ((t (:background "#102027" :foreground "#777777" :weight normal :height 100))))
  '(magit-branch-local ((t (:foreground "orange"))))
  '(mode-line ((t (:background "midnight blue" :foreground "#eeeeee" :box (:line-width 1 :color "#102027")))))
