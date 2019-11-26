@@ -341,6 +341,8 @@
   :init (load-file "~/.emacs.d/lisp/bookmark-plus/bookmark+-mac.el")
   )
 
+(use-package speed-type)
+
 ;; multiple-cursors ;; TODO
 
 ;; golden-ratio TODO
