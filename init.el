@@ -109,6 +109,13 @@
   :ensure t
   )
 
+(use-package ob-async
+  ;; https://github.com/astahlman/ob-async
+  :pin melpa
+  :ensure t
+  :after org
+)
+
 (use-package org-mind-map
   ;; mind map
   :ensure t

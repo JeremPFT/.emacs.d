@@ -10,7 +10,7 @@ elpy/
 eshell/
 ido.last
 semanticdb/
-server/server
+server/server*
 transient/
 /amx-items
 .org-id-locations
