@@ -343,6 +343,9 @@
 
 ;; multiple-cursors ;; TODO
 
+;; golden-ratio TODO
+;; (see here: https://tuhdo.github.io/emacs-tutor3.html)
+
 ;; paradox
 ;; ;; new *Packages* interface. Not used, I find it too heavy
 
