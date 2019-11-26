@@ -289,6 +289,16 @@
   :ensure t
   )
 
+(use-package ztree
+  ;; https://github.com/fourier/ztree
+  :pin melpa
+  :ensure t
+  :bind (:map ztree-mode-map
+         ("p" . ztree-previous-line)
+         ("n" . ztree-next-line)
+         )
+  )
+
 (use-package wgrep
   ;; editable grep results
   :pin melpa
