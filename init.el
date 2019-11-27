@@ -128,6 +128,12 @@
   :ensure t
   )
 
+(use-package poporg
+  ;; http://pragmaticemacs.com/emacs/write-code-comments-in-org-mode-with-poporg/
+  ;; https://github.com/QBobWatson/poporg
+  :ensure t
+  :bind (("C-c /" . poporg-dwim)))
+
 (use-package yasnippet
   ;; https://github.com/joaotavora/yasnippet
   ;; http://joaotavora.github.io/yasnippet/
@@ -343,10 +349,47 @@
 
 (use-package speed-type)
 
+(use-package ace-jump-mode
+  :pin melpa
+  :ensure t
+  :bind
+  (
+   ("C-c SPC" . ace-jump-mode)
+   ("C-x SPC" . ace-jump-mode-pop-mark)
+   )
+  :config
+  (ace-jump-mode-enable-mark-sync)
+  )
+
+(use-package ace-jump-buffer
+  :pin melpa
+  :ensure t
+  )
+
+;; (use-package md4rd
+;;   ;; reddit inside emacs
+;;   :pin melpa
+;;   :ensure t
+;;   )
+
+;; (use-package nnreddit
+;;   :pin melpa
+;;   :ensure t
+;;   :config
+;;   (custom-set-variables '(gnus-select-method (quote (nnreddit ""))))
+;;   )
+
 ;; multiple-cursors ;; TODO
 
-;; golden-ratio TODO
-;; (see here: https://tuhdo.github.io/emacs-tutor3.html)
+(use-package golden-ratio
+  ;; https://github.com/roman/golden-ratio.el
+  ;; (seen here: https://tuhdo.github.io/emacs-tutor3.html)
+  :ensure t
+  :diminish golden-ratio-mode
+  :config
+  (golden-ratio-mode)
+  (setq golden-ratio-auto-scale t)
+)
 
 ;; paradox
 ;; ;; new *Packages* interface. Not used, I find it too heavy
