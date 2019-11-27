@@ -114,7 +114,7 @@
   :pin melpa
   :ensure t
   :after org
-)
+  )
 
 (use-package org-mind-map
   ;; mind map
@@ -175,7 +175,7 @@
 (use-package flycheck
   :pin melpa
   :ensure t
-)
+  )
 
 (use-package magit
   ;;
@@ -275,6 +275,10 @@
   ;; completion
   :pin melpa
   :ensure t
+  :bind (:map ivy-minibuffer-map
+              ("<RET>" . ivy-alt-done)
+              ("C-j" . ivy-immediate-done)
+              )
   )
 
 (use-package swiper
@@ -300,9 +304,9 @@
   :pin melpa
   :ensure t
   :bind (:map ztree-mode-map
-         ("p" . ztree-previous-line)
-         ("n" . ztree-next-line)
-         )
+              ("p" . ztree-previous-line)
+              ("n" . ztree-next-line)
+              )
   )
 
 (use-package wgrep
@@ -312,7 +316,7 @@
   :after hydra
   :bind (
          :map dired-mode-map
-              ("<f3>" . hydra-wgrep/body))
+         ("<f3>" . hydra-wgrep/body))
   :hydra (hydra-wgrep
           ()
           "wgrep commands
@@ -336,7 +340,7 @@
   :config
   ;; I want the same color for file name and extension
   (setq diredp-file-suffix diredp-file-name)
-)
+  )
 
 (use-package elpa-mirror
   :load-path "lisp/elpa-mirror/"
@@ -362,9 +366,73 @@
   )
 
 (use-package ace-jump-buffer
+  ;; https://github.com/winterTTr/ace-jump-mode/wiki
   :pin melpa
   :ensure t
   )
+
+(use-package benchmark-init
+  :ensure t
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+
+(use-package golden-ratio
+  ;; https://github.com/roman/golden-ratio.el
+  ;; (seen here: https://tuhdo.github.io/emacs-tutor3.html)
+  :ensure t
+  :diminish golden-ratio-mode
+  :config
+  (golden-ratio-mode)
+  (setq golden-ratio-auto-scale t)
+  )
+
+(use-package projectile
+  ;; https://github.com/bbatsov/projectile
+  ;; https://projectile.readthedocs.io/en/latest/usage/
+  :ensure t
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1)
+  :delight '(:eval (concat " " (projectile-project-name)))
+  )
+
+(use-package counsel-projectile
+  :ensure t
+  :config
+  (counsel-projectile-mode +1)
+  )
+
+(use-package diminish
+  :ensure t)
+
+(use-package delight
+  :ensure t)
+
+(use-package major-mode-hydra
+  :ensure t
+  :bind
+  ("<f2>" . major-mode-hydra)
+  )
+
+(major-mode-hydra-define emacs-lisp-mode nil
+  ("Eval"
+   (("b" eval-buffer "buffer")
+    ("e" eval-defun "defun")
+    ("r" eval-region "region"))
+   "REPL"
+   (("I" ielm "ielm"))
+   "Test"
+   (("t" ert "prompt")
+    ("T" (ert t) "all")
+    ("F" (ert :failed) "failed"))
+   "Doc"
+   (("d" describe-foo-at-point "thing-at-pt")
+    ("f" describe-function "function")
+    ("v" describe-variable "variable")
+    ("i" info-lookup-symbol "info lookup"))))
+
+;; https://github.com/milkypostman/powerline/ ;; TODO
 
 ;; (use-package md4rd
 ;;   ;; reddit inside emacs
@@ -380,16 +448,6 @@
 ;;   )
 
 ;; multiple-cursors ;; TODO
-
-(use-package golden-ratio
-  ;; https://github.com/roman/golden-ratio.el
-  ;; (seen here: https://tuhdo.github.io/emacs-tutor3.html)
-  :ensure t
-  :diminish golden-ratio-mode
-  :config
-  (golden-ratio-mode)
-  (setq golden-ratio-auto-scale t)
-)
 
 ;; paradox
 ;; ;; new *Packages* interface. Not used, I find it too heavy
@@ -890,6 +948,18 @@
 ;; https://github.com/abo-abo/hydra/wiki/Org-agenda
 ;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
 
+(defhydra hydra-summary ()
+  ("m" hydra-magit/body "magit" :exit t)
+  ("b" hydra-bookmarks/body "bookmarks" :exit t)
+  ("z" hydra-zoom/body "zoom" :exit t)
+  )
+
+(global-set-key (kbd "<f1>") 'hydra-summary/body)
+
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (local-set-key (kbd "<f1>") (quote hydra-summary/body))))
+
 (defhydra hydra-magit (:hint nil)
   "
 _F_ fetch all _s_ status
@@ -919,18 +989,6 @@ _d_ diff      _la_ log all
   ("c" bmkp-copy-tags      "copy")
   ("p" bmkp-paste-add-tags "past")
   )
-
-(defhydra hydra-summary ()
-  ("m" hydra-magit/body "magit" :exit t)
-  ("b" hydra-bookmarks/body "bookmarks" :exit t)
-  ("z" hydra-zoom/body "zoom" :exit t)
-  )
-
-(global-set-key (kbd "<f1>") 'hydra-summary/body)
-
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (local-set-key (kbd "<f1>") (quote hydra-summary/body))))
 
 (defhydra hydra-zoom ()
   "zoom"
