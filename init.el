@@ -10,6 +10,12 @@
 ;;;; custom
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
+(set-keyboard-coding-system 'utf-8-unix) ; For old Carbon emacs on OS X only
+(setq locale-coding-system 'utf-8-unix)
+(set-default-coding-systems 'utf-8-unix)
+(prefer-coding-system 'utf-8-unix)
+
 (setq custom-file "~/.emacs.d/emacs-custom.el")
 (load custom-file)
 
@@ -340,7 +346,6 @@
   :ensure t
   )
 
-
 (use-package dired+
   :load-path "lisp/"
   :config
@@ -379,6 +384,24 @@
   :ensure t
   )
 
+(use-package ace-window
+  ;; https://github.com/abo-abo/ace-window
+  ;; TODO define an Hydra
+  :ensure  t
+  :config
+  (defun jp--ace-window-key()
+    (interactive)
+    (hydra-ace-window/body))
+  (global-set-key (kbd "M-o") 'jp--ace-window-key)
+  :hydra (hydra-ace-window ()
+          "ace: jump to window"
+          ("j" ace-select-window "jump" :exit t)
+          ("x" ace-delete-window "delete" :exit t)
+          ("s" ace-swap-window "swap" :exit t)
+)
+
+)
+
 (use-package benchmark-init
   :ensure t
   :config
@@ -399,6 +422,14 @@
   ;; https://github.com/bbatsov/projectile
   ;; https://projectile.readthedocs.io/en/latest/usage/
   :ensure t
+  :init
+  ;; we mainly want projects defined by a few markers and we always want to take
+  ;; the top-most marker. Reorder so other cases are secondary.
+  (setq  projectile-project-root-files #'( ".projectile" )
+         projectile-project-root-files-functions #'(projectile-root-top-down
+                                                    projectile-root-top-down-recurring
+                                                    projectile-root-bottom-up
+                                                    projectile-root-local))
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (projectile-mode +1)
@@ -439,6 +470,10 @@
     ("f" describe-function "function")
     ("v" describe-variable "variable")
     ("i" info-lookup-symbol "info lookup"))))
+
+(use-package ace-link :ensure t
+  :config
+  (ace-link-setup-default))
 
 ;; https://github.com/milkypostman/powerline/ ;; TODO
 
@@ -759,6 +794,9 @@
 (define-key minibuffer-local-map "(" 'self-insert-command )
 (define-key minibuffer-local-ns-map "(" 'self-insert-command )
 
+;; unbind key
+(define-key image-map "o" nil)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ivy swiper counsel
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -777,6 +815,8 @@
 (global-set-key (kbd "C-h f") 'counsel-describe-function)
 (global-set-key (kbd "C-h v") 'counsel-describe-variable)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-x C-d") 'counsel-find-file)
+(global-set-key (kbd "C-x d") 'counsel-find-file)
 
 (global-set-key (kbd "C-s") 'isearch-forward)
 (global-set-key (kbd "C-r") 'isearch-backward)
