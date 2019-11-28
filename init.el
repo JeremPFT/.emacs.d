@@ -202,6 +202,12 @@
 
   )
 
+;; doesn't work ... windows ?
+;; (use-package magit-todos
+;;   ;; https://github.com/alphapapa/magit-todos
+;;   :ensure t
+;;   )
+
 (use-package fic-mode
   ;; highlight TODO/FIXME/...
   :ensure t
@@ -352,6 +358,8 @@
   )
 
 (use-package speed-type)
+
+(use-package avy)
 
 (use-package ace-jump-mode
   :pin melpa
