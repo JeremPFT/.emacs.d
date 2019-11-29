@@ -285,12 +285,20 @@
 
 (use-package ivy
   ;; completion
+  ;; https://oremacs.com/swiper/#key-bindings
+  ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
+  ;; https://www.youtube.com/user/abo5abo
+  ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
   :pin melpa
   :ensure t
   :bind (:map ivy-minibuffer-map
               ("<RET>" . ivy-alt-done)
               ("C-j" . ivy-immediate-done)
               )
+  :config
+  (setq ivy-re-builders-alist
+        '((swiper-isearch . ivy--regex-ignore-order)
+          (t      . ivy--regex-fuzzy)))
   )
 
 (use-package swiper
@@ -365,11 +373,29 @@
 (use-package speed-type)
 
 (use-package avy
+  ;;
   :pin melpa
   :ensure t
   :bind
   (("C-:" . avy-goto-char-2))
   )
+
+(use-package ace-isearch
+  ;; https://github.com/tam17aki/ace-isearch
+  :ensure t
+  :config
+  (global-ace-isearch-mode +1)
+  :bind (
+         :map isearch-mode-map
+         ("C-:" . ace-isearch-jump-during-isearch))
+)
+file
+(use-package link-hint
+  ;; https://github.com/noctuid/link-hint.el
+  :ensure t
+  :bind
+  ("C-c l o" . link-hint-open-link)
+  ("C-c l c" . link-hint-copy-link))
 
 (use-package benchmark-init
   :ensure t
@@ -785,10 +811,6 @@
 
 (global-set-key (kbd "C-s") 'isearch-forward)
 (global-set-key (kbd "C-r") 'isearch-backward)
-
-(setq ivy-re-builders-alist
-      '((swiper-isearch . ivy--regex-plus)
-        (t      . ivy--regex-fuzzy)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; asn1-mode
