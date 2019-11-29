@@ -1031,10 +1031,21 @@ _d_ diff      _la_ log all
   ("-" text-scale-decrease "out"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; initial buffer
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun jp/initital-buffer()
+  (interactive)
+  (setq jp--buffer (get-buffer-create "*fetching.org*"))
+  (set-buffer jp--buffer)
+  (org-mode)
+  (insert "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
+  jp--buffer
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; emacs client
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
 
 (server-start)
-(bookmark-load "~/.emacs.d/bookmarks")
-(bookmark-jump "startup.org")
