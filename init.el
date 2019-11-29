@@ -389,7 +389,7 @@
          :map isearch-mode-map
          ("C-:" . ace-isearch-jump-during-isearch))
 )
-file
+
 (use-package link-hint
   ;; https://github.com/noctuid/link-hint.el
   :ensure t
