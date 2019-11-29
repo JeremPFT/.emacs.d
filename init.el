@@ -1,5 +1,5 @@
 ;; to startup emacs using another directory on Windows, change the shortcut:
-;; D:\Users\jpiffret\emacs-26.1-i686\bin\runemacs.exe --eval "(setenv \"HOME\" \"d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico\")" --load d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico/.emacs.d/init.d
+;; D:\Users\jpiffret\emacs-26.1-i686\bin\runemacs.exe --eval "(setenv \"HOME\" \"c:/Users/jeremy\")" --load d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico/.emacs.d/init.d
 ;;
 ;; comment HOME change since .emacs.d is no more shared using Dropbox
 ;; (let ((local-home "d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico"))
@@ -320,10 +320,23 @@
           )
   )
 
+
+(use-package speed-type
+  :pin melpa
+  :ensure t)
+
 (use-package htmlize
+  :pin melpa
   :ensure t
   )
 
+(use-package avy
+  ;; https://github.com/abo-abo/avy
+  ;; like ace-jump
+  :pin melpa
+  :ensure t
+  :bind ("C-:" . avy-goto-char-2)
+  )
 
 (use-package dired+
   :load-path "lisp/"
@@ -336,12 +349,10 @@
   :load-path "lisp/elpa-mirror/"
   )
 
+(load-file "~/.emacs.d/lisp/bookmark-plus/bookmark+-mac.el")
 (use-package bookmark+
   :load-path "lisp/bookmark-plus/"
-  :init (load-file "~/.emacs.d/lisp/bookmark-plus/bookmark+-mac.el")
   )
-
-(use-package speed-type)
 
 ;; multiple-cursors ;; TODO
 
