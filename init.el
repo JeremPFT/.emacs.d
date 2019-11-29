@@ -364,43 +364,12 @@
 
 (use-package speed-type)
 
-(use-package avy)
-
-(use-package ace-jump-mode
+(use-package avy
   :pin melpa
   :ensure t
   :bind
-  (
-   ("C-c SPC" . ace-jump-mode)
-   ("C-x SPC" . ace-jump-mode-pop-mark)
-   )
-  :config
-  (ace-jump-mode-enable-mark-sync)
+  (("C-:" . avy-goto-char-2))
   )
-
-(use-package ace-jump-buffer
-  ;; https://github.com/winterTTr/ace-jump-mode/wiki
-  :pin melpa
-  :ensure t
-  )
-
-(use-package ace-window
-  ;; https://github.com/abo-abo/ace-window
-  ;; TODO define an Hydra
-  :ensure  t
-  :config
-  (defun jp--ace-window-key()
-    (interactive)
-    (hydra-ace-window/body))
-  (global-set-key (kbd "M-o") 'jp--ace-window-key)
-  :hydra (hydra-ace-window ()
-          "ace: jump to window"
-          ("j" ace-select-window "jump" :exit t)
-          ("x" ace-delete-window "delete" :exit t)
-          ("s" ace-swap-window "swap" :exit t)
-)
-
-)
 
 (use-package benchmark-init
   :ensure t
@@ -470,10 +439,6 @@
     ("f" describe-function "function")
     ("v" describe-variable "variable")
     ("i" info-lookup-symbol "info lookup"))))
-
-(use-package ace-link :ensure t
-  :config
-  (ace-link-setup-default))
 
 ;; https://github.com/milkypostman/powerline/ ;; TODO
 
