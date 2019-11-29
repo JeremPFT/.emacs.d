@@ -1049,3 +1049,5 @@ _d_ diff      _la_ log all
 ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
 
 (server-start)
+(bookmark-load "~/.emacs.d/bookmarks")
+(bookmark-jump "startup.org")
