@@ -1034,12 +1034,14 @@ _d_ diff      _la_ log all
 ;;;; initial buffer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun jp/initital-buffer()
+(defun jp/initial-buffer()
   (interactive)
   (setq jp--buffer (get-buffer-create "*fetching.org*"))
   (set-buffer jp--buffer)
   (org-mode)
-  (insert "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
+  (insert "#+NAME: output-fetch-repositories\n"
+          "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
+  (beginning-of-line)
   jp--buffer
   )
 
