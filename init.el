@@ -10,6 +10,12 @@
 ;;;; custom
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
+(set-keyboard-coding-system 'utf-8-unix) ; For old Carbon emacs on OS X only
+(setq locale-coding-system 'utf-8-unix)
+(set-default-coding-systems 'utf-8-unix)
+(prefer-coding-system 'utf-8-unix)
+
 (setq custom-file "~/.emacs.d/emacs-custom.el")
 (load custom-file)
 
@@ -114,7 +120,7 @@
   :pin melpa
   :ensure t
   :after org
-)
+  )
 
 (use-package org-mind-map
   ;; mind map
@@ -127,6 +133,12 @@
   ;; mind map
   :ensure t
   )
+
+(use-package poporg
+  ;; http://pragmaticemacs.com/emacs/write-code-comments-in-org-mode-with-poporg/
+  ;; https://github.com/QBobWatson/poporg
+  :ensure t
+  :bind (("C-c /" . poporg-dwim)))
 
 (use-package yasnippet
   ;; https://github.com/joaotavora/yasnippet
@@ -169,7 +181,7 @@
 (use-package flycheck
   :pin melpa
   :ensure t
-)
+  )
 
 (use-package magit
   ;;
@@ -195,6 +207,12 @@
     (cd (concat (getenv "HOME") "/.emacs.d" )))
 
   )
+
+;; doesn't work ... windows ?
+;; (use-package magit-todos
+;;   ;; https://github.com/alphapapa/magit-todos
+;;   :ensure t
+;;   )
 
 (use-package fic-mode
   ;; highlight TODO/FIXME/...
@@ -267,8 +285,20 @@
 
 (use-package ivy
   ;; completion
+  ;; https://oremacs.com/swiper/#key-bindings
+  ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
+  ;; https://www.youtube.com/user/abo5abo
+  ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
   :pin melpa
   :ensure t
+  :bind (:map ivy-minibuffer-map
+              ("<RET>" . ivy-alt-done)
+              ("C-j" . ivy-immediate-done)
+              )
+  :config
+  (setq ivy-re-builders-alist
+        '((swiper-isearch . ivy--regex-ignore-order)
+          (t      . ivy--regex-fuzzy)))
   )
 
 (use-package swiper
@@ -294,9 +324,9 @@
   :pin melpa
   :ensure t
   :bind (:map ztree-mode-map
-         ("p" . ztree-previous-line)
-         ("n" . ztree-next-line)
-         )
+              ("p" . ztree-previous-line)
+              ("n" . ztree-next-line)
+              )
   )
 
 (use-package wgrep
@@ -306,7 +336,7 @@
   :after hydra
   :bind (
          :map dired-mode-map
-              ("<f3>" . hydra-wgrep/body))
+         ("<f3>" . hydra-wgrep/body))
   :hydra (hydra-wgrep
           ()
           "wgrep commands
@@ -330,20 +360,12 @@
   :ensure t
   )
 
-(use-package avy
-  ;; https://github.com/abo-abo/avy
-  ;; like ace-jump
-  :pin melpa
-  :ensure t
-  :bind ("C-:" . avy-goto-char-2)
-  )
-
 (use-package dired+
   :load-path "lisp/"
   :config
   ;; I want the same color for file name and extension
   (setq diredp-file-suffix diredp-file-name)
-)
+  )
 
 (use-package elpa-mirror
   :load-path "lisp/elpa-mirror/"
@@ -354,10 +376,122 @@
   :load-path "lisp/bookmark-plus/"
   )
 
-;; multiple-cursors ;; TODO
+(use-package speed-type)
 
-;; golden-ratio TODO
-;; (see here: https://tuhdo.github.io/emacs-tutor3.html)
+(use-package avy
+  ;; https://github.com/abo-abo/avy
+  ;; like ace-jump
+  :pin melpa
+  :ensure t
+  :bind
+  (("C-:" . avy-goto-char-2))
+  )
+
+(use-package ace-isearch
+  ;; https://github.com/tam17aki/ace-isearch
+  :ensure t
+  :config
+  (global-ace-isearch-mode +1)
+  :bind (
+         :map isearch-mode-map
+         ("C-:" . ace-isearch-jump-during-isearch))
+)
+
+(use-package link-hint
+  ;; https://github.com/noctuid/link-hint.el
+  :ensure t
+  :bind
+  ("C-c l o" . link-hint-open-link)
+  ("C-c l c" . link-hint-copy-link))
+
+(use-package benchmark-init
+  :ensure t
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+
+(use-package golden-ratio
+  ;; https://github.com/roman/golden-ratio.el
+  ;; (seen here: https://tuhdo.github.io/emacs-tutor3.html)
+  :ensure t
+  :diminish golden-ratio-mode
+  :config
+  (golden-ratio-mode)
+  (setq golden-ratio-auto-scale t)
+  )
+
+(use-package projectile
+  ;; https://github.com/bbatsov/projectile
+  ;; https://projectile.readthedocs.io/en/latest/usage/
+  :ensure t
+  :init
+  ;; we mainly want projects defined by a few markers and we always want to take
+  ;; the top-most marker. Reorder so other cases are secondary.
+  (setq  projectile-project-root-files #'( ".projectile" )
+         projectile-project-root-files-functions #'(projectile-root-top-down
+                                                    projectile-root-top-down-recurring
+                                                    projectile-root-bottom-up
+                                                    projectile-root-local))
+  :config
+  (projectile-mode +1)
+  (setq projectile-enable-caching t)
+  :delight '(:eval (concat " " (projectile-project-namea)))
+  :bind (:map projectile-mode-map
+              ("C-c p" . projectile-command-map))
+  )
+
+(use-package counsel-projectile
+  :after projectile counsel
+  :ensure t
+  :config
+  (counsel-projectile-mode +1)
+  )
+
+(use-package diminish
+  :ensure t)
+
+(use-package delight
+  :ensure t)
+
+(use-package major-mode-hydra
+  :ensure t
+  :bind
+  ("<f2>" . major-mode-hydra)
+  )
+
+(major-mode-hydra-define emacs-lisp-mode nil
+  ("Eval"
+   (("b" eval-buffer "buffer")
+    ("e" eval-defun "defun")
+    ("r" eval-region "region"))
+   "REPL"
+   (("I" ielm "ielm"))
+   "Test"
+   (("t" ert "prompt")
+    ("T" (ert t) "all")
+    ("F" (ert :failed) "failed"))
+   "Doc"
+   (("d" describe-foo-at-point "thing-at-pt")
+    ("f" describe-function "function")
+    ("v" describe-variable "variable")
+    ("i" info-lookup-symbol "info lookup"))))
+
+;; https://github.com/milkypostman/powerline/ ;; TODO
+
+;; (use-package md4rd
+;;   ;; reddit inside emacs
+;;   :pin melpa
+;;   :ensure t
+;;   )
+
+;; (use-package nnreddit
+;;   :pin melpa
+;;   :ensure t
+;;   :config
+;;   (custom-set-variables '(gnus-select-method (quote (nnreddit ""))))
+;;   )
+
+;; multiple-cursors ;; TODO
 
 ;; paradox
 ;; ;; new *Packages* interface. Not used, I find it too heavy
@@ -661,6 +795,9 @@
 (define-key minibuffer-local-map "(" 'self-insert-command )
 (define-key minibuffer-local-ns-map "(" 'self-insert-command )
 
+;; unbind key
+(define-key image-map "o" nil)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ivy swiper counsel
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -679,13 +816,11 @@
 (global-set-key (kbd "C-h f") 'counsel-describe-function)
 (global-set-key (kbd "C-h v") 'counsel-describe-variable)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-x C-d") 'counsel-find-file)
+(global-set-key (kbd "C-x d") 'counsel-find-file)
 
 (global-set-key (kbd "C-s") 'isearch-forward)
 (global-set-key (kbd "C-r") 'isearch-backward)
-
-(setq ivy-re-builders-alist
-      '((swiper-isearch . ivy--regex-plus)
-        (t      . ivy--regex-fuzzy)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; asn1-mode
@@ -858,6 +993,18 @@
 ;; https://github.com/abo-abo/hydra/wiki/Org-agenda
 ;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
 
+(defhydra hydra-summary ()
+  ("m" hydra-magit/body "magit" :exit t)
+  ("b" hydra-bookmarks/body "bookmarks" :exit t)
+  ("z" hydra-zoom/body "zoom" :exit t)
+  )
+
+(global-set-key (kbd "<f1>") 'hydra-summary/body)
+
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (local-set-key (kbd "<f1>") (quote hydra-summary/body))))
+
 (defhydra hydra-magit (:hint nil)
   "
 _F_ fetch all _s_ status
@@ -888,22 +1035,25 @@ _d_ diff      _la_ log all
   ("p" bmkp-paste-add-tags "past")
   )
 
-(defhydra hydra-summary ()
-  ("m" hydra-magit/body "magit" :exit t)
-  ("b" hydra-bookmarks/body "bookmarks" :exit t)
-  ("z" hydra-zoom/body "zoom" :exit t)
-  )
-
-(global-set-key (kbd "<f1>") 'hydra-summary/body)
-
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (local-set-key (kbd "<f1>") (quote hydra-summary/body))))
-
 (defhydra hydra-zoom ()
   "zoom"
   ("+" text-scale-increase "in")
   ("-" text-scale-decrease "out"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; initial buffer
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun jp/initial-buffer()
+  (interactive)
+  (setq jp--buffer (get-buffer-create "*fetching.org*"))
+  (set-buffer jp--buffer)
+  (org-mode)
+  (insert "#+NAME: output-fetch-repositories\n"
+          "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
+  (beginning-of-line)
+  jp--buffer
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; emacs client
