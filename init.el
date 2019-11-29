@@ -426,12 +426,15 @@
                                                     projectile-root-bottom-up
                                                     projectile-root-local))
   :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (projectile-mode +1)
-  :delight '(:eval (concat " " (projectile-project-name)))
+  (setq projectile-enable-caching t)
+  :delight '(:eval (concat " " (projectile-project-namea)))
+  :bind (:map projectile-mode-map
+              ("C-c p" . projectile-command-map))
   )
 
 (use-package counsel-projectile
+  :after projectile counsel
   :ensure t
   :config
   (counsel-projectile-mode +1)
