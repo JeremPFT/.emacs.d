@@ -109,6 +109,7 @@
   :mode
   ("\\.\\(org\\|txt\\)\\'" . org-mode)
   ("\\*notes\\*" . org-mode)
+  :bind (("C-c a" . org-agenda))
   )
 
 (use-package org-web-tools

@@ -64,9 +64,7 @@
  '(linum-format "%6d")
  '(ls-lisp-verbosity nil)
  '(org-adapt-indentation nil)
- '(org-agenda-files
-   (quote
-    ("~/Dropbox/org/notes.org" "~/Dropbox/org/sncf.org" "~/Dropbox/org/dates.org" "~/Dropbox/org/administratif.org" "~/Dropbox/org/pauses.org")))
+ '(org-agenda-files (quote ("~/workspace/org/agenda")))
  '(org-capture-templates
    (quote
     (("l" "Link" entry
