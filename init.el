@@ -336,8 +336,8 @@
   :ensure t
   :after hydra
   :bind (
-         :map dired-mode-map
-         ("<f3>" . hydra-wgrep/body))
+         :map grep-mode-map
+         ("<f1>" . hydra-wgrep/body))
   :hydra (hydra-wgrep
           ()
           "wgrep commands
@@ -1008,16 +1008,16 @@
 
 (defhydra hydra-magit (:hint nil)
   "
-_F_ fetch all _s_ status
-_p_ push      _c_ commit
-_d_ diff      _la_ log all
+_s_ status    _c_ commit
+_P_ pull      _la_ log all
+_p_ push      _d_ diff
 "
-  ("F" fetch_all_repositories)
-  ("p" magit-push)
-  ("c" magit-commit)
-  ("d" magit-diff)
-  ("la" magit-log-all)
-  ("s" magit-status)
+  ("p" magit-push :exit t)
+  ("P" magit-pull :exit t)
+  ("c" magit-commit :exit t)
+  ("d" magit-diff :exit t)
+  ("la" magit-log-all :exit t)
+  ("s" magit-status :exit t)
   )
 
 (defvar HOME (file-name-as-directory (getenv "HOME")))
