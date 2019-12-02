@@ -388,16 +388,6 @@
   (("C-:" . avy-goto-char-2))
   )
 
-(use-package ace-isearch
-  ;; https://github.com/tam17aki/ace-isearch
-  :ensure t
-  :config
-  (global-ace-isearch-mode +1)
-  :bind (
-         :map isearch-mode-map
-         ("C-:" . ace-isearch-jump-during-isearch))
-)
-
 (use-package link-hint
   ;; https://github.com/noctuid/link-hint.el
   :ensure t
