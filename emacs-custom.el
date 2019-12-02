@@ -59,7 +59,7 @@
    ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
- '(initial-buffer-choice (quote jp/initital-buffer))
+ '(initial-buffer-choice (quote jp/initial-buffer))
  '(ivy-wrap t)
  '(linum-format "%6d")
  '(ls-lisp-verbosity nil)
