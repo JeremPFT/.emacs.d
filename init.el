@@ -337,7 +337,7 @@
   :after hydra
   :bind (
          :map grep-mode-map
-         ("<f3>" . hydra-wgrep/body))
+         ("<f1>" . hydra-wgrep/body))
   :hydra (hydra-wgrep
           ()
           "wgrep commands
@@ -384,16 +384,6 @@
   :bind
   (("C-:" . avy-goto-char-2))
   )
-
-(use-package ace-isearch
-  ;; https://github.com/tam17aki/ace-isearch
-  :ensure t
-  :config
-  (global-ace-isearch-mode +1)
-  :bind (
-         :map isearch-mode-map
-         ("C-:" . ace-isearch-jump-during-isearch))
-)
 
 (use-package link-hint
   ;; https://github.com/noctuid/link-hint.el
@@ -488,8 +478,6 @@
 ;;   :config
 ;;   (custom-set-variables '(gnus-select-method (quote (nnreddit ""))))
 ;;   )
-
-;; multiple-cursors ;; TODO
 
 ;; paradox
 ;; ;; new *Packages* interface. Not used, I find it too heavy
@@ -1005,16 +993,16 @@
 
 (defhydra hydra-magit (:hint nil)
   "
-_F_ fetch all _s_ status
-_p_ push      _c_ commit
-_d_ diff      _la_ log all
+_s_ status    _c_ commit
+_P_ pull      _la_ log all
+_p_ push      _d_ diff
 "
-  ("F" fetch_all_repositories)
-  ("p" magit-push)
-  ("c" magit-commit)
-  ("d" magit-diff)
-  ("la" magit-log-all)
-  ("s" magit-status)
+  ("p" magit-push :exit t)
+  ("P" magit-pull :exit t)
+  ("c" magit-commit :exit t)
+  ("d" magit-diff :exit t)
+  ("la" magit-log-all :exit t)
+  ("s" magit-status :exit t)
   )
 
 (defvar HOME (file-name-as-directory (getenv "HOME")))
@@ -1059,6 +1047,21 @@ _d_ diff      _la_ log all
 ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
 
 (server-start)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; tests
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package comb
+  ;; https://github.com/cyrus-and/comb
+  ;;
+  ;; - repository is cloned in ~/.emacs.d/lisp, the code in comb-report.el is
+  ;;   changed
+  ;; - use M-x re-builder to open a buffer and dynamically try a regex
+  ;; - the shortkeys are not defined in all generated buffer => define a hydra
+  :ensure t
+  :load-path "lisp/comb/"
+)
 
 ;; from https://github.com/abo-abo/hydra/wiki/Projectile
 (defhydra hydra-projectile (:color teal

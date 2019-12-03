@@ -1,7 +1,8 @@
 # -*- mode: snippet -*-
 # name: section-file
-# key: sf
+# key: secf
 # --
+
 /*******************************************************************************
  * $0local functions definitions
  */
