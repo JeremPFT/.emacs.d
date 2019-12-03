@@ -1050,3 +1050,18 @@ _p_ push      _d_ diff
 ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
 
 (server-start)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; tests
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package comb
+  ;; https://github.com/cyrus-and/comb
+  ;;
+  ;; - repository is cloned in ~/.emacs.d/lisp, the code in comb-report.el is
+  ;;   changed
+  ;; - use M-x re-builder to open a buffer and dynamically try a regex
+  ;; - the shortkeys are not defined in all generated buffer => define a hydra
+  :ensure t
+  :load-path "lisp/comb/"
+)
