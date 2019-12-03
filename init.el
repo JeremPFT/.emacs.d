@@ -482,8 +482,6 @@
 ;;   (custom-set-variables '(gnus-select-method (quote (nnreddit ""))))
 ;;   )
 
-;; multiple-cursors ;; TODO
-
 ;; paradox
 ;; ;; new *Packages* interface. Not used, I find it too heavy
 
