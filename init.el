@@ -322,6 +322,8 @@
 
 (use-package ztree
   ;; https://github.com/fourier/ztree
+  ;;
+  ;; directory as a tree
   :pin melpa
   :ensure t
   :bind (:map ztree-mode-map
