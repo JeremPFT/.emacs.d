@@ -339,13 +339,22 @@
   :after hydra
   :bind (
          :map grep-mode-map
-         ("<f1>" . hydra-wgrep/body))
+         ("<f1>" . hydra-enter-wgrep/body)
+         :map wgrep-mode-map
+         ("<f1>" . hydra-wgrep/body)
+         )
+  :hydra (hydra-enter-wgrep
+          ()
+          "wgrep commands
+
+"
+          ("s" wgrep-change-to-wgrep-mode "start wgrep")
+          )
   :hydra (hydra-wgrep
           ()
           "wgrep commands
 
 "
-          ("p" wgrep-change-to-wgrep-mode "start")
           ("u" wgrep-remove-change "remove region changes")
           ("U" wgrep-remove-all-change "remove all changes")
           ("a" wgrep-apply-change "apply")
