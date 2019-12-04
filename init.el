@@ -436,7 +436,16 @@
   )
 
 (use-package diminish
-  :ensure t)
+  ;; https://github.com/myrjola/diminish.el
+  ;;
+  ;; only works with minor mode
+  ;;
+  ;; see http://emacs-fu.blogspot.com/2010/05/cleaning-up-mode-line.html
+  :ensure t
+  :config
+  (defun diminish-emacs-lisp-mode() (setq mode-name "elisp"))
+  (add-hook 'emacs-lisp-mode-hook 'diminish-emacs-lisp-mode)
+  )
 
 (use-package delight
   :ensure t)
@@ -463,6 +472,18 @@
     ("f" describe-function "function")
     ("v" describe-variable "variable")
     ("i" info-lookup-symbol "info lookup"))))
+
+(use-package comb
+  ;; https://github.com/cyrus-and/comb
+  ;;
+  ;; - repository is cloned in ~/.emacs.d/lisp, the code in comb-report.el is
+  ;;   changed
+  ;; - use M-x re-builder to open a buffer and dynamically try a regex
+  ;; - the shortkeys are not defined in all generated buffer => define a hydra
+  :load-path "lisp/comb/"
+  :preface (unless (file-directory-p "~/.emacs.d/lisp/comb")
+             (error "missing comb directory"))
+  )
 
 ;; https://github.com/milkypostman/powerline/ ;; TODO
 
@@ -1052,20 +1073,9 @@ _p_ push      _d_ diff
 ;;;; tests
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package comb
-  ;; https://github.com/cyrus-and/comb
-  ;;
-  ;; - repository is cloned in ~/.emacs.d/lisp, the code in comb-report.el is
-  ;;   changed
-  ;; - use M-x re-builder to open a buffer and dynamically try a regex
-  ;; - the shortkeys are not defined in all generated buffer => define a hydra
-  :ensure t
-  :load-path "lisp/comb/"
-)
-
 ;; from https://github.com/abo-abo/hydra/wiki/Projectile
 (defhydra hydra-projectile (:color teal
-                            :hint nil)
+                                   :hint nil)
   "
 
      Find File            Search/Tags          Buffers                Cache
