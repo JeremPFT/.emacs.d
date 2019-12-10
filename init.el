@@ -375,8 +375,8 @@
 )
 
 (use-package dired+
-  :straight nil
-  :load-path "lisp/"
+  :straight
+  (:host github :repo "emacsmirror/dired-plus" :branch "master")
   :config
   ;; I want the same color for file name and extension
   (setq diredp-file-suffix diredp-file-name)
@@ -386,10 +386,10 @@
   :load-path "lisp/elpa-mirror/"
   )
 
-(load-file "~/.emacs.d/lisp/bookmark-plus/bookmark+-mac.el")
+;; TODO see if necessary (load-file "~/.emacs.d/lisp/bookmark-plus/bookmark+-mac.el")
 (use-package bookmark+
-  :straight nil
-  :load-path "lisp/bookmark-plus/"
+  :straight
+  (:host github :repo "emacsmirror/bookmark-plus" :branch "master")
   )
 
 ;; (use-package speed-type
@@ -469,12 +469,14 @@
 
 (use-package comb
   ;; https://github.com/cyrus-and/comb
+  ;; grep & notes
   ;;
   ;; - repository is cloned in ~/.emacs.d/lisp, the code in comb-report.el is
   ;;   changed
   ;; - use M-x re-builder to open a buffer and dynamically try a regex
   ;; - the shortkeys are not defined in all generated buffer => define a hydra
-  :load-path "lisp/comb/"
+  :straight
+  (:host github :repo "JeremPFT/comb" :branch "master")
   :preface (unless (file-directory-p "~/.emacs.d/lisp/comb")
              (error "missing comb directory"))
   )
