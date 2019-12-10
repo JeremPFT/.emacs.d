@@ -22,136 +22,146 @@
 (byte-recompile-directory "~/.emacs.d/lisp/" 0)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; el-get
+;;;; straight
+;;;; (package manager)
+;;;; https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
+;;;;
+;;;; TODO see hydra integration
+;;;; https://github.com/abo-abo/hydra/wiki/straight.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; source: https://github.com/dimitri/el-get/blob/master/README.md
 
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(unless (require 'el-get nil t)
-  (url-retrieve
-   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
-   (lambda (s)
-     (let (el-get-install-skip-emacswiki-recipes)
-       (goto-char (point-max))
-       (eval-print-last-sexp)))))
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
 
-(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-jpi/recipes")
-
-(defvar mypackages)
-
-(setq mypackages
-      (append
-       '(el-get)
-       (mapcar 'el-get-source-name el-get-sources)))
-
-(el-get 'sync mypackages)
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("jpi" . "~/.emacs.d/package-repo-jpi/") t)
+;; TODO add-to-list cf
+;; https://yoo2080.wordpress.com/2013/09/11/emacs-lisp-lexical-binding-gotchas-and-related-best-practices/
+;; https://emacs.stackexchange.com/questions/7389/whats-the-difference-between-push-and-add-to-list
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'package)
+;; (require 'package)
 
-(add-to-list 'package-archives
-             '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
+;; (add-to-list 'package-archives
+;;              '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
 
-(add-to-list 'package-archives
-             '("jpi" . "~/.emacs.d/package-repo-jpi/") t)
+;; (add-to-list 'package-archives
+;;              '("jpi" . "~/.emacs.d/package-repo-jpi/") t)
 
-(package-initialize)
+;; (package-initialize)
 
 ;; (add-to-list 'load-path "~/.emacs.d/elpa/benchmark-init-20150905.938")
 ;; (require 'benchmark-init)
 ;; (add-hook 'after-init-hook 'benchmark-init/deactivate)
 
-(unless package-archive-contents
-  (package-refresh-contents))
+;; (unless package-archive-contents
+;;   (package-refresh-contents))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+;; (unless (package-installed-p 'use-package)
+;;   (package-install 'use-package))
+
 ;; https://github.com/jwiegley/use-package
 ;;
 ;; see leaf.el too. But doesn't have a :pin keyword
 
-(use-package use-package-ensure-system-package
-  :ensure t
+(use-package use-package-ensure-system-package)
+
+(use-package key-chord)
+
+(use-package use-package-chords)
+
+(use-package diminish
+  ;; https://github.com/myrjola/diminish.el
+  ;;
+  ;; only works with minor mode
+  ;;
+  ;; see http://emacs-fu.blogspot.com/2010/05/cleaning-up-mode-line.html
+  :config
+  (defun diminish-emacs-lisp-mode() (setq mode-name "elisp"))
+  (add-hook 'emacs-lisp-mode-hook 'diminish-emacs-lisp-mode)
   )
 
-(use-package key-chord
-  :ensure t
-  )
+(use-package delight)
 
-(use-package use-package-chords
-  :ensure t
-  )
-
-(use-package use-package-el-get
-  :ensure t
-  )
+(use-package undo-tree
+  :straight
+  (:host github :repo "emacsorphanage/undo-tree"
+         :branch "master"))
 
 (use-package hydra
   ;; bindings keys
   ;; https://github.com/abo-abo/hydra
-  :pin melpa
-  :ensure t
-  )
+)
 
 (use-package use-package-hydra
   ;; https://gitlab.com/to1ne/use-package-hydra
-  :ensure t
   :after use-package hydra
   )
 
 (use-package org
   :pin gnu
-  :ensure t
   :mode
   ("\\.\\(org\\|txt\\)\\'" . org-mode)
   ("\\*notes\\*" . org-mode)
   :bind (("C-c a" . org-agenda))
   )
 
-(use-package org-web-tools
-  :ensure t
-  )
+(use-package org-web-tools)
 
 (use-package ob-async
   ;; https://github.com/astahlman/ob-async
-  :pin melpa
-  :ensure t
   :after org
   )
 
+;; Fix an incompatibility between the ob-async and ob-ipython packages
+;; TODO integrate in use-package
+(progn
+  (defvar ob-async-no-async-languages-alist)
+  (setq ob-async-no-async-languages-alist '("ipython")))
 (use-package org-mind-map
   ;; mind map
-  :ensure t
   :init (require 'ox-org)
   :config (setq org-mind-map-engine "dot")
   )
 
 (use-package org-brain
   ;; mind map
-  :ensure t
   )
 
 (use-package poporg
   ;; http://pragmaticemacs.com/emacs/write-code-comments-in-org-mode-with-poporg/
   ;; https://github.com/QBobWatson/poporg
-  :ensure t
   :bind (("C-c /" . poporg-dwim)))
 
 (use-package yasnippet
   ;; https://github.com/joaotavora/yasnippet
   ;; http://joaotavora.github.io/yasnippet/
-  :ensure t
   :config
   (yas-global-mode 1)
   )
 
 (use-package fill-column-indicator
-  :pin melpa
-  :ensure t
   :config
   (defun set-fci-to-80 ()
     (setq fci-rule-column 80))
@@ -161,35 +171,56 @@
   )
 
 (use-package ada-mode
-  :pin jpi
-  :ensure t
-  :after fill-column-indicator
-  :config
-  (setq fci-rule-column 78)
-
-  (defun ada-before-save ()
-    (when (eq major-mode 'ada-mode)
-      (ada-case-adjust-buffer)
-      (indent-buffer)))
-  (add-hook 'before-save-hook 'ada-before-save)
+  :straight
+  (:host github :repo "emacsmirror/ada-mode"
+         :check-out-commit "c56045a140816f76abfd43aa8351a18fe56a8d15")
   )
+
+
+;; (use-package ada-mode
+;;   :straight nil
+;;   :pin jpi
+;;   :after fill-column-indicator
+;;   :config
+;;   (setq fci-rule-column 78)
+
+;;   (defun ada-before-save ()
+;;     (when (eq major-mode 'ada-mode)
+;;       (ada-case-adjust-buffer)
+;;       (indent-buffer)))
+;;   (add-hook 'before-save-hook 'ada-before-save)
+;;   )
 
 (use-package wisi
-  :pin jpi
-  :ensure t
+  :straight
+  (:host github :repo "emacsmirror/wisi")
   )
 
+;; TODO (straight-vc-git-check-out-commit 'wisi "83ca0c16350ff4e79ff5172abcc5a2a78c755530")
+
+
 (use-package flycheck
-  :pin melpa
-  :ensure t
+  :after elpy
   )
+
+(use-package elpy
+  ;; Python env. From https://realpython.com/emacs-the-best-python-editor/
+  :config
+  (elpy-enable) ;; config: "M-x elpy-config"
+  (add-hook 'python-mode-hook (lambda () (electric-pair-mode)))
+  :config
+  (when (require 'flycheck nil t)
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+    (add-hook 'elpy-mode-hook 'flycheck-mode))
+  )
+
+;; TODO Enable Flycheck. Integrate in use-package
 
 (use-package magit
   ;;
   ;; TODO see magit-gitflow
   ;;
   :pin gnu
-  :ensure t
   :config
 
   ;; speed up magit
@@ -212,12 +243,10 @@
 ;; doesn't work ... windows ?
 ;; (use-package magit-todos
 ;;   ;; https://github.com/alphapapa/magit-todos
-;;   :ensure t
-;;   )
+;; ;;   )
 
 (use-package fic-mode
   ;; highlight TODO/FIXME/...
-  :ensure t
   :config
   (add-hook 'prog-mode-hook #'fic-mode)
   (add-hook 'ada-mode-hook #'fic-mode)
@@ -237,7 +266,6 @@
   ;; https://irreal.org/blog/?p=256
   ;; https://jingsi.space/post/2017/04/05/organizing-a-complex-directory-for-emacs-org-mode-and-deft/
   ;; https://jonathanchu.is/posts/setting-up-deft-mode-in-emacs-with-org-mode/
-  :ensure t
   :config
   (setq deft-extensions '("org" "txt" "tex"))
   (setq deft-directory "~/workspace/org")
@@ -245,8 +273,6 @@
 
 (use-package dired-filter
   ;; TODO replace shortcuts with hydra
-  :pin melpa
-  :ensure t
   :after hydra
   :bind (:map dired-mode-map ("/" . hydra-dired-filter/body))
   :hydra (hydra-dired-filter
@@ -265,24 +291,14 @@
 
 (use-package immaterial-theme
   ;; dark colors. Better than default white...
-  :pin melpa
-  :ensure t
   :config
   (load-theme 'immaterial t)
-  )
-
-(use-package elpy
-  ;; Python env. From https://realpython.com/emacs-the-best-python-editor/
-  :pin melpa
-  :ensure t
   )
 
 (use-package flx
   ;; flx mode. Used with completion list
   ;; flx-isearch exists, but take a long time inside a long file
-  :pin melpa
-  :ensure t
-  )
+)
 
 (use-package ivy
   ;; completion
@@ -290,8 +306,6 @@
   ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
   ;; https://www.youtube.com/user/abo5abo
   ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
-  :pin melpa
-  :ensure t
   :bind (:map ivy-minibuffer-map
               ("<RET>" . ivy-alt-done)
               ("C-j" . ivy-immediate-done)
@@ -304,28 +318,26 @@
 
 (use-package swiper
   ;; completion
-  :pin melpa
-  :ensure t
-  )
+)
 
 (use-package counsel
   ;; completion
-  :pin melpa
-  :ensure t
+)
+
+(use-package counsel-projectile
+  :after projectile counsel
+  :config
+  (counsel-projectile-mode +1)
   )
 
 (use-package ivy-hydra
   ;; completion
-  :pin melpa
-  :ensure t
-  )
+)
 
 (use-package ztree
   ;; https://github.com/fourier/ztree
   ;;
   ;; directory as a tree
-  :pin melpa
-  :ensure t
   :bind (:map ztree-mode-map
               ("p" . ztree-previous-line)
               ("n" . ztree-next-line)
@@ -334,9 +346,6 @@
 
 (use-package wgrep
   ;; editable grep results
-  :pin melpa
-  :ensure t
-  :after hydra
   :bind (
          :map grep-mode-map
          ("<f1>" . hydra-enter-wgrep/body)
@@ -363,11 +372,10 @@
   )
 
 (use-package htmlize
-  :pin melpa
-  :ensure t
-  )
+)
 
 (use-package dired+
+  :straight nil
   :load-path "lisp/"
   :config
   ;; I want the same color for file name and extension
@@ -380,31 +388,31 @@
 
 (load-file "~/.emacs.d/lisp/bookmark-plus/bookmark+-mac.el")
 (use-package bookmark+
+  :straight nil
   :load-path "lisp/bookmark-plus/"
   )
 
 ;; (use-package speed-type
-;;   :pin melpa
-;;   :ensure t)
+;; )
 
 (use-package avy
   ;; https://github.com/abo-abo/avy
   ;; like ace-jump
-  :pin melpa
-  :ensure t
   :bind
   (("C-:" . avy-goto-char-2))
   )
 
+(use-package avy-menu
+  ;; https://github.com/mrkkrp/avy-menu
+  )
+
 (use-package link-hint
   ;; https://github.com/noctuid/link-hint.el
-  :ensure t
   :bind
   ("C-c l o" . link-hint-open-link)
   ("C-c l c" . link-hint-copy-link))
 
 (use-package benchmark-init
-  :ensure t
   :config
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
@@ -412,7 +420,6 @@
 (use-package golden-ratio
   ;; https://github.com/roman/golden-ratio.el
   ;; (seen here: https://tuhdo.github.io/emacs-tutor3.html)
-  :ensure t
   :diminish golden-ratio-mode
   :config
   (golden-ratio-mode)
@@ -422,7 +429,6 @@
 (use-package projectile
   ;; https://github.com/bbatsov/projectile
   ;; https://projectile.readthedocs.io/en/latest/usage/
-  :ensure t
   :init
   ;; we mainly want projects defined by a few markers and we always want to take
   ;; the top-most marker. Reorder so other cases are secondary.
@@ -439,30 +445,7 @@
               ("C-c p" . projectile-command-map))
   )
 
-(use-package counsel-projectile
-  :after projectile counsel
-  :ensure t
-  :config
-  (counsel-projectile-mode +1)
-  )
-
-(use-package diminish
-  ;; https://github.com/myrjola/diminish.el
-  ;;
-  ;; only works with minor mode
-  ;;
-  ;; see http://emacs-fu.blogspot.com/2010/05/cleaning-up-mode-line.html
-  :ensure t
-  :config
-  (defun diminish-emacs-lisp-mode() (setq mode-name "elisp"))
-  (add-hook 'emacs-lisp-mode-hook 'diminish-emacs-lisp-mode)
-  )
-
-(use-package delight
-  :ensure t)
-
 (use-package major-mode-hydra
-  :ensure t
   :bind
   ("<f2>" . major-mode-hydra)
   )
@@ -500,14 +483,10 @@
 
 ;; (use-package md4rd
 ;;   ;; reddit inside emacs
-;;   :pin melpa
-;;   :ensure t
-;;   )
+;; ;;   )
 
 ;; (use-package nnreddit
-;;   :pin melpa
-;;   :ensure t
-;;   :config
+;; ;;   :config
 ;;   (custom-set-variables '(gnus-select-method (quote (nnreddit ""))))
 ;;   )
 
@@ -516,12 +495,10 @@
 
 ;; (use-package amx
 ;; ;; completion
-;; :ensure t
 ;; )
 
 ;; (use-package crm-custom
 ;; ;; completion
-;; :ensure t
 ;; )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -645,15 +622,6 @@
           (lambda ()
             (local-set-key (kbd "C-c C-t") (quote insert-html-tag))))
 
-(add-hook 'python-mode-hook (lambda () (electric-pair-mode)))
-
-(elpy-enable) ;; config: "M-x elpy-config"
-
-;; Enable Flycheck
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
-
 ;; pretty print
 ;;
 (defun jpi-pp()
@@ -773,11 +741,11 @@
 
 (unless window-system
   (add-hook 'linum-before-numbering-hook
-	    (lambda ()
-	      (setq-local linum-format-fmt
-			  (let ((w (length (number-to-string
-					    (count-lines (point-min) (point-max))))))
-			    (concat "%" (number-to-string w) "d"))))))
+            (lambda ()
+              (setq-local linum-format-fmt
+                          (let ((w (length (number-to-string
+                                            (count-lines (point-min) (point-max))))))
+                            (concat "%" (number-to-string w) "d"))))))
 
 (defun linum-format-func (line)
   (concat
@@ -923,10 +891,6 @@
 (setq org-src-fontify-natively t)
 ;; Don't prompt before running code in org
 (setq org-confirm-babel-evaluate nil)
-;; Fix an incompatibility between the ob-async and ob-ipython packages
-(progn
-  (defvar ob-async-no-async-languages-alist)
-  (setq ob-async-no-async-languages-alist '("ipython")))
 
 (setq-default org-src-window-setup 'current-window)
 
@@ -995,12 +959,6 @@
   (let ((win (get-buffer-window (current-buffer))))
     (if win
         (select-window win))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; deft
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; https://github.com/jrblevin/deft
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; hydra

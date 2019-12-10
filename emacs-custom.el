@@ -112,9 +112,7 @@
     (("jpi" . "~/.emacs.d/package-repo-jpi/")
      ("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/"))))
- '(package-selected-packages
-   (quote
-    (link-hint avy-menu avy poporg ob-async golden-ratio delight diminish counsel-projectile projectile major-mode-hydra benchmark-init speed-type ztree fill-column-indicator htmlize wgrep use-package use-package-chords use-package-el-get use-package-ensure-system-package use-package-hydra key-chord ivy-hydra counsel swiper ivy org-web-tools fic-mode deft hydra org-mind-map org-brain dired-filter amx ido-completing-read+ crm-custom immaterial flycheck elpy immaterial-theme wisi ada-mode magit org flx-isearch flx-ido)))
+ '(package-selected-packages (quote (ada-mode wisi)))
  '(projectile-completion-system (quote ivy))
  '(python-fill-docstring-style (quote symmetric))
  '(python-indent-guess-indent-offset nil)
@@ -163,7 +161,7 @@
  '(hl-line ((t (:background "gray30"))))
  '(internal-border ((t (:background "white"))))
  '(isearch ((t (:background "gray20" :foreground "#eeeeee" :underline t :weight ultra-bold))))
- '(link ((t (:foreground "turquoise" :underline t))))
+ '(link ((((class color) (min-colors 89)) (:foreground "#4f9a94" :underline t))))
  '(linum ((t (:background "#102027" :foreground "#777777" :weight normal :height 100))))
  '(magit-branch-local ((t (:foreground "orange"))))
  '(mode-line ((t (:background "midnight blue" :foreground "#eeeeee" :box (:line-width 1 :color "#102027")))))
