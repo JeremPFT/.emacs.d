@@ -19,4 +19,5 @@ recentf
 /projectile-bookmarks.eld
 /lisp/comb
 /straight/
+!/straight/versions/*
 /all-the-icons-fonts/
