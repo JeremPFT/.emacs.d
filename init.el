@@ -10,16 +10,19 @@
 ;;;; custom
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; utf-8-unix
+;; windows-1252
+
 (setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
 (set-keyboard-coding-system 'utf-8-unix) ; For old Carbon emacs on OS X only
-(setq locale-coding-system 'utf-8-unix)
+(setq locale-coding-system 'windows-1252)
 (set-default-coding-systems 'utf-8-unix)
 (prefer-coding-system 'utf-8-unix)
 
-(setq custom-file "~/.emacs.d/emacs-custom.el")
+(setq custom-file (concat user-emacs-directory "emacs-custom.el"))
 (load custom-file)
 
-(byte-recompile-directory "~/.emacs.d/lisp/" 0)
+(byte-recompile-directory (concat user-emacs-directory "lisp/") 0)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; straight
@@ -28,6 +31,9 @@
 ;;;;
 ;;;; TODO see hydra integration
 ;;;; https://github.com/abo-abo/hydra/wiki/straight.el
+;;;;
+;;;; see example
+;;;; https://emacs.nasy.moe/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defvar bootstrap-version)
@@ -48,11 +54,11 @@
 
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages"))
 (add-to-list 'package-archives
-             '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
+             '("MELPA Stable" . "https://stable.melpa.org/packages") t)
 (add-to-list 'package-archives
-             '("jpi" . "~/.emacs.d/package-repo-jpi/") t)
+             '("jpi" . (concat user-emacs-directory "package-repo-jpi")) t)
 ;; TODO add-to-list cf
 ;; https://yoo2080.wordpress.com/2013/09/11/emacs-lisp-lexical-binding-gotchas-and-related-best-practices/
 ;; https://emacs.stackexchange.com/questions/7389/whats-the-difference-between-push-and-add-to-list
@@ -64,14 +70,14 @@
 ;; (require 'package)
 
 ;; (add-to-list 'package-archives
-;;              '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
+;;              '("MELPA Stable" . "https://stable.melpa.org/packages") t)
 
 ;; (add-to-list 'package-archives
-;;              '("jpi" . "~/.emacs.d/package-repo-jpi/") t)
+;;              '("jpi" . (concat user-emacs-directory "package-repo-jpi")) t)
 
 ;; (package-initialize)
 
-;; (add-to-list 'load-path "~/.emacs.d/elpa/benchmark-init-20150905.938")
+;; (add-to-list 'load-path (concat user-emacs-directory "elpa/benchmark-init-20150905.938"))
 ;; (require 'benchmark-init)
 ;; (add-hook 'after-init-hook 'benchmark-init/deactivate)
 
@@ -92,7 +98,6 @@
 (use-package use-package-chords)
 
 (use-package diminish
-  ;; https://github.com/myrjola/diminish.el
   ;;
   ;; only works with minor mode
   ;;
@@ -104,6 +109,14 @@
 
 (use-package delight)
 
+;; (use-package dim
+;;   ;; TODO
+;;   ;; like diminish but works for major modes too
+;;   ;; https://github.com/myrjola/diminish.el
+;;   :straight
+;;   (:host github :repo "alezost/dim.el"
+;;          :branch "master"))
+
 (use-package undo-tree
   :straight
   (:host github :repo "emacsorphanage/undo-tree"
@@ -112,7 +125,7 @@
 (use-package hydra
   ;; bindings keys
   ;; https://github.com/abo-abo/hydra
-)
+  )
 
 (use-package use-package-hydra
   ;; https://gitlab.com/to1ne/use-package-hydra
@@ -171,33 +184,38 @@
   )
 
 (use-package ada-mode
-  :straight
-  (:host github :repo "emacsmirror/ada-mode"
-         :check-out-commit "c56045a140816f76abfd43aa8351a18fe56a8d15")
+  :straight nil
+  :ensure t
+  :pin jpi
+  :after fill-column-indicator
+  :config
+  (setq fci-rule-column 78)
+
+  (defun ada-before-save ()
+    (when (eq major-mode 'ada-mode)
+      (ada-case-adjust-buffer)
+      (indent-buffer)))
+  (add-hook 'before-save-hook 'ada-before-save)
   )
-
-
-;; (use-package ada-mode
-;;   :straight nil
-;;   :pin jpi
-;;   :after fill-column-indicator
-;;   :config
-;;   (setq fci-rule-column 78)
-
-;;   (defun ada-before-save ()
-;;     (when (eq major-mode 'ada-mode)
-;;       (ada-case-adjust-buffer)
-;;       (indent-buffer)))
-;;   (add-hook 'before-save-hook 'ada-before-save)
-;;   )
 
 (use-package wisi
-  :straight
-  (:host github :repo "emacsmirror/wisi")
+  :straight nil
+  :ensure t
+  :pin jpi
   )
 
-;; TODO (straight-vc-git-check-out-commit 'wisi "83ca0c16350ff4e79ff5172abcc5a2a78c755530")
+;; (use-package ada-mode
+;;   :straight
+;;   (:host github :repo "emacsmirror/ada-mode"
+;;          :check-out-commit "c56045a140816f76abfd43aa8351a18fe56a8d15")
+;;   )
 
+;; (use-package wisi
+;;   :straight nil
+;;   (:host github :repo "emacsmirror/wisi")
+;;   )
+
+;; TODO (straight-vc-git-check-out-commit 'wisi "83ca0c16350ff4e79ff5172abcc5a2a78c755530")
 
 (use-package flycheck
   :after elpy
@@ -236,7 +254,7 @@
     (interactive)
     (cd (concat (getenv "HOME") "/workspace/0_fetch_all" ))
     (shell-command "fetch_all_repositories.py")
-    (cd (concat (getenv "HOME") "/.emacs.d" )))
+    (cd user-emacs-directory))
 
   )
 
@@ -298,7 +316,7 @@
 (use-package flx
   ;; flx mode. Used with completion list
   ;; flx-isearch exists, but take a long time inside a long file
-)
+  )
 
 (use-package ivy
   ;; completion
@@ -318,11 +336,11 @@
 
 (use-package swiper
   ;; completion
-)
+  )
 
 (use-package counsel
   ;; completion
-)
+  )
 
 (use-package counsel-projectile
   :after projectile counsel
@@ -332,7 +350,7 @@
 
 (use-package ivy-hydra
   ;; completion
-)
+  )
 
 (use-package ztree
   ;; https://github.com/fourier/ztree
@@ -372,7 +390,7 @@
   )
 
 (use-package htmlize
-)
+  )
 
 (use-package dired+
   :straight
@@ -386,7 +404,7 @@
   :load-path "lisp/elpa-mirror/"
   )
 
-;; TODO see if necessary (load-file "~/.emacs.d/lisp/bookmark-plus/bookmark+-mac.el")
+;; TODO see if necessary (load-file (concat user-emacs-directory "lisp/bookmark-plus/bookmark+-mac.el"))
 (use-package bookmark+
   :straight
   (:host github :repo "emacsmirror/bookmark-plus" :branch "master")
@@ -477,9 +495,21 @@
   ;; - the shortkeys are not defined in all generated buffer => define a hydra
   :straight
   (:host github :repo "JeremPFT/comb" :branch "master")
-  :preface (unless (file-directory-p "~/.emacs.d/lisp/comb")
+  :preface (unless (file-directory-p (concat user-emacs-directory "lisp/comb"))
              (error "missing comb directory"))
   )
+
+(use-package all-the-icons
+  :ensure t
+  :config
+  (unless (file-directory-p (concat user-emacs-directory "all-the-icons-fonts"))
+    (make-directory (concat (getenv "HOME") (concat user-emacs-directory "all-the-icons-fonts")))
+    (error "please run all-the-icons-install-fonts in .emacs.d/all-the-icons-fonts")
+    ))
+
+(use-package doom-modeline
+  :ensure t
+  :config (doom-modeline-mode))
 
 ;; https://github.com/milkypostman/powerline/ ;; TODO
 
@@ -765,9 +795,10 @@
 ;;;; elisp (personal, imported)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-to-list 'load-path "~/.emacs.d/lisp/openssl-cipher")
+(add-to-list 'load-path (concat user-emacs-directory "lisp/openssl-cipher"))
 (require 'openssl-cipher)
 
+(add-to-list 'load-path (concat user-emacs-directory "lisp"))
 (require 'ingenico-parse-log)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-set-key (kbd "<f5>") 'revert-buffer)
@@ -997,8 +1028,10 @@ _p_ push      _d_ diff
   ("s" magit-status :exit t)
   )
 
-(defvar HOME (file-name-as-directory (getenv "HOME")))
-(defvar org-dir (file-name-as-directory (concat HOME "workspace/org/bookmarks")))
+(defvar org-dir (concat (file-name-as-directory (getenv "HOME"))
+                        (file-name-as-directory "workspace")
+                        (file-name-as-directory "org")
+                        "bookmarks"))
 
 (defhydra hydra-bookmarks ()
   ("D"  (find-file org-dir)                                      "directory" :column "my bookmarks" :exit t)
