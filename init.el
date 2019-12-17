@@ -6,8 +6,15 @@
 ;;   (when (file-directory-p local-home)
 ;;     (setenv "HOME" local-home)))
 
+;;;;
+;;;; TODO
+;;;; see https://github.com/raxod502/radian
+;;;; a preconfigured .init.el
+;;;;
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; custom
+;;;; encoding
+;;;; see https://www.emacswiki.org/emacs/ChangingEncodings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; utf-8-unix
@@ -18,6 +25,10 @@
 (setq locale-coding-system 'windows-1252)
 (set-default-coding-systems 'utf-8-unix)
 (prefer-coding-system 'utf-8-unix)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; custom
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq custom-file (concat user-emacs-directory "emacs-custom.el"))
 (load custom-file)
@@ -183,37 +194,34 @@
   (add-hook 'ada-mode-hook 'fci-mode)
   )
 
-(use-package ada-mode
-  :straight nil
-  :ensure t
-  :pin jpi
-  :after fill-column-indicator
-  :config
-  (setq fci-rule-column 78)
-
-  (defun ada-before-save ()
-    (when (eq major-mode 'ada-mode)
-      (ada-case-adjust-buffer)
-      (indent-buffer)))
-  (add-hook 'before-save-hook 'ada-before-save)
-  )
-
-(use-package wisi
-  :straight nil
-  :ensure t
-  :pin jpi
-  )
-
 ;; (use-package ada-mode
-;;   :straight
-;;   (:host github :repo "emacsmirror/ada-mode"
-;;          :check-out-commit "c56045a140816f76abfd43aa8351a18fe56a8d15")
+;;   :straight t
+;;   :ensure nil
+;;   :pin jpi
+;;   :after fill-column-indicator
+;;   :config
+;;   (setq fci-rule-column 78)
+
+;;   (defun ada-before-save ()
+;;     (when (eq major-mode 'ada-mode)
+;;       (ada-case-adjust-buffer)
+;;       (indent-buffer)))
+;;   (add-hook 'before-save-hook 'ada-before-save)
 ;;   )
 
 ;; (use-package wisi
 ;;   :straight nil
-;;   (:host github :repo "emacsmirror/wisi")
+;;   :ensure t
+;;   :pin jpi
 ;;   )
+
+(use-package ada-mode
+  :straight (:host github :repo "emacsmirror/ada-mode")
+  )
+
+(use-package wisi
+  :straight (:host github :repo "emacsmirror/wisi")
+  )
 
 ;; TODO (straight-vc-git-check-out-commit 'wisi "83ca0c16350ff4e79ff5172abcc5a2a78c755530")
 
@@ -398,6 +406,7 @@
   :config
   ;; I want the same color for file name and extension
   (setq diredp-file-suffix diredp-file-name)
+  :bind (("M-b" . backward-word))
   )
 
 (use-package elpa-mirror
@@ -1012,7 +1021,8 @@
 
 (add-hook 'dired-mode-hook
           (lambda ()
-            (local-set-key (kbd "<f1>") (quote hydra-summary/body))))
+            (local-set-key (kbd "<f1>") (quote hydra-summary/body))
+            (local-set-key (kbd "M-b") (quote backward-word))))
 
 (defhydra hydra-magit (:hint nil)
   "
