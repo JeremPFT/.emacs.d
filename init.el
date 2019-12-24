@@ -133,6 +133,10 @@
   (:host github :repo "emacsorphanage/undo-tree"
          :branch "master"))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; hydra
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package hydra
   ;; bindings keys
   ;; https://github.com/abo-abo/hydra
@@ -143,13 +147,53 @@
   :after use-package hydra
   )
 
+(use-package major-mode-hydra
+  :bind
+  ("<f2>" . major-mode-hydra)
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; org-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package org
   :pin gnu
   :mode
   ("\\.\\(org\\|txt\\)\\'" . org-mode)
   ("\\*notes\\*" . org-mode)
-  :bind (("C-c a" . org-agenda))
+  :bind (("C-c a" . org-agenda)
+         ("C-c c" . org-capture))
   )
+
+;; patched function org-translate-time from org.el
+;; replaced
+;;
+;; (concat
+;;  (if inactive "[" "<") (substring tf 1 -1)
+;;  (if inactive "]" ">"))
+;;
+;; with
+;;
+;; (require 'org-collector)
+;;
+;; removed: default behavior is better ...
+;;
+;; see https://orgmode.org/manual/Capturing-column-view.html:
+;;    C-c C-x i (org-insert-columns-dblock)
+
+;; setting up org-babel for literate programming
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(
+   (python . t)
+   ;;   (sh . t)
+   (C . t)
+   ;; Include other languages here...
+   ))
+
+(progn
+  (defvar org-html-postamble)
+  (setq org-html-postamble nil))
 
 (use-package org-web-tools)
 
@@ -177,6 +221,10 @@
   ;; http://pragmaticemacs.com/emacs/write-code-comments-in-org-mode-with-poporg/
   ;; https://github.com/QBobWatson/poporg
   :bind (("C-c /" . poporg-dwim)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; yasnippet
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package yasnippet
   ;; https://github.com/joaotavora/yasnippet
@@ -470,11 +518,6 @@
   :delight '(:eval (concat " " (projectile-project-namea)))
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
-  )
-
-(use-package major-mode-hydra
-  :bind
-  ("<f2>" . major-mode-hydra)
   )
 
 (major-mode-hydra-define emacs-lisp-mode nil
@@ -897,48 +940,6 @@
 
 (require 'french-holidays)
 (setq calendar-holidays holiday-french-holidays)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; org-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; patched function org-translate-time from org.el
-;; replaced
-;;
-;; (concat
-;;  (if inactive "[" "<") (substring tf 1 -1)
-;;  (if inactive "]" ">"))
-;;
-;; with
-;;
-;; (require 'org-collector)
-;;
-;; removed: default behavior is better ...
-;;
-;; see https://orgmode.org/manual/Capturing-column-view.html:
-;;    C-c C-x i (org-insert-columns-dblock)
-
-(global-set-key (kbd "C-c c") 'org-capture)
-
-;; setting up org-babel for literate programming
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '(
-   (python . t)
-   ;;   (sh . t)
-   (C . t)
-   ;; Include other languages here...
-   ))
-;; Syntax highlight in #+BEGIN_SRC blocks
-(setq org-src-fontify-natively t)
-;; Don't prompt before running code in org
-(setq org-confirm-babel-evaluate nil)
-
-(setq-default org-src-window-setup 'current-window)
-
-(progn
-  (defvar org-html-postamble)
-  (setq org-html-postamble nil))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; auto remove mouse pointer
