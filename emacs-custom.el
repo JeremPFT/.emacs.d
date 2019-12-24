@@ -106,6 +106,7 @@
     (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
  '(org-publish-timestamp-directory "~/workspace/org/.org-timestamps/")
  '(org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
+ '(org-src-window-setup (quote current-window))
  '(org-startup-shrink-all-tables t)
  '(org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>")))
  '(package-archives
