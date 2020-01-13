@@ -3,7 +3,7 @@
 # key: secc
 # --
 
-  /*
-    ${1:0}. ${2:declaration & initialization}
+  /***
+      ${1:0}. ${2:declaration & initialization}
   */
 $0
