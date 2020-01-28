@@ -121,7 +121,7 @@
  '(grep-command "grep --color=always --before-context=5 -nH --null -e ")
  '(grep-find-command
    (quote
-    ("find . -type f -name \"*[.][hc]\" -exec grep --color=always -nHi {} \";\"" . 64)))
+    ("find . -type f -name \"*[.][hc]\" -exec grep --color=always -nHi  {} \";\"" . 64)))
  '(hippie-expand-try-functions-list
    (quote
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-dabbrev-from-kill try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
@@ -213,8 +213,11 @@
 :END:
 "))))
  '(org-default-notes-file "~/Dropbox/org/notes.org")
+ '(org-fontify-done-headline t)
+ '(org-hide-leading-stars nil)
  '(org-html-table-default-attributes nil)
  '(org-indent-indentation-per-level 0)
+ '(org-level-color-stars-only nil)
  '(org-mind-map-default-graph-attribs
    (quote
     (("autosize" . "false")
@@ -281,7 +284,7 @@
  '(fic-face ((t (:foreground "coral" :slant oblique :weight bold))))
  '(font-lock-comment-delimiter-face ((t (:foreground "chocolate"))))
  '(font-lock-comment-face ((t (:foreground "chocolate"))))
- '(font-lock-constant-face ((t (:foreground "light sea green"))))
+ '(font-lock-constant-face ((t (:foreground "chartreuse"))))
  '(font-lock-doc-face ((t (:foreground "chocolate"))))
  '(highlight-indentation-current-column-face ((t (:background "gray15"))))
  '(highlight-indentation-face ((t (:inherit fringe :background "gray15"))))
@@ -294,8 +297,9 @@
  '(magit-hash ((t (:foreground "sky blue"))))
  '(mode-line ((t (:background "midnight blue" :foreground "#eeeeee" :box (:line-width 1 :color "#102027")))))
  '(mode-line-inactive ((t (:background "gray22" :foreground "#eeeeee" :box (:line-width 1 :color "#102027")))))
+ '(org-headline-done ((t (:foreground "medium aquamarine"))))
  '(package-name ((t (:foreground "light goldenrod"))))
  '(region ((t (:background "dim gray" :foreground "#eeeeee"))))
  '(replacep-msg-emphasis ((t (:foreground "brown"))))
- '(show-paren-match ((t (:background "dark olive green" :weight bold))))
+ '(show-paren-match ((t (:background "gray" :weight bold))))
  '(ztreep-diff-model-add-face ((t (:foreground "chocolate")))))
