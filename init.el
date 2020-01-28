@@ -263,6 +263,20 @@
 ;;   :pin jpi
 ;;   )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; latex
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package auctex
+  ;; https://www.gnu.org/software/auctex/
+  :defer t
+  :ensure t
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; TODO to sort
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package ada-mode
   :straight (:host github :repo "emacsmirror/ada-mode")
   )
@@ -769,6 +783,7 @@
         (unless (or (nth 3 (syntax-ppss))
                     (nth 4 (syntax-ppss)))
 
+          ;; insert space before operator
           (unless (string= operator ",")
             (unless (= (point) (line-beginning-position))
               (forward-char -1)
@@ -776,10 +791,15 @@
                 (unless (or (string= (buffer-substring-no-properties
                                       (point) (+ 2 (point))) "->")
                             (string= (buffer-substring-no-properties
-                                      (point) (+ 2 (point))) "*/"))
+                                      (point) (+ 2 (point))) "*/")
+                            (string= (buffer-substring-no-properties
+                                      (point) (+ 2 (point))) "++")
+                            (string= (buffer-substring-no-properties
+                                      (point) (+ 2 (point))) "--"))
                   (insert " ")))
               (forward-char)))
 
+          ;; insert space after operator
           (when (looking-at regexp)
             (unless (string= (buffer-substring-no-properties
                               (- (point) 2) (point)) "->")

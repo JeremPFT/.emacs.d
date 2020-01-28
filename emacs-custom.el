@@ -3,6 +3,78 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(LaTeX-command-style
+   (quote
+    (("" "%(PDF)%(latex) %(file-line-error) %(extraopts) %S%(PDFout)"))))
+ '(TeX-command-list
+   (quote
+    (("Make" "make" TeX-run-TeX nil t :help "Make pdf output using Makefile.")
+     ("TeX" "%(PDF)%(tex) %(file-line-error) %`%(extraopts) %S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+      (plain-tex-mode texinfo-mode ams-tex-mode)
+      :help "Run plain TeX")
+     ("LaTeX" "%`%l%(mode)%' %T " TeX-run-TeX nil
+      (latex-mode doctex-mode)
+      :help "Run LaTeX")
+     ("Makeinfo" "makeinfo %(extraopts) %t" TeX-run-compile nil
+      (texinfo-mode)
+      :help "Run Makeinfo with Info output")
+     ("Makeinfo HTML" "makeinfo %(extraopts) --html %t" TeX-run-compile nil
+      (texinfo-mode)
+      :help "Run Makeinfo with HTML output")
+     ("AmSTeX" "amstex %(PDFout) %`%(extraopts) %S%(mode)%' %t" TeX-run-TeX nil
+      (ams-tex-mode)
+      :help "Run AMSTeX")
+     ("ConTeXt" "%(cntxcom) --once --texutil %(extraopts) %(execopts)%t" TeX-run-TeX nil
+      (context-mode)
+      :help "Run ConTeXt once")
+     ("ConTeXt Full" "%(cntxcom) %(extraopts) %(execopts)%t" TeX-run-TeX nil
+      (context-mode)
+      :help "Run ConTeXt until completion")
+     ("BibTeX" "%(bibtex) %s" TeX-run-BibTeX nil
+      (plain-tex-mode latex-mode doctex-mode context-mode texinfo-mode ams-tex-mode)
+      :help "Run BibTeX")
+     ("Biber" "biber %s" TeX-run-Biber nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Run Biber")
+     ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
+     ("Print" "%p" TeX-run-command t t :help "Print the file")
+     ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command)
+     ("File" "%(o?)dvips %d -o %f " TeX-run-dvips t
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Generate PostScript file")
+     ("Dvips" "%(o?)dvips %d -o %f " TeX-run-dvips nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Convert DVI file to PostScript")
+     ("Dvipdfmx" "dvipdfmx %d" TeX-run-dvipdfmx nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Convert DVI file to PDF with dvipdfmx")
+     ("Ps2pdf" "ps2pdf %f" TeX-run-ps2pdf nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Convert PostScript file to PDF")
+     ("Glossaries" "makeglossaries %s" TeX-run-command nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Run makeglossaries to create glossary
+     file")
+     ("Index" "%(makeindex) %s" TeX-run-index nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Run makeindex to create index file")
+     ("upMendex" "upmendex %s" TeX-run-index t
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Run upmendex to create index file")
+     ("Xindy" "texindy %s" TeX-run-command nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Run xindy to create index file")
+     ("Check" "lacheck %s" TeX-run-compile nil
+      (latex-mode)
+      :help "Check LaTeX file for correctness")
+     ("ChkTeX" "chktex -v6 %s" TeX-run-compile nil
+      (latex-mode)
+      :help "Check LaTeX file for common mistakes")
+     ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
+     ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
+     ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
+     ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))))
+ '(TeX-show-compilation t)
  '(ace-isearch-function (quote avy-goto-char))
  '(ada-always-ask-project t)
  '(ada-build-confirm-command nil)
@@ -46,9 +118,10 @@
  '(gpr-indent 2)
  '(gpr-indent-when 2)
  '(gpr-skel-initial-string "")
+ '(grep-command "grep --color=always --before-context=5 -nH --null -e ")
  '(grep-find-command
    (quote
-    ("find . -type f -name \"*[.][hc]\" -exec grep --color=always -nHi  {} \";\"" . 64)))
+    ("find . -type f -name \"*[.][hc]\" -exec grep --color=always -nHi {} \";\"" . 64)))
  '(hippie-expand-try-functions-list
    (quote
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-dabbrev-from-kill try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
@@ -171,7 +244,8 @@
  '(python-indent-guess-indent-offset nil)
  '(remember-data-file "~/.emacs.d/notes.org")
  '(show-paren-mode t)
- '(speed-type-default-lang (quote French)))
+ '(speed-type-default-lang (quote French))
+ '(tex-start-commands "--output-dir=tmp \"\\nonstopmode\\input\""))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -207,7 +281,7 @@
  '(fic-face ((t (:foreground "coral" :slant oblique :weight bold))))
  '(font-lock-comment-delimiter-face ((t (:foreground "chocolate"))))
  '(font-lock-comment-face ((t (:foreground "chocolate"))))
- '(font-lock-constant-face ((t (:foreground "chartreuse"))))
+ '(font-lock-constant-face ((t (:foreground "light sea green"))))
  '(font-lock-doc-face ((t (:foreground "chocolate"))))
  '(highlight-indentation-current-column-face ((t (:background "gray15"))))
  '(highlight-indentation-face ((t (:inherit fringe :background "gray15"))))
@@ -223,4 +297,5 @@
  '(package-name ((t (:foreground "light goldenrod"))))
  '(region ((t (:background "dim gray" :foreground "#eeeeee"))))
  '(replacep-msg-emphasis ((t (:foreground "brown"))))
+ '(show-paren-match ((t (:background "dark olive green" :weight bold))))
  '(ztreep-diff-model-add-face ((t (:foreground "chocolate")))))
