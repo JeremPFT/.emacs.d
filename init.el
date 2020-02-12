@@ -38,6 +38,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; straight
 ;;;; (package manager)
+;;;; https://github.com/raxod502/straight.el
 ;;;; https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
 ;;;;
 ;;;; TODO see hydra integration
@@ -130,8 +131,7 @@
 
 (use-package undo-tree
   :straight
-  (:host github :repo "emacsorphanage/undo-tree"
-         :branch "master"))
+  (:host github :repo "emacsorphanage/undo-tree" :branch "master"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; hydra
@@ -163,6 +163,8 @@
   ("\\*notes\\*" . org-mode)
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture))
+  :config
+  (setq org-indent-mode 0)
   )
 
 ;; patched function org-translate-time from org.el
@@ -279,6 +281,16 @@
 
 (use-package ada-mode
   :straight (:host github :repo "emacsmirror/ada-mode")
+  :after fill-column-indicator
+  :config
+  (setq ada-parser 'elisp)
+  (setq fci-rule-column 78)
+
+  (defun ada-before-save ()
+    (when (eq major-mode 'ada-mode)
+      (ada-case-adjust-buffer)
+      (indent-buffer)))
+  (add-hook 'before-save-hook 'ada-before-save)
   )
 
 (use-package wisi
@@ -560,7 +572,7 @@
   ;; - use M-x re-builder to open a buffer and dynamically try a regex
   ;; - the shortkeys are not defined in all generated buffer => define a hydra
   :straight
-  (:host github :repo "JeremPFT/comb" :branch "master")
+  :straight (:host github :repo "JeremPFT/comb" :branch "master")
   :preface (unless (file-directory-p (concat user-emacs-directory "lisp/comb"))
              (error "missing comb directory"))
   )
@@ -576,6 +588,9 @@
 (use-package doom-modeline
   :ensure t
   :config (doom-modeline-mode))
+
+(use-package csharp-mode
+  :straight (:host github :repo "josteink/csharp-mode"))
 
 ;; https://github.com/milkypostman/powerline/ ;; TODO
 
