@@ -1147,3 +1147,4 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
   ("q"   nil "cancel" :color blue))
 
 (global-set-key (kbd "<f3>") 'hydra-projectile/body)
+(put 'downcase-region 'disabled nil)
