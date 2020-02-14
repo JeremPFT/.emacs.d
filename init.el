@@ -441,11 +441,11 @@
   ;; completion
   )
 
-(use-package counsel-projectile
-  :after projectile counsel
-  :config
-  (counsel-projectile-mode +1)
-  )
+;; (use-package counsel-projectile
+;;   :after projectile counsel
+;;   :config
+;;   (counsel-projectile-mode +1)
+;;   )
 
 (use-package ivy-hydra
   ;; completion
@@ -544,24 +544,24 @@
   (setq golden-ratio-auto-scale t)
   )
 
-(use-package projectile
-  ;; https://github.com/bbatsov/projectile
-  ;; https://projectile.readthedocs.io/en/latest/usage/
-  :init
-  ;; we mainly want projects defined by a few markers and we always want to take
-  ;; the top-most marker. Reorder so other cases are secondary.
-  (setq  projectile-project-root-files #'( ".projectile" )
-         projectile-project-root-files-functions #'(projectile-root-top-down
-                                                    projectile-root-top-down-recurring
-                                                    projectile-root-bottom-up
-                                                    projectile-root-local))
-  :config
-  (projectile-mode +1)
-  (setq projectile-enable-caching t)
-  :delight '(:eval (concat " " (projectile-project-namea)))
-  :bind (:map projectile-mode-map
-              ("C-c p" . projectile-command-map))
-  )
+;; (use-package projectile
+;;   ;; https://github.com/bbatsov/projectile
+;;   ;; https://projectile.readthedocs.io/en/latest/usage/
+;;   :init
+;;   ;; we mainly want projects defined by a few markers and we always want to take
+;;   ;; the top-most marker. Reorder so other cases are secondary.
+;;   (setq  projectile-project-root-files #'( ".projectile" )
+;;          projectile-project-root-files-functions #'(projectile-root-top-down
+;;                                                     projectile-root-top-down-recurring
+;;                                                     projectile-root-bottom-up
+;;                                                     projectile-root-local))
+;;   :config
+;;   (projectile-mode +1)
+;;   (setq projectile-enable-caching t)
+;;   :delight '(:eval (concat " " (projectile-project-namea)))
+;;   :bind (:map projectile-mode-map
+;;               ("C-c p" . projectile-command-map))
+;;   )
 
 (major-mode-hydra-define emacs-lisp-mode nil
   ("Eval"
