@@ -64,6 +64,23 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
+(setq straight-profiles
+      '((nil . "default.el")
+        ;; Packages which are pinned to a specific commit.
+        (pinned . "pinned.el")))
+
+(require 'straight-x)
+(autoload #'straight-x-pull-all "straight-x")
+(autoload #'straight-x-freeze-versions "straight-x")
+
+(let ((straight-current-profile 'pinned))
+  (straight-use-package 'ada-mode)
+  (straight-use-package 'wisi)
+  ;; Pin org-mode version.
+  (add-to-list 'straight-x-pinned-packages
+               '("ada-mode" . "c56045a140816f76abfd43aa8351a18fe56a8d15")
+               '("wisi" . "83ca0c16350ff4e79ff5172abcc5a2a78c755530")))
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages"))
