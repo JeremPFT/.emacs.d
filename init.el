@@ -276,12 +276,6 @@
 ;;   (add-hook 'before-save-hook 'ada-before-save)
 ;;   )
 
-;; (use-package wisi
-;;   :straight nil
-;;   :ensure t
-;;   :pin jpi
-;;   )
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; latex
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -296,9 +290,13 @@
 ;;;; TODO to sort
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package wisi
+  :straight (:host github :repo "emacsmirror/wisi")
+  )
+
 (use-package ada-mode
   :straight (:host github :repo "emacsmirror/ada-mode")
-  :after fill-column-indicator
+  :after wisi fill-column-indicator
   :config
   (setq ada-parser 'elisp)
   (setq fci-rule-column 78)
@@ -308,10 +306,6 @@
       (ada-case-adjust-buffer)
       (indent-buffer)))
   (add-hook 'before-save-hook 'ada-before-save)
-  )
-
-(use-package wisi
-  :straight (:host github :repo "emacsmirror/wisi")
   )
 
 ;; TODO (straight-vc-git-check-out-commit 'wisi "83ca0c16350ff4e79ff5172abcc5a2a78c755530")
