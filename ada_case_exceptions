@@ -1,8 +1,9 @@
-*IO
+*AUnit
+*EOL
 *GPL
 *HTML
-*AUnit
-GNAT
-*EOL
+*IO
+*OK
 CR
+GNAT
 LF
