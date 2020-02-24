@@ -1,17 +1,3 @@
-;; to startup emacs using another directory on Windows, change the shortcut:
-;; D:\Users\jpiffret\emacs-26.1-i686\bin\runemacs.exe --eval "(setenv \"HOME\" \"c:/Users/jeremy\")" --load d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico/.emacs.d/init.d
-;;
-;; comment HOME change since .emacs.d is no more shared using Dropbox
-;; (let ((local-home "d:/Users/jpiffret/AppData/Roaming/Dropbox/emacs_ingenico"))
-;;   (when (file-directory-p local-home)
-;;     (setenv "HOME" local-home)))
-
-;;;;
-;;;; TODO
-;;;; see https://github.com/raxod502/radian
-;;;; a preconfigured .init.el
-;;;;
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; encoding
 ;;;; see https://www.emacswiki.org/emacs/ChangingEncodings
@@ -48,6 +34,18 @@
 ;;;; https://emacs.nasy.moe/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages"))
+(add-to-list 'package-archives
+             '("MELPA Stable" . "https://stable.melpa.org/packages") t)
+
+
+(setq straight-profiles
+      '((nil . "default.el")
+        ;; Packages which are pinned to a specific commit.
+        (pinned . "pinned.el")))
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -61,64 +59,17 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(straight-use-package 'use-package)
-(setq straight-use-package-by-default t)
-
-(setq straight-profiles
-      '((nil . "default.el")
-        ;; Packages which are pinned to a specific commit.
-        (pinned . "pinned.el")))
-
 (require 'straight-x)
 (autoload #'straight-x-pull-all "straight-x")
 (autoload #'straight-x-freeze-versions "straight-x")
 
-(let ((straight-current-profile 'pinned))
-  (straight-use-package 'ada-mode)
-  (straight-use-package 'wisi)
-  ;; Pin org-mode version.
-  (add-to-list 'straight-x-pinned-packages
-               '("ada-mode" . "c56045a140816f76abfd43aa8351a18fe56a8d15")
-               '("wisi" . "83ca0c16350ff4e79ff5172abcc5a2a78c755530")))
+(straight-use-package 'use-package)
 
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages"))
-(add-to-list 'package-archives
-             '("MELPA Stable" . "https://stable.melpa.org/packages") t)
-(add-to-list 'package-archives
-             '("jpi" . (concat user-emacs-directory "package-repo-jpi")) t)
-;; TODO add-to-list cf
-;; https://yoo2080.wordpress.com/2013/09/11/emacs-lisp-lexical-binding-gotchas-and-related-best-practices/
-;; https://emacs.stackexchange.com/questions/7389/whats-the-difference-between-push-and-add-to-list
+(setq straight-use-package-by-default t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; (require 'package)
-
-;; (add-to-list 'package-archives
-;;              '("MELPA Stable" . "https://stable.melpa.org/packages") t)
-
-;; (add-to-list 'package-archives
-;;              '("jpi" . (concat user-emacs-directory "package-repo-jpi")) t)
-
-;; (package-initialize)
-
-;; (add-to-list 'load-path (concat user-emacs-directory "elpa/benchmark-init-20150905.938"))
-;; (require 'benchmark-init)
-;; (add-hook 'after-init-hook 'benchmark-init/deactivate)
-
-;; (unless package-archive-contents
-;;   (package-refresh-contents))
-
-;; (unless (package-installed-p 'use-package)
-;;   (package-install 'use-package))
-
-;; https://github.com/jwiegley/use-package
-;;
-;; see leaf.el too. But doesn't have a :pin keyword
 
 (use-package use-package-ensure-system-package)
 
@@ -137,14 +88,6 @@
   )
 
 (use-package delight)
-
-;; (use-package dim
-;;   ;; TODO
-;;   ;; like diminish but works for major modes too
-;;   ;; https://github.com/myrjola/diminish.el
-;;   :straight
-;;   (:host github :repo "alezost/dim.el"
-;;          :branch "master"))
 
 (use-package undo-tree
   :straight
@@ -174,7 +117,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package org
-  :pin gnu
   :mode
   ("\\.\\(org\\|txt\\)\\'" . org-mode)
   ("\\*notes\\*" . org-mode)
@@ -261,21 +203,6 @@
   (add-hook 'ada-mode-hook 'fci-mode)
   )
 
-;; (use-package ada-mode
-;;   :straight t
-;;   :ensure nil
-;;   :pin jpi
-;;   :after fill-column-indicator
-;;   :config
-;;   (setq fci-rule-column 78)
-
-;;   (defun ada-before-save ()
-;;     (when (eq major-mode 'ada-mode)
-;;       (ada-case-adjust-buffer)
-;;       (indent-buffer)))
-;;   (add-hook 'before-save-hook 'ada-before-save)
-;;   )
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; latex
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -300,6 +227,7 @@
   :config
   (setq ada-parser 'elisp)
   (setq fci-rule-column 78)
+  (ada-case-read-all-exceptions)
 
   (defun ada-before-save ()
     (when (eq major-mode 'ada-mode)
@@ -308,7 +236,11 @@
   (add-hook 'before-save-hook 'ada-before-save)
   )
 
-;; TODO (straight-vc-git-check-out-commit 'wisi "83ca0c16350ff4e79ff5172abcc5a2a78c755530")
+(let ((straight-current-profile 'pinned))
+  (add-to-list 'straight-x-pinned-packages
+               '("ada-mode" . "c56045a140816f76abfd43aa8351a18fe56a8d15"))
+  (add-to-list 'straight-x-pinned-packages
+               '("wisi" . "83ca0c16350ff4e79ff5172abcc5a2a78c755530")))
 
 (use-package flycheck
   :after elpy
@@ -1128,7 +1060,9 @@ _p_ push      _d_ diff
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
 
-(server-start)
+(require 'server)
+(unless (server-running-p)
+  (server-start))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; tests
