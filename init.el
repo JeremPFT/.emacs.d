@@ -234,6 +234,17 @@
       (ada-case-adjust-buffer)
       (indent-buffer)))
   (add-hook 'before-save-hook 'ada-before-save)
+
+
+  ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
+  (defun hippie-expand-ada-symbols (orig-fun &rest args)
+    (if (eq major-mode 'ada-mode)
+        (let ((table (make-syntax-table ada-mode-syntax-table)))
+          (modify-syntax-entry ?. "_" table)
+          (with-syntax-table table (apply orig-fun args)))
+      (apply orig-fun args)))
+
+  (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
   )
 
 (let ((straight-current-profile 'pinned))
