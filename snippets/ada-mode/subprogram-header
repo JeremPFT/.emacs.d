@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: suprogram-header
+# key: sh
+# --
+
+${1:$(make-string (+ (string-width yas-text) 8) ?-)}
+--  $1  --
+${1:$(make-string (+ (string-width yas-text) 8) ?-)}
