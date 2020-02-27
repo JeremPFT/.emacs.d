@@ -284,14 +284,6 @@
     (setenv "PATH" (concat "C:\\Program Files\\Git\\cmd;"
                            "C:\\Program Files\\Git\\bin;"
                            (getenv "PATH"))))
-
-  ;; fetch my repositories
-  (defun fetch_all_repositories ()
-    (interactive)
-    (cd (concat (getenv "HOME") "/workspace/0_fetch_all" ))
-    (shell-command "fetch_all_repositories.py")
-    (cd user-emacs-directory))
-
   )
 
 ;; doesn't work ... windows ?
