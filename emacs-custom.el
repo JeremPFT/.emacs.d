@@ -78,7 +78,7 @@
  '(ace-isearch-function (quote avy-goto-char))
  '(ada-always-ask-project t)
  '(ada-build-confirm-command nil)
- '(ada-build-make-cmd "cd ../ && make")
+ '(ada-build-make-cmd "make")
  '(ada-build-run-cmd "cd ../bin && ${main}.exe")
  '(ada-case-exception-file (quote ("~/.emacs.d/ada_case_exceptions")))
  '(ada-indent 3)
@@ -103,6 +103,9 @@
  '(c-hanging-semi&comma-criteria nil)
  '(calendar-week-start-day 1)
  '(column-number-mode t)
+ '(compilation-search-path
+   (quote
+    ("c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/" "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/services/" "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/objects/" "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/infrastructure/" "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/test/")))
  '(confirm-kill-emacs (quote y-or-n-p))
  '(diredp-hide-details-initially-flag nil)
  '(diredp-ignore-compressed-flag nil)

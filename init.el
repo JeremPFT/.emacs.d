@@ -293,6 +293,23 @@
   (add-hook 'before-save-hook 'ada-before-save)
   )
 
+;; (add-to-list
+;;  'compilation-search-path
+;;  "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/business/")
+;; (add-to-list
+;;  'compilation-search-path
+;;  "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/infrastructure/")
+;; (add-to-list
+;;  'compilation-search-path
+;;  "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/objects/")
+;; (add-to-list
+;;  'compilation-search-path
+;;  "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/services/")
+;; (add-to-list
+;;  'compilation-search-path
+;;  "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/test/")
+
+
 (use-package wisi
   :straight (:host github :repo "emacsmirror/wisi")
   )
