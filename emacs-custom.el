@@ -78,7 +78,7 @@
  '(ace-isearch-function (quote avy-goto-char))
  '(ada-always-ask-project t)
  '(ada-build-confirm-command nil)
- '(ada-build-make-cmd "make")
+ '(ada-build-make-cmd "gprbuild -P${gpr_file}")
  '(ada-build-run-cmd "cd ../bin && ${main}.exe")
  '(ada-case-exception-file (quote ("~/.emacs.d/ada_case_exceptions")))
  '(ada-indent 3)
