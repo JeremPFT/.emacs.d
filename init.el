@@ -235,7 +235,6 @@
       (indent-buffer)))
   (add-hook 'before-save-hook 'ada-before-save)
 
-
   ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
   (defun hippie-expand-ada-symbols (orig-fun &rest args)
     (if (eq major-mode 'ada-mode)
@@ -245,7 +244,6 @@
       (apply orig-fun args)))
 
   (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
-  )
 
 (let ((straight-current-profile 'pinned))
   (add-to-list 'straight-x-pinned-packages
