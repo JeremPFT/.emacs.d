@@ -244,6 +244,7 @@
       (apply orig-fun args)))
 
   (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
+  )
 
 (let ((straight-current-profile 'pinned))
   (add-to-list 'straight-x-pinned-packages
