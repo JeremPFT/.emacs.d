@@ -190,6 +190,7 @@
  '(inhibit-startup-screen t)
  '(initial-buffer-choice (quote jp/initial-buffer))
  '(ivy-wrap t)
+ '(js-indent-level 2)
  '(linum-format "%6d")
  '(ls-lisp-verbosity nil)
  '(org-adapt-indentation nil)
