@@ -392,6 +392,8 @@
 
 (use-package wgrep
   ;; editable grep results
+  :straight
+  (:host github :repo "mhayashi1120/Emacs-wgrep" :branch "master")
   :bind (
          :map grep-mode-map
          ("<f1>" . hydra-enter-wgrep/body)
