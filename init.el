@@ -525,6 +525,11 @@
              (error "missing comb directory"))
   )
 
+(use-package popup-kill-ring
+  :straight (:host github :repo "waymondo/popup-kill-ring" :branch "master")
+  :config (global-set-key "\M-y" 'popup-kill-ring)
+  )
+
 (use-package all-the-icons
   :ensure t
   :config
