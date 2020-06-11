@@ -80,7 +80,7 @@
  '(ada-build-confirm-command nil)
  '(ada-build-make-cmd "gprbuild -P${gpr_file}")
  '(ada-build-prompt-prj (quote prompt-exist))
- '(ada-build-run-cmd "cd ../bin && ${main}.exe")
+ '(ada-build-run-cmd "cd ${HOME}/tmp/bin && ${main}.exe")
  '(ada-case-exception-file (quote ("~/.emacs.d/ada_case_exceptions")))
  '(ada-indent 3)
  '(ada-indent-record-rel-type 0)
