@@ -94,6 +94,7 @@
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
  '(bmkp-last-as-first-bookmark-file nil)
+ '(browse-kill-ring-show-preview t)
  '(c-default-style
    (quote
     ((c-mode . "ingenico")
