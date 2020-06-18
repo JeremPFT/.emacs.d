@@ -553,6 +553,9 @@
 (use-package csharp-mode
   :straight (:host github :repo "josteink/csharp-mode"))
 
+(use-package markdown-mode
+  :straight (:host github :repo "jrblevin/markdown-mode"))
+
 ;; https://github.com/milkypostman/powerline/ ;; TODO
 
 ;; (use-package md4rd
