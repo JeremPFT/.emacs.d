@@ -78,9 +78,7 @@
  '(ace-isearch-function (quote avy-goto-char))
  '(ada-always-ask-project t)
  '(ada-build-confirm-command nil)
- '(ada-build-make-cmd "gprbuild -P${gpr_file}")
  '(ada-build-prompt-prj (quote prompt-exist))
- '(ada-build-run-cmd "cd ${HOME}/tmp/bin && ${main}.exe")
  '(ada-case-exception-file (quote ("~/.emacs.d/ada_case_exceptions")))
  '(ada-indent 3)
  '(ada-indent-record-rel-type 0)
@@ -252,10 +250,6 @@
  '(python-fill-docstring-style (quote symmetric))
  '(python-indent-guess-indent-offset nil)
  '(remember-data-file "~/.emacs.d/notes.org")
- '(safe-local-variable-values
-   (quote
-    ((eval load-file "project-configuration.el")
-     )))
  '(show-paren-mode t)
  '(speed-type-default-lang (quote French))
  '(tex-start-commands "--output-dir=tmp \"\\nonstopmode\\input\""))
