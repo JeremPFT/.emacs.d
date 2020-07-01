@@ -250,6 +250,13 @@
  '(python-fill-docstring-style (quote symmetric))
  '(python-indent-guess-indent-offset nil)
  '(remember-data-file "~/.emacs.d/notes.org")
+ '(safe-local-variable-values
+   (quote
+    ((eval progn
+           (add-to-list
+            (quote load-path)
+            default-directory)
+           (load "emacs-config")))))
  '(show-paren-mode t)
  '(speed-type-default-lang (quote French))
  '(tex-start-commands "--output-dir=tmp \"\\nonstopmode\\input\""))
