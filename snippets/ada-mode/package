@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: package
+# key: pa
+# expand-env: ((yas-indent-line nil))
+# --
+${1:$$(yas-choose-value '("package" "package body"))} ${2:Package_Name} is
+$0
+end $2;
