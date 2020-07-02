@@ -1129,3 +1129,15 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
 
 (global-set-key (kbd "<f3>") 'hydra-projectile/body)
 (put 'downcase-region 'disabled nil)
+
+
+;; frame & display:
+;; https://stackoverflow.com/questions/16481984/get-width-of-current-monitor-in-emacs-lisp
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Frame-Commands.html
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Parameter-Access.html
+(defun jpi-full-screen ()
+  (interactive)
+  (set-frame-position (selected-frame) -5 0)
+  (set-frame-width (selected-frame) 380)
+  (set-frame-height (selected-frame) 53)
+  )
