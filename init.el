@@ -471,9 +471,11 @@
   ;; (seen here: https://tuhdo.github.io/emacs-tutor3.html)
   :diminish golden-ratio-mode
   :config
-  (golden-ratio-mode)
-  (setq golden-ratio-auto-scale t)
-  )
+  (let ((ingenico-system-name "FR0WSC3NRYM2"))
+    (unless (string= (system-name) ingenico-system-name)
+      (golden-ratio-mode)
+      (setq golden-ratio-auto-scale t))
+  ))
 
 ;; (use-package projectile
 ;;   ;; https://github.com/bbatsov/projectile
