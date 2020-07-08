@@ -233,6 +233,7 @@
   (defun ada-before-save ()
     (when (eq major-mode 'ada-mode)
       (ada-case-adjust-buffer)
+      (ada-reset-parser)
       (indent-buffer)))
   (add-hook 'before-save-hook 'ada-before-save)
 
@@ -447,8 +448,12 @@
 (use-package avy
   ;; https://github.com/abo-abo/avy
   ;; like ace-jump
+  :config
+  (setq avy-timeout-seconds 0.3)
+  (setq avy-all-windows 'all-frames)
   :bind
-  (("C-:" . avy-goto-char-2))
+  (("C-M-:" . avy-goto-char-timer)
+   ("C-:" . avy-goto-char-2))
   )
 
 (use-package avy-menu
@@ -1143,11 +1148,14 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
         (home-system-name "DESKTOP-5R08DIM"))
     (cond
      ((string= (system-name) ingenico-system-name)
-      (set-frame-position (selected-frame) -5 0)
-      (set-frame-width (selected-frame) 380)
-      (set-frame-height (selected-frame) 53))
+      (set-frame-position (selected-frame) 0 0)
+      (set-frame-width (selected-frame) 188)
+      (set-frame-height (selected-frame) 53)))
+      ;; (set-frame-position (selected-frame) -5 0)
+      ;; (set-frame-width (selected-frame) 380)
+      ;; (set-frame-height (selected-frame) 53))
      ((string= (system-name) home-system-name)
       (set-frame-position (selected-frame) 0 0)
       (set-frame-width (selected-frame) 188)
       (set-frame-height (selected-frame) 53)))
-    ))
+    )
