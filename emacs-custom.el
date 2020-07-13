@@ -252,7 +252,31 @@
  '(remember-data-file "~/.emacs.d/notes.org")
  '(safe-local-variable-values
    (quote
-    ((eval progn
+    ((eval let
+           ((prj-name "ada_test_architectures")
+            (prj-dir "")
+            (prj-file ""))
+           (setq prj-dir
+                 (concat
+                  (file-name-as-directory
+                   (getenv "HOME"))
+                  (file-name-as-directory "workspace")
+                  (file-name-as-directory prj-name))
+                 prj-file
+                 (concat prj-dir prj-name ".prj"))
+           (unless
+               (and
+                (not
+                 (eq nil ada-prj-current-file))
+                (string= ada-prj-current-file prj-file))
+             (ada-select-prj-file prj-file))
+           (unless
+               (file-exists-p
+                (concat prj-dir "default.cgpr"))
+             (let
+                 ((default-directory prj-dir))
+               (call-process "gprconfig" nil nil nil "--config=Ada" "--batch"))))
+     (eval progn
            (add-to-list
             (quote load-path)
             default-directory)
@@ -302,7 +326,7 @@
  '(hl-line ((t (:background "gray30"))))
  '(internal-border ((t (:background "white"))))
  '(isearch ((t (:background "gray20" :foreground "#eeeeee" :underline t :weight ultra-bold))))
- '(link ((((class color) (min-colors 89)) (:foreground "#6f79a8" :underline t))))
+ '(link ((((class color) (min-colors 89)) (:foreground "#4f9a94" :underline t))))
  '(linum ((t (:background "#102027" :foreground "#777777" :weight normal :height 100))))
  '(magit-branch-local ((t (:foreground "orange"))))
  '(magit-hash ((t (:foreground "sky blue"))))
