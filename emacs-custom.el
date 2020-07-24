@@ -78,7 +78,7 @@
  '(ace-isearch-function (quote avy-goto-char))
  '(ada-always-ask-project t)
  '(ada-build-confirm-command nil)
- '(ada-build-prompt-prj (quote prompt-exist))
+ '(ada-build-prompt-prj (quote prompt))
  '(ada-case-exception-file (quote ("~/.emacs.d/ada_case_exceptions")))
  '(ada-indent 3)
  '(ada-indent-record-rel-type 0)
@@ -101,6 +101,18 @@
      (awk-mode . "awk")
      (other . "gnu"))))
  '(c-hanging-semi&comma-criteria nil)
+ '(calendar-intermonth-header "Wk")
+ '(calendar-intermonth-text
+   (quote
+    (propertize
+     (format "%2d"
+             (car
+              (calendar-iso-from-absolute
+               (calendar-absolute-from-gregorian
+                (list month day year)))))
+     (quote font-lock-face)
+     (quote calendar-iso-week-face))))
+ '(calendar-mark-holidays-flag t)
  '(calendar-week-start-day 1)
  '(column-number-mode t)
  '(compilation-search-path
@@ -124,7 +136,7 @@
  '(grep-command "grep --color=always --before-context=5 -nH --null -e ")
  '(grep-find-command
    (quote
-    ("find . -type f -name \"*[.][hc]\" -exec grep --color=always -nHi  {} \";\"" . 64)))
+    ("find . -type f -name \"*[.]*\" -exec grep --color=always -nHi  {} \";\"" . 64)))
  '(hippie-expand-try-functions-list
    (quote
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-dabbrev-from-kill try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
@@ -250,37 +262,6 @@
  '(python-fill-docstring-style (quote symmetric))
  '(python-indent-guess-indent-offset nil)
  '(remember-data-file "~/.emacs.d/notes.org")
- '(safe-local-variable-values
-   (quote
-    ((eval let
-           ((prj-name "ada_test_architectures")
-            (prj-dir "")
-            (prj-file ""))
-           (setq prj-dir
-                 (concat
-                  (file-name-as-directory
-                   (getenv "HOME"))
-                  (file-name-as-directory "workspace")
-                  (file-name-as-directory prj-name))
-                 prj-file
-                 (concat prj-dir prj-name ".prj"))
-           (unless
-               (and
-                (not
-                 (eq nil ada-prj-current-file))
-                (string= ada-prj-current-file prj-file))
-             (ada-select-prj-file prj-file))
-           (unless
-               (file-exists-p
-                (concat prj-dir "default.cgpr"))
-             (let
-                 ((default-directory prj-dir))
-               (call-process "gprconfig" nil nil nil "--config=Ada" "--batch"))))
-     (eval progn
-           (add-to-list
-            (quote load-path)
-            default-directory)
-           (load "emacs-config")))))
  '(show-paren-mode t)
  '(speed-type-default-lang (quote French))
  '(tex-start-commands "--output-dir=tmp \"\\nonstopmode\\input\""))

@@ -164,6 +164,10 @@
   :after org
   )
 
+(use-package org-generate
+  :after org
+  :straight (:host github :repo "conao3/org-generate.el"))
+
 ;; Fix an incompatibility between the ob-async and ob-ipython packages
 ;; TODO integrate in use-package
 (progn
@@ -222,6 +226,8 @@
   :straight (:host github :repo "emacsmirror/wisi")
   )
 
+(require 'imenu)
+
 (use-package ada-mode
   :straight (:host github :repo "emacsmirror/ada-mode")
   :after wisi fill-column-indicator
@@ -231,7 +237,7 @@
   (ada-case-read-all-exceptions)
 
   (defun ada-before-save ()
-    (when (eq major-mode 'ada-mode)
+    (when (or (eq major-mode 'ada-mode) (eq major-mode 'gpr-mode))
       (ada-case-adjust-buffer)
       (ada-reset-parser)
       (indent-buffer)))
@@ -480,26 +486,33 @@
     (unless (string= (system-name) ingenico-system-name)
       (golden-ratio-mode)
       (setq golden-ratio-auto-scale t))
-  ))
+    ))
 
-;; (use-package projectile
-;;   ;; https://github.com/bbatsov/projectile
-;;   ;; https://projectile.readthedocs.io/en/latest/usage/
-;;   :init
-;;   ;; we mainly want projects defined by a few markers and we always want to take
-;;   ;; the top-most marker. Reorder so other cases are secondary.
-;;   (setq  projectile-project-root-files #'( ".projectile" )
-;;          projectile-project-root-files-functions #'(projectile-root-top-down
-;;                                                     projectile-root-top-down-recurring
-;;                                                     projectile-root-bottom-up
-;;                                                     projectile-root-local))
-;;   :config
-;;   (projectile-mode +1)
-;;   (setq projectile-enable-caching t)
-;;   :delight '(:eval (concat " " (projectile-project-namea)))
-;;   :bind (:map projectile-mode-map
-;;               ("C-c p" . projectile-command-map))
-;;   )
+(use-package projectile
+  ;; https://github.com/bbatsov/projectile
+  ;; https://projectile.readthedocs.io/en/latest/usage/
+  :init
+  ;; we mainly want projects defined by a few markers and we always want to take
+  ;; the top-most marker. Reorder so other cases are secondary.
+  (setq  projectile-project-root-files #'( ".projectile" )
+         projectile-project-root-files-functions #'(projectile-root-top-down
+                                                    projectile-root-top-down-recurring
+                                                    projectile-root-bottom-up
+                                                    projectile-root-local))
+  :config
+  (projectile-mode t)
+  (setq projectile-enable-caching t)
+
+  :delight '(:eval (concat " " (projectile-project-namea)))
+  :bind (:map projectile-mode-map
+              ("C-c p" . projectile-command-map))
+  )
+
+;; (projectile-register-project-type 'ada '(".gpr" "src")
+;;                                   :project-file ".gpr"
+;;                                   :compile "gprbuild"
+;;                                   :src-dir "src/"
+;;                                   :test-dir "src/tests/")
 
 (major-mode-hydra-define emacs-lisp-mode nil
   ("Eval"
@@ -947,6 +960,15 @@
 (require 'french-holidays)
 (setq calendar-holidays holiday-french-holidays)
 
+(use-package csv-mode
+  :ensure t)
+
+(use-package csv
+  :ensure t)
+
+(use-package calfw
+  :ensure t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; auto remove mouse pointer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1138,6 +1160,14 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
 (put 'downcase-region 'disabled nil)
 
 
+;; (require 'hide-region)
+;; (require 'hide-lines)
+;; (require 'fold-this)
+
+
+;; (speedbar-add-supported-extension ".ads")
+;; (speedbar-add-supported-extension ".adb")
+
 ;; frame & display:
 ;; https://stackoverflow.com/questions/16481984/get-width-of-current-monitor-in-emacs-lisp
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Frame-Commands.html
@@ -1150,12 +1180,12 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
      ((string= (system-name) ingenico-system-name)
       (set-frame-position (selected-frame) 0 0)
       (set-frame-width (selected-frame) 188)
-      (set-frame-height (selected-frame) 53)))
-      ;; (set-frame-position (selected-frame) -5 0)
-      ;; (set-frame-width (selected-frame) 380)
-      ;; (set-frame-height (selected-frame) 53))
-     ((string= (system-name) home-system-name)
-      (set-frame-position (selected-frame) 0 0)
-      (set-frame-width (selected-frame) 188)
-      (set-frame-height (selected-frame) 53)))
-    )
+      (set-frame-height (selected-frame) 52))
+    ;; (set-frame-position (selected-frame) -5 0)
+    ;; (set-frame-width (selected-frame) 380)
+    ;; (set-frame-height (selected-frame) 53))
+    ((string= (system-name) home-system-name)
+     (set-frame-position (selected-frame) 0 0)
+     (set-frame-width (selected-frame) 188)
+     (set-frame-height (selected-frame) 53)))
+  ))
