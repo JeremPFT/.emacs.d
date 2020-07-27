@@ -21,6 +21,9 @@
 
 (byte-recompile-directory (concat user-emacs-directory "lisp/") 0)
 
+(setq system-time-locale "C")
+;; ensure org timestamp is in english format
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; straight
 ;;;; (package manager)
