@@ -136,7 +136,7 @@
  '(grep-command "grep --color=always --before-context=5 -nH --null -e ")
  '(grep-find-command
    (quote
-    ("find . -type f -name \"*[.]*\" -exec grep --color=always -nHi  {} \";\"" . 64)))
+    ("find . -type f -name \"*[.]*\" -exec grep --color=always -nHi  {} \";\"" . 61)))
  '(hippie-expand-try-functions-list
    (quote
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-dabbrev-from-kill try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
