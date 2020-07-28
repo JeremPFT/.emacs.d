@@ -245,6 +245,7 @@
       (ada-reset-parser)
       (indent-buffer)))
   (add-hook 'before-save-hook 'ada-before-save)
+  (add-hook 'ada-mode-hook (lambda () (electric-pair-mode)))
 
   ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
   (defun hippie-expand-ada-symbols (orig-fun &rest args)
