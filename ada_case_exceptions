@@ -1,3 +1,10 @@
+*EOI
+*RHS
+*RHSs
+*LHS
+WisiToken
+*LR1
+SAL
 *API
 *AUnit
 *DTO
@@ -15,4 +22,5 @@ CR
 DTO
 GNAT
 LF
+TU
 UI
