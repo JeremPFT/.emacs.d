@@ -265,7 +265,8 @@
  '(remember-data-file "~/.emacs.d/notes.org")
  '(safe-local-variable-values
    (quote
-    ((eval load "~/workspace/ada_test_architectures/modules/ata/ata")
+    ((eval load "~/workspace/ada_test_architectures/modules/ata_application_object/test/ata_application_object_test")
+     (eval load "~/workspace/ada_test_architectures/modules/ata/ata")
      (eval load "~/workspace/ada_test_architectures/modules/ata_application/ata_application")
      (eval load "~/workspace/ada_test_architectures/modules/ata_application_object/ata_application_object")
      (eval load "~/workspace/ada_test_architectures/modules/ata_application_service/ata_application_service")
@@ -322,7 +323,7 @@
  '(hl-line ((t (:background "gray30"))))
  '(internal-border ((t (:background "white"))))
  '(isearch ((t (:background "gray20" :foreground "#eeeeee" :underline t :weight ultra-bold))))
- '(link ((((class color) (min-colors 89)) (:foreground "#4f9a94" :underline t))))
+ '(link ((((class color) (min-colors 89)) (:foreground "#6f79a8" :underline t))))
  '(linum ((t (:background "#102027" :foreground "#777777" :weight normal :height 100))))
  '(magit-branch-local ((t (:foreground "orange"))))
  '(magit-hash ((t (:foreground "sky blue"))))
