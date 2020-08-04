@@ -580,6 +580,13 @@
 (use-package markdown-mode
   :straight (:host github :repo "jrblevin/markdown-mode"))
 
+(use-package plantuml-mode
+  :ensure t
+  :config
+  (setq plantuml-jar-path "c:/Users/jpiffret/AppData/Roaming/workspace/plantuml.jar")
+  (setq plantuml-default-exec-mode 'jar)
+  )
+
 ;; https://github.com/milkypostman/powerline/ ;; TODO
 
 ;; (use-package md4rd

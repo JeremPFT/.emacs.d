@@ -259,13 +259,15 @@
      ("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/"))))
  '(package-selected-packages (quote (ada-mode wisi)))
+ '(plantuml-default-exec-mode (quote jar))
  '(projectile-completion-system (quote ivy))
  '(python-fill-docstring-style (quote symmetric))
  '(python-indent-guess-indent-offset nil)
  '(remember-data-file "~/.emacs.d/notes.org")
  '(safe-local-variable-values
    (quote
-    ((eval load "~/workspace/ada_test_architectures/modules/ata_application_object/test/ata_application_object_test")
+    ((eval load "~/workspace/ada_test_architectures/modules/ata_data_access/ata_data_access")
+     (eval load "~/workspace/ada_test_architectures/modules/ata_application_object/test/ata_application_object_test")
      (eval load "~/workspace/ada_test_architectures/modules/ata/ata")
      (eval load "~/workspace/ada_test_architectures/modules/ata_application/ata_application")
      (eval load "~/workspace/ada_test_architectures/modules/ata_application_object/ata_application_object")
