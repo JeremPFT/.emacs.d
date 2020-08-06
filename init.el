@@ -890,7 +890,9 @@
 
 (defun indent-buffer ()
   (interactive)
-  (indent-region (point-min) (point-max)))
+  (let ((position (point)))
+    (indent-region (point-min) (point-max))
+    (goto-char position)))
 
 ;; following work with C-s but not with M-% ... :(
 (define-key minibuffer-local-map "(" 'self-insert-command )
