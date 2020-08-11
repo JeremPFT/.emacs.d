@@ -4,6 +4,7 @@
 *EOI
 *EOL
 *GNAT
+*GNATtest
 *GPL
 *HTML
 *ID
@@ -19,7 +20,6 @@
 CR
 DTO
 GNAT
-*GNATtest
 LF
 SAL
 TU
