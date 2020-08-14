@@ -391,6 +391,13 @@
   ;; completion
   )
 
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
+
 (use-package ztree
   ;; https://github.com/fourier/ztree
   ;;
