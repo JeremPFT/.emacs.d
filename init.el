@@ -706,6 +706,7 @@
 (add-hook 'cc-mode-hook (lambda () (c-set-style "ingenico")))
 (add-hook 'c-mode-hook (lambda () (electric-pair-mode)))
 (add-hook 'cc-mode-hook (lambda () (electric-pair-mode)))
+(add-hook 'elisp-mode-hook (lambda () (electric-pair-mode)))
 
 (defun insert-html-tag ()
   "to be used for Doxygen"
