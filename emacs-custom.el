@@ -266,7 +266,9 @@
  '(remember-data-file "~/.emacs.d/notes.org")
  '(safe-local-variable-values
    (quote
-    ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata_repository")
+    ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata_model_object_tests")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata_data_access_tests")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata_repository")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata_application")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata_application_object")
