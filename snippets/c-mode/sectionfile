@@ -4,5 +4,7 @@
 # --
 
 /*******************************************************************************
- * $0local functions definitions
+ * ${1:local functions definitions}
  */
+
+$0

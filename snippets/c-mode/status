@@ -1,13 +1,14 @@
 # -*- mode: snippet -*-
 # name: statusIngenico
-# key: statusIngenico
+# key: sts
 # --
-  if ( STATUS_OK )
+  if ( iReturnedStatus == STS_OK )
   {
     // iReturnedStatus = ${1:someProcess} ( $0 ); // TODO
 
-    if ( ! STATUS_OK )
+    if ( iReturnedStatus != STS_OK )
     {
-      // TODO
+        vSTSchInfo( "ERROR_MESSAGE_TODO", iReturnedStatus, 0 );
+        // processing ?
     }
   }
