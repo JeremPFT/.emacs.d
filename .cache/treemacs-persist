@@ -1,0 +1,13 @@
+* emacs
+** .emacs.d
+ - path :: ~/.emacs.d
+** bookmarks
+ - path :: ~/workspace/org/bookmarks
+* ada
+** ATA
+ - path :: ~/workspace/ada_test_architectures
+* ingenico
+** SUPTER-7682_mexique
+ - path :: c:/Users/jpiffret/Ingenico_Workspace/SUPTER-7682_mexique
+** scheme generator
+ - path :: c:/Users/jpiffret/Ingenico_Workspace/scheme_generator/GenDllSch

@@ -68,6 +68,7 @@
 (autoload #'straight-x-freeze-versions "straight-x")
 
 (straight-use-package 'use-package)
+;; https://github.com/jwiegley/use-package
 
 (setq straight-use-package-by-default t)
 
@@ -280,7 +281,6 @@
   :config
   (elpy-enable) ;; config: "M-x elpy-config"
   (add-hook 'python-mode-hook (lambda () (electric-pair-mode)))
-  :config
   (when (require 'flycheck nil t)
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
     (add-hook 'elpy-mode-hook 'flycheck-mode))
@@ -335,75 +335,93 @@
   (setq deft-directory "~/workspace/org")
   )
 
-(use-package dired-filter
-  ;; TODO replace shortcuts with hydra
-  :after hydra
-  :bind (:map dired-mode-map ("/" . hydra-dired-filter/body))
-  :hydra (hydra-dired-filter
-          ()
-          "dired-filter
-
-"
-          ("n" dired-filter-by-name "by name" :column "filter by")
-          ("r" dired-filter-by-regexp "regexp")
-          ("e" dired-filter-by-extension "extension")
-          ("f" dired-filter-by-file "files" :column "filter only")
-          ("p" dired-filter-pop "pop last filter" :column "others")
-          ("H" (package-menu-describe-package dired-filter) "Help" :column "manual")
-          )
-  )
-
-(use-package immaterial-theme
-  ;; dark colors. Better than default white...
-  :config
-  (load-theme 'immaterial t)
-  )
-
-(use-package flx
-  ;; flx mode. Used with completion list
-  ;; flx-isearch exists, but take a long time inside a long file
-  )
-
-(use-package ivy
-  ;; completion
-  ;; https://oremacs.com/swiper/#key-bindings
-  ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
-  ;; https://www.youtube.com/user/abo5abo
-  ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
-  :bind (:map ivy-minibuffer-map
-              ("<RET>" . ivy-alt-done)
-              ("C-j" . ivy-immediate-done)
-              )
-  :config
-  (setq ivy-re-builders-alist
-        '((swiper-isearch . ivy--regex-ignore-order)
-          (t      . ivy--regex-fuzzy)))
-  )
-
-(use-package swiper
-  ;; completion
-  )
-
-(use-package counsel
-  ;; completion
-  )
-
-;; (use-package counsel-projectile
-;;   :after projectile counsel
-;;   :config
-;;   (counsel-projectile-mode +1)
-;;   )
-
-(use-package ivy-hydra
-  ;; completion
-  )
-
 (use-package ibuffer
+  ;; https://github.com/reinh/dotemacs/blob/master/conf/init.org#ido
+  ;; https://www.emacswiki.org/emacs/IbufferMode
 
   :after hydra
 
-  :bind (:map ibuffer-mode-map
-              ("." . hydra-ibuffer-main/body))
+  :bind
+  ("C-x C-b" . ibuffer)
+
+  :bind-keymap
+  ("<f1>" . hydra-ibuffer-main/body)
+
+  ;; :hook
+  ;; ((lambda ()
+  ;;   (ibuffer-switch-to-saved-filter-groups "default")) . ibuffer-mode)
+
+  :init
+  (add-hook 'ibuffer-mode-hook
+            (lambda ()
+              (ibuffer-auto-mode)
+              (ibuffer-switch-to-saved-filter-groups "default")))
+
+  :config
+  (progn
+;;;###autoload (autoload 'ibuffer-do-sort-by-filename-or-dired "init")
+    (define-ibuffer-sorter filename-or-dired
+      "Sort the buffers by their pathname."
+      (:description "filenames plus dired")
+      (string-lessp
+       (with-current-buffer (car a)
+         (or buffer-file-name
+             (if (eq major-mode 'dired-mode)
+                 (expand-file-name dired-directory))
+             ;; so that all non pathnames are at the end
+             "~"))
+       (with-current-buffer (car b)
+         (or buffer-file-name
+             (if (eq major-mode 'dired-mode)
+                 (expand-file-name dired-directory))
+             ;; so that all non pathnames are at the end
+             "~"))))
+
+    (define-key ibuffer-mode-map (kbd "s p")
+      'ibuffer-do-sort-by-filename-or-dired)
+
+    (setq ibuffer-show-empty-filter-groups t
+
+          ibuffer-saved-filter-groups
+          (quote (("default"
+                   ("bbvakeystore" (name . "bbvakeystore"))
+                   ("bbvamkstore" (name . "bbvamkstore"))
+                   ("bbvaskstore" (name . "bbvaskstore"))
+                   ("bbvatkgen" (name . "bbvatkgen"))
+                   ("bbvatkexp" (name . "bbvatkexp"))
+                   ("bookmarks" (name . "org/bookmarks"))
+                   )))
+
+          ibuffer-directory-abbrev-alist
+          (quote (("c:/Users/jpiffret/Ingenico_Workspace/SUPTER-7682_mexique"
+                   . "SUPTER-7682_mexique")
+                  ("dllsch_t3_bbva_key_injection_pin_block_private"
+                   . "dllsch_t3_..._private")))
+
+          ibuffer-default-sorting-mode (quote filename-or-dired)
+
+          ibuffer-formats
+          (quote
+           ((mark modified read-only locked " "
+                  (name 25 25 :left :elide)
+                  " "
+                  (size 7 -1 :right)
+                  " "
+                  (mode 8 8 :left :elide)
+                  " " filename-and-process)
+            (mark " "
+                  (name 16 -1)
+                  " " filename)))
+          ) ;; setq
+
+    (define-ibuffer-column size-h
+      (:name "Size" :inline t)
+      (cond
+       ((> (buffer-size) 1000000) (format "%7.1fM" (/ (buffer-size) 1000000.0)))
+       ((> (buffer-size) 100000) (format "%7.0fk" (/ (buffer-size) 1000.0)))
+       ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
+       (t (format "%8d" (buffer-size)))))
+    ) ;; progn
 
   :hydra
   (hydra-ibuffer-main
@@ -501,14 +519,239 @@
    ("<" ibuffer-filter-by-size-lt "size")
    ("/" ibuffer-filter-disable "disable")
    ("b" hydra-ibuffer-main/body "back" :color blue))
+  ); use-package ibuffer
+
+;; (use-package ls-lisp
+;;   :ensure t
+;;   :config
+;;   (setq  ls-lisp-use-insert-directory-program nil
+;;          ls-lisp-verbosity nil))
+
+(require 'ls-lisp)
+(setq  ls-lisp-use-insert-directory-program nil
+       ls-lisp-verbosity nil)
+
+(use-package dired+
+  :straight
+  (:host github :repo "emacsmirror/dired-plus" :branch "master")
+  :config
+  (progn
+    ;; I want the same color for file name and extension
+    (setq diredp-file-suffix diredp-file-name)
+    ) ;; end progn
+  :bind (:map dired-mode-map
+              ("M-b" . backward-word)
+              ("<f1>" . hydra-dired/body)
+              )
+  ;; :hook (lambda ()
+  ;;         (local-set-key (kbd "<f1>") (quote hydra-summary/body))
+  ;;         ;; (local-set-key (kbd "M-b") (quote backward-word))
+  ;;         )
+
+  :hydra
+  (hydra-dired (:hint nil :color pink)
+               "
+_+_ mkdir          _v_iew           _m_ark             _(_ details        _i_nsert-subdir    wdired
+_C_opy             _O_ view other   _U_nmark all       _)_ omit-mode      _$_ hide-subdir    C-x C-q : edit
+_D_elete           _o_pen other     _u_nmark           _l_ redisplay      _w_ kill-subdir    C-c C-c : commit
+_R_ename           _M_ chmod        _t_oggle           _g_ revert buf     _e_ ediff          C-c ESC : abort
+_Y_ rel symlink    _G_ chgrp        _E_xtension mark   _s_ort             _=_ pdiff
+_S_ymlink          ^ ^              _F_ind marked      _._ toggle hydra   \\ flyspell
+_r_sync            ^ ^              ^ ^                ^ ^                _?_ summary
+_z_ compress-file  _A_ find regexp
+_Z_ compress       _Q_ repl regexp
+
+T - tag prefix
+"
+               ("\\" dired-do-ispell)
+               ("(" dired-hide-details-mode)
+               (")" dired-omit-mode)
+               ("+" dired-create-directory)
+               ("=" diredp-ediff)         ;; smart diff
+               ("?" dired-summary)
+               ("$" diredp-hide-subdir-nomove)
+               ("A" dired-do-find-regexp)
+               ("C" dired-do-copy)        ;; Copy all marked files
+               ("D" dired-do-delete)
+               ("E" dired-mark-extension)
+               ("e" dired-ediff-files)
+               ("F" dired-do-find-marked-files)
+               ("G" dired-do-chgrp)
+               ("g" revert-buffer)        ;; read all directories again (refresh)
+               ("i" dired-maybe-insert-subdir)
+               ("l" dired-do-redisplay)   ;; relist the marked or singel directory
+               ("M" dired-do-chmod)
+               ("m" dired-mark)
+               ("O" dired-display-file)
+               ("o" dired-find-file-other-window)
+               ("Q" dired-do-find-regexp-and-replace)
+               ("R" dired-do-rename)
+               ("r" dired-do-rsynch)
+               ("S" dired-do-symlink)
+               ("s" dired-sort-toggle-or-edit)
+               ("t" dired-toggle-marks)
+               ("U" dired-unmark-all-marks)
+               ("u" dired-unmark)
+               ("v" dired-view-file)      ;; q to exit, s to search, = gets line #
+               ("w" dired-kill-subdir)
+               ("Y" dired-do-relsymlink)
+               ("z" diredp-compress-this-file)
+               ("Z" dired-do-compress)
+               ("q" nil)
+               ("." nil :color blue))
+
+
+
   )
+
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (local-set-key (kbd "<f1>") (quote hydra-summary/body))
+            ;; (local-set-key (kbd "M-b") (quote backward-word))
+            ))
+
+(use-package dired-filter
+  ;; TODO replace shortcuts with hydra
+  :after hydra
+  :bind (:map dired-mode-map ("/" . hydra-dired-filter/body))
+  :hydra (hydra-dired-filter
+          ()
+          "dired-filter
+
+"
+          ("n" dired-filter-by-name "by name" :column "filter by")
+          ("r" dired-filter-by-regexp "regexp")
+          ("e" dired-filter-by-extension "extension")
+          ("f" dired-filter-by-file "files" :column "filter only")
+          ("p" dired-filter-pop "pop last filter" :column "others")
+          ("H" (package-menu-describe-package dired-filter) "Help" :column "manual")
+          )
+  )
+
+(add-hook 'dired-mode-hook (lambda ()
+                             (when (eq system-type 'windows-nt)
+                               (make-local-variable 'coding-system-for-read)
+                               (setq coding-system-for-read 'utf-8-dos))
+                             ) ;; end lambda
+          ) ;; add-hook
+
+(use-package find-dired+
+  ;; https://www.emacswiki.org/emacs/find-dired+.el
+
+  :disabled ;; freeze emacs ???
+
+  :load-path "local-packages/"
+  :config
+
+  (progn
+    (when (eq system-type 'windows-nt)
+      (setq find-program "C:/Ingenico/GnuWin32/bin/find.exe")
+      ) ;; end when
+    ) ;; end progn
+  )
+
 
 (use-package treemacs
   :ensure t
+
   :defer t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
+
+  :bind-keymap
+  (( "C-à" . treemacs)
+   ( "C-)" . treemacs-select-window)
+   ) ;; end bind-keymap
+  :config
+
+  (setq treemacs-is-never-other-window t)
+  ) ;; end use-package
+
+;; (use-package sr-speedbar)
+
+;; (use-package sidebar
+;;   :straight
+;;   (:host github :repo "ebastiencs/sidebar.el" :branch "master")
+;; )
+
+;; (use-package dired-sidebar
+;;   :straight
+;;   (:host github :repo "jojojames/dired-sidebar" :branch "master")
+;;   :ensure t
+;;   :commands (dired-sidebar-toggle-sidebar)
+;; )
+
+(use-package all-the-icons
+  :ensure t
+  :config
+  (unless (file-directory-p (concat user-emacs-directory "all-the-icons-fonts"))
+    (make-directory (concat (getenv "HOME") (concat user-emacs-directory "all-the-icons-fonts")))
+    (error "please run all-the-icons-install-fonts in .emacs.d/all-the-icons-fonts")
+    ))
+
+(use-package neotree
+  :straight
+  (:host github :repo "jaypei/emacs-neotree" :branch "master"))
+
+;;
+;; custom dir sort
+;;
+
+;; (use-package dired-quick-sort
+;;   ;; https://gitlab.com/xuhdev/dired-quick-sort
+;;   :ensure t
+;;   :config
+;;   (add-hook 'dired-mode-hook (lambda ()
+;;                                (when (eq system-type 'windows-nt)
+;;                                (make-local-variable 'coding-system-for-read)
+;;                                (setq coding-system-for-read 'utf-8-dos))
+;;                                ) ;; end lambda
+;;             ) ;; add-hook
+;;   (dired-quick-sort-setup)
+;;   )
+
+(use-package immaterial-theme
+  ;; dark colors. Better than default white...
+  :config
+  (load-theme 'immaterial t)
+  )
+
+(use-package flx
+  ;; flx mode. Used with completion list
+  ;; flx-isearch exists, but take a long time inside a long file
+  )
+
+(use-package ivy
+  ;; completion
+  ;; https://oremacs.com/swiper/#key-bindings
+  ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
+  ;; https://www.youtube.com/user/abo5abo
+  ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+  :bind (:map ivy-minibuffer-map
+              ("<RET>" . ivy-alt-done)
+              ("C-j" . ivy-immediate-done)
+              )
+  :config
+  (setq ivy-re-builders-alist
+        '((swiper-isearch . ivy--regex-ignore-order)
+          (t      . ivy--regex-fuzzy)))
+  )
+
+(use-package swiper
+  ;; completion
+  )
+
+(use-package counsel
+  ;; completion
+  )
+
+;; (use-package counsel-projectile
+;;   :after projectile counsel
+;;   :config
+;;   (counsel-projectile-mode +1)
+;;   )
+
+(use-package ivy-hydra
+  ;; completion
+  )
 
 (use-package ztree
   ;; https://github.com/fourier/ztree
@@ -549,16 +792,9 @@
           )
   )
 
-(use-package htmlize
-  )
 
-(use-package dired+
-  :straight
-  (:host github :repo "emacsmirror/dired-plus" :branch "master")
-  :config
-  ;; I want the same color for file name and extension
-  (setq diredp-file-suffix diredp-file-name)
-  :bind (("M-b" . backward-word))
+
+(use-package htmlize
   )
 
 (use-package elpa-mirror
@@ -567,6 +803,7 @@
 
 ;; TODO see if necessary (load-file (concat user-emacs-directory "lisp/bookmark-plus/bookmark+-mac.el"))
 (use-package bookmark+
+  ;; https://www.emacswiki.org/emacs/BookmarkPlus
   :straight
   (:host github :repo "emacsmirror/bookmark-plus" :branch "master")
   )
@@ -681,14 +918,6 @@
   (setq browse-kill-ring-highlight-current-entry nil)
   )
 ;;   :straight (:host github :repo "waymondo/popup-kill-ring" :branch "master")
-
-(use-package all-the-icons
-  :ensure t
-  :config
-  (unless (file-directory-p (concat user-emacs-directory "all-the-icons-fonts"))
-    (make-directory (concat (getenv "HOME") (concat user-emacs-directory "all-the-icons-fonts")))
-    (error "please run all-the-icons-install-fonts in .emacs.d/all-the-icons-fonts")
-    ))
 
 (use-package doom-modeline
   :ensure t
@@ -1006,7 +1235,6 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key (kbd "C-x C-g") 'goto-line)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-/") 'hippie-expand)
 
 (defun indent-buffer ()
@@ -1016,6 +1244,7 @@
     (goto-char position)))
 
 ;; following work with C-s but not with M-% ... :(
+
 (define-key minibuffer-local-map "(" 'self-insert-command )
 (define-key minibuffer-local-ns-map "(" 'self-insert-command )
 
@@ -1182,11 +1411,6 @@
 
 (global-set-key (kbd "<f1>") 'hydra-summary/body)
 
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (local-set-key (kbd "<f1>") (quote hydra-summary/body))
-            (local-set-key (kbd "M-b") (quote backward-word))))
-
 (defhydra hydra-magit (:hint nil)
   "
 _s_ status    _c_ commit
@@ -1297,6 +1521,7 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
 ;; (require 'hide-region)
 ;; (require 'hide-lines)
 ;; (require 'fold-this)
+;; TODO see origami
 
 
 ;; (speedbar-add-supported-extension ".ads")

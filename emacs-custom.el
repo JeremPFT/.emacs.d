@@ -137,61 +137,10 @@
  '(grep-command "grep --color=always --before-context=5 -nH --null -e ")
  '(grep-find-command
    (quote
-    ("find . -type f -name \"*[.]*\" -exec grep --color=always -nHi  {} \";\"" . 61)))
+    ("gfind . -type f -name \"*[.]*\" -exec grep --color=always -nHi  {} \";\"" . 62)))
  '(hippie-expand-try-functions-list
    (quote
     (try-expand-dabbrev try-expand-dabbrev-all-buffers try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-dabbrev-from-kill try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
- '(ibuffer-formats
-   (quote
-    ((mark modified read-only locked " "
-           (name 25 25 :left :elide)
-           " "
-           (size 7 -1 :right)
-           " "
-           (mode 8 8 :left :elide)
-           " " filename-and-process)
-     (mark " "
-           (name 16 -1)
-           " " filename))))
- '(ibuffer-saved-filter-groups nil)
- '(ibuffer-saved-filters
-   (quote
-    (("ep2_sources"
-      (mode . c-mode)
-      (filename . "libsch_ep2KeyExpRSA_T2"))
-     ("programming"
-      (or
-       (derived-mode . prog-mode)
-       (mode . ess-mode)
-       (mode . compilation-mode)))
-     ("text document"
-      (and
-       (derived-mode . text-mode)
-       (not
-        (starred-name))))
-     ("TeX"
-      (or
-       (derived-mode . tex-mode)
-       (mode . latex-mode)
-       (mode . context-mode)
-       (mode . ams-tex-mode)
-       (mode . bibtex-mode)))
-     ("web"
-      (or
-       (derived-mode . sgml-mode)
-       (derived-mode . css-mode)
-       (mode . javascript-mode)
-       (mode . js2-mode)
-       (mode . scss-mode)
-       (derived-mode . haml-mode)
-       (mode . sass-mode)))
-     ("gnus"
-      (or
-       (mode . message-mode)
-       (mode . mail-mode)
-       (mode . gnus-group-mode)
-       (mode . gnus-summary-mode)
-       (mode . gnus-article-mode))))))
  '(ido-decorations
    (quote
     ("
@@ -204,7 +153,11 @@
  '(ivy-wrap t)
  '(js-indent-level 2)
  '(linum-format "%6d")
+ '(ls-lisp-use-insert-directory-program t)
  '(ls-lisp-verbosity nil)
+ '(neo-hidden-regexp-list (quote ("\\.pyc$" "~$" "^#.*#$" "\\.elc$")))
+ '(neo-show-hidden-files t)
+ '(neo-theme (quote ascii))
  '(org-adapt-indentation nil)
  '(org-agenda-files (quote ("~/workspace/org/agenda")))
  '(org-capture-templates
@@ -289,7 +242,8 @@
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils_tests"))))
  '(show-paren-mode t)
  '(speed-type-default-lang (quote French))
- '(tex-start-commands "--output-dir=tmp \"\\nonstopmode\\input\""))
+ '(tex-start-commands "--output-dir=tmp \"\\nonstopmode\\input\"")
+ '(treemacs-width 40))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -304,7 +258,7 @@
  '(diredp-dir-priv ((t nil)))
  '(diredp-exec-priv ((t nil)))
  '(diredp-file-name ((t (:foreground "white smoke"))))
- '(diredp-ignored-file-name ((t (:foreground "red"))))
+ '(diredp-ignored-file-name ((t (:foreground "white"))))
  '(diredp-link-priv ((t nil)))
  '(diredp-no-priv ((t nil)))
  '(diredp-number ((t (:foreground "pale turquoise"))))
