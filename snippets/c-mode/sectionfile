@@ -4,7 +4,14 @@
 # --
 
 /*******************************************************************************
- * ${1:local functions definitions}
+ * ${1:$$(yas-choose-value '(
+ "Includes"
+ "Public functions declarations"
+ "Public functions definitions"
+ "Local functions declarations"
+ "Local functions definitions"
+ "Macros"
+ "Types"))}
  */
 
 $0

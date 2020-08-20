@@ -4,6 +4,7 @@
 # --
 
   //
-  // ${1:0}. ${2:declaration & initialization}
+  // ${1:0}. ${2:$$(yas-choose-value '("variables declaration & initialization"
+"check parameters" "some process" "clear variables, return"))}
   //
 $0

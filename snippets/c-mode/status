@@ -4,11 +4,11 @@
 # --
   if ( iReturnedStatus == STS_OK )
   {
-    // iReturnedStatus = ${1:someProcess} ( $0 ); // TODO
+    iReturnedStatus = ${1:someProcess} ( $0 ); // TODO
 
     if ( iReturnedStatus != STS_OK )
     {
-        vSTSchInfo( "ERROR_MESSAGE_TODO", iReturnedStatus, 0 );
+        vSTSchInfo ( "ERROR_MESSAGE_TODO", iReturnedStatus, 0 );
         // processing ?
     }
   }
