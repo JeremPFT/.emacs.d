@@ -6,6 +6,7 @@
 /*******************************************************************************
  * ${1:$$(yas-choose-value '(
  "Includes"
+ "Functions"
  "Public functions declarations"
  "Public functions definitions"
  "Local functions declarations"

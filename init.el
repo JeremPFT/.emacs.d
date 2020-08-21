@@ -539,10 +539,12 @@
     ;; I want the same color for file name and extension
     (setq diredp-file-suffix diredp-file-name)
     ) ;; end progn
-  :bind (:map dired-mode-map
-              ("M-b" . backward-word)
-              ("<f1>" . hydra-dired/body)
-              )
+  :bind
+  (:map dired-mode-map
+        ("M-b" . backward-word)
+        ("<f1>" . hydra-dired/body)
+        )
+
   ;; :hook (lambda ()
   ;;         (local-set-key (kbd "<f1>") (quote hydra-summary/body))
   ;;         ;; (local-set-key (kbd "M-b") (quote backward-word))
@@ -806,6 +808,9 @@ T - tag prefix
   ;; https://www.emacswiki.org/emacs/BookmarkPlus
   :straight
   (:host github :repo "emacsmirror/bookmark-plus" :branch "master")
+  :config
+  (setq bmkp-bmenu-state-file "~/.emacs.d/.bmk-bmenu-state.el"
+        bookmark-default-file "~/.emacs.d/bmk.emacs")
   )
 
 ;; (use-package speed-type
@@ -1332,154 +1337,186 @@ T - tag prefix
 (use-package calfw
   :ensure t)
 
+(use-package page-break-lines
+  :disabled ;; dependance of dashboard
+  :straight (:host github :repo "purcell/page-break-lines")
+  :config
+  (set-fontset-font "fontset-default"
+                    (cons page-break-lines-char page-break-lines-char)
+                    (face-attribute 'default :family))
+  )
+
+(use-package dashboard
+  :disabled ;; see if useful
+  :straight (:host github :repo "emacs-dashboard/emacs-dashboard")
+  :after (page-break-lines all-the-icons)
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq
+   dashboard-center-content t
+   dashboard-banner-logo-title "Emacs Dashboard"
+   ;; dashboard-startup-banner nil
+   dashboard-set-heading-icons t
+   dashboard-set-file-icons t
+   dashboard-items (quote ((recents . 5) (bookmarks . 5)))
+   )
+  (defun dashboard-insert-custom (list-size)
+    (insert "Custom text"))
+  (add-to-list 'dashboard-item-generators '(custom . dashboard-insert-custom))
+  (add-to-list 'dashboard-items '(custom) t)
+  )
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; auto remove mouse pointer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; emacs-25.3_1-x86_64/share/emacs/25.3/lisp/avoid.el
-;; move mouse pointer when near the cursor
-(when (display-mouse-p) (mouse-avoidance-mode 'jump))
+  ;; emacs-25.3_1-x86_64/share/emacs/25.3/lisp/avoid.el
+  ;; move mouse pointer when near the cursor
+  (when (display-mouse-p) (mouse-avoidance-mode 'jump))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; enabled commands
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(put 'erase-buffer 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
+  (put 'erase-buffer 'disabled nil)
+  (put 'narrow-to-region 'disabled nil)
+  (put 'upcase-region 'disabled nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; scratch buffer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun unkillable-scratch-buffer ()
-  (if (equal (buffer-name (current-buffer)) "*scratch*")
-      (progn
-        (delete-region (point-min) (point-max))
-        nil)
-    t))
+  (defun unkillable-scratch-buffer ()
+    (if (equal (buffer-name (current-buffer)) "*scratch*")
+        (progn
+          (delete-region (point-min) (point-max))
+          nil)
+      t))
 
-(add-hook 'kill-buffer-query-functions 'unkillable-scratch-buffer)
+  (add-hook 'kill-buffer-query-functions 'unkillable-scratch-buffer)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; projectile configuration
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; removed jpi (projectile-mode nil)
-;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-;; (setq projectile-switch-project-action #'projectile-dired)
-;; (setq projectile-enable-caching t)
+  ;; removed jpi (projectile-mode nil)
+  ;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  ;; (setq projectile-switch-project-action #'projectile-dired)
+  ;; (setq projectile-enable-caching t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; perspeen configuration
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; removed jpi (perspeen-mode nil)
+  ;; removed jpi (perspeen-mode nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; replace+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; from https://www.emacswiki.org/emacs/OccurMode
+  ;; from https://www.emacswiki.org/emacs/OccurMode
 
-(require 'replace+)
-;; (define-key occur-mode-map (kbd "C-*") 'next-error)
-;; (define-key occur-mode-map (kbd "C-/") 'previous-error)
+  (require 'replace+)
+  ;; (define-key occur-mode-map (kbd "C-*") 'next-error)
+  ;; (define-key occur-mode-map (kbd "C-/") 'previous-error)
 
-(global-set-key (kbd "C-*") 'next-error)
-(global-set-key (kbd "C-/") 'previous-error)
+  (global-set-key (kbd "C-*") 'next-error)
+  (global-set-key (kbd "C-/") 'previous-error)
 
-;; force to use the same window as *Occur* to show the occurence
-(defadvice occur-next-error (before my-occur-next-error activate)
-  (let ((win (get-buffer-window (current-buffer))))
-    (if win
-        (select-window win))))
+  ;; force to use the same window as *Occur* to show the occurence
+  (defadvice occur-next-error (before my-occur-next-error activate)
+    (let ((win (get-buffer-window (current-buffer))))
+      (if win
+          (select-window win))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; hydra
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; bindings keys
-;;
-;; https://github.com/abo-abo/hydra
-;; https://github.com/abo-abo/hydra/wiki/Org-agenda
-;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
+  ;; bindings keys
+  ;;
+  ;; https://github.com/abo-abo/hydra
+  ;; https://github.com/abo-abo/hydra/wiki/Org-agenda
+  ;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
 
-(defhydra hydra-summary ()
-  ("m" hydra-magit/body "magit" :exit t)
-  ("b" hydra-bookmarks/body "bookmarks" :exit t)
-  ("z" hydra-zoom/body "zoom" :exit t)
-  )
+  (defhydra hydra-summary ()
+    ("m" hydra-magit/body "magit" :exit t)
+    ("b" hydra-bookmarks/body "bookmarks" :exit t)
+    ("z" hydra-zoom/body "zoom" :exit t)
+    )
 
-(global-set-key (kbd "<f1>") 'hydra-summary/body)
+  (global-set-key (kbd "<f1>") 'hydra-summary/body)
 
-(defhydra hydra-magit (:hint nil)
-  "
+  (defhydra hydra-magit (:hint nil)
+    "
 _s_ status    _c_ commit
 _P_ pull      _la_ log all
 _p_ push      _d_ diff
 "
-  ("p" magit-push :exit t)
-  ("P" magit-pull :exit t)
-  ("c" magit-commit :exit t)
-  ("d" magit-diff :exit t)
-  ("la" magit-log-all :exit t)
-  ("s" magit-status :exit t)
-  )
+    ("p" magit-push :exit t)
+    ("P" magit-pull :exit t)
+    ("c" magit-commit :exit t)
+    ("d" magit-diff :exit t)
+    ("la" magit-log-all :exit t)
+    ("s" magit-status :exit t)
+    )
 
-(defvar org-dir (concat (file-name-as-directory (getenv "HOME"))
-                        (file-name-as-directory "workspace")
-                        (file-name-as-directory "org")
-                        "bookmarks"))
+  (defvar org-dir (concat (file-name-as-directory (getenv "HOME"))
+                          (file-name-as-directory "workspace")
+                          (file-name-as-directory "org")
+                          "bookmarks"))
 
-(defhydra hydra-bookmarks ()
-  ("D"  (find-file org-dir)                                      "directory" :column "my bookmarks" :exit t)
-  ("bc" (find-file (concat org-dir "bookmarks-current.org.txt")) "current" :exit t)
-  ("bl" (find-file (concat org-dir "bookmarks-loisirs.org.txt")) "loisir" :exit t)
+  (defhydra hydra-bookmarks ()
+    ("D"  (find-file org-dir)                                      "directory" :column "my bookmarks" :exit t)
+    ("bc" (find-file (concat org-dir "bookmarks-current.org.txt")) "current" :exit t)
+    ("bl" (find-file (concat org-dir "bookmarks-loisirs.org.txt")) "loisir" :exit t)
 
-  ("sv" bookmark-save "save" :column "bookmark-mode")
-  ("l" bookmark-load  "load")
+    ("sv" bookmark-save "save" :column "bookmark-mode")
+    ("l" bookmark-load  "load")
 
-  ("a" bmkp-add-tags       "add" :column "tags")
-  ("c" bmkp-copy-tags      "copy")
-  ("p" bmkp-paste-add-tags "past")
-  )
+    ("a" bmkp-add-tags       "add" :column "tags")
+    ("c" bmkp-copy-tags      "copy")
+    ("p" bmkp-paste-add-tags "past")
+    )
 
-(defhydra hydra-zoom ()
-  "zoom"
-  ("+" text-scale-increase "in")
-  ("-" text-scale-decrease "out"))
+  (defhydra hydra-zoom ()
+    "zoom"
+    ("+" text-scale-increase "in")
+    ("-" text-scale-decrease "out"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; initial buffer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun jp/initial-buffer()
-  (interactive)
-  (setq jp--buffer (get-buffer-create "*fetching.org*"))
-  (set-buffer jp--buffer)
-  (org-mode)
-  (insert "#+NAME: output-fetch-repositories\n"
-          "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
-  (beginning-of-line)
-  jp--buffer
-  )
+  (defun jp/initial-buffer()
+    (interactive)
+    (setq jp--buffer (get-buffer-create "*fetching.org*"))
+    (set-buffer jp--buffer)
+    (org-mode)
+    (insert "#+NAME: output-fetch-repositories\n"
+            "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
+    (beginning-of-line)
+    jp--buffer
+    )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; emacs client
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
+  ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
 
-(require 'server)
-(unless (server-running-p)
-  (server-start))
+  (require 'server)
+  (unless (server-running-p)
+    (server-start))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; tests
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; from https://github.com/abo-abo/hydra/wiki/Projectile
-(defhydra hydra-projectile (:color teal
-                                   :hint nil)
-  "
+  ;; from https://github.com/abo-abo/hydra/wiki/Projectile
+  (defhydra hydra-projectile (:color teal
+                                     :hint nil)
+    "
 
      Find File            Search/Tags          Buffers                Cache
 ------------------------------------------------------------------------------------------
@@ -1490,61 +1527,61 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
   _d_: dir
 
 "
-  ("a"   projectile-ag)
-  ("b"   projectile-switch-to-buffer)
-  ("c"   projectile-invalidate-cache)
-  ("d"   projectile-find-dir)
-  ("s-f" projectile-find-file)
-  ("ff"  projectile-find-file-dwim)
-  ("fd"  projectile-find-file-in-directory)
-  ("g"   ggtags-update-tags)
-  ("s-g" ggtags-update-tags)
-  ("i"   projectile-ibuffer)
-  ("K"   projectile-kill-buffers)
-  ("s-k" projectile-kill-buffers)
-  ("m"   projectile-multi-occur)
-  ("o"   projectile-multi-occur)
-  ("s-p" projectile-switch-project "switch project")
-  ("p"   projectile-switch-project)
-  ("s"   projectile-switch-project)
-  ("r"   projectile-recentf)
-  ("x"   projectile-remove-known-project)
-  ("X"   projectile-cleanup-known-projects)
-  ("z"   projectile-cache-current-file)
-  ("`"   hydra-projectile-other-window/body "other window")
-  ("q"   nil "cancel" :color blue))
+    ("a"   projectile-ag)
+    ("b"   projectile-switch-to-buffer)
+    ("c"   projectile-invalidate-cache)
+    ("d"   projectile-find-dir)
+    ("s-f" projectile-find-file)
+    ("ff"  projectile-find-file-dwim)
+    ("fd"  projectile-find-file-in-directory)
+    ("g"   ggtags-update-tags)
+    ("s-g" ggtags-update-tags)
+    ("i"   projectile-ibuffer)
+    ("K"   projectile-kill-buffers)
+    ("s-k" projectile-kill-buffers)
+    ("m"   projectile-multi-occur)
+    ("o"   projectile-multi-occur)
+    ("s-p" projectile-switch-project "switch project")
+    ("p"   projectile-switch-project)
+    ("s"   projectile-switch-project)
+    ("r"   projectile-recentf)
+    ("x"   projectile-remove-known-project)
+    ("X"   projectile-cleanup-known-projects)
+    ("z"   projectile-cache-current-file)
+    ("`"   hydra-projectile-other-window/body "other window")
+    ("q"   nil "cancel" :color blue))
 
-(global-set-key (kbd "<f3>") 'hydra-projectile/body)
-(put 'downcase-region 'disabled nil)
-
-
-;; (require 'hide-region)
-;; (require 'hide-lines)
-;; (require 'fold-this)
-;; TODO see origami
+  (global-set-key (kbd "<f3>") 'hydra-projectile/body)
+  (put 'downcase-region 'disabled nil)
 
 
-;; (speedbar-add-supported-extension ".ads")
-;; (speedbar-add-supported-extension ".adb")
+  ;; (require 'hide-region)
+  ;; (require 'hide-lines)
+  ;; (require 'fold-this)
+  ;; TODO see origami
 
-;; frame & display:
-;; https://stackoverflow.com/questions/16481984/get-width-of-current-monitor-in-emacs-lisp
-;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Frame-Commands.html
-;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Parameter-Access.html
-(defun jpi-full-screen ()
-  (interactive)
-  (let ((ingenico-system-name "FR0WSC3NRYM2")
-        (home-system-name "DESKTOP-5R08DIM"))
-    (cond
-     ((string= (system-name) ingenico-system-name)
-      (set-frame-position (selected-frame) 0 0)
-      (set-frame-width (selected-frame) 188)
-      (set-frame-height (selected-frame) 52))
-     ;; (set-frame-position (selected-frame) -5 0)
-     ;; (set-frame-width (selected-frame) 380)
-     ;; (set-frame-height (selected-frame) 53))
-     ((string= (system-name) home-system-name)
-      (set-frame-position (selected-frame) 0 0)
-      (set-frame-width (selected-frame) 188)
-      (set-frame-height (selected-frame) 53)))
-    ))
+
+  ;; (speedbar-add-supported-extension ".ads")
+  ;; (speedbar-add-supported-extension ".adb")
+
+  ;; frame & display:
+  ;; https://stackoverflow.com/questions/16481984/get-width-of-current-monitor-in-emacs-lisp
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Frame-Commands.html
+  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Parameter-Access.html
+  (defun jpi-full-screen ()
+    (interactive)
+    (let ((ingenico-system-name "FR0WSC3NRYM2")
+          (home-system-name "DESKTOP-5R08DIM"))
+      (cond
+       ((string= (system-name) ingenico-system-name)
+        (set-frame-position (selected-frame) 0 0)
+        (set-frame-width (selected-frame) 188)
+        (set-frame-height (selected-frame) 52))
+       ;; (set-frame-position (selected-frame) -5 0)
+       ;; (set-frame-width (selected-frame) 380)
+       ;; (set-frame-height (selected-frame) 53))
+       ((string= (system-name) home-system-name)
+        (set-frame-position (selected-frame) 0 0)
+        (set-frame-width (selected-frame) 188)
+        (set-frame-height (selected-frame) 53)))
+      ))
