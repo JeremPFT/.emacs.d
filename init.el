@@ -128,76 +128,7 @@
 ;;;; org-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package org
-  :mode
-  ("\\.\\(org\\|txt\\)\\'" . org-mode)
-  ("\\*notes\\*" . org-mode)
-  :bind (("C-c a" . org-agenda)
-         ("C-c c" . org-capture))
-  :config
-  (setq org-indent-mode 0)
-  )
-
-;; patched function org-translate-time from org.el
-;; replaced
-;;
-;; (concat
-;;  (if inactive "[" "<") (substring tf 1 -1)
-;;  (if inactive "]" ">"))
-;;
-;; with
-;;
-;; (require 'org-collector)
-;;
-;; removed: default behavior is better ...
-;;
-;; see https://orgmode.org/manual/Capturing-column-view.html:
-;;    C-c C-x i (org-insert-columns-dblock)
-
-;; setting up org-babel for literate programming
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '(
-   (python . t)
-   ;;   (sh . t)
-   (C . t)
-   ;; Include other languages here...
-   ))
-
-(progn
-  (defvar org-html-postamble)
-  (setq org-html-postamble nil))
-
-(use-package org-web-tools)
-
-(use-package ob-async
-  ;; https://github.com/astahlman/ob-async
-  :after org
-  )
-
-(use-package org-generate
-  :after org
-  :straight (:host github :repo "conao3/org-generate.el"))
-
-;; Fix an incompatibility between the ob-async and ob-ipython packages
-;; TODO integrate in use-package
-(progn
-  (defvar ob-async-no-async-languages-alist)
-  (setq ob-async-no-async-languages-alist '("ipython")))
-(use-package org-mind-map
-  ;; mind map
-  :init (require 'ox-org)
-  :config (setq org-mind-map-engine "dot")
-  )
-
-(use-package org-brain
-  ;; mind map
-  )
-
-(use-package poporg
-  ;; http://pragmaticemacs.com/emacs/write-code-comments-in-org-mode-with-poporg/
-  ;; https://github.com/QBobWatson/poporg
-  :bind (("C-c /" . poporg-dwim)))
+(load-file "~/.emacs.d/local-packages/org-config.el")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; yasnippet
@@ -653,7 +584,19 @@ T - tag prefix
   )
 
 
+(use-package neotree
+  :straight
+  (:host github :repo "jaypei/emacs-neotree" :branch "master")
+  :config
+  (setq
+   neo-hidden-regexp-list (quote ("\\.pyc$" "~$" "^#.*#$" "\\.elc$"))
+   neo-show-hidden-files t
+   neo-theme (quote ascii)
+   )
+  )
+
 (use-package treemacs
+  :disabled ;; doesn't work on my personal computer ???
   :ensure t
 
   :defer t
@@ -688,10 +631,6 @@ T - tag prefix
     (make-directory (concat (getenv "HOME") (concat user-emacs-directory "all-the-icons-fonts")))
     (error "please run all-the-icons-install-fonts in .emacs.d/all-the-icons-fonts")
     ))
-
-(use-package neotree
-  :straight
-  (:host github :repo "jaypei/emacs-neotree" :branch "master"))
 
 ;;
 ;; custom dir sort
@@ -937,8 +876,13 @@ T - tag prefix
 (use-package plantuml-mode
   :ensure t
   :config
-  (setq plantuml-jar-path "c:/Users/jpiffret/AppData/Roaming/workspace/plantuml.jar")
-  (setq plantuml-default-exec-mode 'jar)
+  (setq
+
+   plantuml-jar-path
+   (concat (getenv "HOME") "workspace/plantuml.jar")
+
+   plantuml-default-exec-mode
+   'jar)
   )
 
 ;; https://github.com/milkypostman/powerline/ ;; TODO

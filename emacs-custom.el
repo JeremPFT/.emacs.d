@@ -118,7 +118,7 @@
  '(column-number-mode t)
  '(compilation-search-path
    (quote
-    ("c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/" "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/services/" "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/objects/" "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/infrastructure/" "c:/Users/jeremy/AppData/Roaming/workspace/ada_test_architectures/src/test/")))
+    ("~/workspace/ada_test_architectures/" "~/workspace/ada_test_architectures/src/services/" "~/workspace/ada_test_architectures/src/objects/" "~/workspace/ada_test_architectures/src/infrastructure/" "~/workspace/ada_test_architectures/src/test/")))
  '(confirm-kill-emacs (quote y-or-n-p))
  '(diredp-hide-details-initially-flag nil)
  '(diredp-ignore-compressed-flag nil)
@@ -155,57 +155,6 @@
  '(linum-format "%6d")
  '(ls-lisp-use-insert-directory-program t)
  '(ls-lisp-verbosity nil)
- '(neo-hidden-regexp-list (quote ("\\.pyc$" "~$" "^#.*#$" "\\.elc$")))
- '(neo-show-hidden-files t)
- '(neo-theme (quote ascii))
- '(org-adapt-indentation nil)
- '(org-agenda-files (quote ("~/workspace/org/agenda")))
- '(org-capture-templates
-   (quote
-    (("l" "Link" entry
-      (file+headline "~/Dropbox/org/new_links.org" "links")
-      "** link
-:PROPERTIES:
-:TITLE: %?
-:LINK:
-:END:
-")
-     ("t" "Task" entry
-      (file+headline "" "Tasks")
-      "* TODO %?
-  %u
-  %a")
-     ("c" "Clope" entry
-      (file+headline "~/Dropbox/org/pauses.org" "pauses")
-      "** clope
-:PROPERTIES:
-:TIMES: %U%?
-:END:
-"))))
- '(org-default-notes-file "~/Dropbox/org/notes.org")
- '(org-fontify-done-headline t)
- '(org-hide-leading-stars nil)
- '(org-html-table-default-attributes nil)
- '(org-indent-indentation-per-level 0)
- '(org-level-color-stars-only nil)
- '(org-mind-map-default-graph-attribs
-   (quote
-    (("autosize" . "false")
-     ("size" . "9,12")
-     ("resolution" . "100")
-     ("nodesep" . "0.75")
-     ("overlap" . "false")
-     ("splines" . "ortho")
-     ("rankdir" . "LR"))))
- '(org-mind-map-dot-output (quote ("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff")))
- '(org-modules
-   (quote
-    (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
- '(org-publish-timestamp-directory "~/workspace/org/.org-timestamps/")
- '(org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
- '(org-src-window-setup (quote current-window))
- '(org-startup-shrink-all-tables t)
- '(org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>")))
  '(package-archives
    (quote
     (("jpi" . "~/.emacs.d/package-repo-jpi/")
@@ -286,13 +235,12 @@
  '(hl-line ((t (:background "gray30"))))
  '(internal-border ((t (:background "white"))))
  '(isearch ((t (:background "gray20" :foreground "#eeeeee" :underline t :weight ultra-bold))))
- '(link ((((class color) (min-colors 89)) (:foreground "#6f79a8" :underline t))))
+ '(link ((((class color) (min-colors 89)) (:foreground "#4f9a94" :underline t))))
  '(linum ((t (:background "#102027" :foreground "#777777" :weight normal :height 100))))
  '(magit-branch-local ((t (:foreground "orange"))))
  '(magit-hash ((t (:foreground "sky blue"))))
  '(mode-line ((t (:background "midnight blue" :foreground "#eeeeee" :box (:line-width 1 :color "#102027")))))
  '(mode-line-inactive ((t (:background "gray22" :foreground "#eeeeee" :box (:line-width 1 :color "#102027")))))
- '(org-headline-done ((t (:foreground "medium aquamarine"))))
  '(package-name ((t (:foreground "light goldenrod"))))
  '(region ((t (:background "dim gray" :foreground "#eeeeee"))))
  '(replacep-msg-emphasis ((t (:foreground "brown"))))
