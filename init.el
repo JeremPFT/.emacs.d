@@ -324,7 +324,7 @@
                    )))
 
           ibuffer-directory-abbrev-alist
-          (quote (("c:/Users/jpiffret/Ingenico_Workspace/SUPTER-7682_mexique"
+          (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"
                    . "SUPTER-7682_mexique")
                   ("dllsch_t3_bbva_key_injection_pin_block_private"
                    . "dllsch_t3_..._private")))
