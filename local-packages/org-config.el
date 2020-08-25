@@ -4,6 +4,8 @@
   ("\\*notes\\*" . org-mode)
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture))
+  :custom
+  (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id "org-store-link create an id")
   :config
   (setq org-indent-mode 0
         org-adapt-indentation nil
