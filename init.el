@@ -747,9 +747,9 @@ T - tag prefix
   ;; https://www.emacswiki.org/emacs/BookmarkPlus
   :straight
   (:host github :repo "emacsmirror/bookmark-plus" :branch "master")
-  :config
-  (setq bmkp-bmenu-state-file "~/.emacs.d/.bmk-bmenu-state.el"
-        bookmark-default-file "~/.emacs.d/bmk.emacs")
+  :custom
+  (bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
+  (bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
   )
 
 ;; (use-package speed-type
