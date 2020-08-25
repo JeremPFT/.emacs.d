@@ -127,7 +127,7 @@
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
  '(display-time-mode t)
- '(doom-modeline-buffer-file-name-style (quote relative-from-project))
+ '(doom-modeline-buffer-file-name-style (quote relative-to-project))
  '(fill-column 80)
  '(global-auto-revert-mode t)
  '(global-linum-mode t)
@@ -155,6 +155,7 @@
  '(linum-format "%6d")
  '(ls-lisp-use-insert-directory-program t)
  '(ls-lisp-verbosity nil)
+ '(org-id-link-to-org-use-id (quote create-if-interactive-and-no-custom-id))
  '(package-archives
    (quote
     (("jpi" . "~/.emacs.d/package-repo-jpi/")
@@ -168,7 +169,8 @@
  '(remember-data-file "~/.emacs.d/notes.org")
  '(safe-local-variable-values
    (quote
-    ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object-tests")
+    ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object-tests")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-data_access-tests")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-data_access")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata_testing_data")
@@ -235,7 +237,7 @@
  '(hl-line ((t (:background "gray30"))))
  '(internal-border ((t (:background "white"))))
  '(isearch ((t (:background "gray20" :foreground "#eeeeee" :underline t :weight ultra-bold))))
- '(link ((((class color) (min-colors 89)) (:foreground "#4f9a94" :underline t))))
+ '(link ((((class color) (min-colors 89)) (:foreground "#6f79a8" :underline t))))
  '(linum ((t (:background "#102027" :foreground "#777777" :weight normal :height 100))))
  '(magit-branch-local ((t (:foreground "orange"))))
  '(magit-hash ((t (:foreground "sky blue"))))
@@ -245,4 +247,5 @@
  '(region ((t (:background "dim gray" :foreground "#eeeeee"))))
  '(replacep-msg-emphasis ((t (:foreground "brown"))))
  '(show-paren-match ((t (:background "gray" :weight bold))))
+ '(which-func ((t (:foreground "DeepSkyBlue1"))))
  '(ztreep-diff-model-add-face ((t (:foreground "chocolate")))))
