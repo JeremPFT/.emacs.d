@@ -130,6 +130,8 @@
 
 (load-file "~/.emacs.d/local-packages/org-config.el")
 
+(load-file "~/.emacs.d/local-packages/git-config.el")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; yasnippet
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -218,27 +220,6 @@
   )
 
 ;; TODO Enable Flycheck. Integrate in use-package
-
-(use-package magit
-  ;;
-  ;; TODO see magit-gitflow
-  ;;
-  :pin gnu
-  :config
-
-  ;; speed up magit
-  (when (eq system-type 'windows-nt)
-    (setq exec-path (add-to-list 'exec-path "C:/Program Files/Git/cmd"))
-    (setq exec-path (add-to-list 'exec-path "C:/Program Files/Git/bin"))
-    (setenv "PATH" (concat "C:\\Program Files\\Git\\cmd;"
-                           "C:\\Program Files\\Git\\bin;"
-                           (getenv "PATH"))))
-  )
-
-;; doesn't work ... windows ?
-;; (use-package magit-todos
-;;   ;; https://github.com/alphapapa/magit-todos
-;; ;;   )
 
 (use-package fic-mode
   ;; highlight TODO/FIXME/...
@@ -428,8 +409,6 @@
           ("s" wgrep-save-all-buffers "save all")
           )
   )
-
-
 
 (use-package htmlize
   )
@@ -865,10 +844,6 @@
   (setq linum-format 'linum-format-func))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; magit
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; elisp (personal, imported)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1007,8 +982,6 @@
   (add-to-list 'dashboard-items '(custom) t)
   )
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; auto remove mouse pointer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1081,26 +1054,14 @@
   ;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
 
   (defhydra hydra-summary ()
-    ("m" hydra-magit/body "magit" :exit t)
+    ("m" hydra-magit/body "magit" :exit t) ;; defined in local-packages/git-config.el
     ("b" hydra-bookmarks/body "bookmarks" :exit t)
     ("z" hydra-zoom/body "zoom" :exit t)
     )
 
   (global-set-key (kbd "<f1>") 'hydra-summary/body)
 
-  (defhydra hydra-magit (:hint nil)
-    "
-_s_ status    _c_ commit
-_P_ pull      _la_ log all
-_p_ push      _d_ diff
-"
-    ("p" magit-push :exit t)
-    ("P" magit-pull :exit t)
-    ("c" magit-commit :exit t)
-    ("d" magit-diff :exit t)
-    ("la" magit-log-all :exit t)
-    ("s" magit-status :exit t)
-    )
+
 
   (defvar org-dir (concat (file-name-as-directory (getenv "HOME"))
                           (file-name-as-directory "workspace")
@@ -1194,12 +1155,10 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
   (global-set-key (kbd "<f3>") 'hydra-projectile/body)
   (put 'downcase-region 'disabled nil)
 
-
   ;; (require 'hide-region)
   ;; (require 'hide-lines)
   ;; (require 'fold-this)
   ;; TODO see origami
-
 
   ;; (speedbar-add-supported-extension ".ads")
   ;; (speedbar-add-supported-extension ".adb")
