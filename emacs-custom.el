@@ -127,7 +127,6 @@
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
  '(display-time-mode t)
- '(doom-modeline-buffer-file-name-style (quote relative-to-project))
  '(fill-column 80)
  '(global-auto-revert-mode t)
  '(global-linum-mode t)
@@ -156,12 +155,6 @@
  '(ls-lisp-use-insert-directory-program t)
  '(ls-lisp-verbosity nil)
  '(org-id-link-to-org-use-id (quote create-if-interactive-and-no-custom-id))
- '(package-archives
-   (quote
-    (("jpi" . "~/.emacs.d/package-repo-jpi/")
-     ("gnu" . "https://elpa.gnu.org/packages/")
-     ("melpa" . "http://melpa.org/packages/"))))
- '(package-selected-packages (quote (ada-mode wisi)))
  '(plantuml-default-exec-mode (quote jar))
  '(projectile-completion-system (quote ivy))
  '(python-fill-docstring-style (quote symmetric))

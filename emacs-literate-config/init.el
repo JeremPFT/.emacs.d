@@ -1,5 +1,5 @@
 (let ((file-name-handler-alist nil)
-      (readme-elc "README.elc")
+      (readme-elc "config.elc")
       (readme-org "README.org")
       (readme-org-fullname "")
       (working-directory "")
@@ -10,8 +10,7 @@
     (setq working-directory (file-name-as-directory
                              (concat
                               user-emacs-directory
-                              (file-name-as-directory "emacs-literate-config")
-                              (file-name-as-directory "jpi"))))
+                              (file-name-as-directory "emacs-literate-config"))))
     (setq working-directory user-emacs-directory)
     )
 

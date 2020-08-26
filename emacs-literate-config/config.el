@@ -1,3 +1,11 @@
+(let* ((normal-gc-cons-threshold (* 20 1024 1024))
+       (init-gc-cons-threshold (* 128 1024 1024)))
+  (setq gc-cons-threshold init-gc-cons-threshold)
+  (add-hook 'emacs-startup-hook
+            (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
+
+(add-to-list 'load-path (concat user-emacs-directory "lisp"))
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages"))
@@ -13,7 +21,7 @@
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+       (concat user-emacs-directory "straight/repos/straight.el/bootstrap.el"))
       (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
@@ -29,15 +37,7 @@
 (autoload #'straight-x-freeze-versions "straight-x")
 
 (straight-use-package 'use-package)
-;; https://github.com/jwiegley/use-package
-
 (setq straight-use-package-by-default t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; packages
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(use-package use-package-ensure-system-package)
 
 (use-package key-chord)
 
@@ -55,18 +55,46 @@
 
 (use-package delight)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; hydra
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package use-package-hydra
+  ;; https://gitlab.com/to1ne/use-package-hydra
+  :after use-package hydra
+  )
+
+(defconst ingenico-computer-name "FR0WSC3NRYM2")
+(defconst home-computer-name "DESKTOP-5R08DIM")
+
+(defconst ingenico-computer-p (string= (system-name) ingenico-computer-name))
+(defconst home-computer-p (string= (system-name) home-computer-name))
+
+(defconst windows-p (eq system-type 'windows-nt))
+(defconst linux-p (eq system-type 'gnu/linux))
+(defconst mac-p (eq system-type 'darwin))
+
+(defconst local-packages-dir
+  (file-name-as-directory (concat user-emacs-directory "local-packages")))
+
+(setq utf-translate-cjk-mode nil)
+(set-keyboard-coding-system 'utf-8-unix)
+(setq locale-coding-system 'windows-1252)
+(set-default-coding-systems 'utf-8-unix)
+(prefer-coding-system 'utf-8-unix)
+
+(custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
+(load custom-file)
+
+(byte-recompile-directory (expand-file-name "lisp" user-emacs-directory) 0)
+
+(setq system-time-locale "C")
+
+(cond (mac-p
+       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+       (setq exec-path (append exec-path '("/usr/local/bin")))))
+
+(use-package use-package-ensure-system-package)
 
 (use-package hydra
   ;; bindings keys
   ;; https://github.com/abo-abo/hydra
-  )
-
-(use-package use-package-hydra
-  ;; https://gitlab.com/to1ne/use-package-hydra
-  :after use-package hydra
   )
 
 (use-package major-mode-hydra
@@ -75,37 +103,18 @@
   ("<f2>" . major-mode-hydra)
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; undo-tree
-;;;; https://github.com/apchamberlain/undo-tree.el
-;;;; https://www.emacswiki.org/emacs/UndoTree
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (use-package undo-tree
   :straight
   (:host github :repo "emacsorphanage/undo-tree" :branch "master"))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; org-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defconst local-packages-dir
-  (file-name-as-directory (concat user-emacs-directory "local-packages")))
+(use-package yasnippet
+  :config
+  (yas-global-mode 1)
+  )
 
 (load-file (concat local-packages-dir "org-config.el"))
 
 (load-file (concat local-packages-dir "git-config.el"))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; yasnippet
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(use-package yasnippet
-  ;; https://github.com/joaotavora/yasnippet
-  ;; http://joaotavora.github.io/yasnippet/
-  :config
-  (yas-global-mode 1)
-  )
 
 (use-package fill-column-indicator
   :config
@@ -116,29 +125,22 @@
   (add-hook 'ada-mode-hook 'fci-mode)
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; latex
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (use-package auctex
   ;; https://www.gnu.org/software/auctex/
   :defer t
-  :ensure t
-  )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; TODO to sort
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  :ensure t)
 
 (use-package wisi
   :straight (:host github :repo "emacsmirror/wisi")
   )
 
-(require 'imenu)
+(require 'imenu) ;; needed for ada
 
 (use-package ada-mode
   :straight (:host github :repo "emacsmirror/ada-mode")
   :after wisi fill-column-indicator
+  :init
+  (ada-parser 'elisp)
   :config
   (setq ada-parser 'elisp)
   (setq fci-rule-column 78)
@@ -150,24 +152,58 @@
       (ada-reset-parser)
       (indent-buffer)))
   (add-hook 'before-save-hook 'ada-before-save)
-  (add-hook 'ada-mode-hook (lambda () (electric-pair-mode)))
+  (add-hook 'ada-mode-hook (lambda () (electric-pair-mode) (which-function-mode))
 
-  ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
-  (defun hippie-expand-ada-symbols (orig-fun &rest args)
-    (if (eq major-mode 'ada-mode)
-        (let ((table (make-syntax-table ada-mode-syntax-table)))
-          (modify-syntax-entry ?. "_" table)
-          (with-syntax-table table (apply orig-fun args)))
-      (apply orig-fun args)))
+            ;; source:
+            ;; https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
+            (defun hippie-expand-ada-symbols (orig-fun &rest args)
+              (if (eq major-mode 'ada-mode)
+                  (let ((table (make-syntax-table ada-mode-syntax-table)))
+                    (modify-syntax-entry ?. "_" table)
+                    (with-syntax-table table (apply orig-fun args)))
+                (apply orig-fun args)))
 
-  (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
+            (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
+            )
+
+(use-package flx
+  ;; flx mode. Used with completion list
+  ;; flx-isearch exists, but take a long time inside a long file
   )
 
-(let ((straight-current-profile 'pinned))
-  (add-to-list 'straight-x-pinned-packages
-               '("ada-mode" . "c56045a140816f76abfd43aa8351a18fe56a8d15"))
-  (add-to-list 'straight-x-pinned-packages
-               '("wisi" . "83ca0c16350ff4e79ff5172abcc5a2a78c755530")))
+(use-package ivy
+  ;; completion
+  ;; https://oremacs.com/swiper/#key-bindings
+  ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
+  ;; https://www.youtube.com/user/abo5abo
+  ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+  :bind (:map ivy-minibuffer-map
+              ("<RET>" . ivy-alt-done)
+              ("C-j" . ivy-immediate-done)
+              )
+  :config
+  (setq ivy-re-builders-alist
+        '((swiper-isearch . ivy--regex-ignore-order)
+          (t      . ivy--regex-fuzzy)))
+  )
+
+(use-package swiper
+  ;; completion
+  )
+
+(use-package counsel
+  ;; completion
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; TODO to sort
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (let ((straight-current-profile 'pinned))
+;;   (add-to-list 'straight-x-pinned-packages
+;;                '("ada-mode" . "c56045a140816f76abfd43aa8351a18fe56a8d15"))
+;;   (add-to-list 'straight-x-pinned-packages
+;;                '("wisi" . "83ca0c16350ff4e79ff5172abcc5a2a78c755530")))
 
 (use-package flycheck
   :after elpy
@@ -294,35 +330,6 @@
   ;; dark colors. Better than default white...
   :config
   (load-theme 'immaterial t)
-  )
-
-(use-package flx
-  ;; flx mode. Used with completion list
-  ;; flx-isearch exists, but take a long time inside a long file
-  )
-
-(use-package ivy
-  ;; completion
-  ;; https://oremacs.com/swiper/#key-bindings
-  ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
-  ;; https://www.youtube.com/user/abo5abo
-  ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
-  :bind (:map ivy-minibuffer-map
-              ("<RET>" . ivy-alt-done)
-              ("C-j" . ivy-immediate-done)
-              )
-  :config
-  (setq ivy-re-builders-alist
-        '((swiper-isearch . ivy--regex-ignore-order)
-          (t      . ivy--regex-fuzzy)))
-  )
-
-(use-package swiper
-  ;; completion
-  )
-
-(use-package counsel
-  ;; completion
   )
 
 ;; (use-package counsel-projectile
@@ -1137,28 +1144,18 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
 ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Parameter-Access.html
 (defun jpi-full-screen ()
   (interactive)
-  (cond
-   (ingenico-computer-p
-    (set-frame-position (selected-frame) 0 0)
-    (set-frame-width (selected-frame) 188)
-    (set-frame-height (selected-frame) 52))
-   ;; (set-frame-position (selected-frame) -5 0)
-   ;; (set-frame-width (selected-frame) 380)
-   ;; (set-frame-height (selected-frame) 53))
-   (home-computer-p
-    (set-frame-position (selected-frame) 0 0)
-    (set-frame-width (selected-frame) 188)
-    (set-frame-height (selected-frame) 53)))
-  ;; (cond
-  ;;  ((string= (system-name) ingenico-system-name)
-  ;;   (set-frame-position (selected-frame) 0 0)
-  ;;   (set-frame-width (selected-frame) 188)
-  ;;   (set-frame-height (selected-frame) 52))
-  ;;  ;; (set-frame-position (selected-frame) -5 0)
-  ;;  ;; (set-frame-width (selected-frame) 380)
-  ;;  ;; (set-frame-height (selected-frame) 53))
-  ;;  ((string= (system-name) home-system-name)
-  ;;   (set-frame-position (selected-frame) 0 0)
-  ;;   (set-frame-width (selected-frame) 188)
-  ;;   (set-frame-height (selected-frame) 53)))
-  )
+  (let ((ingenico-system-name "FR0WSC3NRYM2")
+        (home-system-name "DESKTOP-5R08DIM"))
+    (cond
+     ((string= (system-name) ingenico-system-name)
+      (set-frame-position (selected-frame) 0 0)
+      (set-frame-width (selected-frame) 188)
+      (set-frame-height (selected-frame) 52))
+     ;; (set-frame-position (selected-frame) -5 0)
+     ;; (set-frame-width (selected-frame) 380)
+     ;; (set-frame-height (selected-frame) 53))
+     ((string= (system-name) home-system-name)
+      (set-frame-position (selected-frame) 0 0)
+      (set-frame-width (selected-frame) 188)
+      (set-frame-height (selected-frame) 53)))
+    ))

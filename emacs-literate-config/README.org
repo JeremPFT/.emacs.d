@@ -1,7 +1,7 @@
 #+TITLE: My Literate Emacs Configuration
 #+AUTHOR: Jérémy Piffret
 
-#+PROPERTY: header-args :tangle README.el
+#+PROPERTY: header-args :tangle "config.el"
 
 #+STARTUP: showall
 # see [[help:org-startup-options]]
@@ -122,6 +122,36 @@ https://emacs.nasy.moe/
   (defconst local-packages-dir
     (file-name-as-directory (concat user-emacs-directory "local-packages")))
 #+END_SRC
+
+** Encoding
+
+see https://www.emacswiki.org/emacs/ChangingEncodings
+
+- =(setq utf-translate-cjk-mode nil)= disables CJK coding/encoding
+  (Chinese/Japanese/Korean characters)
+- =(set-keyboard-coding-system 'utf-8-unix)= For old Carbon emacs on OS X only
+
+#+BEGIN_SRC emacs-lisp
+  (setq utf-translate-cjk-mode nil)
+  (set-keyboard-coding-system 'utf-8-unix)
+  (setq locale-coding-system 'windows-1252)
+  (set-default-coding-systems 'utf-8-unix)
+  (prefer-coding-system 'utf-8-unix)
+#+END_SRC
+
+** Custom file & local time
+
+Setting `system-time-local' to C ensure org timestamp is in english format.
+
+#+BEGIN_SRC emacs-lisp
+  (custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
+  (load custom-file)
+
+  (byte-recompile-directory (expand-file-name "lisp" user-emacs-directory) 0)
+
+  (setq system-time-locale "C")
+#+END_SRC
+
 
 ** Add a path to Environment Variable
 
@@ -604,7 +634,11 @@ http://joaotavora.github.io/yasnippet/
 
   (use-package doom-modeline
     :ensure t
-    :config (doom-modeline-mode))
+    :config (doom-modeline-mode)
+    :custom
+    (doom-modeline-buffer-file-name-style (quote relative-to-project))
+    (doom-modeline-project-detection (quote projectile))
+    )
 
   (use-package csharp-mode
     :straight (:host github :repo "josteink/csharp-mode"))
