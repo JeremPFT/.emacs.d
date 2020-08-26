@@ -1,28 +1,29 @@
+(setq default-directory user-emacs-directory)
+
+(defconst normal-gc-cons-threshold (* 20 1024 1024))
+(defconst init-gc-cons-threshold (* 20 1024 1024))
+(setq gc-cons-threshold init-gc-cons-threshold)
+(add-hook 'emacs-startup-hook
+(lambda () (setq gc-cons-threshold normal-gc-cons-threshold)))
+
 (let ((file-name-handler-alist nil)
+      (readme-el "init-post.el")
       (readme-elc "init-post.elc")
       (readme-org "README.org")
-      (readme-org-fullname "")
-      (working-directory "")
-      (testing-p nil) ;; CHANGE TO GENERATE THE .EL FILE
       )
 
-  (if testing-p
-      (setq working-directory (file-name-as-directory
-                               (concat
-                                user-emacs-directory
-                                (file-name-as-directory "emacs-literate-config"))))
-    (setq working-directory user-emacs-directory)
-    )
-
-  (setq readme-org-fullname (concat working-directory readme-org))
-
-  ;; If config is pre-compiled, then load that
-  (if (file-exists-p (concat working-directory readme-elc))
-      (load-file (concat working-directory readme-elc))
-    ;; Otherwise use org-babel to tangle and load the configuration
+  (when (or (not (file-exists-p readme-el))
+	    (file-newer-than-file-p readme-org readme-el))
     (require 'org)
-    (if testing-p
-        (org-babel-tangle-file readme-org-fullname)
-      (org-babel-load-file readme-org-fullname)))
+    (require 'loadhist)
+    (org-babel-tangle-file readme-org)
+    (defun unload-feature-recursive (feature)
+      (let* ((file (feature-file feature))
+	     (dependents (delete file (copy-sequence (file-dependents file))))) 
+	(when dependents
+	  (mapc #'unload-feature-recursive (mapcan #'file-provides dependents)))))
+    (unload-feature-recursive 'org))
 
-  )
+  (when (or (not (file-exists-p readme-elc))
+	    (file-newer-than-file-p readme-org readme-elc))
+    (byte-compile-file readme-el t)))

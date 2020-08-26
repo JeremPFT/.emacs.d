@@ -1,0 +1,49 @@
+(setq default-directory user-emacs-directory)
+(defconst lisp-dir (file-name-as-directory (concat user-emacs-directory "lisp")))
+
+(let ((file-name-handler-alist nil)
+      (readme-el "init-post.el")
+      (readme-elc "init-post.elc")
+      (readme-org "README.org")
+      (readme-org-fullname "")
+      (working-directory "")
+      (testing-p nil) ;; CHANGE TO GENERATE THE .EL FILE
+      )
+
+  (if testing-p
+      (setq working-directory (file-name-as-directory
+                               (concat
+                                user-emacs-directory
+                                (file-name-as-directory "emacs-literate-config"))))
+    (setq working-directory user-emacs-directory)
+    )
+
+  (setq readme-org-fullname (concat working-directory readme-org))
+
+  (add-to-list 'load-path (concat user-emacs-directory "lisp"))
+
+  (require 'org)
+  (when (or (not (file-exists-p (concat lisp-dir readme-elc)))
+	    (file-newer-than-file-p readme-org (concat lisp-dir readme-elc)))
+    (org-babel-tangle-file readme-org-fullname)
+    (byte-recompile-file (concat lisp-dir readme-el) nil 0)
+    (load readme-el)))
+
+
+
+
+  ;; ;; If config is pre-compiled, then load that
+  ;; (if (file-exists-p (concat working-directory readme-elc))
+  ;;     (load-file (concat working-directory readme-elc))
+  ;;   ;; Otherwise use org-babel to tangle and load the configuration
+  ;;   (require 'org)
+  ;;   (if testing-p
+  ;;       (org-babel-tangle-file readme-org-fullname)
+  ;;     (org-babel-load-file readme-org-fullname)))
+
+
+  ;; (org-babel-tangle-file readme-org-fullname)
+  ;; (byte-recompile-file readme-
+
+
+  ;; )

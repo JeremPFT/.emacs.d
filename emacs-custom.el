@@ -92,7 +92,9 @@
  '(amx-show-key-bindings nil)
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
+ '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
  '(bmkp-last-as-first-bookmark-file nil)
+ '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(browse-kill-ring-show-preview t)
  '(c-default-style
    (quote
@@ -162,7 +164,10 @@
  '(remember-data-file "~/.emacs.d/notes.org")
  '(safe-local-variable-values
    (quote
-    ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object")
+    ((eval progn
+           (find-file "README.org")
+           (kill-buffer "init.org"))
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object-tests")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-data_access-tests")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-data_access")

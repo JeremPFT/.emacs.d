@@ -2,8 +2,6 @@
   ;; https://github.com/reinh/dotemacs/blob/master/conf/init.org#ido
   ;; https://www.emacswiki.org/emacs/IbufferMode
 
-  :after hydra
-
   :bind
   ("C-x C-b" . ibuffer)
 
