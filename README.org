@@ -1,7 +1,7 @@
 #+TITLE: My Literate Emacs Configuration
 #+AUTHOR: Jérémy Piffret
 
-#+PROPERTY: header-args :tangle "config.el"
+#+PROPERTY: header-args :tangle "init-post.el"
 
 #+STARTUP: showall
 # see [[help:org-startup-options]]
