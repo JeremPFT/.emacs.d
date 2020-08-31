@@ -1,114 +1,142 @@
 #+TITLE: My Literate Emacs Configuration
 #+AUTHOR: Jérémy Piffret
-
-#+PROPERTY: header-args :tangle "init-post.el"
-
+#+PROPERTY: header-args+ :comments "both"
 #+STARTUP: showall
-# see [[help:org-startup-options]]
+# STARTUP options: see [[help:org-startup-options]]
 
-* sources:
-- [[https://github.com/bbingju/literate-emacs-configuration][bbingju]] [[https://raw.githubusercontent.com/bbingju/literate-emacs-configuration/master/README.org][raw]]
-- https://github.com/mclear-tools/dotemacs/blob/big_refactor/init.el
-
-* links to see
-https://www.reddit.com/r/orgmode/comments/idpfku/first_release_of_orgwebring_details_in_the/
-https://beorg.app/orgmode/letsgetgoing/
-
-* Debuging Emacs configuration
-If an error is raised:
-: M-x toggle-debug-on-error
-
-* init file
-
-1. Setup default directory to start in HOME/.emacs.d
-
-2. Setup ELPA, package, straight, use-package
-
-3. Setup org
-
-4. Tangle this file if more recent than target.
-
-5. Byte compile
-
-** Setup default directory to start in "HOME/.emacs.d"
-#+BEGIN_SRC emacs-lisp :tangle "init.el" :comment org
+* Intro
+** About properties
+source: https://emacs.stackexchange.com/questions/13191/specify-global-tangle-file-for-source-code-export-in-org-mode-8-x
+** Git configuration
+#+NAME: .git/config
+#+BEGIN_EXAMPLE
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+        autocrlf = input
+[remote "origin"]
+	url = https://github.com/JeremPFT/.emacs.d.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	pushRemote = origin
+[branch "change-to-straight"]
+	remote = origin
+	merge = refs/heads/change-to-straight
+	pushRemote = origin
+#+END_EXAMPLE
+#+NAME: .gitignore
+#+BEGIN_EXAMPLE
+*.elc
+*~
+.session
+auto-save-list/
+backup/
+bookmarks*
+el-get/
+elpa/
+elpy/
+eshell/
+ido.last
+semanticdb/
+server/server*
+transient/
+/amx-items
+.org-id-locations
+recentf
+/projectile.cache
+/projectile-bookmarks.eld
+/lisp/comb
+/straight/
+!/straight/versions/*
+/all-the-icons-fonts/
+#+END_EXAMPLE
+* Minimum configuration: init.el
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init.el"
+:END:
+** personnal functions & shortcuts
+*** enter debug mode if necessary
+#+BEGIN_SRC emacs-lisp
+  (toggle-debug-on-error)
+#+END_SRC
+*** personnal functions & shortcuts
+#+BEGIN_SRC emacs-lisp
+  ;;;; default directory
   (setq default-directory user-emacs-directory)
 #+END_SRC
 
-** Speed-up at startup: boost garbage collector memory
-[[help:gc-cons-threshold][help: gc-cons-threshold]] (default: 800000)
+#+BEGIN_SRC emacs-lisp
+  ;;;; custom file
+  (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
+  (when (file-exists-p custom-file) (load custom-file))
+#+END_SRC
 
-#+BEGIN_SRC emacs-lisp :tangle "init.el" :comment org
+#+BEGIN_SRC emacs-lisp
+  ;;;; global modes
+  (global-auto-revert-mode)
+  (global-hl-line-mode)
+  (electric-pair-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  ;;;; custom
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+  (setq org-indent-indentation-per-level 0
+	org-adapt-indentation nil)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defconst lisp-dir (file-name-as-directory (concat user-emacs-directory "lisp")))
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (global-set-key (kbd "<f5>") 'revert-buffer)
+  (global-set-key (kbd "C-x C-g") 'goto-line)
+
+  (defconst ingenico-computer-name "FR0WSC3NRYM2")
+  (defconst home-computer-name "DESKTOP-5R08DIM")
+  (defconst ingenico-computer-p (string= (system-name) ingenico-computer-name))
+  (defconst home-computer-p (string= (system-name) home-computer-name))
+
+  (defconst windows-p (eq system-type 'windows-nt))
+  (defconst linux-p (eq system-type 'gnu/linux))
+#+END_SRC
+
+** Speed-up at startup: boost garbage collector memory
+#+BEGIN_SRC emacs-lisp
   (defconst normal-gc-cons-threshold (* 20 1024 1024))
   (defconst init-gc-cons-threshold (* 20 1024 1024))
   (setq gc-cons-threshold init-gc-cons-threshold)
   (add-hook 'emacs-startup-hook
-  (lambda () (setq gc-cons-threshold normal-gc-cons-threshold)))
+	    (lambda () (setq gc-cons-threshold normal-gc-cons-threshold)))
 #+END_SRC
-
-** Tangle this file
-
-#+BEGIN_SRC emacs-lisp :tangle "init.el" :comment org
-  (let ((file-name-handler-alist nil)
-	(readme-el "init-post.el")
-	(readme-elc "init-post.elc")
-	(readme-org "README.org")
-	)
-
-    (when (or (not (file-exists-p readme-el))
-	      (file-newer-than-file-p readme-org readme-el))
-      (require 'org)
-      (require 'loadhist)
-      (org-babel-tangle-file readme-org)
-      (defun unload-feature-recursive (feature)
-	(let* ((file (feature-file feature))
-	       (dependents (delete file (copy-sequence (file-dependents file))))) 
-	  (when dependents
-	    (mapc #'unload-feature-recursive (mapcan #'file-provides dependents)))))
-      (unload-feature-recursive 'org))
-
-    (when (or (not (file-exists-p readme-elc))
-	      (file-newer-than-file-p readme-org readme-elc))
-      (byte-compile-file readme-el t)))
+*** see help section
+[[help:gc-cons-threshold][help: gc-cons-threshold]] (default: 800000)
+** load standard configuration
+#+BEGIN_SRC emacs-lisp :tangle no
+  (let ((config-file (concat user-emacs-directory "init-post.el")))
+    (when (file-exists-p config-file)
+      (load config-file)))
 #+END_SRC
-
-* First of All
-
-** Add load-path
-
-#+BEGIN_SRC emacs-lisp
-  (defconst lisp-dir (file-name-as-directory (concat user-emacs-directory "lisp")))
-  (add-to-list 'load-path lisp-dir)
-#+END_SRC
-
-** ELPA configuration
+* Standard configuration: init-post.el
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init.el"
+:END:
+** package
 #+BEGIN_SRC emacs-lisp
   (require 'package)
   (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages"))
+	       '("melpa" . "https://melpa.org/packages"))
   (add-to-list 'package-archives
-               '("MELPA Stable" . "https://stable.melpa.org/packages") t)
-  (add-to-list 'package-archives
-               '("org" . "http://orgmode.org/elpa/") t)
-
+	       '("MELPA Stable" . "https://stable.melpa.org/packages") t)
   (unless package--initialized (package-initialize t))
 #+END_SRC
 
 ** straight & use-package
-
-straight
-(package manager)
-[[https://github.com/raxod502/straight.el][github: straight.el]]
-[[https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/][why and how to switch from package to straight]]
-
-TODO see hydra integration
-https://github.com/abo-abo/hydra/wiki/straight.el
-
-see example
-https://emacs.nasy.moe/
-
-[[https://github.com/jwiegley/use-package][github: use-package]]
-
 #+BEGIN_SRC emacs-lisp
   (defvar bootstrap-version)
   (let ((bootstrap-file
@@ -128,7 +156,7 @@ https://emacs.nasy.moe/
   (autoload #'straight-x-freeze-versions "straight-x")
 
   (straight-use-package 'use-package)
-  (setq straight-use-package-by-default t)
+  (setq straight-use-package-by-default t) ;; TODO what ?
 
   ;; (setq straight-profiles
   ;;       '((nil . "default.el")
@@ -136,23 +164,77 @@ https://emacs.nasy.moe/
   ;;         (pinned . "pinned.el")))
 
 #+END_SRC
+*** explanations
+(package manager)
+[[https://github.com/raxod502/straight.el][github: straight.el]]
+[[https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/][why and how to switch from package to straight]]
 
-*** TODO init-post.el:40:1:Error: Cannot open load file: No such file or directory, straight-x
+TODO see hydra integration
+https://github.com/abo-abo/hydra/wiki/straight.el
 
-** coding system
+see example
+https://emacs.nasy.moe/
+
+[[https://github.com/jwiegley/use-package][github: use-package]]
+** use-package extensions
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'dired-mode-hook (lambda ()
-                               (when (eq system-type 'windows-nt)
-                                 (make-local-variable 'coding-system-for-read)
-                                 (setq coding-system-for-read 'utf-8-dos))
-                               ) ;; end lambda
-            )
+  (use-package use-package-ensure-system-package)
+
+  (use-package key-chord)
+
+  (use-package use-package-chords)
+
+  (use-package diminish
+    ;;
+    ;; only works with minor mode
+    ;;
+    ;; see http://emacs-fu.blogspot.com/2010/05/cleaning-up-mode-line.html
+    :config
+    (defun diminish-emacs-lisp-mode() (setq mode-name "elisp"))
+    (add-hook 'emacs-lisp-mode-hook 'diminish-emacs-lisp-mode)
+    )
+
+  (use-package delight
+    :disabled)
 #+END_SRC
 
-** Miscellaneous packages for use-package
+** magit
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    ;;
+    ;; TODO see magit-gitflow
+    ;;
+    ;; :pin gnu
+    :config
 
-*** Hydra
+    ;; speed up magit
+    (when (eq system-type 'windows-nt)
+      (setq exec-path (add-to-list 'exec-path "C:/Program Files/Git/cmd"))
+      (setq exec-path (add-to-list 'exec-path "C:/Program Files/Git/bin"))
+      (setenv "PATH" (concat "C:\\Program Files\\Git\\cmd;"
+			     "C:\\Program Files\\Git\\bin;"
+			     (getenv "PATH"))))
+    )
 
+  (use-package git-link
+    :straight (:host github :repo "sshaw/git-link")
+    )
+
+  ;; (defhydra hydra-magit (:hint nil)
+  ;;   "
+  ;; _s_ status    _c_ commit
+  ;; _P_ pull      _la_ log all
+  ;; _p_ push      _d_ diff
+  ;; "
+  ;;   ("p" magit-push :exit t)
+  ;;   ("P" magit-pull :exit t)
+  ;;   ("c" magit-commit :exit t)
+  ;;   ("d" magit-diff :exit t)
+  ;;   ("la" magit-log-all :exit t)
+  ;;   ("s" magit-status :exit t)
+  ;;   )
+#+END_SRC
+** Hydra
 #+BEGIN_SRC emacs-lisp
   (use-package hydra
     ;; bindings keys
@@ -172,176 +254,111 @@ https://emacs.nasy.moe/
     :after use-package hydra
     )
 #+END_SRC
-
-*** key-chord diminish delight
-
-#+BEGIN_SRC emacs-lisp
-  (use-package key-chord
-    :load-path "local-packages/")
-
-  ;; (use-package diminish
-  ;;   ;;
-  ;;   ;; only works with minor mode
-  ;;   ;;
-  ;;   ;; see http://emacs-fu.blogspot.com/2010/05/cleaning-up-mode-line.html
-  ;;   :straight
-  ;;   (:host github :repo "myrjola/diminish.el" :branch "master")
-  ;;   :config
-  ;;   (defun diminish-emacs-lisp-mode() (setq mode-name "elisp"))
-  ;;   (add-hook 'emacs-lisp-mode-hook 'diminish-emacs-lisp-mode)
-  ;;   )
-
-  (straight-use-package 'diminish)
-  (straight-use-package 'delight)
-
-#+END_SRC
-
-** My own fuctions & macros
-
-#+BEGIN_SRC emacs-lisp
-  (defconst ingenico-computer-name "FR0WSC3NRYM2")
-  (defconst home-computer-name "DESKTOP-5R08DIM")
-
-  (defconst ingenico-computer-p (string= (system-name) ingenico-computer-name))
-  (defconst home-computer-p (string= (system-name) home-computer-name))
-
-  (defconst windows-p (eq system-type 'windows-nt))
-  (defconst linux-p (eq system-type 'gnu/linux))
-  (defconst mac-p (eq system-type 'darwin))
-
-  (defconst local-packages-dir
-    (file-name-as-directory (concat user-emacs-directory "local-packages")))
-#+END_SRC
-
 ** Encoding
-
-see https://www.emacswiki.org/emacs/ChangingEncodings
-
-- =(setq utf-translate-cjk-mode nil)= disables CJK coding/encoding
-  (Chinese/Japanese/Korean characters)
-- =(set-keyboard-coding-system 'utf-8-unix)= For old Carbon emacs on OS X only
-
 #+BEGIN_SRC emacs-lisp
-  ;; (setq utf-translate-cjk-mode nil)
-  (set-keyboard-coding-system 'utf-8-unix)
+  ;; utf-8-unix
+  ;; windows-1252
+
+  (setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
+  (set-keyboard-coding-system 'utf-8-unix) ; For old Carbon emacs on OS X only
   (setq locale-coding-system 'windows-1252)
   (set-default-coding-systems 'utf-8-unix)
   (prefer-coding-system 'utf-8-unix)
-#+END_SRC
 
-** Custom file & local time
-
-Setting `system-time-local' to C ensure org timestamp is in english format.
-
-#+BEGIN_SRC emacs-lisp
-  (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
-  (load custom-file)
-
-  (byte-recompile-directory (expand-file-name "lisp" user-emacs-directory) 0)
-
+    ;;;; ensure org timestamp is in english format
   (setq system-time-locale "C")
 #+END_SRC
-
-
-** Add a path to Environment Variable
-
-- Environement variable "PATH" is used by Emacs terminals.
-- Variable "exec-path" is used by Emacs.
-
+*** Links
+see https://www.emacswiki.org/emacs/ChangingEncodings
+** yasnippet
 #+BEGIN_SRC emacs-lisp
-  (cond (mac-p
-         (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-         (setq exec-path (append exec-path '("/usr/local/bin")))))
+(use-package yasnippet
+  ;; https://github.com/joaotavora/yasnippet
+  ;; http://joaotavora.github.io/yasnippet/
+  :config
+  (yas-global-mode 1)
+  )
 #+END_SRC
-
-** TODO see what it is
-
+** fill column 
 #+BEGIN_SRC emacs-lisp
-  (use-package use-package-ensure-system-package)
+(use-package fill-column-indicator
+  :config
+  (defun set-fci-to-80 ()
+    (setq fci-rule-column 80))
+  (add-hook 'prog-mode-hook 'fci-mode)
+  (add-hook 'prog-mode-hook 'set-fci-to-80)
+  (add-hook 'ada-mode-hook 'fci-mode)
+  )
 #+END_SRC
-
 ** undo-tree
-- https://github.com/apchamberlain/undo-tree.el
-- https://www.emacswiki.org/emacs/UndoTree
 
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :straight
     (:host github :repo "emacsorphanage/undo-tree" :branch "master"))
 #+END_SRC
-
-** yasnippet
-
-https://github.com/joaotavora/yasnippet
-http://joaotavora.github.io/yasnippet/
-
-#+BEGIN_SRC emacs-lisp
-  (use-package yasnippet
-    :config
-    (yas-global-mode 1)
-    )
-#+END_SRC
-
-** TODO org-mode
+*** links
+https://github.com/apchamberlain/undo-tree.el
+https://www.emacswiki.org/emacs/UndoTree
+** org
 #+BEGIN_SRC emacs-lisp
   (use-package org
-                                          ;    :pin gnu
     :mode
     ("\\.\\(org\\|txt\\)\\'" . org-mode)
     ("\\*notes\\*" . org-mode)
     :bind (("C-c a" . org-agenda)
-           ("C-c c" . org-capture))
+	   ("C-c c" . org-capture))
     :custom
     (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id "org-store-link create an id")
-    (org-adapt-indentation nil)
-    (org-agenda-files (quote ("~/workspace/org/agenda")))
-    (org-default-notes-file "~/Dropbox/org/notes.org")
-    (org-fontify-done-headline t)
-    (org-hide-leading-stars nil)
-    (org-html-table-default-attributes nil)
-    (org-indent-indentation-per-level 0)
-    (org-level-color-stars-only nil)
-    (org-publish-timestamp-directory "~/workspace/org/.org-timestamps/")
-    (org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
-    (org-src-window-setup (quote current-window))
-    (org-startup-shrink-all-tables t)
-    (org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>")))
-    (org-file-apps
-     (quote
-      ((auto-mode . emacs)
-       ("\\.mm\\'" . default)
-       ("\\.x?html?\\'" . default)
-       ("\\.pdf\\'" . default)
-       (directory . emacs))))
-    (org-modules
-     (quote
-      (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
-    (org-capture-templates
-     (quote
-      (("l" "Link" entry
-        (file+headline "~/Dropbox/org/new_links.org" "links")
-        "** link
-    :PROPERTIES:
-    :TITLE: %?
-    :LINK:
-    :END:
-    ")
-       ("t" "Task" entry
-        (file+headline "" "Tasks")
-        "* TODO %?
-      %u
-      %a")
-       ("c" "Clope" entry
-        (file+headline "~/Dropbox/org/pauses.org" "pauses")
-        "** clope
-    :PROPERTIES:
-    :TIMES: %U%?
-    :END:
-    "))))
     :config
-    (org-indent-mode 0)
-    :custom-face
-    (org-headline-done ((t (:foreground "medium aquamarine"))))
+    (setq org-indent-mode 0
+	  org-adapt-indentation nil
+	  org-agenda-files (quote ("~/workspace/org/agenda"))
+	  org-default-notes-file "~/Dropbox/org/notes.org"
+	  org-file-apps
+	  (quote
+	   ((auto-mode . emacs)
+	    ("\\.mm\\'" . default)
+	    ("\\.x?html?\\'" . default)
+	    ("\\.pdf\\'" . default)
+	    (directory . emacs)))
+	  org-fontify-done-headline t
+	  org-hide-leading-stars nil
+	  org-html-table-default-attributes nil
+	  org-indent-indentation-per-level 0
+	  org-level-color-stars-only nil
+	  org-modules
+	  (quote
+	   (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
+	  org-publish-timestamp-directory "~/workspace/org/.org-timestamps/"
+	  org-refile-targets (quote ((org-agenda-files :maxlevel . 4)))
+	  org-src-window-setup (quote current-window)
+	  org-startup-shrink-all-tables t
+	  org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
+	  ;; org-headline-done ((t (:foreground "medium aquamarine")))
+	  org-capture-templates
+	  (quote
+	   (("l" "Link" entry
+	     (file+headline "~/Dropbox/org/new_links.org" "links")
+	     "** link
+  :PROPERTIES:
+  :TITLE: %?
+  :LINK:
+  :END:
+  ")
+	    ("t" "Task" entry
+	     (file+headline "" "Tasks")
+	     "* TODO %?
+  %u
+  %a")
+	    ("c" "Clope" entry
+	     (file+headline "~/Dropbox/org/pauses.org" "pauses")
+	     "** clope
+  :PROPERTIES:
+  :TIMES: %U%?
+  :END:
+  ")))
+	  )
     )
 
   ;; patched function org-translate-time from org.el
@@ -392,22 +409,21 @@ http://joaotavora.github.io/yasnippet/
     (setq ob-async-no-async-languages-alist '("ipython")))
 
   (use-package org-mind-map
-    :disabled
     ;; mind map
     :init (require 'ox-org)
     :config
     (setq org-mind-map-engine "dot"
-          org-mind-map-default-graph-attribs
-          (quote
-           (("autosize" . "false")
-            ("size" . "9,12")
-            ("resolution" . "100")
-            ("nodesep" . "0.75")
-            ("overlap" . "false")
-            ("splines" . "ortho")
-            ("rankdir" . "LR")))
-          org-mind-map-dot-output (quote ("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff"))
-          )
+	  org-mind-map-default-graph-attribs
+	  (quote
+	   (("autosize" . "false")
+	    ("size" . "9,12")
+	    ("resolution" . "100")
+	    ("nodesep" . "0.75")
+	    ("overlap" . "false")
+	    ("splines" . "ortho")
+	    ("rankdir" . "LR")))
+	  org-mind-map-dot-output (quote ("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff"))
+	  )
     )
 
   (use-package org-brain
@@ -419,86 +435,68 @@ http://joaotavora.github.io/yasnippet/
     ;; https://github.com/QBobWatson/poporg
     :bind (("C-c /" . poporg-dwim)))
 
+  (use-package htmlize
+  ;; to export html file
+    )
 #+END_SRC
-
-*** TODO extensions / links to see
-https://orgmode.org/worg/org-tutorials/org-google-sync.html
-https://github.com/novoid/org-mode-workshop
-https://github.com/toshism/org-super-links/issues
-https://github.com/topics/orgmode
-
-** TODO magit
+** link-hint
 #+BEGIN_SRC emacs-lisp
-  (load-file (concat local-packages-dir "git-config.el"))
+  (use-package link-hint
+    :bind
+    ("C-c l o" . link-hint-open-link)
+    ("C-c l c" . link-hint-copy-link))
 #+END_SRC
-
-** fill-column-indicator
-
+*** links
+https://github.com/noctuid/link-hint.el
+** moving in emacs
 #+BEGIN_SRC emacs-lisp
-  (use-package fill-column-indicator
+  (use-package avy
+    ;; https://github.com/abo-abo/avy
+    ;; like ace-jump
     :config
-    (defun set-fci-to-80 ()
-      (setq fci-rule-column 80))
-    (add-hook 'prog-mode-hook 'fci-mode)
-    (add-hook 'prog-mode-hook 'set-fci-to-80)
-    (add-hook 'ada-mode-hook 'fci-mode)
-    )
-#+END_SRC
-
-*** TODO use :hook
-
-** latex
-
-#+BEGIN_SRC emacs-lisp
-  (use-package auctex
-    ;; https://www.gnu.org/software/auctex/
-    :defer t
-    :ensure t)
-#+END_SRC
-
-** ada
-
-#+BEGIN_SRC emacs-lisp
-  (use-package wisi
-    :straight (:host github :repo "emacsmirror/wisi")
+    (setq avy-timeout-seconds 0.3)
+    (setq avy-all-windows 'all-frames)
+    :bind
+    (("C-M-:" . avy-goto-char-timer)
+     ("C-:" . avy-goto-char-2))
     )
 
-  (require 'imenu) ;; needed for ada
-
-  (use-package ada-mode
-    :straight (:host github :repo "emacsmirror/ada-mode")
-    :after wisi fill-column-indicator
+  (use-package avy-menu
+    ;; https://github.com/mrkkrp/avy-menu
+    )
+#+END_SRC
+** browse-kill-ring
+#+BEGIN_SRC emacs-lisp
+  (use-package browse-kill-ring
+    :straight (:host github :repo "browse-kill-ring/browse-kill-ring" :branch "master")
     :config
-    (setq ada-parser 'elisp)
-    (setq fci-rule-column 78)
-    (ada-case-read-exceptions)
-
-    (defun ada-before-save ()
-      (when (or (eq major-mode 'ada-mode) (eq major-mode 'gpr-mode))
-        (ada-case-adjust-buffer)
-        (ada-reset-parser)
-        (indent-buffer)))
-
-    (add-hook 'before-save-hook 'ada-before-save)
-    (add-hook 'ada-mode-hook (lambda () (electric-pair-mode) (which-function-mode)))
-
-    ;; source:
-    ;; https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
-    (defun hippie-expand-ada-symbols (orig-fun &rest args)
-      (if (eq major-mode 'ada-mode)
-          (let ((table (make-syntax-table ada-mode-syntax-table)))
-            (modify-syntax-entry ?. "_" table)
-            (with-syntax-table table (apply orig-fun args)))
-        (apply orig-fun args)))
-
-    (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
+    (global-set-key "\M-y" 'browse-kill-ring)
+    (setq browse-kill-ring-highlight-current-entry nil)
     )
 #+END_SRC
+*** TODO links
+** line numbering. linum
+#+BEGIN_SRC emacs-lisp
+  (unless window-system
+    (add-hook 'linum-before-numbering-hook
+	      (lambda ()
+		(setq-local linum-format-fmt
+			    (let ((w (length (number-to-string
+					      (count-lines (point-min) (point-max))))))
+			      (concat "%" (number-to-string w) "d"))))))
 
-*** TODO use :hook & :init
+  (defun linum-format-func (line)
+    (concat
+     (propertize (format linum-format-fmt line) 'face 'linum)
+     (propertize " " 'face 'mode-line)))
 
+  (unless window-system
+    (setq linum-format 'linum-format-func))
+#+END_SRC
+*** links
+customize -format
+source: https://www.emacswiki.org/emacs/LineNumbers#toc8
 ** completion
-
 #+BEGIN_SRC emacs-lisp
   (use-package flx
     ;; flx mode. Used with completion list
@@ -512,13 +510,13 @@ https://github.com/topics/orgmode
     ;; https://www.youtube.com/user/abo5abo
     ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
     :bind (:map ivy-minibuffer-map
-                ("<RET>" . ivy-alt-done)
-                ("C-j" . ivy-immediate-done)
-                )
+		("<RET>" . ivy-alt-done)
+		("C-j" . ivy-immediate-done)
+		)
     :config
     (setq ivy-re-builders-alist
-          '((swiper-isearch . ivy--regex-ignore-order)
-            (t      . ivy--regex-fuzzy)))
+	  '((swiper-isearch . ivy--regex-ignore-order)
+	    (t      . ivy--regex-fuzzy)))
     )
 
   (use-package swiper
@@ -528,13 +526,45 @@ https://github.com/topics/orgmode
   (use-package counsel
     ;; completion
     )
+
+  (global-set-key (kbd "C-x r b") 'counsel-bookmark)
+  (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-h f") 'counsel-describe-function)
+  (global-set-key (kbd "C-h v") 'counsel-describe-variable)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "C-x C-d") 'counsel-find-file)
+  (global-set-key (kbd "C-x d") 'counsel-find-file)
+
+  (global-set-key (kbd "C-s") 'isearch-forward)
+  (global-set-key (kbd "C-r") 'isearch-backward)
 #+END_SRC
+*** links
+https://github.com/abo-abo/swiper
+https://oremacs.com/swiper/
+https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/
+https://www.reddit.com/r/emacs/comments/6yi6dl/most_useful_parts_of_ivycounselswiper_manual_too/
+https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
 
-* bookmark+
-
-Emacs bookmarks
-
+** visual
 #+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons
+    :ensure t
+    :config
+    (unless (file-directory-p (concat user-emacs-directory "all-the-icons-fonts"))
+      (make-directory (concat (getenv "HOME") (concat user-emacs-directory "all-the-icons-fonts")))
+      (error "please run all-the-icons-install-fonts in .emacs.d/all-the-icons-fonts")
+      ))
+
+  (use-package immaterial-theme
+    ;; dark colors. Better than default white...
+    :config
+    (load-theme 'immaterial-dark t)
+    )
+#+END_SRC
+** bookmark+
+#+BEGIN_SRC emacs-lisp
+  ;; TODO see if necessary (load-file (concat user-emacs-directory "lisp/bookmark-plus/bookmark+-mac.el"))
   (use-package bookmark+
     ;; https://www.emacswiki.org/emacs/BookmarkPlus
     :straight
@@ -545,319 +575,44 @@ Emacs bookmarks
     )
 #+END_SRC
 
-* dired
+** TODO ada mode                                                         :dev:
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package wisi
+  :straight (:host github :repo "emacsmirror/wisi")
+  )
 
-#+BEGIN_SRC emacs-lisp
-  (use-package dired+
-    :straight
-    (:host github :repo "emacsmirror/dired-plus" :branch "master")
-    :config
-    (progn
-      ;; I want the same color for file name and extension
-      (setq diredp-file-suffix diredp-file-name)
-      ) ;; end progn
-    :bind
-    (:map dired-mode-map
-          ("M-b" . backward-word)
-          ("<f1>" . hydra-dired/body)
-          )
+(require 'imenu)
 
-    ;; :hook (lambda ()
-    ;;         (local-set-key (kbd "<f1>") (quote hydra-summary/body))
-    ;;         ;; (local-set-key (kbd "M-b") (quote backward-word))
-    ;;         )
+(use-package ada-mode
+  :straight (:host github :repo "emacsmirror/ada-mode")
+  :after wisi fill-column-indicator
+  :config
+  (setq ada-parser 'elisp)
+  (setq fci-rule-column 78)
+  (ada-case-read-all-exceptions)
 
-    :hydra
-    (hydra-dired (:hint nil :color pink)
-                 "
-  _+_ mkdir          _v_iew           _m_ark             _(_ details        _i_nsert-subdir    wdired
-  _C_opy             _O_ view other   _U_nmark all       _)_ omit-mode      _$_ hide-subdir    C-x C-q : edit
-  _D_elete           _o_pen other     _u_nmark           _l_ redisplay      _w_ kill-subdir    C-c C-c : commit
-  _R_ename           _M_ chmod        _t_oggle           _g_ revert buf     _e_ ediff          C-c ESC : abort
-  _Y_ rel symlink    _G_ chgrp        _E_xtension mark   _s_ort             _=_ pdiff
-  _S_ymlink          ^ ^              _F_ind marked      _._ toggle hydra   \\ flyspell
-  _r_sync            ^ ^              ^ ^                ^ ^                _?_ summary
-  _z_ compress-file  _A_ find regexp
-  _Z_ compress       _Q_ repl regexp
+  (defun ada-before-save ()
+    (when (or (eq major-mode 'ada-mode) (eq major-mode 'gpr-mode))
+      (ada-case-adjust-buffer)
+      (ada-reset-parser)
+      (indent-buffer)))
+  (add-hook 'before-save-hook 'ada-before-save)
+  (add-hook 'ada-mode-hook (lambda () (electric-pair-mode)))
 
-  T - tag prefix
-  "
-                 ("\\" dired-do-ispell)
-                 ("(" dired-hide-details-mode)
-                 (")" dired-omit-mode)
-                 ("+" dired-create-directory)
-                 ("=" diredp-ediff)         ;; smart diff
-                 ("?" dired-summary)
-                 ("$" diredp-hide-subdir-nomove)
-                 ("A" dired-do-find-regexp)
-                 ("C" dired-do-copy)        ;; Copy all marked files
-                 ("D" dired-do-delete)
-                 ("E" dired-mark-extension)
-                 ("e" dired-ediff-files)
-                 ("F" dired-do-find-marked-files)
-                 ("G" dired-do-chgrp)
-                 ("g" revert-buffer)        ;; read all directories again (refresh)
-                 ("i" dired-maybe-insert-subdir)
-                 ("l" dired-do-redisplay)   ;; relist the marked or singel directory
-                 ("M" dired-do-chmod)
-                 ("m" dired-mark)
-                 ("O" dired-display-file)
-                 ("o" dired-find-file-other-window)
-                 ("Q" dired-do-find-regexp-and-replace)
-                 ("R" dired-do-rename)
-                 ("r" dired-do-rsynch)
-                 ("S" dired-do-symlink)
-                 ("s" dired-sort-toggle-or-edit)
-                 ("t" dired-toggle-marks)
-                 ("U" dired-unmark-all-marks)
-                 ("u" dired-unmark)
-                 ("v" dired-view-file)      ;; q to exit, s to search, = gets line #
-                 ("w" dired-kill-subdir)
-                 ("Y" dired-do-relsymlink)
-                 ("z" diredp-compress-this-file)
-                 ("Z" dired-do-compress)
-                 ("q" nil)
-                 ("." nil :color blue))
-                 ;; end :hydra
-    )
+  ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
+  (defun hippie-expand-ada-symbols (orig-fun &rest args)
+    (if (eq major-mode 'ada-mode)
+	(let ((table (make-syntax-table ada-mode-syntax-table)))
+	  (modify-syntax-entry ?. "_" table)
+	  (with-syntax-table table (apply orig-fun args)))
+      (apply orig-fun args)))
 
-  (add-hook 'dired-mode-hook
-            (lambda ()
-              (local-set-key (kbd "<f1>") (quote hydra-summary/body))
-              ;; (local-set-key (kbd "M-b") (quote backward-word))
-              ))
-
-  (use-package dired-filter
-    ;; TODO replace shortcuts with hydra
-    :after hydra
-    :bind (:map dired-mode-map ("/" . hydra-dired-filter/body))
-    :hydra (hydra-dired-filter
-            ()
-            "dired-filter
-
-  "
-            ("n" dired-filter-by-name "by name" :column "filter by")
-            ("r" dired-filter-by-regexp "regexp")
-            ("e" dired-filter-by-extension "extension")
-            ("f" dired-filter-by-file "files" :column "filter only")
-            ("p" dired-filter-pop "pop last filter" :column "others")
-            ("H" (describe-package 'dired-filter) "Help" :column "manual")
-            )
-    )
-    ;; add-hook
-
-  (use-package find-dired+
-    ;; https://www.emacswiki.org/emacs/find-dired+.el
-
-    :disabled ;; freeze emacs ???
-
-    :load-path "local-packages/"
-    :config
-
-    (progn
-      (when (eq system-type 'windows-nt)
-        (setq find-program "C:/Ingenico/GnuWin32/bin/find.exe")
-        ) ;; end when
-      ) ;; end progn
-    )
+  (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
+  )
 #+END_SRC
 
-* ibuffer
-
+** python                                                                :dev:
 #+BEGIN_SRC emacs-lisp
-  (use-package ibuffer
-    ;; https://github.com/reinh/dotemacs/blob/master/conf/init.org#ido
-    ;; https://www.emacswiki.org/emacs/IbufferMode
-
-    :bind
-    ("C-x C-b" . ibuffer)
-
-    :bind
-    (:map ibuffer-mode-map
-          ("<f1>" . hydra-ibuffer-main/body))
-
-    :init
-    (add-hook 'ibuffer-mode-hook
-              (lambda ()
-                (ibuffer-auto-mode)
-                (ibuffer-switch-to-saved-filter-groups "default")))
-
-    :config
-    (progn
-      (define-ibuffer-sorter filename-or-dired
-        "Sort the buffers by their pathname."
-        (:description "filenames plus dired")
-        (string-lessp
-         (with-current-buffer (car a)
-           (or buffer-file-name
-               (if (eq major-mode 'dired-mode)
-                   (expand-file-name dired-directory))
-               ;; so that all non pathnames are at the end
-               "~"))
-         (with-current-buffer (car b)
-           (or buffer-file-name
-               (if (eq major-mode 'dired-mode)
-                   (expand-file-name dired-directory))
-               ;; so that all non pathnames are at the end
-               "~"))))
-
-      (define-key ibuffer-mode-map (kbd "s p")
-        'ibuffer-do-sort-by-filename-or-dired)
-
-      (setq ibuffer-show-empty-filter-groups t
-
-            ibuffer-saved-filter-groups
-            (quote (("default"
-                     ("bbvakeystore" (name . "bbvakeystore"))
-                     ("bbvamkstore" (name . "bbvamkstore"))
-                     ("bbvaskstore" (name . "bbvaskstore"))
-                     ("bbvatkgen" (name . "bbvatkgen"))
-                     ("bbvatkexp" (name . "bbvatkexp"))
-                     ("bookmarks" (name . "org/bookmarks"))
-                     )))
-
-            ibuffer-directory-abbrev-alist
-            (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"
-                     . "SUPTER-7682_mexique")
-                    ("dllsch_t3_bbva_key_injection_pin_block_private"
-                     . "dllsch_t3_..._private")))
-
-            ibuffer-default-sorting-mode (quote filename-or-dired)
-
-            ibuffer-formats
-            (quote
-             ((mark modified read-only locked " "
-                    (name 25 25 :left :elide)
-                    " "
-                    (size 7 -1 :right)
-                    " "
-                    (mode 8 8 :left :elide)
-                    " " filename-and-process)
-              (mark " "
-                    (name 16 -1)
-                    " " filename)))
-            ) ;; setq
-
-      (define-ibuffer-column size-h
-        (:name "Size" :inline t)
-        (cond
-         ((> (buffer-size) 1000000) (format "%7.1fM" (/ (buffer-size) 1000000.0)))
-         ((> (buffer-size) 100000) (format "%7.0fk" (/ (buffer-size) 1000.0)))
-         ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
-         (t (format "%8d" (buffer-size)))))
-      ) ;; progn
-
-    :hydra
-    (hydra-ibuffer-main
-     (:color pink :hint nil)
-     "
-  ^Navigation^  | ^Mark^        | ^Actions^        | ^View^
-  -^----------^-+-^----^--------+-^-------^--------+-^----^-------
-  _k_:    ʌ     | _m_: mark     | _D_: delete      | _g_: refresh
-  _RET_: visit  | _u_: unmark   | _S_: save        | _s_: sort
-  _j_:    v     | _*_: specific | _a_: all actions | _/_: filter
-  -^----------^-+-^----^--------+-^-------^--------+-^----^-------
-  "
-     ("j" ibuffer-forward-line)
-     ("RET" ibuffer-visit-buffer :color blue)
-     ("k" ibuffer-backward-line)
-
-     ("m" ibuffer-mark-forward)
-     ("u" ibuffer-unmark-forward)
-     ("*" hydra-ibuffer-mark/body :color blue)
-
-     ("D" ibuffer-do-delete)
-     ("S" ibuffer-do-save)
-     ("a" hydra-ibuffer-action/body :color blue)
-
-     ("g" ibuffer-update)
-     ("s" hydra-ibuffer-sort/body :color blue)
-     ("/" hydra-ibuffer-filter/body :color blue)
-
-     ("o" ibuffer-visit-buffer-other-window "other window" :color blue)
-     ("q" quit-window "quit ibuffer" :color blue)
-     ("." nil "toggle hydra" :color blue))
-
-    (hydra-ibuffer-mark
-     (:color teal
-             :columns 5
-             :after-exit (hydra-ibuffer-main/body))
-     "Mark"
-     ("*" ibuffer-unmark-all "unmark all")
-     ("M" ibuffer-mark-by-mode "mode")
-     ("m" ibuffer-mark-modified-buffers "modified")
-     ("u" ibuffer-mark-unsaved-buffers "unsaved")
-     ("s" ibuffer-mark-special-buffers "special")
-     ("r" ibuffer-mark-read-only-buffers "read-only")
-     ("/" ibuffer-mark-dired-buffers "dired")
-     ("e" ibuffer-mark-dissociated-buffers "dissociated")
-     ("h" ibuffer-mark-help-buffers "help")
-     ("z" ibuffer-mark-compressed-file-buffers "compressed")
-     ("b" hydra-ibuffer-main/body "back" :color blue))
-
-    (hydra-ibuffer-action
-     (:color teal :columns 4
-             :after-exit
-             (if (eq major-mode 'ibuffer-mode)
-                 (hydra-ibuffer-main/body)))
-     "Action"
-     ("A" ibuffer-do-view "view")
-     ("E" ibuffer-do-eval "eval")
-     ("F" ibuffer-do-shell-command-file "shell-command-file")
-     ("I" ibuffer-do-query-replace-regexp "query-replace-regexp")
-     ("H" ibuffer-do-view-other-frame "view-other-frame")
-     ("N" ibuffer-do-shell-command-pipe-replace "shell-cmd-pipe-replace")
-     ("M" ibuffer-do-toggle-modified "toggle-modified")
-     ("O" ibuffer-do-occur "occur")
-     ("P" ibuffer-do-print "print")
-     ("Q" ibuffer-do-query-replace "query-replace")
-     ("R" ibuffer-do-rename-uniquely "rename-uniquely")
-     ("T" ibuffer-do-toggle-read-only "toggle-read-only")
-     ("U" ibuffer-do-replace-regexp "replace-regexp")
-     ("V" ibuffer-do-revert "revert")
-     ("W" ibuffer-do-view-and-eval "view-and-eval")
-     ("X" ibuffer-do-shell-command-pipe "shell-command-pipe")
-     ("b" nil "back"))
-
-    (hydra-ibuffer-sort
-     (:color amaranth :columns 3)
-     "Sort"
-     ("i" ibuffer-invert-sorting "invert")
-     ("a" ibuffer-do-sort-by-alphabetic "alphabetic")
-     ("v" ibuffer-do-sort-by-recency "recently used")
-     ("s" ibuffer-do-sort-by-size "size")
-     ("f" ibuffer-do-sort-by-filename/process "filename")
-     ("m" ibuffer-do-sort-by-major-mode "mode")
-     ("b" hydra-ibuffer-main/body "back" :color blue))
-
-    (hydra-ibuffer-filter
-     (:color amaranth :columns 4)
-     "Filter"
-     ("m" ibuffer-filter-by-used-mode "mode")
-     ("M" ibuffer-filter-by-derived-mode "derived mode")
-     ("n" ibuffer-filter-by-name "name")
-     ("c" ibuffer-filter-by-content "content")
-     ("e" ibuffer-filter-by-predicate "predicate")
-     ("f" ibuffer-filter-by-filename "filename")
-     (">" ibuffer-filter-by-size-gt "size")
-     ("<" ibuffer-filter-by-size-lt "size")
-     ("/" ibuffer-filter-disable "disable")
-     ("b" hydra-ibuffer-main/body "back" :color blue))
-    ); use-package ibuffer
-#+END_SRC
-
-* TODO process the rest
-#+BEGIN_SRC emacs-lisp
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;; TODO to sort
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  ;; (let ((straight-current-profile 'pinned))
-  ;;   (add-to-list 'straight-x-pinned-packages
-  ;;                '("ada-mode" . "c56045a140816f76abfd43aa8351a18fe56a8d15"))
-  ;;   (add-to-list 'straight-x-pinned-packages
-  ;;                '("wisi" . "83ca0c16350ff4e79ff5172abcc5a2a78c755530")))
-
   (use-package flycheck
     :after elpy
     )
@@ -871,11 +626,10 @@ Emacs bookmarks
       (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
       (add-hook 'elpy-mode-hook 'flycheck-mode))
     )
-
-  ;; TODO Enable Flycheck. Integrate in use-package
-
+#+END_SRC
+** fic-mode: highlight TODO/FIXME/...                                    :dev:
+#+BEGIN_SRC emacs-lisp
   (use-package fic-mode
-    ;; highlight TODO/FIXME/...
     :config
     (add-hook 'prog-mode-hook #'fic-mode)
     (add-hook 'ada-mode-hook #'fic-mode)
@@ -884,6 +638,351 @@ Emacs bookmarks
       (interactive)
       (occur "\\<\\(FIXME\\|TODO\\|BUG\\):?"))
     )
+#+END_SRC
+
+** ibuffer
+#+BEGIN_SRC emacs-lisp
+   (use-package ibuffer
+     ;; https://github.com/reinh/dotemacs/blob/master/conf/init.org#ido
+     ;; https://www.emacswiki.org/emacs/IbufferMode
+
+     :after hydra
+
+     :bind
+     ("C-x C-b" . ibuffer)
+
+     :bind-keymap
+     ("<f1>" . hydra-ibuffer-main/body)
+
+     ;; :hook
+     ;; ((lambda ()
+     ;;   (ibuffer-switch-to-saved-filter-groups "default")) . ibuffer-mode)
+
+     :init
+     (add-hook 'ibuffer-mode-hook
+	       (lambda ()
+		 (ibuffer-auto-mode)
+		 (ibuffer-switch-to-saved-filter-groups "default")))
+
+     :config
+     (progn
+  ;;;###autoload (autoload 'ibuffer-do-sort-by-filename-or-dired "init")
+       (define-ibuffer-sorter filename-or-dired
+	 "Sort the buffers by their pathname."
+	 (:description "filenames plus dired")
+	 (string-lessp
+	  (with-current-buffer (car a)
+	    (or buffer-file-name
+		(if (eq major-mode 'dired-mode)
+		    (expand-file-name dired-directory))
+		;; so that all non pathnames are at the end
+		"~"))
+	  (with-current-buffer (car b)
+	    (or buffer-file-name
+		(if (eq major-mode 'dired-mode)
+		    (expand-file-name dired-directory))
+		;; so that all non pathnames are at the end
+		"~"))))
+
+       (define-key ibuffer-mode-map (kbd "s p")
+	 'ibuffer-do-sort-by-filename-or-dired)
+
+       (setq ibuffer-show-empty-filter-groups t
+
+	     ibuffer-saved-filter-groups
+	     (quote (("default"
+		      ("bbvakeystore" (name . "bbvakeystore"))
+		      ("bbvamkstore" (name . "bbvamkstore"))
+		      ("bbvaskstore" (name . "bbvaskstore"))
+		      ("bbvatkgen" (name . "bbvatkgen"))
+		      ("bbvatkexp" (name . "bbvatkexp"))
+		      ("bookmarks" (name . "org/bookmarks"))
+		      )))
+
+	     ibuffer-directory-abbrev-alist
+	     (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"
+		      . "SUPTER-7682_mexique")
+		     ("dllsch_t3_bbva_key_injection_pin_block_private"
+		      . "dllsch_t3_..._private")))
+
+	     ibuffer-default-sorting-mode (quote filename-or-dired)
+
+	     ibuffer-formats
+	     (quote
+	      ((mark modified read-only locked " "
+		     (name 25 25 :left :elide)
+		     " "
+		     (size 7 -1 :right)
+		     " "
+		     (mode 8 8 :left :elide)
+		     " " filename-and-process)
+	       (mark " "
+		     (name 16 -1)
+		     " " filename)))
+	     ) ;; setq
+
+       (define-ibuffer-column size-h
+	 (:name "Size" :inline t)
+	 (cond
+	  ((> (buffer-size) 1000000) (format "%7.1fM" (/ (buffer-size) 1000000.0)))
+	  ((> (buffer-size) 100000) (format "%7.0fk" (/ (buffer-size) 1000.0)))
+	  ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
+	  (t (format "%8d" (buffer-size)))))
+       ) ;; progn
+
+     :hydra
+     (hydra-ibuffer-main
+      (:color pink :hint nil)
+      "
+    ^Navigation^ | ^Mark^        | ^Actions^        | ^View^
+   -^----------^-+-^----^--------+-^-------^--------+-^----^-------
+     _k_:    ʌ   | _m_: mark     | _D_: delete      | _g_: refresh
+    _RET_: visit | _u_: unmark   | _S_: save        | _s_: sort
+     _j_:    v   | _*_: specific | _a_: all actions | _/_: filter
+   -^----------^-+-^----^--------+-^-------^--------+-^----^-------
+   "
+      ("j" ibuffer-forward-line)
+      ("RET" ibuffer-visit-buffer :color blue)
+      ("k" ibuffer-backward-line)
+
+      ("m" ibuffer-mark-forward)
+      ("u" ibuffer-unmark-forward)
+      ("*" hydra-ibuffer-mark/body :color blue)
+
+      ("D" ibuffer-do-delete)
+      ("S" ibuffer-do-save)
+      ("a" hydra-ibuffer-action/body :color blue)
+
+      ("g" ibuffer-update)
+      ("s" hydra-ibuffer-sort/body :color blue)
+      ("/" hydra-ibuffer-filter/body :color blue)
+
+      ("o" ibuffer-visit-buffer-other-window "other window" :color blue)
+      ("q" quit-window "quit ibuffer" :color blue)
+      ("." nil "toggle hydra" :color blue))
+
+     (hydra-ibuffer-mark
+      (:color teal
+	      :columns 5
+	      :after-exit (hydra-ibuffer-main/body))
+      "Mark"
+      ("*" ibuffer-unmark-all "unmark all")
+      ("M" ibuffer-mark-by-mode "mode")
+      ("m" ibuffer-mark-modified-buffers "modified")
+      ("u" ibuffer-mark-unsaved-buffers "unsaved")
+      ("s" ibuffer-mark-special-buffers "special")
+      ("r" ibuffer-mark-read-only-buffers "read-only")
+      ("/" ibuffer-mark-dired-buffers "dired")
+      ("e" ibuffer-mark-dissociated-buffers "dissociated")
+      ("h" ibuffer-mark-help-buffers "help")
+      ("z" ibuffer-mark-compressed-file-buffers "compressed")
+      ("b" hydra-ibuffer-main/body "back" :color blue))
+
+     (hydra-ibuffer-action
+      (:color teal :columns 4
+	      :after-exit
+	      (if (eq major-mode 'ibuffer-mode)
+		  (hydra-ibuffer-main/body)))
+      "Action"
+      ("A" ibuffer-do-view "view")
+      ("E" ibuffer-do-eval "eval")
+      ("F" ibuffer-do-shell-command-file "shell-command-file")
+      ("I" ibuffer-do-query-replace-regexp "query-replace-regexp")
+      ("H" ibuffer-do-view-other-frame "view-other-frame")
+      ("N" ibuffer-do-shell-command-pipe-replace "shell-cmd-pipe-replace")
+      ("M" ibuffer-do-toggle-modified "toggle-modified")
+      ("O" ibuffer-do-occur "occur")
+      ("P" ibuffer-do-print "print")
+      ("Q" ibuffer-do-query-replace "query-replace")
+      ("R" ibuffer-do-rename-uniquely "rename-uniquely")
+      ("T" ibuffer-do-toggle-read-only "toggle-read-only")
+      ("U" ibuffer-do-replace-regexp "replace-regexp")
+      ("V" ibuffer-do-revert "revert")
+      ("W" ibuffer-do-view-and-eval "view-and-eval")
+      ("X" ibuffer-do-shell-command-pipe "shell-command-pipe")
+      ("b" nil "back"))
+
+     (hydra-ibuffer-sort
+      (:color amaranth :columns 3)
+      "Sort"
+      ("i" ibuffer-invert-sorting "invert")
+      ("a" ibuffer-do-sort-by-alphabetic "alphabetic")
+      ("v" ibuffer-do-sort-by-recency "recently used")
+      ("s" ibuffer-do-sort-by-size "size")
+      ("f" ibuffer-do-sort-by-filename/process "filename")
+      ("m" ibuffer-do-sort-by-major-mode "mode")
+      ("b" hydra-ibuffer-main/body "back" :color blue))
+
+     (hydra-ibuffer-filter
+      (:color amaranth :columns 4)
+      "Filter"
+      ("m" ibuffer-filter-by-used-mode "mode")
+      ("M" ibuffer-filter-by-derived-mode "derived mode")
+      ("n" ibuffer-filter-by-name "name")
+      ("c" ibuffer-filter-by-content "content")
+      ("e" ibuffer-filter-by-predicate "predicate")
+      ("f" ibuffer-filter-by-filename "filename")
+      (">" ibuffer-filter-by-size-gt "size")
+      ("<" ibuffer-filter-by-size-lt "size")
+      ("/" ibuffer-filter-disable "disable")
+      ("b" hydra-ibuffer-main/body "back" :color blue))
+     ); use-package ibuffer
+#+END_SRC
+
+** dired+
+#+BEGIN_SRC emacs-lisp
+  (use-package dired+
+    :straight
+    (:host github :repo "emacsmirror/dired-plus" :branch "master")
+    :config
+    (progn
+      ;; I want the same color for file name and extension
+      (setq diredp-file-suffix diredp-file-name)
+      ) ;; end progn
+    :bind
+    (:map dired-mode-map
+	  ("M-b" . backward-word)
+	  ("<f1>" . hydra-dired/body)
+	  )
+
+    ;; :hook (lambda ()
+    ;;         (local-set-key (kbd "<f1>") (quote hydra-summary/body))
+    ;;         ;; (local-set-key (kbd "M-b") (quote backward-word))
+    ;;         )
+
+    :hydra
+    (hydra-dired (:hint nil :color pink)
+		 "
+  _+_ mkdir          _v_iew           _m_ark             _(_ details        _i_nsert-subdir    wdired
+  _C_opy             _O_ view other   _U_nmark all       _)_ omit-mode      _$_ hide-subdir    C-x C-q : edit
+  _D_elete           _o_pen other     _u_nmark           _l_ redisplay      _w_ kill-subdir    C-c C-c : commit
+  _R_ename           _M_ chmod        _t_oggle           _g_ revert buf     _e_ ediff          C-c ESC : abort
+  _Y_ rel symlink    _G_ chgrp        _E_xtension mark   _s_ort             _=_ pdiff
+  _S_ymlink          ^ ^              _F_ind marked      _._ toggle hydra   \\ flyspell
+  _r_sync            ^ ^              ^ ^                ^ ^                _?_ summary
+  _z_ compress-file  _A_ find regexp
+  _Z_ compress       _Q_ repl regexp
+
+  T - tag prefix
+  "
+		 ("\\" dired-do-ispell)
+		 ("(" dired-hide-details-mode)
+		 (")" dired-omit-mode)
+		 ("+" dired-create-directory)
+		 ("=" diredp-ediff)         ;; smart diff
+		 ("?" dired-summary)
+		 ("$" diredp-hide-subdir-nomove)
+		 ("A" dired-do-find-regexp)
+		 ("C" dired-do-copy)        ;; Copy all marked files
+		 ("D" dired-do-delete)
+		 ("E" dired-mark-extension)
+		 ("e" dired-ediff-files)
+		 ("F" dired-do-find-marked-files)
+		 ("G" dired-do-chgrp)
+		 ("g" revert-buffer)        ;; read all directories again (refresh)
+		 ("i" dired-maybe-insert-subdir)
+		 ("l" dired-do-redisplay)   ;; relist the marked or singel directory
+		 ("M" dired-do-chmod)
+		 ("m" dired-mark)
+		 ("O" dired-display-file)
+		 ("o" dired-find-file-other-window)
+		 ("Q" dired-do-find-regexp-and-replace)
+		 ("R" dired-do-rename)
+		 ("r" dired-do-rsynch)
+		 ("S" dired-do-symlink)
+		 ("s" dired-sort-toggle-or-edit)
+		 ("t" dired-toggle-marks)
+		 ("U" dired-unmark-all-marks)
+		 ("u" dired-unmark)
+		 ("v" dired-view-file)      ;; q to exit, s to search, = gets line #
+		 ("w" dired-kill-subdir)
+		 ("Y" dired-do-relsymlink)
+		 ("z" diredp-compress-this-file)
+		 ("Z" dired-do-compress)
+		 ("q" nil)
+		 ("." nil :color blue))
+
+
+
+    )
+
+  (add-hook 'dired-mode-hook
+	    (lambda ()
+	      (local-set-key (kbd "<f1>") (quote hydra-summary/body))
+	      ;; (local-set-key (kbd "M-b") (quote backward-word))
+	      ))
+
+  (use-package dired-filter
+    ;; TODO replace shortcuts with hydra
+    :after hydra
+    :bind (:map dired-mode-map ("/" . hydra-dired-filter/body))
+    :hydra (hydra-dired-filter
+	    ()
+	    "dired-filter
+
+  "
+	    ("n" dired-filter-by-name "by name" :column "filter by")
+	    ("r" dired-filter-by-regexp "regexp")
+	    ("e" dired-filter-by-extension "extension")
+	    ("f" dired-filter-by-file "files" :column "filter only")
+	    ("p" dired-filter-pop "pop last filter" :column "others")
+	    ("H" (package-menu-describe-package dired-filter) "Help" :column "manual")
+	    )
+    )
+
+  (add-hook 'dired-mode-hook (lambda ()
+			       (when (eq system-type 'windows-nt)
+				 (make-local-variable 'coding-system-for-read)
+				 (setq coding-system-for-read 'utf-8-dos))
+			       ) ;; end lambda
+	    ) ;; add-hook
+
+  (use-package find-dired+
+    ;; https://www.emacswiki.org/emacs/find-dired+.el
+
+    :disabled ;; freeze emacs ???
+
+    :load-path "local-packages/"
+    :config
+
+    (progn
+      (when (eq system-type 'windows-nt)
+	(setq find-program "C:/Ingenico/GnuWin32/bin/find.exe")
+	) ;; end when
+      ) ;; end progn
+    )
+#+END_SRC
+
+** calfw calendar
+#+BEGIN_SRC emacs-lisp
+  (use-package calfw
+    :ensure t)
+#+END_SRC
+* others packages to check
+#+BEGIN_SRC emacs-lisp
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;; latex
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  (use-package auctex
+    ;; https://www.gnu.org/software/auctex/
+    :defer t
+    :ensure t
+    )
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;; TODO to sort
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  (let ((straight-current-profile 'pinned))
+    (add-to-list 'straight-x-pinned-packages
+		 '("ada-mode" . "c56045a140816f76abfd43aa8351a18fe56a8d15"))
+    (add-to-list 'straight-x-pinned-packages
+		 '("wisi" . "83ca0c16350ff4e79ff5172abcc5a2a78c755530")))
+
+
+  ;; TODO Enable Flycheck. Integrate in use-package
+
 
   (use-package deft
     ;; Emacs mode for quickly browsing, filtering, and editing directories
@@ -908,7 +1007,9 @@ Emacs bookmarks
 
   (require 'ls-lisp)
   (setq  ls-lisp-use-insert-directory-program nil
-         ls-lisp-verbosity nil)
+	 ls-lisp-verbosity nil)
+
+  (load-file (concat local-packages-dir "dired-config.el"))
 
   (use-package neotree
     :straight
@@ -950,13 +1051,6 @@ Emacs bookmarks
   ;;   :commands (dired-sidebar-toggle-sidebar)
   ;; )
 
-  (use-package all-the-icons
-    :ensure t
-    :config
-    (unless (file-directory-p (concat user-emacs-directory "all-the-icons-fonts"))
-      (make-directory (concat (getenv "HOME") (concat user-emacs-directory "all-the-icons-fonts")))
-      (error "please run all-the-icons-install-fonts in .emacs.d/all-the-icons-fonts")
-      ))
 
   ;;
   ;; custom dir sort
@@ -975,12 +1069,6 @@ Emacs bookmarks
   ;;   (dired-quick-sort-setup)
   ;;   )
 
-  (use-package immaterial-theme
-    ;; dark colors. Better than default white...
-    :config
-    (load-theme 'immaterial t)
-    )
-
   ;; (use-package counsel-projectile
   ;;   :after projectile counsel
   ;;   :config
@@ -996,9 +1084,9 @@ Emacs bookmarks
     ;;
     ;; directory as a tree
     :bind (:map ztree-mode-map
-                ("p" . ztree-previous-line)
-                ("n" . ztree-next-line)
-                )
+		("p" . ztree-previous-line)
+		("n" . ztree-next-line)
+		)
     )
 
   (use-package wgrep
@@ -1006,57 +1094,37 @@ Emacs bookmarks
     :straight
     (:host github :repo "mhayashi1120/Emacs-wgrep" :branch "master")
     :bind (
-           :map grep-mode-map
-           ("<f1>" . hydra-enter-wgrep/body)
-           :map wgrep-mode-map
-           ("<f1>" . hydra-wgrep/body)
-           )
+	   :map grep-mode-map
+	   ("<f1>" . hydra-enter-wgrep/body)
+	   :map wgrep-mode-map
+	   ("<f1>" . hydra-wgrep/body)
+	   )
     :hydra (hydra-enter-wgrep
-            ()
-            "wgrep commands
+	    ()
+	    "wgrep commands
 
   "
-            ("s" wgrep-change-to-wgrep-mode "start wgrep")
-            )
+	    ("s" wgrep-change-to-wgrep-mode "start wgrep")
+	    )
     :hydra (hydra-wgrep
-            ()
-            "wgrep commands
+	    ()
+	    "wgrep commands
 
   "
-            ("u" wgrep-remove-change "remove region changes")
-            ("U" wgrep-remove-all-change "remove all changes")
-            ("a" wgrep-apply-change "apply")
-            ("s" wgrep-save-all-buffers "save all")
-            )
-    )
-
-  (use-package htmlize
+	    ("u" wgrep-remove-change "remove region changes")
+	    ("U" wgrep-remove-all-change "remove all changes")
+	    ("a" wgrep-apply-change "apply")
+	    ("s" wgrep-save-all-buffers "save all")
+	    )
     )
 
   (use-package elpa-mirror
     :load-path "lisp/elpa-mirror/"
     )
 
-  (use-package avy
-    ;; https://github.com/abo-abo/avy
-    ;; like ace-jump
-    :config
-    (setq avy-timeout-seconds 0.3)
-    (setq avy-all-windows 'all-frames)
-    :bind
-    (("C-M-:" . avy-goto-char-timer)
-     ("C-:" . avy-goto-char-2))
-    )
+  ;; (use-package speed-type
+  ;; )
 
-  (use-package avy-menu
-    ;; https://github.com/mrkkrp/avy-menu
-    )
-
-  (use-package link-hint
-    ;; https://github.com/noctuid/link-hint.el
-    :bind
-    ("C-c l o" . link-hint-open-link)
-    ("C-c l c" . link-hint-copy-link))
 
   (use-package benchmark-init
     :config
@@ -1082,17 +1150,17 @@ Emacs bookmarks
     ;; we mainly want projects defined by a few markers and we always want to take
     ;; the top-most marker. Reorder so other cases are secondary.
     (setq  projectile-project-root-files #'( ".projectile" )
-           projectile-project-root-files-functions #'(projectile-root-top-down
-                                                      projectile-root-top-down-recurring
-                                                      projectile-root-bottom-up
-                                                      projectile-root-local))
+	   projectile-project-root-files-functions #'(projectile-root-top-down
+						      projectile-root-top-down-recurring
+						      projectile-root-bottom-up
+						      projectile-root-local))
     :config
     (projectile-mode t)
     (setq projectile-enable-caching t)
 
     :delight '(:eval (concat " " (projectile-project-namea)))
     :bind (:map projectile-mode-map
-                ("C-c p" . projectile-command-map))
+		("C-c p" . projectile-command-map))
     )
 
   ;; (projectile-register-project-type 'ada '(".gpr" "src")
@@ -1129,7 +1197,7 @@ Emacs bookmarks
     :straight
     :straight (:host github :repo "JeremPFT/comb" :branch "master")
     :preface (unless (file-directory-p (concat user-emacs-directory "lisp/comb"))
-               (error "missing comb directory"))
+	       (error "missing comb directory"))
     )
 
   ;; (use-package popup-kill-ring
@@ -1137,21 +1205,13 @@ Emacs bookmarks
   ;;   :config (global-set-key "\M-y" 'popup-kill-ring)
   ;;   )
 
-  (use-package browse-kill-ring
-    :straight (:host github :repo "browse-kill-ring/browse-kill-ring" :branch "master")
-    :config
-    (global-set-key "\M-y" 'browse-kill-ring)
-    (setq browse-kill-ring-highlight-current-entry nil)
-    )
   ;;   :straight (:host github :repo "waymondo/popup-kill-ring" :branch "master")
 
   (use-package doom-modeline
     :ensure t
     :config (doom-modeline-mode)
-    :custom
-    (doom-modeline-buffer-file-name-style (quote relative-to-project))
-    (doom-modeline-project-detection (quote projectile))
-    )
+    :init
+    (doom-modeline-project-detection 'projectile))
 
   (use-package csharp-mode
     :straight (:host github :repo "josteink/csharp-mode"))
@@ -1198,93 +1258,93 @@ Emacs bookmarks
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   (setenv "PATH"
-          (concat "C:\\Program Files (x86)\\GnuWin32\\bin;"
-                  (getenv "PATH")))
+	  (concat "C:\\Program Files (x86)\\GnuWin32\\bin;"
+		  (getenv "PATH")))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;; development
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   (add-hook 'c-mode-hook (lambda () (setq comment-start "//"
-                                          comment-end   "")))
+					  comment-end   "")))
 
   (c-add-style "ingenico"
-               '("gnu"
-                 (c-basic-offset . 2)     ; Guessed value
-                 (c-offsets-alist
-                  (block-close . 0)       ; Guessed value
-                  (brace-entry-open . 0)  ; Guessed value
-                  (brace-list-close . 0)  ; Guessed value
-                  (brace-list-intro . +)  ; Guessed value
-                  (brace-list-open . 0)   ; Guessed value
-                  (case-label . +)        ; Guessed value
-                  (class-close . 0)       ; Guessed value
-                  (class-open . 0)        ; Guessed value
-                  (defun-block-intro . +) ; Guessed value
-                  (defun-close . 0)       ; Guessed value
-                  (defun-open . 0)        ; Guessed value
-                  (do-while-closure . 0)  ; Guessed value
-                  (else-clause . 0)       ; Guessed value
-                  (inclass . +)           ; Guessed value
-                  (statement . 0)             ; Guessed value
-                  (statement-block-intro . +) ; Guessed value
-                  (statement-case-intro . +) ; Guessed value
-                  (substatement . +)      ; Guessed value
-                  (substatement-open . 0) ; Guessed value
-                  (topmost-intro . 0)     ; Guessed value
-                  (access-label . -)
-                  (annotation-top-cont . 0)
-                  (annotation-var-cont . +)
-                  (arglist-close . c-lineup-close-paren)
-                  (arglist-cont c-lineup-gcc-asm-reg 0)
-                  (arglist-cont-nonempty . c-lineup-arglist)
-                  (arglist-intro . c-lineup-arglist-intro-after-paren)
-                  (block-open . 0)
-                  (brace-list-entry . 0)
-                  (c . c-lineup-C-comments)
-                  (catch-clause . 0)
-                  (comment-intro . c-lineup-comment)
-                  (composition-close . 0)
-                  (composition-open . 0)
-                  (cpp-define-intro c-lineup-cpp-define +)
-                  (cpp-macro . -1000)
-                  (cpp-macro-cont . 0)
-                  (extern-lang-close . 0)
-                  (extern-lang-open . 0)
-                  (friend . 0)
-                  (func-decl-cont . +)
-                  (incomposition . +)
-                  (inexpr-class . +)
-                  (inexpr-statement . +)
-                  (inextern-lang . 0)
-                  (inher-cont . c-lineup-multi-inher)
-                  (inher-intro . +)
-                  (inlambda . c-lineup-inexpr-block)
-                  (inline-close . 0)
-                  (inline-open . 0)
-                  (inmodule . +)
-                  (innamespace . +)
-                  (knr-argdecl . 0)
-                  (knr-argdecl-intro . 5)
-                  (label . 0)
-                  (lambda-intro-cont . +)
-                  (member-init-cont . c-lineup-multi-inher)
-                  (member-init-intro . +)
-                  (module-close . 0)
-                  (module-open . 0)
-                  (namespace-close . 0)
-                  (namespace-open . 0)
-                  (objc-method-args-cont . c-lineup-ObjC-method-args)
-                  (objc-method-call-cont c-lineup-ObjC-method-call-colons c-lineup-ObjC-method-call +)
-                  (objc-method-intro .
-                                     [0])
-                  (statement-case-open . 0)
-                  (statement-cont . +)
-                  (stream-op . c-lineup-streamop)
-                  (string . -1000)
-                  (substatement-label . 0)
-                  (template-args-cont c-lineup-template-args +)
-                  (topmost-intro-cont first c-lineup-topmost-intro-cont c-lineup-gnu-DEFUN-intro-cont))))
+	       '("gnu"
+		 (c-basic-offset . 2)     ; Guessed value
+		 (c-offsets-alist
+		  (block-close . 0)       ; Guessed value
+		  (brace-entry-open . 0)  ; Guessed value
+		  (brace-list-close . 0)  ; Guessed value
+		  (brace-list-intro . +)  ; Guessed value
+		  (brace-list-open . 0)   ; Guessed value
+		  (case-label . +)        ; Guessed value
+		  (class-close . 0)       ; Guessed value
+		  (class-open . 0)        ; Guessed value
+		  (defun-block-intro . +) ; Guessed value
+		  (defun-close . 0)       ; Guessed value
+		  (defun-open . 0)        ; Guessed value
+		  (do-while-closure . 0)  ; Guessed value
+		  (else-clause . 0)       ; Guessed value
+		  (inclass . +)           ; Guessed value
+		  (statement . 0)             ; Guessed value
+		  (statement-block-intro . +) ; Guessed value
+		  (statement-case-intro . +) ; Guessed value
+		  (substatement . +)      ; Guessed value
+		  (substatement-open . 0) ; Guessed value
+		  (topmost-intro . 0)     ; Guessed value
+		  (access-label . -)
+		  (annotation-top-cont . 0)
+		  (annotation-var-cont . +)
+		  (arglist-close . c-lineup-close-paren)
+		  (arglist-cont c-lineup-gcc-asm-reg 0)
+		  (arglist-cont-nonempty . c-lineup-arglist)
+		  (arglist-intro . c-lineup-arglist-intro-after-paren)
+		  (block-open . 0)
+		  (brace-list-entry . 0)
+		  (c . c-lineup-C-comments)
+		  (catch-clause . 0)
+		  (comment-intro . c-lineup-comment)
+		  (composition-close . 0)
+		  (composition-open . 0)
+		  (cpp-define-intro c-lineup-cpp-define +)
+		  (cpp-macro . -1000)
+		  (cpp-macro-cont . 0)
+		  (extern-lang-close . 0)
+		  (extern-lang-open . 0)
+		  (friend . 0)
+		  (func-decl-cont . +)
+		  (incomposition . +)
+		  (inexpr-class . +)
+		  (inexpr-statement . +)
+		  (inextern-lang . 0)
+		  (inher-cont . c-lineup-multi-inher)
+		  (inher-intro . +)
+		  (inlambda . c-lineup-inexpr-block)
+		  (inline-close . 0)
+		  (inline-open . 0)
+		  (inmodule . +)
+		  (innamespace . +)
+		  (knr-argdecl . 0)
+		  (knr-argdecl-intro . 5)
+		  (label . 0)
+		  (lambda-intro-cont . +)
+		  (member-init-cont . c-lineup-multi-inher)
+		  (member-init-intro . +)
+		  (module-close . 0)
+		  (module-open . 0)
+		  (namespace-close . 0)
+		  (namespace-open . 0)
+		  (objc-method-args-cont . c-lineup-ObjC-method-args)
+		  (objc-method-call-cont c-lineup-ObjC-method-call-colons c-lineup-ObjC-method-call +)
+		  (objc-method-intro .
+				     [0])
+		  (statement-case-open . 0)
+		  (statement-cont . +)
+		  (stream-op . c-lineup-streamop)
+		  (string . -1000)
+		  (substatement-label . 0)
+		  (template-args-cont c-lineup-template-args +)
+		  (topmost-intro-cont first c-lineup-topmost-intro-cont c-lineup-gnu-DEFUN-intro-cont))))
 
   (add-hook 'c-mode-hook (lambda () (c-set-style "ingenico")))
   (add-hook 'cc-mode-hook (lambda () (c-set-style "ingenico")))
@@ -1299,21 +1359,21 @@ Emacs bookmarks
       (setq tag (read-from-minibuffer "tag? "))
       (setq in-region (region-active-p))
       (when in-region
-        (setq region-start (region-beginning)
-              region-stop (region-end))
-        )
+	(setq region-start (region-beginning)
+	      region-stop (region-end))
+	)
 
       (when in-region
-        (goto-char region-start))
+	(goto-char region-start))
       (insert ?< tag ?>)
       (when in-region
-        (goto-char (+ region-stop (string-width tag) 2)))
+	(goto-char (+ region-stop (string-width tag) 2)))
       (insert ?< ?/ tag ?>)
       ))
 
   (add-hook 'c-mode-hook
-            (lambda ()
-              (local-set-key (kbd "C-c C-t") (quote insert-html-tag))))
+	    (lambda ()
+	      (local-set-key (kbd "C-c C-t") (quote insert-html-tag))))
 
   ;; pretty print
   ;;
@@ -1332,76 +1392,76 @@ Emacs bookmarks
     "pretty printer space operator"
     (interactive)
 
-    (let ((start-pos (point))
-          (group-operators (quote ("[" "]" "(" ")" "{" "}")))
-          (operators (quote ("," "*" "&" "+" "-" "/" "<=" ">=" "<" ">"))))
+    (setq start-pos (point))
 
-      (while group-operators
-        (let (operator regexp)
-          (setq operator (car group-operators)
-                group-operators (cdr group-operators)
-                regexp "[]A-Za-z_0-9*&<>[()+/*,\"]")
+    (setq group-operators '("[" "]" "(" ")" "{" "}"))
+    (setq operators '("," "*" "&" "+" "-" "/" "<=" ">=" "<" ">"))
 
-          (goto-char start-pos)
+    (while group-operators
+      (let (operator regexp)
+	(setq operator (car group-operators)
+	      group-operators (cdr group-operators)
+	      regexp "[]A-Za-z_0-9*&<>[()+/*,\"]")
 
-          (while (search-forward operator nil t nil)
+	(goto-char start-pos)
 
-            ;; not inside string or comment
-            (unless (or (nth 3 (syntax-ppss))
-                        (nth 4 (syntax-ppss)))
+	(while (search-forward operator nil t nil)
 
-              (unless (= (point) (line-beginning-position))
-                (forward-char -1)
-                (when (looking-back regexp 0)
-                  (insert " ")))
+	  ;; not inside string or comment
+	  (unless (or (nth 3 (syntax-ppss))
+		      (nth 4 (syntax-ppss)))
 
-              (forward-char 1)
-              (when (looking-at regexp)
-                (unless (looking-at ",")
-                  (insert " ")))
-              ) ;; unless inside
-            ) ;; while search
-          ) ;; let
-        ) ;; while group-operators
+	    (unless (= (point) (line-beginning-position))
+	      (forward-char -1)
+	      (when (looking-back regexp)
+		(insert " ")))
 
-      (while operators
-        (let (operator)
-          (setq operator (car operators)
-                operators (cdr operators)
-                regexp "[A-Za-z_0-9]")
+	    (forward-char 1)
+	    (when (looking-at regexp)
+	      (unless (looking-at ",")
+		(insert " ")))
+	    ) ;; unless inside
+	  ) ;; while search
+	) ;; let
+      ) ;; while group-operators
 
-          (goto-char start-pos)
+    (while operators
+      (let (operator)
+	(setq operator (car operators)
+	      operators (cdr operators)
+	      regexp "[A-Za-z_0-9]")
 
-          (while (search-forward operator nil t nil)
+	(goto-char start-pos)
 
-            (unless (or (nth 3 (syntax-ppss))
-                        (nth 4 (syntax-ppss)))
+	(while (search-forward operator nil t nil)
 
-              ;; insert space before operator
-              (unless (string= operator ",")
-                (unless (= (point) (line-beginning-position))
-                  (forward-char -1)
-                  (when (looking-back regexp 0)
-                    (unless (or (string= (buffer-substring-no-properties
-                                          (point) (+ 2 (point))) "->")
-                                (string= (buffer-substring-no-properties
-                                          (point) (+ 2 (point))) "*/")
-                                (string= (buffer-substring-no-properties
-                                          (point) (+ 2 (point))) "++")
-                                (string= (buffer-substring-no-properties
-                                          (point) (+ 2 (point))) "--"))
-                      (insert " ")))
-                  (forward-char)))
+	  (unless (or (nth 3 (syntax-ppss))
+		      (nth 4 (syntax-ppss)))
 
-              ;; insert space after operator
-              (when (looking-at regexp)
-                (unless (string= (buffer-substring-no-properties
-                                  (- (point) 2) (point)) "->")
-                  (insert " "))))
-            ) ;; while search
-          ) ;; let
-        ) ;; while operators
-      ) ;; let
+	    ;; insert space before operator
+	    (unless (string= operator ",")
+	      (unless (= (point) (line-beginning-position))
+		(forward-char -1)
+		(when (looking-back regexp)
+		  (unless (or (string= (buffer-substring-no-properties
+					(point) (+ 2 (point))) "->")
+			      (string= (buffer-substring-no-properties
+					(point) (+ 2 (point))) "*/")
+			      (string= (buffer-substring-no-properties
+					(point) (+ 2 (point))) "++")
+			      (string= (buffer-substring-no-properties
+					(point) (+ 2 (point))) "--"))
+		    (insert " ")))
+		(forward-char)))
+
+	    ;; insert space after operator
+	    (when (looking-at regexp)
+	      (unless (string= (buffer-substring-no-properties
+				(- (point) 2) (point)) "->")
+		(insert " "))))
+	  ) ;; while search
+	) ;; let
+      ) ;; while operators
     )
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1429,32 +1489,6 @@ Emacs bookmarks
   ;; (add-hook 'before-save-hook 'my-prog-nuke-trailing-whitespace)
   ;;;;
 
-  (global-hl-line-mode 1)
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;; linum
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  ;; customize -format
-  ;; source: https://www.emacswiki.org/emacs/LineNumbers#toc8
-
-  (defvar linum-format-fmt)
-
-  (unless window-system
-    (add-hook 'linum-before-numbering-hook
-              (lambda ()
-                (setq-local linum-format-fmt
-                            (let ((w (length (number-to-string
-                                              (count-lines (point-min) (point-max))))))
-                              (concat "%" (number-to-string w) "d"))))))
-
-  (defun linum-format-func (line)
-    (concat
-     (propertize (format linum-format-fmt line) 'face 'linum)
-     (propertize " " 'face 'mode-line)))
-
-  (unless window-system
-    (setq linum-format 'linum-format-func))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;; elisp (personal, imported)
@@ -1465,9 +1499,6 @@ Emacs bookmarks
 
   (add-to-list 'load-path (concat user-emacs-directory "lisp"))
   (require 'ingenico-parse-log)
-  (defalias 'yes-or-no-p 'y-or-n-p)
-  (global-set-key (kbd "<f5>") 'revert-buffer)
-  (global-set-key (kbd "C-x C-g") 'goto-line)
   (global-set-key (kbd "M-/") 'hippie-expand)
 
   (defun indent-buffer ()
@@ -1485,36 +1516,12 @@ Emacs bookmarks
   (define-key image-map "o" nil)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;; ivy swiper counsel
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;  completion engine
-  ;;
-  ;;  https://github.com/abo-abo/swiper
-  ;;  https://oremacs.com/swiper/
-  ;;  https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/
-  ;;  https://www.reddit.com/r/emacs/comments/6yi6dl/most_useful_parts_of_ivycounselswiper_manual_too/
-  ;;  https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  (global-set-key (kbd "C-x r b") 'counsel-bookmark)
-  (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-h f") 'counsel-describe-function)
-  (global-set-key (kbd "C-h v") 'counsel-describe-variable)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  (global-set-key (kbd "C-x C-d") 'counsel-find-file)
-  (global-set-key (kbd "C-x d") 'counsel-find-file)
-
-  (global-set-key (kbd "C-s") 'isearch-forward)
-  (global-set-key (kbd "C-r") 'isearch-backward)
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;; asn1-mode
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; warning: The old asn1-mode works. The new one doesn't.
 
   (setq auto-mode-alist
-        (cons '("\\.[Aa][Ss][Nn][1]?$" . asn1-mode) auto-mode-alist))
+	(cons '("\\.[Aa][Ss][Nn][1]?$" . asn1-mode) auto-mode-alist))
   (autoload 'asn1-mode "asn1-mode.el"
     "Major mode for editing ASN.1 specifications." t)
 
@@ -1535,23 +1542,23 @@ Emacs bookmarks
   ;; add week number
   (copy-face font-lock-constant-face 'calendar-iso-week-face)
   (set-face-attribute 'calendar-iso-week-face nil
-                      :height 1.0 :foreground "salmon")
+		      :height 1.0 :foreground "salmon")
   ;; (set-face-attribute 'calendar-iso-week-face nil
   ;;                     :height 0.7)
   (setq calendar-intermonth-text
-        '(propertize
-          (format "%2d"
-                  (car
-                   (calendar-iso-from-absolute
-                    (calendar-absolute-from-gregorian (list month day year)))))
-          'font-lock-face 'calendar-iso-week-face))
+	'(propertize
+	  (format "%2d"
+		  (car
+		   (calendar-iso-from-absolute
+		    (calendar-absolute-from-gregorian (list month day year)))))
+	  'font-lock-face 'calendar-iso-week-face))
 
   (copy-face 'default 'calendar-iso-week-header-face)
   (set-face-attribute 'calendar-iso-week-header-face nil
-                      :height 1.0 :foreground "salmon")
+		      :height 1.0 :foreground "salmon")
   (setq calendar-intermonth-header
-        (propertize "Wk"                  ; or e.g. "KW" in Germany
-                    'font-lock-face 'calendar-iso-week-header-face))
+	(propertize "Wk"                  ; or e.g. "KW" in Germany
+		    'font-lock-face 'calendar-iso-week-header-face))
 
   (require 'french-holidays)
   (setq calendar-holidays holiday-french-holidays)
@@ -1562,16 +1569,13 @@ Emacs bookmarks
   (use-package csv
     :ensure t)
 
-  (use-package calfw
-    :ensure t)
-
   (use-package page-break-lines
     :disabled ;; dependance of dashboard
     :straight (:host github :repo "purcell/page-break-lines")
     :config
     (set-fontset-font "fontset-default"
-                      (cons page-break-lines-char page-break-lines-char)
-                      (face-attribute 'default :family))
+		      (cons page-break-lines-char page-break-lines-char)
+		      (face-attribute 'default :family))
     )
 
   (use-package dashboard
@@ -1617,9 +1621,9 @@ Emacs bookmarks
 
   (defun unkillable-scratch-buffer ()
     (if (equal (buffer-name (current-buffer)) "*scratch*")
-        (progn
-          (delete-region (point-min) (point-max))
-          nil)
+	(progn
+	  (delete-region (point-min) (point-max))
+	  nil)
       t))
 
   (add-hook 'kill-buffer-query-functions 'unkillable-scratch-buffer)
@@ -1655,7 +1659,7 @@ Emacs bookmarks
   (defadvice occur-next-error (before my-occur-next-error activate)
     (let ((win (get-buffer-window (current-buffer))))
       (if win
-          (select-window win))))
+	  (select-window win))))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;; hydra
@@ -1674,10 +1678,12 @@ Emacs bookmarks
 
   (global-set-key (kbd "<f1>") 'hydra-summary/body)
 
+
+
   (defvar org-dir (concat (file-name-as-directory (getenv "HOME"))
-                          (file-name-as-directory "workspace")
-                          (file-name-as-directory "org")
-                          "bookmarks"))
+			  (file-name-as-directory "workspace")
+			  (file-name-as-directory "org")
+			  "bookmarks"))
 
   (defhydra hydra-bookmarks ()
     ("D"  (find-file org-dir)                                      "directory" :column "my bookmarks" :exit t)
@@ -1707,7 +1713,7 @@ Emacs bookmarks
     (set-buffer jp--buffer)
     (org-mode)
     (insert "#+NAME: output-fetch-repositories\n"
-            "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
+	    "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
     (beginning-of-line)
     jp--buffer
     )
@@ -1727,7 +1733,7 @@ Emacs bookmarks
 
   ;; from https://github.com/abo-abo/hydra/wiki/Projectile
   (defhydra hydra-projectile (:color teal
-                                     :hint nil)
+				     :hint nil)
     "
 
        Find File            Search/Tags          Buffers                Cache
@@ -1780,25 +1786,42 @@ Emacs bookmarks
   ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Parameter-Access.html
   (defun jpi-full-screen ()
     (interactive)
-    (let ((ingenico-system-name "FR0WSC3NRYM2")
-          (home-system-name "DESKTOP-5R08DIM"))
-      (cond
-       ((string= (system-name) ingenico-system-name)
-        (set-frame-position (selected-frame) 0 0)
-        (set-frame-width (selected-frame) 188)
-        (set-frame-height (selected-frame) 52))
-       ;; (set-frame-position (selected-frame) -5 0)
-       ;; (set-frame-width (selected-frame) 380)
-       ;; (set-frame-height (selected-frame) 53))
-       ((string= (system-name) home-system-name)
-        (set-frame-position (selected-frame) 0 0)
-        (set-frame-width (selected-frame) 188)
-        (set-frame-height (selected-frame) 53)))
-      ))
+    (cond
+     (ingenico-computer-p
+      (set-frame-position (selected-frame) 0 0)
+      (set-frame-width (selected-frame) 188)
+      (set-frame-height (selected-frame) 52))
+     ;; (set-frame-position (selected-frame) -5 0)
+     ;; (set-frame-width (selected-frame) 380)
+     ;; (set-frame-height (selected-frame) 53))
+     (home-computer-p
+      (set-frame-position (selected-frame) 0 0)
+      (set-frame-width (selected-frame) 188)
+      (set-frame-height (selected-frame) 53)))
+    ;; (cond
+    ;;  ((string= (system-name) ingenico-system-name)
+    ;;   (set-frame-position (selected-frame) 0 0)
+    ;;   (set-frame-width (selected-frame) 188)
+    ;;   (set-frame-height (selected-frame) 52))
+    ;;  ;; (set-frame-position (selected-frame) -5 0)
+    ;;  ;; (set-frame-width (selected-frame) 380)
+    ;;  ;; (set-frame-height (selected-frame) 53))
+    ;;  ((string= (system-name) home-system-name)
+    ;;   (set-frame-position (selected-frame) 0 0)
+    ;;   (set-frame-width (selected-frame) 188)
+    ;;   (set-frame-height (selected-frame) 53)))
+    )
+#+END_SRC
+
+* tangle and load file
+#+BEGIN_SRC emacs-lisp :results output silent
+  (progn 
+    (org-babel-tangle)
+    (when (y-or-n-p "load init.el? ")
+      (load (concat user-emacs-directory "init.el"))))
 #+END_SRC
 
 * Local Variables                                                  :noexport:
-# Local Variables:
-# mode:org
-# coding: utf-8-unix
-# End:
+Local Variables:
+coding: utf-8-unix
+End:
