@@ -1,8 +1,20 @@
-;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*-
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*- 
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(#1=(#("init.org" 0 8
+(#1=(#("README.org" 0 10
+      (bmkp-full-record #1#))
+    (filename . "~/.emacs.d/README.org")
+    (buffer-name . "README.org")
+    (front-context-string . "#+TITLE: My Lite")
+    (rear-context-string)
+    (front-context-region-string)
+    (rear-context-region-string)
+    (visits . 0)
+    (time . #2=(24398 7434 345489 0))
+    (created . #2#)
+    (position . 1))
+#1=(#("init.org" 0 8
       (bmkp-full-record #1#))
     (filename . "~/.emacs.d/README.org")
     (buffer-name . "README.org")
@@ -83,8 +95,8 @@
     (rear-context-string . "005 04-15 16:35 ")
     (front-context-region-string)
     (rear-context-region-string)
-    (visits . 22)
-    (time 24390 23373 44844 0)
+    (visits . 23)
+    (time 24398 7649 43732 0)
     (created 24259 59463 593554 0)
     (position . 386)
     (filename . "~/workspace/org/bookmarks/")
@@ -122,8 +134,8 @@
     (rear-context-string)
     (front-context-region-string)
     (rear-context-region-string)
-    (visits . 15)
-    (time 24390 13707 477593 0)
+    (visits . 16)
+    (time 24398 7396 83529 0)
     (created 24048 63295 407623 0)
     (position . 1))
 #1=(#(".emacs.d" 0 8
@@ -146,6 +158,7 @@
     (handler . bmkp-jump-dired))
 #1=(#("generator" 0 9
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (buffer-name . "GenDllSch")
     (front-context-string . "generator/GenDll")
     (rear-context-string . "orkspace/scheme_")
@@ -164,72 +177,70 @@
     (handler . bmkp-jump-dired))
 #1=(#("Ingenico_Workspace" 0 18
       (bmkp-full-record #1#))
-    (buffer-name . "Ingenico_Workspace")
+    (tags "ingenico")
+    (filename . "~/Ingenico_Workspace/")
     (front-context-string . "SUPTER-7682_mexi")
-    (rear-context-string . "020-08-21 12:17 ")
-    (front-context-region-string)
-    (rear-context-region-string)
-    (visits . 2)
-    (time 24390 11337 97304 0)
-    (created 24387 36848 112634 0)
-    (position . 1643)
-    (filename . #2="c:/Users/jpiffret/AppData/Roaming/Ingenico_Workspace/")
-    (dired-directory . #2#)
-    (dired-marked)
-    (dired-switches . "-al")
-    (dired-subdirs)
-    (dired-hidden-dirs)
-    (handler . bmkp-jump-dired))
+    (rear-context-string . "92 Aug 26 11:33 ")
+    (position . 1902))
 #1=(#("_BbvaTkGen__declarations.h" 0 26
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaTkGen/_BbvaTkGen__declarations.h")
     (buffer-name . "_BbvaTkGen__declarations.h")
     (position . 0)
     (created 24383 53693 170363 0))
 #1=(#("BbvaTkGen__definitions.c" 0 24
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaTkGen/BbvaTkGen__definitions.c")
     (buffer-name . "BbvaTkGen__definitions.c")
     (position . 0)
     (created 24383 53692 986181 0))
 #1=(#("BbvaTkGenVerif__definitions.c" 0 29
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaTkGen/BbvaTkGenVerif__definitions.c")
     (buffer-name . "BbvaTkGenVerif__definitions.c")
     (position . 0)
     (created 24383 53692 734423 0))
 #1=(#("BbvaTkGenVerif__declarations.h" 0 30
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaTkGen/BbvaTkGenVerif__declarations.h")
     (buffer-name . "BbvaTkGenVerif__declarations.h")
     (position . 0)
     (created 24383 53692 386344 0))
 #1=(#("BbvaTkGenRun__definitions.c" 0 27
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaTkGen/BbvaTkGenRun__definitions.c")
     (buffer-name . "BbvaTkGenRun__definitions.c")
     (position . 0)
     (created 24383 53692 153997 0))
 #1=(#("BbvaTkGenRun__declarations.h" 0 28
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaTkGen/BbvaTkGenRun__declarations.h")
     (buffer-name . "BbvaTkGenRun__declarations.h")
     (position . 0)
     (created 24383 53691 865803 0))
 #1=(#("BbvaKeyStoreVerif__definitions.c" 0 32
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaKeyStore/BbvaKeyStoreVerif__definitions.c")
     (buffer-name . "BbvaKeyStoreVerif__definitions.c")
     (position . 1)
     (created 24383 48109 968541 0))
 #1=(#("BbvaKeyStoreVerif__declarations.h" 0 33
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaKeyStore/BbvaKeyStoreVerif__declarations.h")
     (buffer-name . "BbvaKeyStoreVerif__declarations.h")
     (position . 1)
     (created 24383 48109 811746 0))
 #1=(#("BbvaKeyStoreRun__definitions.c" 0 30
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (time 24383 53719 412214 0)
     (visits . 0)
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaKeyStore/BbvaKeyStoreRun__definitions.c")
@@ -238,6 +249,7 @@
     (created 24383 48109 726726 0))
 #1=(#("BbvaKeyStoreRun__declarations.h" 0 31
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (time 24390 11327 909620 0)
     (visits . 6)
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaKeyStore/BbvaKeyStoreRun__declarations.h")
@@ -246,6 +258,7 @@
     (created 24383 48109 644354 0))
 #1=(#("BbvaKeyStore__definitions.c" 0 27
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (time 24383 53618 987557 0)
     (visits . 0)
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaKeyStore/BbvaKeyStore__definitions.c")
@@ -254,12 +267,14 @@
     (created 24383 48109 564398 0))
 #1=(#("BbvaKeyStore__declarations.h" 0 28
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaKeyStore/BbvaKeyStore__declarations.h")
     (buffer-name . "BbvaKeyStore__declarations.h")
     (position . 1)
     (created 24383 48109 482101 0))
 #1=(#("SUPTER-7682_mexique" 0 19
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (buffer-name . "SUPTER-7682_mexique")
     (front-context-string . ".metadata\n  -rw-")
     (rear-context-string . "020-08-20 14:55 ")
@@ -279,7 +294,7 @@
 #1=(#("_BbvaKeyStore__declarations.h" 0 29
       (bmkp-full-record #1#))
     (annotation)
-    (tags)
+    (tags "ingenico")
     (filename . "~/Ingenico_Workspace/SUPTER-7682_mexique/src/BbvaKeyStore/_BbvaKeyStore__declarations.h")
     (buffer-name . "_BbvaKeyStore__declarations.h")
     (front-context-string . "// included by _")
@@ -305,7 +320,7 @@
 #1=(#("notes_api2json.txt" 0 18
       (bmkp-full-record #1#))
     (annotation)
-    (tags)
+    (tags "ingenico")
     (filename . "~/Ingenico_Workspace/api2json/notes_api2json.txt")
     (buffer-name . "notes_api2json.txt")
     (front-context-string)
@@ -318,6 +333,7 @@
     (position . 315))
 #1=(#("notes_ingenico.org" 0 18
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (end-position . 5192)
     (filename . "~/workspace/org/ingenico/notes_ingenico.org")
     (buffer-name . "notes_ingenico.org")
@@ -331,6 +347,7 @@
     (position . 5192))
 #1=(#("ep2_lib_src" 0 11
       (bmkp-full-record #1#))
+    (tags "ingenico")
     (filename . "~/Ingenico_Workspace/SUPTEL-13626_EP2/cmp_pack_security_EP2KeyExpRSA_T2/cmp_security_ep2keyexprsa_private/Src/Lib/EP2_KeyExpRSA.c")
     (buffer-name . "EP2_KeyExpRSA.c")
     (front-context-string . "    iBufferOffse")

@@ -85,10 +85,16 @@ recentf
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  ;;;; custom
+    ;;;; custom
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
   (setq org-indent-indentation-per-level 0
 	org-adapt-indentation nil)
+
+  (defun indent-buffer ()
+    (interactive)
+    (let ((position (point)))
+      (indent-region (point-min) (point-max))
+      (goto-char position)))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -214,6 +220,20 @@ https://emacs.nasy.moe/
       (setenv "PATH" (concat "C:\\Program Files\\Git\\cmd;"
 			     "C:\\Program Files\\Git\\bin;"
 			     (getenv "PATH"))))
+    :hydra
+    (hydra-magit (:hint nil)
+		 "
+    _s_ status    _c_ commit
+    _P_ pull      _la_ log all
+    _p_ push      _d_ diff
+    "
+		 ("p" magit-push :exit t)
+		 ("P" magit-pull :exit t)
+		 ("c" magit-commit :exit t)
+		 ("d" magit-diff :exit t)
+		 ("la" magit-log-all :exit t)
+		 ("s" magit-status :exit t)
+		 )
     )
 
   (use-package git-link
@@ -556,10 +576,10 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
       (error "please run all-the-icons-install-fonts in .emacs.d/all-the-icons-fonts")
       ))
 
-  (use-package immaterial-theme
-    ;; dark colors. Better than default white...
-    :config
-    (load-theme 'immaterial-dark t)
+  (use-package abyss-theme
+    :custom-face
+    (font-lock-keyword-face ((t (:foreground "light goldenrod"))))
+    (font-lock-string-face ((t (:foreground "violet"))))
     )
 #+END_SRC
 ** bookmark+
@@ -576,12 +596,12 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 #+END_SRC
 
 ** TODO ada mode                                                         :dev:
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
+(require 'imenu)
+
 (use-package wisi
   :straight (:host github :repo "emacsmirror/wisi")
   )
-
-(require 'imenu)
 
 (use-package ada-mode
   :straight (:host github :repo "emacsmirror/ada-mode")
@@ -901,9 +921,6 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 		 ("Z" dired-do-compress)
 		 ("q" nil)
 		 ("." nil :color blue))
-
-
-
     )
 
   (add-hook 'dired-mode-hook
@@ -958,6 +975,37 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
   (use-package calfw
     :ensure t)
 #+END_SRC
+
+** hydra custom
+#+BEGIN_SRC emacs-lisp
+  (defhydra hydra-summary ()
+    ("m" hydra-magit/body "magit" :exit t) ;; defined in local-packages/git-config.el
+    ("b" hydra-bookmarks/body "bookmarks" :exit t)
+    ("z" hydra-zoom/body "zoom" :exit t)
+    )
+
+  (global-set-key (kbd "<f1>") 'hydra-summary/body)
+
+  (defhydra hydra-bookmarks ()
+    ("D"  (find-file org-dir)                                      "directory" :column "my bookmarks" :exit t)
+    ("bc" (find-file (concat org-dir "bookmarks-current.org.txt")) "current" :exit t)
+    ("bl" (find-file (concat org-dir "bookmarks-loisirs.org.txt")) "loisir" :exit t)
+
+    ("sv" bookmark-save "save" :column "bookmark-mode")
+    ("l" bookmark-load  "load")
+
+    ("a" bmkp-add-tags       "add" :column "tags")
+    ("c" bmkp-copy-tags      "copy")
+    ("p" bmkp-paste-add-tags "past")
+    )
+
+  (defhydra hydra-zoom ()
+    "zoom"
+    ("+" text-scale-increase "in")
+    ("-" text-scale-decrease "out"))
+#+END_SRC
+
+
 * others packages to check
 #+BEGIN_SRC emacs-lisp
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1670,38 +1718,11 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
   ;; https://github.com/abo-abo/hydra/wiki/Org-agenda
   ;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
 
-  (defhydra hydra-summary ()
-    ("m" hydra-magit/body "magit" :exit t) ;; defined in local-packages/git-config.el
-    ("b" hydra-bookmarks/body "bookmarks" :exit t)
-    ("z" hydra-zoom/body "zoom" :exit t)
-    )
-
-  (global-set-key (kbd "<f1>") 'hydra-summary/body)
-
-
 
   (defvar org-dir (concat (file-name-as-directory (getenv "HOME"))
 			  (file-name-as-directory "workspace")
 			  (file-name-as-directory "org")
 			  "bookmarks"))
-
-  (defhydra hydra-bookmarks ()
-    ("D"  (find-file org-dir)                                      "directory" :column "my bookmarks" :exit t)
-    ("bc" (find-file (concat org-dir "bookmarks-current.org.txt")) "current" :exit t)
-    ("bl" (find-file (concat org-dir "bookmarks-loisirs.org.txt")) "loisir" :exit t)
-
-    ("sv" bookmark-save "save" :column "bookmark-mode")
-    ("l" bookmark-load  "load")
-
-    ("a" bmkp-add-tags       "add" :column "tags")
-    ("c" bmkp-copy-tags      "copy")
-    ("p" bmkp-paste-add-tags "past")
-    )
-
-  (defhydra hydra-zoom ()
-    "zoom"
-    ("+" text-scale-increase "in")
-    ("-" text-scale-decrease "out"))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;; initial buffer
@@ -1823,5 +1844,6 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 
 * Local Variables                                                  :noexport:
 Local Variables:
+after-save-hook: (org-babel-tangle)
 coding: utf-8-unix
 End:

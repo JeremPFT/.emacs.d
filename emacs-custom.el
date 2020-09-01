@@ -5,8 +5,11 @@
  ;; If there is more than one, they won't work right.
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
+ '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
  '(bmkp-last-as-first-bookmark-file
    "c:/Users/jpiffret/AppData/Roaming/.emacs.d/emacs-bookmarks/bmk.emacs")
+ '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
+ '(org-id-link-to-org-use-id (quote create-if-interactive-and-no-custom-id))
  '(safe-local-variable-values
    (quote
     ((eval progn

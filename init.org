@@ -1,3 +1,0 @@
-# Local Variables:
-# eval: (progn (find-file "README.org") (kill-buffer "init.org"))
-# End:
