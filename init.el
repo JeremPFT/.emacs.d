@@ -1,30 +1,30 @@
 ;; enter debug mode if necessary
 
-;; [[file:README.org::*enter debug mode if necessary][enter debug mode if necessary:1]]
+;; [[file:~/.emacs.d/README.org::*enter%20debug%20mode%20if%20necessary][enter debug mode if necessary:1]]
 (toggle-debug-on-error)
 ;; enter debug mode if necessary:1 ends here
 
 ;; personnal functions & shortcuts
 
-;; [[file:README.org::*personnal functions & shortcuts][personnal functions & shortcuts:1]]
+;; [[file:~/.emacs.d/README.org::*personnal%20functions%20&%20shortcuts][personnal functions & shortcuts:1]]
 ;;;; default directory
 (setq default-directory user-emacs-directory)
 ;; personnal functions & shortcuts:1 ends here
 
-;; [[file:README.org::*personnal functions & shortcuts][personnal functions & shortcuts:2]]
+;; [[file:~/.emacs.d/README.org::*personnal%20functions%20&%20shortcuts][personnal functions & shortcuts:2]]
 ;;;; custom file
 (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
 (when (file-exists-p custom-file) (load custom-file))
 ;; personnal functions & shortcuts:2 ends here
 
-;; [[file:README.org::*personnal functions & shortcuts][personnal functions & shortcuts:3]]
+;; [[file:~/.emacs.d/README.org::*personnal%20functions%20&%20shortcuts][personnal functions & shortcuts:3]]
 ;;;; global modes
 (global-auto-revert-mode)
 (global-hl-line-mode)
 (electric-pair-mode)
 ;; personnal functions & shortcuts:3 ends here
 
-;; [[file:README.org::*personnal functions & shortcuts][personnal functions & shortcuts:4]]
+;; [[file:~/.emacs.d/README.org::*personnal%20functions%20&%20shortcuts][personnal functions & shortcuts:4]]
 ;;;; custom
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (setq org-indent-indentation-per-level 0
@@ -37,7 +37,7 @@
     (goto-char position)))
 ;; personnal functions & shortcuts:4 ends here
 
-;; [[file:README.org::*personnal functions & shortcuts][personnal functions & shortcuts:5]]
+;; [[file:~/.emacs.d/README.org::*personnal%20functions%20&%20shortcuts][personnal functions & shortcuts:5]]
 (defconst lisp-dir (file-name-as-directory (concat user-emacs-directory "lisp")))
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-set-key (kbd "<f5>") 'revert-buffer)
@@ -54,7 +54,7 @@
 
 ;; Speed-up at startup: boost garbage collector memory
 
-;; [[file:README.org::*Speed-up at startup: boost garbage collector memory][Speed-up at startup: boost garbage collector memory:1]]
+;; [[file:~/.emacs.d/README.org::*Speed-up%20at%20startup:%20boost%20garbage%20collector%20memory][Speed-up at startup: boost garbage collector memory:1]]
 (defconst normal-gc-cons-threshold (* 20 1024 1024))
 (defconst init-gc-cons-threshold (* 20 1024 1024))
 (setq gc-cons-threshold init-gc-cons-threshold)
@@ -64,7 +64,7 @@
 
 ;; package
 
-;; [[file:README.org::*package][package:1]]
+;; [[file:~/.emacs.d/README.org::*package][package:1]]
 (require 'package)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages"))
@@ -75,7 +75,7 @@
 
 ;; straight & use-package
 
-;; [[file:README.org::*straight & use-package][straight & use-package:1]]
+;; [[file:~/.emacs.d/README.org::*straight%20&%20use-package][straight & use-package:1]]
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (concat user-emacs-directory "straight/repos/straight.el/bootstrap.el"))
@@ -104,7 +104,7 @@
 
 ;; use-package extensions
 
-;; [[file:README.org::*use-package extensions][use-package extensions:1]]
+;; [[file:~/.emacs.d/README.org::*use-package%20extensions][use-package extensions:1]]
 (use-package use-package-ensure-system-package)
 
 (use-package key-chord)
@@ -123,16 +123,42 @@
 
 (use-package delight
   :disabled)
+
+(use-package git-package
+  :straight (:host github :repo "mnewt/git-package"))
 ;; use-package extensions:1 ends here
+
+;; Hydra
+
+;; [[file:~/.emacs.d/README.org::*Hydra][Hydra:1]]
+(use-package hydra
+  ;; bindings keys
+  ;; https://github.com/abo-abo/hydra
+  )
+
+(use-package major-mode-hydra
+  :after hydra
+  :bind
+  ("<f2>" . major-mode-hydra)
+  )
+
+(use-package use-package-hydra
+  ;; https://gitlab.com/to1ne/use-package-hydra
+  :straight
+  (:host gitlab :repo "to1ne/use-package-hydra" :branch "master")
+  :after use-package hydra
+  )
+;; Hydra:1 ends here
 
 ;; magit
 
-;; [[file:README.org::*magit][magit:1]]
+;; [[file:~/.emacs.d/README.org::*magit][magit:1]]
 (use-package magit
   ;;
   ;; TODO see magit-gitflow
   ;;
   ;; :pin gnu
+  :after hydra
   :config
 
   ;; speed up magit
@@ -177,31 +203,9 @@
 ;;   )
 ;; magit:1 ends here
 
-;; Hydra
-
-;; [[file:README.org::*Hydra][Hydra:1]]
-(use-package hydra
-  ;; bindings keys
-  ;; https://github.com/abo-abo/hydra
-  )
-
-(use-package major-mode-hydra
-  :after hydra
-  :bind
-  ("<f2>" . major-mode-hydra)
-  )
-
-(use-package use-package-hydra
-  ;; https://gitlab.com/to1ne/use-package-hydra
-  :straight
-  (:host gitlab :repo "to1ne/use-package-hydra" :branch "master")
-  :after use-package hydra
-  )
-;; Hydra:1 ends here
-
 ;; Encoding
 
-;; [[file:README.org::*Encoding][Encoding:1]]
+;; [[file:~/.emacs.d/README.org::*Encoding][Encoding:1]]
 ;; utf-8-unix
 ;; windows-1252
 
@@ -217,7 +221,7 @@
 
 ;; yasnippet
 
-;; [[file:README.org::*yasnippet][yasnippet:1]]
+;; [[file:~/.emacs.d/README.org::*yasnippet][yasnippet:1]]
 (use-package yasnippet
   ;; https://github.com/joaotavora/yasnippet
   ;; http://joaotavora.github.io/yasnippet/
@@ -228,7 +232,7 @@
 
 ;; fill column 
 
-;; [[file:README.org::*fill column][fill column:1]]
+;; [[file:~/.emacs.d/README.org::*fill%20column][fill column:1]]
 (use-package fill-column-indicator
   :config
   (defun set-fci-to-80 ()
@@ -242,156 +246,15 @@
 ;; undo-tree
 
 
-;; [[file:README.org::*undo-tree][undo-tree:1]]
+;; [[file:~/.emacs.d/README.org::*undo-tree][undo-tree:1]]
 (use-package undo-tree
   :straight
   (:host github :repo "emacsorphanage/undo-tree" :branch "master"))
 ;; undo-tree:1 ends here
 
-;; org
-
-;; [[file:README.org::*org][org:1]]
-(use-package org
-  :mode
-  ("\\.\\(org\\|txt\\)\\'" . org-mode)
-  ("\\*notes\\*" . org-mode)
-  :bind (("C-c a" . org-agenda)
-	 ("C-c c" . org-capture))
-  :custom
-  (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id "org-store-link create an id")
-  :config
-  (setq org-indent-mode 0
-	org-adapt-indentation nil
-	org-agenda-files (quote ("~/workspace/org/agenda"))
-	org-default-notes-file "~/Dropbox/org/notes.org"
-	org-file-apps
-	(quote
-	 ((auto-mode . emacs)
-	  ("\\.mm\\'" . default)
-	  ("\\.x?html?\\'" . default)
-	  ("\\.pdf\\'" . default)
-	  (directory . emacs)))
-	org-fontify-done-headline t
-	org-hide-leading-stars nil
-	org-html-table-default-attributes nil
-	org-indent-indentation-per-level 0
-	org-level-color-stars-only nil
-	org-modules
-	(quote
-	 (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
-	org-publish-timestamp-directory "~/workspace/org/.org-timestamps/"
-	org-refile-targets (quote ((org-agenda-files :maxlevel . 4)))
-	org-src-window-setup (quote current-window)
-	org-startup-shrink-all-tables t
-	org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
-	;; org-headline-done ((t (:foreground "medium aquamarine")))
-	org-capture-templates
-	(quote
-	 (("l" "Link" entry
-	   (file+headline "~/Dropbox/org/new_links.org" "links")
-	   "** link
-:PROPERTIES:
-:TITLE: %?
-:LINK:
-:END:
-")
-	  ("t" "Task" entry
-	   (file+headline "" "Tasks")
-	   "* TODO %?
-%u
-%a")
-	  ("c" "Clope" entry
-	   (file+headline "~/Dropbox/org/pauses.org" "pauses")
-	   "** clope
-:PROPERTIES:
-:TIMES: %U%?
-:END:
-")))
-	)
-  )
-
-;; patched function org-translate-time from org.el
-;; replaced
-;;
-;; (concat
-;;  (if inactive "[" "<") (substring tf 1 -1)
-;;  (if inactive "]" ">"))
-;;
-;; with
-;;
-;; (require 'org-collector)
-;;
-;; removed: default behavior is better ...
-;;
-;; see https://orgmode.org/manual/Capturing-column-view.html:
-;;    C-c C-x i (org-insert-columns-dblock)
-
-;; setting up org-babel for literate programming
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '(
-   (python . t)
-   ;;   (sh . t)
-   (C . t)
-   ;; Include other languages here...
-   ))
-
-(progn
-  (defvar org-html-postamble)
-  (setq org-html-postamble nil))
-
-(use-package org-web-tools)
-
-(use-package ob-async
-  ;; https://github.com/astahlman/ob-async
-  :after org
-  )
-
-(use-package org-generate
-  :after org
-  :straight (:host github :repo "conao3/org-generate.el"))
-
-;; Fix an incompatibility between the ob-async and ob-ipython packages
-;; TODO integrate in use-package
-(progn
-  (defvar ob-async-no-async-languages-alist)
-  (setq ob-async-no-async-languages-alist '("ipython")))
-
-(use-package org-mind-map
-  ;; mind map
-  :init (require 'ox-org)
-  :config
-  (setq org-mind-map-engine "dot"
-	org-mind-map-default-graph-attribs
-	(quote
-	 (("autosize" . "false")
-	  ("size" . "9,12")
-	  ("resolution" . "100")
-	  ("nodesep" . "0.75")
-	  ("overlap" . "false")
-	  ("splines" . "ortho")
-	  ("rankdir" . "LR")))
-	org-mind-map-dot-output (quote ("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff"))
-	)
-  )
-
-(use-package org-brain
-  ;; mind map
-  )
-
-(use-package poporg
-  ;; http://pragmaticemacs.com/emacs/write-code-comments-in-org-mode-with-poporg/
-  ;; https://github.com/QBobWatson/poporg
-  :bind (("C-c /" . poporg-dwim)))
-
-(use-package htmlize
-;; to export html file
-  )
-;; org:1 ends here
-
 ;; link-hint
 
-;; [[file:README.org::*link-hint][link-hint:1]]
+;; [[file:~/.emacs.d/README.org::*link-hint][link-hint:1]]
 (use-package link-hint
   :bind
   ("C-c l o" . link-hint-open-link)
@@ -400,7 +263,7 @@
 
 ;; moving in emacs
 
-;; [[file:README.org::*moving in emacs][moving in emacs:1]]
+;; [[file:~/.emacs.d/README.org::*moving%20in%20emacs][moving in emacs:1]]
 (use-package avy
   ;; https://github.com/abo-abo/avy
   ;; like ace-jump
@@ -419,7 +282,7 @@
 
 ;; browse-kill-ring
 
-;; [[file:README.org::*browse-kill-ring][browse-kill-ring:1]]
+;; [[file:~/.emacs.d/README.org::*browse-kill-ring][browse-kill-ring:1]]
 (use-package browse-kill-ring
   :straight (:host github :repo "browse-kill-ring/browse-kill-ring" :branch "master")
   :config
@@ -430,7 +293,7 @@
 
 ;; line numbering. linum
 
-;; [[file:README.org::*line numbering. linum][line numbering. linum:1]]
+;; [[file:~/.emacs.d/README.org::*line%20numbering.%20linum][line numbering. linum:1]]
 (unless window-system
   (add-hook 'linum-before-numbering-hook
 	    (lambda ()
@@ -450,7 +313,7 @@
 
 ;; completion
 
-;; [[file:README.org::*completion][completion:1]]
+;; [[file:~/.emacs.d/README.org::*completion][completion:1]]
 (use-package flx
   ;; flx mode. Used with completion list
   ;; flx-isearch exists, but take a long time inside a long file
@@ -495,12 +358,12 @@
 
 ;; visual
 
-;; [[file:README.org::*visual][visual:1]]
+;; [[file:~/.emacs.d/README.org::*visual][visual:1]]
 (use-package all-the-icons
   :ensure t
   :config
   (unless (file-directory-p (concat user-emacs-directory "all-the-icons-fonts"))
-    (make-directory (concat (getenv "HOME") (concat user-emacs-directory "all-the-icons-fonts")))
+    (make-directory (concat user-emacs-directory "all-the-icons-fonts"))
     (error "please run all-the-icons-install-fonts in .emacs.d/all-the-icons-fonts")
     ))
 
@@ -513,7 +376,7 @@
 
 ;; bookmark+
 
-;; [[file:README.org::*bookmark+][bookmark+:1]]
+;; [[file:~/.emacs.d/README.org::*bookmark+][bookmark+:1]]
 ;; TODO see if necessary (load-file (concat user-emacs-directory "lisp/bookmark-plus/bookmark+-mac.el"))
 (use-package bookmark+
   ;; https://www.emacswiki.org/emacs/BookmarkPlus
@@ -527,7 +390,7 @@
 
 ;; TODO ada mode                                                         :dev:
 
-;; [[file:README.org::*ada mode][ada mode:1]]
+;; [[file:~/.emacs.d/README.org::*ada%20mode][ada mode:1]]
 (require 'imenu)
 
 (use-package wisi
@@ -540,7 +403,7 @@
   :config
   (setq ada-parser 'elisp)
   (setq fci-rule-column 78)
-  (ada-case-read-all-exceptions)
+  ;; (ada-case-read-all-exceptions)
 
   (defun ada-before-save ()
     (when (or (eq major-mode 'ada-mode) (eq major-mode 'gpr-mode))
@@ -564,7 +427,7 @@
 
 ;; python                                                                :dev:
 
-;; [[file:README.org::*python][python:1]]
+;; [[file:~/.emacs.d/README.org::*python][python:1]]
 (use-package flycheck
   :after elpy
   )
@@ -582,7 +445,7 @@
 
 ;; fic-mode: highlight TODO/FIXME/...                                    :dev:
 
-;; [[file:README.org::*fic-mode: highlight TODO/FIXME/...][fic-mode: highlight TODO/FIXME/...:1]]
+;; [[file:~/.emacs.d/README.org::*fic-mode:%20highlight%20TODO/FIXME/...][fic-mode: highlight TODO/FIXME/...:1]]
 (use-package fic-mode
   :config
   (add-hook 'prog-mode-hook #'fic-mode)
@@ -596,99 +459,99 @@
 
 ;; ibuffer
 
-;; [[file:README.org::*ibuffer][ibuffer:1]]
+;; [[file:~/.emacs.d/README.org::*ibuffer][ibuffer:1]]
 (use-package ibuffer
-   ;; https://github.com/reinh/dotemacs/blob/master/conf/init.org#ido
-   ;; https://www.emacswiki.org/emacs/IbufferMode
+  ;; https://github.com/reinh/dotemacs/blob/master/conf/init.org#ido
+  ;; https://www.emacswiki.org/emacs/IbufferMode
 
-   :after hydra
+  :after hydra
 
-   :bind
-   ("C-x C-b" . ibuffer)
+  :bind
+  ("C-x C-b" . ibuffer)
 
-   :bind-keymap
-   ("<f1>" . hydra-ibuffer-main/body)
+  :bind-keymap
+  ("<f1>" . hydra-ibuffer-main/body)
 
-   ;; :hook
-   ;; ((lambda ()
-   ;;   (ibuffer-switch-to-saved-filter-groups "default")) . ibuffer-mode)
+  ;; :hook
+  ;; ((lambda ()
+  ;;   (ibuffer-switch-to-saved-filter-groups "default")) . ibuffer-mode)
 
-   :init
-   (add-hook 'ibuffer-mode-hook
-	     (lambda ()
-	       (ibuffer-auto-mode)
-	       (ibuffer-switch-to-saved-filter-groups "default")))
+  :init
+  (add-hook 'ibuffer-mode-hook
+	    (lambda ()
+	      (ibuffer-auto-mode)
+	      (ibuffer-switch-to-saved-filter-groups "default")))
 
-   :config
-   (progn
+  :config
+  (progn
 ;;;###autoload (autoload 'ibuffer-do-sort-by-filename-or-dired "init")
-     (define-ibuffer-sorter filename-or-dired
-       "Sort the buffers by their pathname."
-       (:description "filenames plus dired")
-       (string-lessp
-	(with-current-buffer (car a)
-	  (or buffer-file-name
-	      (if (eq major-mode 'dired-mode)
-		  (expand-file-name dired-directory))
-	      ;; so that all non pathnames are at the end
-	      "~"))
-	(with-current-buffer (car b)
-	  (or buffer-file-name
-	      (if (eq major-mode 'dired-mode)
-		  (expand-file-name dired-directory))
-	      ;; so that all non pathnames are at the end
-	      "~"))))
+    (define-ibuffer-sorter filename-or-dired
+      "Sort the buffers by their pathname."
+      (:description "filenames plus dired")
+      (string-lessp
+       (with-current-buffer (car a)
+	 (or buffer-file-name
+	     (if (eq major-mode 'dired-mode)
+		 (expand-file-name dired-directory))
+	     ;; so that all non pathnames are at the end
+	     "~"))
+       (with-current-buffer (car b)
+	 (or buffer-file-name
+	     (if (eq major-mode 'dired-mode)
+		 (expand-file-name dired-directory))
+	     ;; so that all non pathnames are at the end
+	     "~"))))
 
-     (define-key ibuffer-mode-map (kbd "s p")
-       'ibuffer-do-sort-by-filename-or-dired)
+    (define-key ibuffer-mode-map (kbd "s p")
+      'ibuffer-do-sort-by-filename-or-dired)
 
-     (setq ibuffer-show-empty-filter-groups t
+    (setq ibuffer-show-empty-filter-groups t
 
-	   ibuffer-saved-filter-groups
-	   (quote (("default"
-		    ("bbvakeystore" (name . "bbvakeystore"))
-		    ("bbvamkstore" (name . "bbvamkstore"))
-		    ("bbvaskstore" (name . "bbvaskstore"))
-		    ("bbvatkgen" (name . "bbvatkgen"))
-		    ("bbvatkexp" (name . "bbvatkexp"))
-		    ("bookmarks" (name . "org/bookmarks"))
-		    )))
+	  ibuffer-saved-filter-groups
+	  (quote (("default"
+		   ("bbvakeystore" (name . "bbvakeystore"))
+		   ("bbvamkstore" (name . "bbvamkstore"))
+		   ("bbvaskstore" (name . "bbvaskstore"))
+		   ("bbvatkgen" (name . "bbvatkgen"))
+		   ("bbvatkexp" (name . "bbvatkexp"))
+		   ("bookmarks" (name . "org/bookmarks"))
+		   )))
 
-	   ibuffer-directory-abbrev-alist
-	   (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"
-		    . "SUPTER-7682_mexique")
-		   ("dllsch_t3_bbva_key_injection_pin_block_private"
-		    . "dllsch_t3_..._private")))
+	  ibuffer-directory-abbrev-alist
+	  (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"
+		   . "SUPTER-7682_mexique")
+		  ("dllsch_t3_bbva_key_injection_pin_block_private"
+		   . "dllsch_t3_..._private")))
 
-	   ibuffer-default-sorting-mode (quote filename-or-dired)
+	  ibuffer-default-sorting-mode (quote filename-or-dired)
 
-	   ibuffer-formats
-	   (quote
-	    ((mark modified read-only locked " "
-		   (name 25 25 :left :elide)
-		   " "
-		   (size 7 -1 :right)
-		   " "
-		   (mode 8 8 :left :elide)
-		   " " filename-and-process)
-	     (mark " "
-		   (name 16 -1)
-		   " " filename)))
-	   ) ;; setq
+	  ibuffer-formats
+	  (quote
+	   ((mark modified read-only locked " "
+		  (name 25 25 :left :elide)
+		  " "
+		  (size 7 -1 :right)
+		  " "
+		  (mode 8 8 :left :elide)
+		  " " filename-and-process)
+	    (mark " "
+		  (name 16 -1)
+		  " " filename)))
+	  ) ;; setq
 
-     (define-ibuffer-column size-h
-       (:name "Size" :inline t)
-       (cond
-	((> (buffer-size) 1000000) (format "%7.1fM" (/ (buffer-size) 1000000.0)))
-	((> (buffer-size) 100000) (format "%7.0fk" (/ (buffer-size) 1000.0)))
-	((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
-	(t (format "%8d" (buffer-size)))))
-     ) ;; progn
+    (define-ibuffer-column size-h
+      (:name "Size" :inline t)
+      (cond
+       ((> (buffer-size) 1000000) (format "%7.1fM" (/ (buffer-size) 1000000.0)))
+       ((> (buffer-size) 100000) (format "%7.0fk" (/ (buffer-size) 1000.0)))
+       ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
+       (t (format "%8d" (buffer-size)))))
+    ) ;; progn
 
-   :hydra
-   (hydra-ibuffer-main
-    (:color pink :hint nil)
-    "
+  :hydra
+  (hydra-ibuffer-main
+   (:color pink :hint nil)
+   "
   ^Navigation^ | ^Mark^        | ^Actions^        | ^View^
  -^----------^-+-^----^--------+-^-------^--------+-^----^-------
    _k_:    ʌ   | _m_: mark     | _D_: delete      | _g_: refresh
@@ -696,97 +559,97 @@
    _j_:    v   | _*_: specific | _a_: all actions | _/_: filter
  -^----------^-+-^----^--------+-^-------^--------+-^----^-------
  "
-    ("j" ibuffer-forward-line)
-    ("RET" ibuffer-visit-buffer :color blue)
-    ("k" ibuffer-backward-line)
+   ("j" ibuffer-forward-line)
+   ("RET" ibuffer-visit-buffer :color blue)
+   ("k" ibuffer-backward-line)
 
-    ("m" ibuffer-mark-forward)
-    ("u" ibuffer-unmark-forward)
-    ("*" hydra-ibuffer-mark/body :color blue)
+   ("m" ibuffer-mark-forward)
+   ("u" ibuffer-unmark-forward)
+   ("*" hydra-ibuffer-mark/body :color blue)
 
-    ("D" ibuffer-do-delete)
-    ("S" ibuffer-do-save)
-    ("a" hydra-ibuffer-action/body :color blue)
+   ("D" ibuffer-do-delete)
+   ("S" ibuffer-do-save)
+   ("a" hydra-ibuffer-action/body :color blue)
 
-    ("g" ibuffer-update)
-    ("s" hydra-ibuffer-sort/body :color blue)
-    ("/" hydra-ibuffer-filter/body :color blue)
+   ("g" ibuffer-update)
+   ("s" hydra-ibuffer-sort/body :color blue)
+   ("/" hydra-ibuffer-filter/body :color blue)
 
-    ("o" ibuffer-visit-buffer-other-window "other window" :color blue)
-    ("q" quit-window "quit ibuffer" :color blue)
-    ("." nil "toggle hydra" :color blue))
+   ("o" ibuffer-visit-buffer-other-window "other window" :color blue)
+   ("q" quit-window "quit ibuffer" :color blue)
+   ("." nil "toggle hydra" :color blue))
 
-   (hydra-ibuffer-mark
-    (:color teal
-	    :columns 5
-	    :after-exit (hydra-ibuffer-main/body))
-    "Mark"
-    ("*" ibuffer-unmark-all "unmark all")
-    ("M" ibuffer-mark-by-mode "mode")
-    ("m" ibuffer-mark-modified-buffers "modified")
-    ("u" ibuffer-mark-unsaved-buffers "unsaved")
-    ("s" ibuffer-mark-special-buffers "special")
-    ("r" ibuffer-mark-read-only-buffers "read-only")
-    ("/" ibuffer-mark-dired-buffers "dired")
-    ("e" ibuffer-mark-dissociated-buffers "dissociated")
-    ("h" ibuffer-mark-help-buffers "help")
-    ("z" ibuffer-mark-compressed-file-buffers "compressed")
-    ("b" hydra-ibuffer-main/body "back" :color blue))
+  (hydra-ibuffer-mark
+   (:color teal
+	   :columns 5
+	   :after-exit (hydra-ibuffer-main/body))
+   "Mark"
+   ("*" ibuffer-unmark-all "unmark all")
+   ("M" ibuffer-mark-by-mode "mode")
+   ("m" ibuffer-mark-modified-buffers "modified")
+   ("u" ibuffer-mark-unsaved-buffers "unsaved")
+   ("s" ibuffer-mark-special-buffers "special")
+   ("r" ibuffer-mark-read-only-buffers "read-only")
+   ("/" ibuffer-mark-dired-buffers "dired")
+   ("e" ibuffer-mark-dissociated-buffers "dissociated")
+   ("h" ibuffer-mark-help-buffers "help")
+   ("z" ibuffer-mark-compressed-file-buffers "compressed")
+   ("b" hydra-ibuffer-main/body "back" :color blue))
 
-   (hydra-ibuffer-action
-    (:color teal :columns 4
-	    :after-exit
-	    (if (eq major-mode 'ibuffer-mode)
-		(hydra-ibuffer-main/body)))
-    "Action"
-    ("A" ibuffer-do-view "view")
-    ("E" ibuffer-do-eval "eval")
-    ("F" ibuffer-do-shell-command-file "shell-command-file")
-    ("I" ibuffer-do-query-replace-regexp "query-replace-regexp")
-    ("H" ibuffer-do-view-other-frame "view-other-frame")
-    ("N" ibuffer-do-shell-command-pipe-replace "shell-cmd-pipe-replace")
-    ("M" ibuffer-do-toggle-modified "toggle-modified")
-    ("O" ibuffer-do-occur "occur")
-    ("P" ibuffer-do-print "print")
-    ("Q" ibuffer-do-query-replace "query-replace")
-    ("R" ibuffer-do-rename-uniquely "rename-uniquely")
-    ("T" ibuffer-do-toggle-read-only "toggle-read-only")
-    ("U" ibuffer-do-replace-regexp "replace-regexp")
-    ("V" ibuffer-do-revert "revert")
-    ("W" ibuffer-do-view-and-eval "view-and-eval")
-    ("X" ibuffer-do-shell-command-pipe "shell-command-pipe")
-    ("b" nil "back"))
+  (hydra-ibuffer-action
+   (:color teal :columns 4
+	   :after-exit
+	   (if (eq major-mode 'ibuffer-mode)
+	       (hydra-ibuffer-main/body)))
+   "Action"
+   ("A" ibuffer-do-view "view")
+   ("E" ibuffer-do-eval "eval")
+   ("F" ibuffer-do-shell-command-file "shell-command-file")
+   ("I" ibuffer-do-query-replace-regexp "query-replace-regexp")
+   ("H" ibuffer-do-view-other-frame "view-other-frame")
+   ("N" ibuffer-do-shell-command-pipe-replace "shell-cmd-pipe-replace")
+   ("M" ibuffer-do-toggle-modified "toggle-modified")
+   ("O" ibuffer-do-occur "occur")
+   ("P" ibuffer-do-print "print")
+   ("Q" ibuffer-do-query-replace "query-replace")
+   ("R" ibuffer-do-rename-uniquely "rename-uniquely")
+   ("T" ibuffer-do-toggle-read-only "toggle-read-only")
+   ("U" ibuffer-do-replace-regexp "replace-regexp")
+   ("V" ibuffer-do-revert "revert")
+   ("W" ibuffer-do-view-and-eval "view-and-eval")
+   ("X" ibuffer-do-shell-command-pipe "shell-command-pipe")
+   ("b" nil "back"))
 
-   (hydra-ibuffer-sort
-    (:color amaranth :columns 3)
-    "Sort"
-    ("i" ibuffer-invert-sorting "invert")
-    ("a" ibuffer-do-sort-by-alphabetic "alphabetic")
-    ("v" ibuffer-do-sort-by-recency "recently used")
-    ("s" ibuffer-do-sort-by-size "size")
-    ("f" ibuffer-do-sort-by-filename/process "filename")
-    ("m" ibuffer-do-sort-by-major-mode "mode")
-    ("b" hydra-ibuffer-main/body "back" :color blue))
+  (hydra-ibuffer-sort
+   (:color amaranth :columns 3)
+   "Sort"
+   ("i" ibuffer-invert-sorting "invert")
+   ("a" ibuffer-do-sort-by-alphabetic "alphabetic")
+   ("v" ibuffer-do-sort-by-recency "recently used")
+   ("s" ibuffer-do-sort-by-size "size")
+   ("f" ibuffer-do-sort-by-filename/process "filename")
+   ("m" ibuffer-do-sort-by-major-mode "mode")
+   ("b" hydra-ibuffer-main/body "back" :color blue))
 
-   (hydra-ibuffer-filter
-    (:color amaranth :columns 4)
-    "Filter"
-    ("m" ibuffer-filter-by-used-mode "mode")
-    ("M" ibuffer-filter-by-derived-mode "derived mode")
-    ("n" ibuffer-filter-by-name "name")
-    ("c" ibuffer-filter-by-content "content")
-    ("e" ibuffer-filter-by-predicate "predicate")
-    ("f" ibuffer-filter-by-filename "filename")
-    (">" ibuffer-filter-by-size-gt "size")
-    ("<" ibuffer-filter-by-size-lt "size")
-    ("/" ibuffer-filter-disable "disable")
-    ("b" hydra-ibuffer-main/body "back" :color blue))
-   ); use-package ibuffer
+  (hydra-ibuffer-filter
+   (:color amaranth :columns 4)
+   "Filter"
+   ("m" ibuffer-filter-by-used-mode "mode")
+   ("M" ibuffer-filter-by-derived-mode "derived mode")
+   ("n" ibuffer-filter-by-name "name")
+   ("c" ibuffer-filter-by-content "content")
+   ("e" ibuffer-filter-by-predicate "predicate")
+   ("f" ibuffer-filter-by-filename "filename")
+   (">" ibuffer-filter-by-size-gt "size")
+   ("<" ibuffer-filter-by-size-lt "size")
+   ("/" ibuffer-filter-disable "disable")
+   ("b" hydra-ibuffer-main/body "back" :color blue))
+  ); use-package ibuffer
 ;; ibuffer:1 ends here
 
 ;; dired+
 
-;; [[file:README.org::*dired+][dired+:1]]
+;; [[file:~/.emacs.d/README.org::*dired+][dired+:1]]
 (use-package dired+
   :straight
   (:host github :repo "emacsmirror/dired-plus" :branch "master")
@@ -908,14 +771,14 @@ T - tag prefix
 
 ;; calfw calendar
 
-;; [[file:README.org::*calfw calendar][calfw calendar:1]]
+;; [[file:~/.emacs.d/README.org::*calfw%20calendar][calfw calendar:1]]
 (use-package calfw
   :ensure t)
 ;; calfw calendar:1 ends here
 
 ;; hydra custom
 
-;; [[file:README.org::*hydra custom][hydra custom:1]]
+;; [[file:~/.emacs.d/README.org::*hydra%20custom][hydra custom:1]]
 (defhydra hydra-summary ()
   ("m" hydra-magit/body "magit" :exit t) ;; defined in local-packages/git-config.el
   ("b" hydra-bookmarks/body "bookmarks" :exit t)
