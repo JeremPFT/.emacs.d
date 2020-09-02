@@ -10,25 +10,25 @@ source: https://emacs.stackexchange.com/questions/13191/specify-global-tangle-fi
 ** Git configuration
 #+NAME: .git/config
 #+BEGIN_EXAMPLE
-[core]
-	repositoryformatversion = 0
-	filemode = false
-	bare = false
-	logallrefupdates = true
-	symlinks = false
-	ignorecase = true
-        autocrlf = input
-[remote "origin"]
-	url = https://github.com/JeremPFT/.emacs.d.git
-	fetch = +refs/heads/*:refs/remotes/origin/*
-[branch "master"]
-	remote = origin
-	merge = refs/heads/master
-	pushRemote = origin
-[branch "change-to-straight"]
-	remote = origin
-	merge = refs/heads/change-to-straight
-	pushRemote = origin
+  [core]
+	  repositoryformatversion = 0
+	  filemode = false
+	  bare = false
+	  logallrefupdates = true
+	  symlinks = false
+	  ignorecase = true
+	  autocrlf = input
+  [remote "origin"]
+	  url = https://github.com/JeremPFT/.emacs.d.git
+	  fetch = +refs/heads/*:refs/remotes/origin/*
+  [branch "master"]
+	  remote = origin
+	  merge = refs/heads/master
+	  pushRemote = origin
+  [branch "change-to-straight"]
+	  remote = origin
+	  merge = refs/heads/change-to-straight
+	  pushRemote = origin
 #+END_EXAMPLE
 #+NAME: .gitignore
 #+BEGIN_EXAMPLE
@@ -63,7 +63,7 @@ recentf
 ** personnal functions & shortcuts
 *** enter debug mode if necessary
 #+BEGIN_SRC emacs-lisp
-  (toggle-debug-on-error)
+  (setq debug-on-error t)
 #+END_SRC
 *** personnal functions & shortcuts
 #+BEGIN_SRC emacs-lisp
@@ -82,6 +82,7 @@ recentf
   (global-auto-revert-mode)
   (global-hl-line-mode)
   (electric-pair-mode)
+  (show-paren-mode)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -90,6 +91,43 @@ recentf
   (setq org-indent-indentation-per-level 0
 	org-adapt-indentation nil)
 
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  ;; frame & display:
+  ;; https://stackoverflow.com/questions/16481984/get-width-of-current-monitor-in-emacs-lisp
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Frame-Commands.html
+  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Parameter-Access.html
+  (defun jpi-full-screen ()
+    (interactive)
+    (cond
+     (ingenico-computer-p
+      (set-frame-position (selected-frame) 0 0)
+      (set-frame-width (selected-frame) 188)
+      (set-frame-height (selected-frame) 52))
+     ;; (set-frame-position (selected-frame) -5 0)
+     ;; (set-frame-width (selected-frame) 380)
+     ;; (set-frame-height (selected-frame) 53))
+     (home-computer-p
+      (set-frame-position (selected-frame) 0 0)
+      (set-frame-width (selected-frame) 188)
+      (set-frame-height (selected-frame) 53)))
+    ;; (cond
+    ;;  ((string= (system-name) ingenico-system-name)
+    ;;   (set-frame-position (selected-frame) 0 0)
+    ;;   (set-frame-width (selected-frame) 188)
+    ;;   (set-frame-height (selected-frame) 52))
+    ;;  ;; (set-frame-position (selected-frame) -5 0)
+    ;;  ;; (set-frame-width (selected-frame) 380)
+    ;;  ;; (set-frame-height (selected-frame) 53))
+    ;;  ((string= (system-name) home-system-name)
+    ;;   (set-frame-position (selected-frame) 0 0)
+    ;;   (set-frame-width (selected-frame) 188)
+    ;;   (set-frame-height (selected-frame) 53)))
+    )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
   (defun indent-buffer ()
     (interactive)
     (let ((position (point)))
@@ -102,6 +140,8 @@ recentf
   (defalias 'yes-or-no-p 'y-or-n-p)
   (global-set-key (kbd "<f5>") 'revert-buffer)
   (global-set-key (kbd "C-x C-g") 'goto-line)
+  (global-set-key (kbd "C-*") 'next-error)
+  (global-set-key (kbd "C-/") 'previous-error)
 
   (defconst ingenico-computer-name "FR0WSC3NRYM2")
   (defconst home-computer-name "DESKTOP-5R08DIM")
@@ -111,6 +151,36 @@ recentf
   (defconst windows-p (eq system-type 'windows-nt))
   (defconst linux-p (eq system-type 'gnu/linux))
 #+END_SRC
+
+*** TODO sort
+
+#+BEGIN_SRC emacs-lisp
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;; initial buffer
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  (defun jp/initial-buffer()
+    (interactive)
+    (setq jp--buffer (get-buffer-create "*fetching.org*"))
+    (set-buffer jp--buffer)
+    (org-mode)
+    (insert "#+NAME: output-fetch-repositories\n"
+	    "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
+    (beginning-of-line)
+    jp--buffer
+    )
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;; emacs client
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
+
+  (require 'server)
+  (unless (server-running-p)
+    (server-start))
+
+
+    #+END_SRC
 
 ** Speed-up at startup: boost garbage collector memory
 #+BEGIN_SRC emacs-lisp
@@ -171,9 +241,10 @@ recentf
 
 #+END_SRC
 *** explanations
-(package manager)
+**** straight (package manager)
 [[https://github.com/raxod502/straight.el][github: straight.el]]
-[[https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/][why and how to switch from package to straight]]
+[[https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/][
+why and how to switch from package to straight]]
 
 TODO see hydra integration
 https://github.com/abo-abo/hydra/wiki/straight.el
@@ -181,6 +252,12 @@ https://github.com/abo-abo/hydra/wiki/straight.el
 see example
 https://emacs.nasy.moe/
 
+- functions
+| straight-prune-build | remove from build & cache unused packages |
+|                      |                                           |
+
+
+**** use-package
 [[https://github.com/jwiegley/use-package][github: use-package]]
 https://jwiegley.github.io/use-package/
 ** use-package extensions
@@ -209,7 +286,6 @@ https://jwiegley.github.io/use-package/
 #+END_SRC
 *** links
 **** TODO see https://github.com/mnewt/git-package
-
 ** Hydra
 #+BEGIN_SRC emacs-lisp
   (use-package hydra
@@ -327,149 +403,154 @@ see https://www.emacswiki.org/emacs/ChangingEncodings
 *** links
 https://github.com/apchamberlain/undo-tree.el
 https://www.emacswiki.org/emacs/UndoTree
-** COMMENT org
+** org
 #+BEGIN_SRC emacs-lisp
-  (use-package org
-    :git (eg :url "https://github.com/mnewt/eg.el"
-	     :dir "eg"
-	     :files '("*.el" "another/dir/*.el")
-	     :ref "tags/1.0"
-	     :command "make autoloads")
-    :mode
-    ("\\.\\(org\\|txt\\)\\'" . org-mode)
-    ("\\*notes\\*" . org-mode)
-    :bind (("C-c a" . org-agenda)
-	   ("C-c c" . org-capture))
-    :custom
-    (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id "org-store-link create an id")
-    :config
-    (setq org-indent-mode 0
-	  org-adapt-indentation nil
-	  org-agenda-files (quote ("~/workspace/org/agenda"))
-	  org-default-notes-file "~/Dropbox/org/notes.org"
-	  org-file-apps
-	  (quote
-	   ((auto-mode . emacs)
-	    ("\\.mm\\'" . default)
-	    ("\\.x?html?\\'" . default)
-	    ("\\.pdf\\'" . default)
-	    (directory . emacs)))
-	  org-fontify-done-headline t
-	  org-hide-leading-stars nil
-	  org-html-table-default-attributes nil
-	  org-indent-indentation-per-level 0
-	  org-level-color-stars-only nil
-	  org-modules
-	  (quote
-	   (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
-	  org-publish-timestamp-directory "~/workspace/org/.org-timestamps/"
-	  org-refile-targets (quote ((org-agenda-files :maxlevel . 4)))
-	  org-src-window-setup (quote current-window)
-	  org-startup-shrink-all-tables t
-	  org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
-	  ;; org-headline-done ((t (:foreground "medium aquamarine")))
-	  org-capture-templates
-	  (quote
-	   (("l" "Link" entry
-	     (file+headline "~/Dropbox/org/new_links.org" "links")
-	     "** link
-  :PROPERTIES:
-  :TITLE: %?
-  :LINK:
-  :END:
-  ")
-	    ("t" "Task" entry
-	     (file+headline "" "Tasks")
-	     "* TODO %?
-  %u
-  %a")
-	    ("c" "Clope" entry
-	     (file+headline "~/Dropbox/org/pauses.org" "pauses")
-	     "** clope
-  :PROPERTIES:
-  :TIMES: %U%?
-  :END:
-  ")))
-	  )
-    )
+    (use-package org
+    ;; used tag: release_9.3.7
+      :mode
+      ("\\.\\(org\\|txt\\)\\'" . org-mode)
+      ("\\*notes\\*" . org-mode)
+      :bind (("C-c a" . org-agenda)
+	     ("C-c c" . org-capture))
+      :custom
+      (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id "org-store-link create an id")
+      :config
+      (setq org-indent-mode 0
+	    org-adapt-indentation nil
+	    org-agenda-files (quote ("~/workspace/org/agenda"))
+	    org-default-notes-file "~/Dropbox/org/notes.org"
+	    org-file-apps
+	    (quote
+	     ((auto-mode . emacs)
+	      ("\\.mm\\'" . default)
+	      ("\\.x?html?\\'" . default)
+	      ("\\.pdf\\'" . default)
+	      (directory . emacs)))
+	    org-fontify-done-headline t
+	    org-hide-leading-stars nil
+	    org-html-table-default-attributes nil
+	    org-indent-indentation-per-level 0
+	    org-level-color-stars-only nil
+	    org-modules
+	    (quote
+	     (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
+	    org-publish-timestamp-directory "~/workspace/org/.org-timestamps/"
+	    org-refile-targets (quote ((org-agenda-files :maxlevel . 4)))
+	    org-src-window-setup (quote current-window)
+	    org-startup-shrink-all-tables t
+	    org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
+	    ;; org-headline-done ((t (:foreground "medium aquamarine")))
+	    org-capture-templates
+	    (quote
+	     (("l" "Link" entry
+	       (file+headline "~/Dropbox/org/new_links.org" "links")
+	       "** link
+    :PROPERTIES:
+    :TITLE: %?
+    :LINK:
+    :END:
+    ")
+	      ("t" "Task" entry
+	       (file+headline "" "Tasks")
+	       "* TODO %?
+    %u
+    %a")
+	      ("c" "Clope" entry
+	       (file+headline "~/Dropbox/org/pauses.org" "pauses")
+	       "** clope
+    :PROPERTIES:
+    :TIMES: %U%?
+    :END:
+    ")))
+	    )
+      )
 
-  ;; patched function org-translate-time from org.el
-  ;; replaced
-  ;;
-  ;; (concat
-  ;;  (if inactive "[" "<") (substring tf 1 -1)
-  ;;  (if inactive "]" ">"))
-  ;;
-  ;; with
-  ;;
-  ;; (require 'org-collector)
-  ;;
-  ;; removed: default behavior is better ...
-  ;;
-  ;; see https://orgmode.org/manual/Capturing-column-view.html:
-  ;;    C-c C-x i (org-insert-columns-dblock)
+    ;; patched function org-translate-time from org.el
+    ;; replaced
+    ;;
+    ;; (concat
+    ;;  (if inactive "[" "<") (substring tf 1 -1)
+    ;;  (if inactive "]" ">"))
+    ;;
+    ;; with
+    ;;
+    ;; (require 'org-collector)
+    ;;
+    ;; removed: default behavior is better ...
+    ;;
+    ;; see https://orgmode.org/manual/Capturing-column-view.html:
+    ;;    C-c C-x i (org-insert-columns-dblock)
 
-  ;; setting up org-babel for literate programming
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '(
-     (python . t)
-     ;;   (sh . t)
-     (C . t)
-     ;; Include other languages here...
-     ))
+    ;; setting up org-babel for literate programming
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '(
+       (python . t)
+       ;;   (sh . t)
+       (C . t)
+       ;; Include other languages here...
+       ))
 
-  (progn
-    (defvar org-html-postamble)
-    (setq org-html-postamble nil))
+    (progn
+      (defvar org-html-postamble)
+      (setq org-html-postamble nil))
 
-  (use-package org-web-tools)
+    (use-package org-web-tools)
 
-  (use-package ob-async
-    ;; https://github.com/astahlman/ob-async
-    :after org
-    )
+    (use-package ob-async
+      ;; https://github.com/astahlman/ob-async
+      :after org
+      )
 
-  (use-package org-generate
-    :after org
-    :straight (:host github :repo "conao3/org-generate.el"))
+    (use-package org-generate
+      :after org
+      :straight (:host github :repo "conao3/org-generate.el"))
 
-  ;; Fix an incompatibility between the ob-async and ob-ipython packages
-  ;; TODO integrate in use-package
-  (progn
-    (defvar ob-async-no-async-languages-alist)
-    (setq ob-async-no-async-languages-alist '("ipython")))
+    ;; Fix an incompatibility between the ob-async and ob-ipython packages
+    ;; TODO integrate in use-package
+    (progn
+      (defvar ob-async-no-async-languages-alist)
+      (setq ob-async-no-async-languages-alist '("ipython")))
 
-  (use-package org-mind-map
-    ;; mind map
-    :init (require 'ox-org)
-    :config
-    (setq org-mind-map-engine "dot"
-	  org-mind-map-default-graph-attribs
-	  (quote
-	   (("autosize" . "false")
-	    ("size" . "9,12")
-	    ("resolution" . "100")
-	    ("nodesep" . "0.75")
-	    ("overlap" . "false")
-	    ("splines" . "ortho")
-	    ("rankdir" . "LR")))
-	  org-mind-map-dot-output (quote ("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff"))
-	  )
-    )
+    (use-package org-mind-map
+      ;; mind map
+      :init (require 'ox-org)
+      :config
+      (setq org-mind-map-engine "dot"
+	    org-mind-map-default-graph-attribs
+	    (quote
+	     (("autosize" . "false")
+	      ("size" . "9,12")
+	      ("resolution" . "100")
+	      ("nodesep" . "0.75")
+	      ("overlap" . "false")
+	      ("splines" . "ortho")
+	      ("rankdir" . "LR")))
+	    org-mind-map-dot-output (quote ("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff"))
+	    )
+      )
 
-  (use-package org-brain
-    ;; mind map
-    )
+    (use-package org-brain
+      ;; mind map
+      )
 
-  (use-package poporg
-    ;; http://pragmaticemacs.com/emacs/write-code-comments-in-org-mode-with-poporg/
-    ;; https://github.com/QBobWatson/poporg
-    :bind (("C-c /" . poporg-dwim)))
+    (use-package poporg
+      ;; http://pragmaticemacs.com/emacs/write-code-comments-in-org-mode-with-poporg/
+      ;; https://github.com/QBobWatson/poporg
+      :bind (("C-c /" . poporg-dwim)))
 
-  (use-package htmlize
-    ;; to export html file
-    )
+    (use-package htmlize
+      ;; to export html file
+      )
+
+  ;; (use-package org-linkz
+  ;;   :straight
+  ;;   (:host github :repo "p-kolacz/org-linkz" :branch "master")
+  ;;   :config
+  ;;   (setq org-html-validation-link nil)
+  ;;   )
+
+
 #+END_SRC
 ** link-hint
 #+BEGIN_SRC emacs-lisp
@@ -577,6 +658,7 @@ https://oremacs.com/swiper/
 https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/
 https://www.reddit.com/r/emacs/comments/6yi6dl/most_useful_parts_of_ivycounselswiper_manual_too/
 https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
+*** TODO setup key in counsel
 
 ** visual
 #+BEGIN_SRC emacs-lisp
@@ -606,6 +688,93 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
     (bookmark-default-file (concat user-emacs-directory "emacs-bookmarks/bmk.emacs"))
     )
 #+END_SRC
+** C mode (Ingenico)
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'c-mode-hook (lambda () (setq comment-start "//"
+					  comment-end   "")))
+
+  (c-add-style "ingenico"
+	       '("gnu"
+		 (c-basic-offset . 2)     ; Guessed value
+		 (c-offsets-alist
+		  (block-close . 0)       ; Guessed value
+		  (brace-entry-open . 0)  ; Guessed value
+		  (brace-list-close . 0)  ; Guessed value
+		  (brace-list-intro . +)  ; Guessed value
+		  (brace-list-open . 0)   ; Guessed value
+		  (case-label . +)        ; Guessed value
+		  (class-close . 0)       ; Guessed value
+		  (class-open . 0)        ; Guessed value
+		  (defun-block-intro . +) ; Guessed value
+		  (defun-close . 0)       ; Guessed value
+		  (defun-open . 0)        ; Guessed value
+		  (do-while-closure . 0)  ; Guessed value
+		  (else-clause . 0)       ; Guessed value
+		  (inclass . +)           ; Guessed value
+		  (statement . 0)             ; Guessed value
+		  (statement-block-intro . +) ; Guessed value
+		  (statement-case-intro . +) ; Guessed value
+		  (substatement . +)      ; Guessed value
+		  (substatement-open . 0) ; Guessed value
+		  (topmost-intro . 0)     ; Guessed value
+		  (access-label . -)
+		  (annotation-top-cont . 0)
+		  (annotation-var-cont . +)
+		  (arglist-close . c-lineup-close-paren)
+		  (arglist-cont c-lineup-gcc-asm-reg 0)
+		  (arglist-cont-nonempty . c-lineup-arglist)
+		  (arglist-intro . c-lineup-arglist-intro-after-paren)
+		  (block-open . 0)
+		  (brace-list-entry . 0)
+		  (c . c-lineup-C-comments)
+		  (catch-clause . 0)
+		  (comment-intro . c-lineup-comment)
+		  (composition-close . 0)
+		  (composition-open . 0)
+		  (cpp-define-intro c-lineup-cpp-define +)
+		  (cpp-macro . -1000)
+		  (cpp-macro-cont . 0)
+		  (extern-lang-close . 0)
+		  (extern-lang-open . 0)
+		  (friend . 0)
+		  (func-decl-cont . +)
+		  (incomposition . +)
+		  (inexpr-class . +)
+		  (inexpr-statement . +)
+		  (inextern-lang . 0)
+		  (inher-cont . c-lineup-multi-inher)
+		  (inher-intro . +)
+		  (inlambda . c-lineup-inexpr-block)
+		  (inline-close . 0)
+		  (inline-open . 0)
+		  (inmodule . +)
+		  (innamespace . +)
+		  (knr-argdecl . 0)
+		  (knr-argdecl-intro . 5)
+		  (label . 0)
+		  (lambda-intro-cont . +)
+		  (member-init-cont . c-lineup-multi-inher)
+		  (member-init-intro . +)
+		  (module-close . 0)
+		  (module-open . 0)
+		  (namespace-close . 0)
+		  (namespace-open . 0)
+		  (objc-method-args-cont . c-lineup-ObjC-method-args)
+		  (objc-method-call-cont c-lineup-ObjC-method-call-colons c-lineup-ObjC-method-call +)
+		  (objc-method-intro .
+				     [0])
+		  (statement-case-open . 0)
+		  (statement-cont . +)
+		  (stream-op . c-lineup-streamop)
+		  (string . -1000)
+		  (substatement-label . 0)
+		  (template-args-cont c-lineup-template-args +)
+		  (topmost-intro-cont first c-lineup-topmost-intro-cont c-lineup-gnu-DEFUN-intro-cont))))
+
+  (add-hook 'c-mode-hook (lambda () (c-set-style "ingenico")))
+  (add-hook 'cc-mode-hook (lambda () (c-set-style "ingenico")))
+  #+END_SRC
+
 
 ** TODO ada mode                                                         :dev:
 #+BEGIN_SRC emacs-lisp
@@ -864,6 +1033,7 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 ** dired+
 #+BEGIN_SRC emacs-lisp
   (use-package dired+
+    :after hydra
     :straight
     (:host github :repo "emacsmirror/dired-plus" :branch "master")
     :config
@@ -1017,19 +1187,18 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
     ("-" text-scale-decrease "out"))
 #+END_SRC
 
-
 * others packages to check
+** latex
 #+BEGIN_SRC emacs-lisp
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;; latex
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package auctex
+;; https://www.gnu.org/software/auctex/
+:defer t
+:ensure t
+)
+#+END_SRC
 
-  (use-package auctex
-    ;; https://www.gnu.org/software/auctex/
-    :defer t
-    :ensure t
-    )
-
+** to sort
+#+BEGIN_SRC emacs-lisp
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;; TODO to sort
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1047,6 +1216,8 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
   (use-package deft
     ;; Emacs mode for quickly browsing, filtering, and editing directories
     ;; of plain text notes
+    ;; see org-roam https://www.youtube.com/watch?v=gDAbpz98ooU
+    ;; see Zetteldeft  https://www.youtube.com/watch?v=azOPZGO2vso
     ;;
     ;; https://github.com/jrblevin/deft
     ;;
@@ -1151,6 +1322,7 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 
   (use-package wgrep
     ;; editable grep results
+    :after hydra
     :straight
     (:host github :repo "mhayashi1120/Emacs-wgrep" :branch "master")
     :bind (
@@ -1325,89 +1497,6 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
   ;;;; development
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-  (add-hook 'c-mode-hook (lambda () (setq comment-start "//"
-					  comment-end   "")))
-
-  (c-add-style "ingenico"
-	       '("gnu"
-		 (c-basic-offset . 2)     ; Guessed value
-		 (c-offsets-alist
-		  (block-close . 0)       ; Guessed value
-		  (brace-entry-open . 0)  ; Guessed value
-		  (brace-list-close . 0)  ; Guessed value
-		  (brace-list-intro . +)  ; Guessed value
-		  (brace-list-open . 0)   ; Guessed value
-		  (case-label . +)        ; Guessed value
-		  (class-close . 0)       ; Guessed value
-		  (class-open . 0)        ; Guessed value
-		  (defun-block-intro . +) ; Guessed value
-		  (defun-close . 0)       ; Guessed value
-		  (defun-open . 0)        ; Guessed value
-		  (do-while-closure . 0)  ; Guessed value
-		  (else-clause . 0)       ; Guessed value
-		  (inclass . +)           ; Guessed value
-		  (statement . 0)             ; Guessed value
-		  (statement-block-intro . +) ; Guessed value
-		  (statement-case-intro . +) ; Guessed value
-		  (substatement . +)      ; Guessed value
-		  (substatement-open . 0) ; Guessed value
-		  (topmost-intro . 0)     ; Guessed value
-		  (access-label . -)
-		  (annotation-top-cont . 0)
-		  (annotation-var-cont . +)
-		  (arglist-close . c-lineup-close-paren)
-		  (arglist-cont c-lineup-gcc-asm-reg 0)
-		  (arglist-cont-nonempty . c-lineup-arglist)
-		  (arglist-intro . c-lineup-arglist-intro-after-paren)
-		  (block-open . 0)
-		  (brace-list-entry . 0)
-		  (c . c-lineup-C-comments)
-		  (catch-clause . 0)
-		  (comment-intro . c-lineup-comment)
-		  (composition-close . 0)
-		  (composition-open . 0)
-		  (cpp-define-intro c-lineup-cpp-define +)
-		  (cpp-macro . -1000)
-		  (cpp-macro-cont . 0)
-		  (extern-lang-close . 0)
-		  (extern-lang-open . 0)
-		  (friend . 0)
-		  (func-decl-cont . +)
-		  (incomposition . +)
-		  (inexpr-class . +)
-		  (inexpr-statement . +)
-		  (inextern-lang . 0)
-		  (inher-cont . c-lineup-multi-inher)
-		  (inher-intro . +)
-		  (inlambda . c-lineup-inexpr-block)
-		  (inline-close . 0)
-		  (inline-open . 0)
-		  (inmodule . +)
-		  (innamespace . +)
-		  (knr-argdecl . 0)
-		  (knr-argdecl-intro . 5)
-		  (label . 0)
-		  (lambda-intro-cont . +)
-		  (member-init-cont . c-lineup-multi-inher)
-		  (member-init-intro . +)
-		  (module-close . 0)
-		  (module-open . 0)
-		  (namespace-close . 0)
-		  (namespace-open . 0)
-		  (objc-method-args-cont . c-lineup-ObjC-method-args)
-		  (objc-method-call-cont c-lineup-ObjC-method-call-colons c-lineup-ObjC-method-call +)
-		  (objc-method-intro .
-				     [0])
-		  (statement-case-open . 0)
-		  (statement-cont . +)
-		  (stream-op . c-lineup-streamop)
-		  (string . -1000)
-		  (substatement-label . 0)
-		  (template-args-cont c-lineup-template-args +)
-		  (topmost-intro-cont first c-lineup-topmost-intro-cont c-lineup-gnu-DEFUN-intro-cont))))
-
-  (add-hook 'c-mode-hook (lambda () (c-set-style "ingenico")))
-  (add-hook 'cc-mode-hook (lambda () (c-set-style "ingenico")))
   (add-hook 'c-mode-hook (lambda () (electric-pair-mode)))
   (add-hook 'cc-mode-hook (lambda () (electric-pair-mode)))
   (add-hook 'elisp-mode-hook (lambda () (electric-pair-mode)))
@@ -1737,30 +1826,6 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 			  "bookmarks"))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;; initial buffer
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  (defun jp/initial-buffer()
-    (interactive)
-    (setq jp--buffer (get-buffer-create "*fetching.org*"))
-    (set-buffer jp--buffer)
-    (org-mode)
-    (insert "#+NAME: output-fetch-repositories\n"
-	    "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
-    (beginning-of-line)
-    jp--buffer
-    )
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;; emacs client
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
-
-  (require 'server)
-  (unless (server-running-p)
-    (server-start))
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;; tests
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1813,37 +1878,6 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
   ;; (speedbar-add-supported-extension ".ads")
   ;; (speedbar-add-supported-extension ".adb")
 
-  ;; frame & display:
-  ;; https://stackoverflow.com/questions/16481984/get-width-of-current-monitor-in-emacs-lisp
-  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Frame-Commands.html
-  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Parameter-Access.html
-  (defun jpi-full-screen ()
-    (interactive)
-    (cond
-     (ingenico-computer-p
-      (set-frame-position (selected-frame) 0 0)
-      (set-frame-width (selected-frame) 188)
-      (set-frame-height (selected-frame) 52))
-     ;; (set-frame-position (selected-frame) -5 0)
-     ;; (set-frame-width (selected-frame) 380)
-     ;; (set-frame-height (selected-frame) 53))
-     (home-computer-p
-      (set-frame-position (selected-frame) 0 0)
-      (set-frame-width (selected-frame) 188)
-      (set-frame-height (selected-frame) 53)))
-    ;; (cond
-    ;;  ((string= (system-name) ingenico-system-name)
-    ;;   (set-frame-position (selected-frame) 0 0)
-    ;;   (set-frame-width (selected-frame) 188)
-    ;;   (set-frame-height (selected-frame) 52))
-    ;;  ;; (set-frame-position (selected-frame) -5 0)
-    ;;  ;; (set-frame-width (selected-frame) 380)
-    ;;  ;; (set-frame-height (selected-frame) 53))
-    ;;  ((string= (system-name) home-system-name)
-    ;;   (set-frame-position (selected-frame) 0 0)
-    ;;   (set-frame-width (selected-frame) 188)
-    ;;   (set-frame-height (selected-frame) 53)))
-    )
 #+END_SRC
 
 * tangle and load file
@@ -1856,6 +1890,6 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 
 * Local Variables                                                  :noexport:
 Local Variables:
-after-save-hook: (org-babel-tangle)
+eval: (add-hook 'after-save-hook (lambda () (org-babel-tangle)))
 coding: utf-8-unix
 End:
