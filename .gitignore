@@ -22,3 +22,4 @@ recentf
 !/straight/versions/*
 /all-the-icons-fonts/
 /init-post.el
+init.el
