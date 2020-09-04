@@ -90,8 +90,23 @@ recentf
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
   (setq org-indent-indentation-per-level 0
 	org-adapt-indentation nil)
-
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun jp/initial-buffer()
+    (interactive)
+    (setq jp--buffer (get-buffer-create "*fetching.org*"))
+    (set-buffer jp--buffer)
+    (org-mode)
+    (insert "#+NAME: output-fetch-repositories\n"
+	    "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
+    (beginning-of-line)
+    jp--buffer
+    )
+
+    (setq initial-buffer-choice 'jp/initial-buffer)
+#+END_SRC
+
 
 #+BEGIN_SRC emacs-lisp
   ;; frame & display:
@@ -152,34 +167,11 @@ recentf
   (defconst linux-p (eq system-type 'gnu/linux))
 #+END_SRC
 
-*** TODO sort
-
 #+BEGIN_SRC emacs-lisp
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;; initial buffer
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  (defun jp/initial-buffer()
-    (interactive)
-    (setq jp--buffer (get-buffer-create "*fetching.org*"))
-    (set-buffer jp--buffer)
-    (org-mode)
-    (insert "#+NAME: output-fetch-repositories\n"
-	    "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
-    (beginning-of-line)
-    jp--buffer
-    )
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;; emacs client
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
-
   (require 'server)
   (unless (server-running-p)
     (server-start))
-
-
 #+END_SRC
 
 ** Speed-up at startup: boost garbage collector memory
@@ -403,7 +395,7 @@ see https://www.emacswiki.org/emacs/ChangingEncodings
 *** links
 https://github.com/apchamberlain/undo-tree.el
 https://www.emacswiki.org/emacs/UndoTree
-** org
+** org-mode * org
 #+BEGIN_SRC emacs-lisp
   (use-package org
     ;; used tag: release_9.3.7
@@ -445,23 +437,23 @@ https://www.emacswiki.org/emacs/UndoTree
 	   (("l" "Link" entry
 	     (file+headline "~/Dropbox/org/new_links.org" "links")
 	     "** link
-    :PROPERTIES:
-    :TITLE: %?
-    :LINK:
-    :END:
-    ")
+      :PROPERTIES:
+      :TITLE: %?
+      :LINK:
+      :END:
+      ")
 	    ("t" "Task" entry
 	     (file+headline "" "Tasks")
 	     "* TODO %?
-    %u
-    %a")
+      %u
+      %a")
 	    ("c" "Clope" entry
 	     (file+headline "~/Dropbox/org/pauses.org" "pauses")
 	     "** clope
-    :PROPERTIES:
-    :TIMES: %U%?
-    :END:
-    ")))
+      :PROPERTIES:
+      :TIMES: %U%?
+      :END:
+      ")))
 	  )
     )
 
@@ -550,6 +542,11 @@ https://www.emacswiki.org/emacs/UndoTree
   ;;   (setq org-html-validation-link nil)
   ;;   )
 
+  (defun org-save-and-tangle ()
+    (when (eq major-mode 'org-mode)
+      (org-babel-tangle)))
+  (add-hook 'after-save-hook 'org-save-and-tangle)
+
 
 #+END_SRC
 ** link-hint
@@ -579,7 +576,8 @@ https://github.com/noctuid/link-hint.el
     )
 #+END_SRC
 ** browse-kill-ring
-#+BEGIN_SRC emacs-lisp
+Note: use counsel-yank instead
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package browse-kill-ring
     :straight (:host github :repo "browse-kill-ring/browse-kill-ring" :branch "master")
     :config
@@ -628,8 +626,11 @@ source: https://www.emacswiki.org/emacs/LineNumbers#toc8
 		)
     :config
     (setq ivy-re-builders-alist
-	  '((swiper-isearch . ivy--regex-ignore-order)
+	  '((counsel-ag . ivy--regex-plus)
+	    (swiper-isearch . ivy--regex-ignore-order)
 	    (t      . ivy--regex-fuzzy)))
+    (setq ivy-use-virtual-buffers 'bookmarks)
+    (setq ivy-height 15)
     )
 
   (use-package swiper
@@ -637,22 +638,32 @@ source: https://www.emacswiki.org/emacs/LineNumbers#toc8
     )
 
   (use-package counsel
-    ;; completion
-    )
+    :bind
+    (("M-y" . counsel-yank-pop)
+     ("C-x r b" . counsel-bookmark)
+     ("C-x b" . ivy-switch-buffer) ;; counsel-switch-buffer show a
+				   ;; preview of buffer, it's too long
+     ("M-x" . counsel-M-x)
+     ("C-h f" . counsel-describe-function)
+     ("C-h v" . counsel-describe-variable)
+     ("C-x C-f" . counsel-find-file)
+     ("C-x C-d" . counsel-find-file)
+     ("C-x d" . counsel-find-file)
 
-  (global-set-key (kbd "C-x r b") 'counsel-bookmark)
-  (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-h f") 'counsel-describe-function)
-  (global-set-key (kbd "C-h v") 'counsel-describe-variable)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  (global-set-key (kbd "C-x C-d") 'counsel-find-file)
-  (global-set-key (kbd "C-x d") 'counsel-find-file)
+     :map ivy-minibuffer-map
+     ("M-y" . ivy-next-line)))
+
 
   (global-set-key (kbd "C-s") 'isearch-forward)
   (global-set-key (kbd "C-r") 'isearch-backward)
 #+END_SRC
 *** links
+https://oremacs.com/swiper/#actions
+https://github.com/abo-abo/swiper
+https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+http://pragmaticemacs.com/page/6/
+http://blog.binchen.org/posts/emacs-is-easy-if-you-read-code.html
+
 https://github.com/abo-abo/swiper
 https://oremacs.com/swiper/
 https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/
@@ -678,6 +689,9 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
     (font-lock-keyword-face ((t (:foreground "light goldenrod"))))
     (font-lock-string-face ((t (:foreground "violet"))))
     )
+
+;; (highlight ((t (:background "light slate gray"))))
+
 #+END_SRC
 ** bookmark+
 #+BEGIN_SRC emacs-lisp
@@ -1148,7 +1162,7 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
     :config
 
     (progn
-      (when (eq system-type 'windows-nt)
+      (when ingenico-computer-p
 	(setq find-program "C:/Ingenico/GnuWin32/bin/find.exe")
 	) ;; end when
       ) ;; end progn
@@ -1891,8 +1905,62 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
       (load (concat user-emacs-directory "init.el"))))
 #+END_SRC
 
+* emacs-custom content
+#+NAME: insert-custom-file
+#+BEGIN_SRC emacs-lisp :tangle no :results value drawer :exports
+  (let ((result ""))
+    (setq result (concat "#+BEGIN_SRC emacs-lisp :tangle no\n"
+			 (with-temp-buffer (insert-file-contents (concat user-emacs-directory "emacs-custom.el")) (buffer-string))
+			 "\n#+END_SRC\n"))
+    result)
+#+END_SRC
+
+#+CALL: insert-custom-file()
+
+#+RESULTS:
+:results:
+#+BEGIN_SRC emacs-lisp :tangle no
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(auto-revert-interval 3)
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(backup-by-copying t)
+ '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
+ '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
+ '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
+ '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
+ '(custom-enabled-themes (quote (tsdh-dark)))
+ '(org-id-link-to-org-use-id (quote create-if-interactive-and-no-custom-id))
+ '(safe-local-variable-values
+   (quote
+    ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run")
+     (eval progn
+	   (org-babel-tangle)
+	   (when
+	       (y-or-n-p "load init.el? ")
+	     (load
+	      (concat user-emacs-directory "init.el"))))))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#050000" :foreground "#bbe0f0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "outline" :family "Courier New")))))
+
+#+END_SRC
+:end:
+
 * Local Variables                                                  :noexport:
 Local Variables:
-eval: (add-hook 'after-save-hook (lambda () (org-babel-tangle)))
+mode: org
 coding: utf-8-unix
 End:
