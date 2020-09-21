@@ -2,7 +2,25 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(#1=(#("README.org" 0 10
+(#1=(#("download" 0 8
+      (bmkp-full-record #1#))
+    (buffer-name . "download")
+    (front-context-string . "ada\n  -rw-rw-rw-")
+    (rear-context-string . "96 Sep  4  2019 ")
+    (front-context-region-string)
+    (rear-context-region-string)
+    (visits . 0)
+    (time . #2=(24416 60523 618805 0))
+    (created . #2#)
+    (position . 253)
+    (filename . #3="e:/download/")
+    (dired-directory . #3#)
+    (dired-marked)
+    (dired-switches . "-al")
+    (dired-subdirs)
+    (dired-hidden-dirs)
+    (handler . bmkp-jump-dired))
+#1=(#("README.org" 0 10
       (bmkp-full-record #1#))
     (filename . "~/.emacs.d/README.org")
     (buffer-name . "README.org")
@@ -95,8 +113,8 @@
     (rear-context-string . "005 04-15 16:35 ")
     (front-context-region-string)
     (rear-context-region-string)
-    (visits . 26)
-    (time 24399 43663 152238 0)
+    (visits . 28)
+    (time 24416 62975 630177 0)
     (created 24259 59463 593554 0)
     (position . 386)
     (filename . "~/workspace/org/bookmarks/")

@@ -549,6 +549,9 @@ https://www.emacswiki.org/emacs/UndoTree
 
 
 #+END_SRC
+*** links
+https://github.com/thisirs/org-context
+
 ** link-hint
 #+BEGIN_SRC emacs-lisp
   (use-package link-hint
@@ -1204,16 +1207,24 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
     ("-" text-scale-decrease "out"))
 #+END_SRC
 
-* others packages to check
 ** latex
 #+BEGIN_SRC emacs-lisp
   (use-package auctex
     ;; https://www.gnu.org/software/auctex/
     :defer t
     :ensure t
+    :custom
+    (ConTeXt-Mark-version "IV")
     )
 #+END_SRC
 
+*** links
+https://github.com/hmenke/context-examples/blob/master/GUIDE.md
+https://tex.loria.fr/formats/context/context-getting-started.pdf
+https://wiki.contextgarden.net/AUCTeX
+https://www.ntg.nl/maps/24/16.pdf latex to context
+
+* others packages to check
 ** to sort
 #+BEGIN_SRC emacs-lisp
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
