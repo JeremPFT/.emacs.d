@@ -22,13 +22,7 @@
     ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run")
-     (eval progn
-	   (org-babel-tangle)
-	   (when
-	       (y-or-n-p "load init.el? ")
-	     (load
-	      (concat user-emacs-directory "init.el"))))))))
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -195,14 +195,14 @@
     (handler . bmkp-jump-dired))
 #1=(#("Ingenico_Workspace" 0 18
       (bmkp-full-record #1#))
-    (end-position . 2012)
-    (time 24399 43982 443993 0)
-    (visits . 2)
+    (end-position . 2374)
+    (time 24427 24604 903677 0)
+    (visits . 3)
     (tags "ingenico")
     (filename . "~/Ingenico_Workspace/")
     (front-context-string . "SUPTER-7682_mexi")
     (rear-context-string . "92 Aug 26 11:33 ")
-    (position . 2012))
+    (position . 2374))
 #1=(#("_BbvaTkGen__declarations.h" 0 26
       (bmkp-full-record #1#))
     (tags "ingenico")

@@ -56,7 +56,7 @@ recentf
 !/straight/versions/*
 /all-the-icons-fonts/
 #+END_EXAMPLE
-* Minimum configuration: init.el
+* Minimum configuration
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init.el"
 :END:
@@ -106,7 +106,6 @@ recentf
 
     (setq initial-buffer-choice 'jp/initial-buffer)
 #+END_SRC
-
 
 #+BEGIN_SRC emacs-lisp
   ;; frame & display:
@@ -173,6 +172,18 @@ recentf
   (unless (server-running-p)
     (server-start))
 #+END_SRC
+*** emacs hooks
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+END_SRC
+**** note about before-save-hook
+It can also be activated only for prog-modes:
+#+BEGIN_SRC emacs-lisp :tangle no
+  (defun my-prog-nuke-trailing-whitespace ()
+    (when (derived-mode-p 'prog-mode)
+      (delete-trailing-whitespace)))
+  (add-hook 'before-save-hook 'my-prog-nuke-trailing-whitespace)
+#+END_SRC
 
 ** Speed-up at startup: boost garbage collector memory
 #+BEGIN_SRC emacs-lisp
@@ -190,7 +201,7 @@ recentf
     (when (file-exists-p config-file)
       (load config-file)))
 #+END_SRC
-* Standard configuration: init-post.el
+* Standard configuration
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init.el"
 :END:
@@ -247,7 +258,6 @@ https://emacs.nasy.moe/
 - functions
 | straight-prune-build | remove from build & cache unused packages |
 |                      |                                           |
-
 
 **** use-package
 [[https://github.com/jwiegley/use-package][github: use-package]]
@@ -374,7 +384,7 @@ see https://www.emacswiki.org/emacs/ChangingEncodings
     (yas-global-mode 1)
     )
 #+END_SRC
-** fill column 
+** fill column
 #+BEGIN_SRC emacs-lisp
   (use-package fill-column-indicator
     :config
@@ -386,7 +396,6 @@ see https://www.emacswiki.org/emacs/ChangingEncodings
     )
 #+END_SRC
 ** undo-tree
-
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :straight
@@ -395,7 +404,7 @@ see https://www.emacswiki.org/emacs/ChangingEncodings
 *** links
 https://github.com/apchamberlain/undo-tree.el
 https://www.emacswiki.org/emacs/UndoTree
-** org-mode * org
+** org-mode
 #+BEGIN_SRC emacs-lisp
   (use-package org
     ;; used tag: release_9.3.7
@@ -405,7 +414,9 @@ https://www.emacswiki.org/emacs/UndoTree
     :bind (("C-c a" . org-agenda)
 	   ("C-c c" . org-capture))
     :custom
-    (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id "org-store-link create an id")
+    (org-id-link-to-org-use-id
+     (quote create-if-interactive-and-no-custom-id)
+     "org-store-link create an id")
     :config
     (setq org-indent-mode 0
 	  org-adapt-indentation nil
@@ -546,8 +557,6 @@ https://www.emacswiki.org/emacs/UndoTree
     (when (eq major-mode 'org-mode)
       (org-babel-tangle)))
   (add-hook 'after-save-hook 'org-save-and-tangle)
-
-
 #+END_SRC
 *** links
 https://github.com/thisirs/org-context
@@ -655,7 +664,6 @@ source: https://www.emacswiki.org/emacs/LineNumbers#toc8
 
      :map ivy-minibuffer-map
      ("M-y" . ivy-next-line)))
-
 
   (global-set-key (kbd "C-s") 'isearch-forward)
   (global-set-key (kbd "C-r") 'isearch-backward)
@@ -795,7 +803,6 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
   (add-hook 'cc-mode-hook (lambda () (c-set-style "ingenico")))
 #+END_SRC
 
-
 ** TODO ada mode                                                         :dev:
 #+BEGIN_SRC emacs-lisp
   (require 'imenu)
@@ -846,6 +853,11 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
     (when (require 'flycheck nil t)
       (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
       (add-hook 'elpy-mode-hook 'flycheck-mode))
+    :custom
+    (python-fill-docstring-style
+     (quote symmetric)
+     "Fill method used for docstring. See emacs doc"
+     )
     )
 #+END_SRC
 ** fic-mode: highlight TODO/FIXME/...                                    :dev:
@@ -1237,9 +1249,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
     (add-to-list 'straight-x-pinned-packages
 		 '("wisi" . "83ca0c16350ff4e79ff5172abcc5a2a78c755530")))
 
-
   ;; TODO Enable Flycheck. Integrate in use-package
-
 
   (use-package deft
     ;; Emacs mode for quickly browsing, filtering, and editing directories
@@ -1309,7 +1319,6 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
   ;;   :ensure t
   ;;   :commands (dired-sidebar-toggle-sidebar)
   ;; )
-
 
   ;;
   ;; custom dir sort
@@ -1384,7 +1393,6 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 
   ;; (use-package speed-type
   ;; )
-
 
   (use-package benchmark-init
     :config
@@ -1656,17 +1664,6 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
   ;; (desktop-save-mode -1)
   ;;;;
 
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
-  ;;;;
-  ;; may only activate for prog-modes:
-  ;;
-  ;; (defun my-prog-nuke-trailing-whitespace ()
-  ;;   (when (derived-mode-p 'prog-mode)
-  ;;     (delete-trailing-whitespace)))
-  ;; (add-hook 'before-save-hook 'my-prog-nuke-trailing-whitespace)
-  ;;;;
-
-
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;; elisp (personal, imported)
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1847,7 +1844,6 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
   ;; https://github.com/abo-abo/hydra/wiki/Org-agenda
   ;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
 
-
   (defvar org-dir (concat (file-name-as-directory (getenv "HOME"))
 			  (file-name-as-directory "workspace")
 			  (file-name-as-directory "org")
@@ -1910,7 +1906,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 
 * tangle and load file
 #+BEGIN_SRC emacs-lisp :results output silent
-  (progn 
+  (progn
     (org-babel-tangle)
     (when (y-or-n-p "load init.el? ")
       (load (concat user-emacs-directory "init.el"))))
