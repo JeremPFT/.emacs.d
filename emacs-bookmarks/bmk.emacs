@@ -1,4 +1,4 @@
-;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*- 
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*-
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
@@ -28,8 +28,8 @@
     (rear-context-string)
     (front-context-region-string)
     (rear-context-region-string)
-    (visits . 2)
-    (time 24399 44675 609709 0)
+    (visits . 3)
+    (time 24428 43456 229346 0)
     (created 24398 7434 345489 0)
     (position . 1))
 #1=(#("init.org" 0 8
@@ -72,8 +72,8 @@
     (rear-context-string)
     (front-context-region-string)
     (rear-context-region-string)
-    (visits . 5)
-    (time 24390 21852 4114 0)
+    (visits . 6)
+    (time 24428 43193 979751 0)
     (created 24307 5122 42549 0)
     (position . 1))
 #1=(#("agenda" 0 6
@@ -195,14 +195,14 @@
     (handler . bmkp-jump-dired))
 #1=(#("Ingenico_Workspace" 0 18
       (bmkp-full-record #1#))
-    (end-position . 2374)
-    (time 24427 24604 903677 0)
-    (visits . 3)
+    (end-position . 1076)
+    (time 24428 39093 882925 0)
+    (visits . 4)
     (tags "ingenico")
     (filename . "~/Ingenico_Workspace/")
     (front-context-string . "SUPTER-7682_mexi")
     (rear-context-string . "92 Aug 26 11:33 ")
-    (position . 2374))
+    (position . 1076))
 #1=(#("_BbvaTkGen__declarations.h" 0 26
       (bmkp-full-record #1#))
     (tags "ingenico")

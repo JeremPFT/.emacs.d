@@ -214,7 +214,6 @@ It can also be activated only for prog-modes:
 	       '("MELPA Stable" . "https://stable.melpa.org/packages") t)
   (unless package--initialized (package-initialize t))
 #+END_SRC
-
 ** straight & use-package
 #+BEGIN_SRC emacs-lisp
   (defvar bootstrap-version)
@@ -303,6 +302,7 @@ https://jwiegley.github.io/use-package/
 
   (use-package use-package-hydra
     ;; https://gitlab.com/to1ne/use-package-hydra
+    :after hydra
     :straight
     (:host gitlab :repo "to1ne/use-package-hydra" :branch "master")
     :after use-package hydra
@@ -1236,6 +1236,38 @@ https://tex.loria.fr/formats/context/context-getting-started.pdf
 https://wiki.contextgarden.net/AUCTeX
 https://www.ntg.nl/maps/24/16.pdf latex to context
 
+** wgrep
+#+BEGIN_SRC emacs-lisp
+  (use-package wgrep
+    ;; editable grep results
+    :after hydra
+    :straight
+    (:host github :repo "mhayashi1120/Emacs-wgrep" :branch "master")
+    :bind (
+	   :map grep-mode-map
+	   ("<f1>" . hydra-enter-wgrep/body)
+	   :map wgrep-mode-map
+	   ("<f1>" . hydra-wgrep/body)
+	   )
+    :hydra (hydra-enter-wgrep
+	    ()
+	    "wgrep commands
+
+  "
+	    ("s" wgrep-change-to-wgrep-mode "start wgrep")
+	    )
+    :hydra (hydra-wgrep
+	    ()
+	    "wgrep commands
+
+  "
+	    ("u" wgrep-remove-change "remove region changes")
+	    ("U" wgrep-remove-all-change "remove all changes")
+	    ("a" wgrep-apply-change "apply")
+	    ("s" wgrep-save-all-buffers "save all")
+	    )
+    )
+#+END_SRC
 * others packages to check
 ** to sort
 #+BEGIN_SRC emacs-lisp
@@ -1355,36 +1387,6 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 		("p" . ztree-previous-line)
 		("n" . ztree-next-line)
 		)
-    )
-
-  (use-package wgrep
-    ;; editable grep results
-    :after hydra
-    :straight
-    (:host github :repo "mhayashi1120/Emacs-wgrep" :branch "master")
-    :bind (
-	   :map grep-mode-map
-	   ("<f1>" . hydra-enter-wgrep/body)
-	   :map wgrep-mode-map
-	   ("<f1>" . hydra-wgrep/body)
-	   )
-    :hydra (hydra-enter-wgrep
-	    ()
-	    "wgrep commands
-
-  "
-	    ("s" wgrep-change-to-wgrep-mode "start wgrep")
-	    )
-    :hydra (hydra-wgrep
-	    ()
-	    "wgrep commands
-
-  "
-	    ("u" wgrep-remove-change "remove region changes")
-	    ("U" wgrep-remove-all-change "remove all changes")
-	    ("a" wgrep-apply-change "apply")
-	    ("s" wgrep-save-all-buffers "save all")
-	    )
     )
 
   (use-package elpa-mirror

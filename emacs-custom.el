@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ConTeXt-Mark-version "IV" t)
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
@@ -15,11 +16,19 @@
  '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(custom-enabled-themes (quote (tsdh-dark)))
  '(org-id-link-to-org-use-id (quote create-if-interactive-and-no-custom-id))
+ '(python-fill-docstring-style (quote symmetric))
  '(recentf-auto-cleanup (quote never))
  '(recentf-mode nil)
  '(safe-local-variable-values
    (quote
-    ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service")
+    ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-service-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run")))))
