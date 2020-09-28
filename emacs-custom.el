@@ -11,10 +11,14 @@
  '(auto-revert-interval 3)
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
+ '(before-save-hook
+   (quote
+    (ada-before-save straight-register-file-modification delete-trailing-whitespace)))
  '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
  '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(custom-enabled-themes (quote (tsdh-dark)))
+ '(indent-tabs-mode nil)
  '(org-id-link-to-org-use-id (quote create-if-interactive-and-no-custom-id))
  '(python-fill-docstring-style (quote symmetric))
  '(recentf-auto-cleanup (quote never))
