@@ -13,7 +13,7 @@
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
  '(before-save-hook
    (quote
-    (ada-before-save straight-register-file-modification delete-trailing-whitespace)))
+    (delete-trailing-whitespace)))
  '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
  '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")

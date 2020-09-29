@@ -72,12 +72,6 @@ recentf
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  ;;;; custom file
-  (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
-  (when (file-exists-p custom-file) (load custom-file))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
   ;;;; global modes
   (global-auto-revert-mode)
   (global-hl-line-mode)
@@ -825,19 +819,20 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 
     (defun ada-before-save ()
       (when (or (eq major-mode 'ada-mode) (eq major-mode 'gpr-mode))
-	(ada-case-adjust-buffer)
-	(ada-reset-parser)
-	(indent-buffer)))
+        (ada-case-adjust-buffer)
+        (ada-reset-parser)
+        (indent-buffer)))
+
     (add-hook 'before-save-hook 'ada-before-save)
     (add-hook 'ada-mode-hook (lambda () (electric-pair-mode)))
 
     ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
     (defun hippie-expand-ada-symbols (orig-fun &rest args)
       (if (eq major-mode 'ada-mode)
-	  (let ((table (make-syntax-table ada-mode-syntax-table)))
-	    (modify-syntax-entry ?. "_" table)
-	    (with-syntax-table table (apply orig-fun args)))
-	(apply orig-fun args)))
+          (let ((table (make-syntax-table ada-mode-syntax-table)))
+            (modify-syntax-entry ?. "_" table)
+            (with-syntax-table table (apply orig-fun args)))
+        (apply orig-fun args)))
 
     (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
     )
@@ -1272,6 +1267,14 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 	    )
     )
 #+END_SRC
+
+** custom file
+#+BEGIN_SRC emacs-lisp
+  ;;;; custom file
+  (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
+  (when (file-exists-p custom-file) (load custom-file))
+#+END_SRC
+
 * others packages to check
 ** to sort
 #+BEGIN_SRC emacs-lisp
@@ -1938,30 +1941,39 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(auto-revert-interval 3)
+ '(ConTeXt-Mark-version "IV" t)
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(auto-revert-interval 3)
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
+ '(before-save-hook
+   (quote
+    (delete-trailing-whitespace)))
  '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
  '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(custom-enabled-themes (quote (tsdh-dark)))
+ '(indent-tabs-mode nil)
  '(org-id-link-to-org-use-id (quote create-if-interactive-and-no-custom-id))
+ '(python-fill-docstring-style (quote symmetric))
+ '(recentf-auto-cleanup (quote never))
+ '(recentf-mode nil)
  '(safe-local-variable-values
    (quote
-    ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service")
+    ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-service-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run")
-     (eval progn
-	   (org-babel-tangle)
-	   (when
-	       (y-or-n-p "load init.el? ")
-	     (load
-	      (concat user-emacs-directory "init.el"))))))))
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
