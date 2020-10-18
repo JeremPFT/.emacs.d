@@ -71,21 +71,29 @@ recentf
   (setq default-directory user-emacs-directory)
 #+END_SRC
 
+*** global modes
 #+BEGIN_SRC emacs-lisp
-  ;;;; global modes
   (global-auto-revert-mode)
+  (setq auto-revert-interval 3)
   (global-hl-line-mode)
   (electric-pair-mode)
   (show-paren-mode)
 #+END_SRC
 
+*** custom
 #+BEGIN_SRC emacs-lisp
-    ;;;; custom
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
-  (setq org-indent-indentation-per-level 0
-	org-adapt-indentation nil)
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+  (setq column-number-mode t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (setq fill-column 90)
+#+END_SRC
+
+*** initial-buffer
 #+BEGIN_SRC emacs-lisp
   (defun jp/initial-buffer()
     (interactive)
@@ -101,6 +109,7 @@ recentf
     (setq initial-buffer-choice 'jp/initial-buffer)
 #+END_SRC
 
+*** my functions
 #+BEGIN_SRC emacs-lisp
   ;; frame & display:
   ;; https://stackoverflow.com/questions/16481984/get-width-of-current-monitor-in-emacs-lisp
@@ -160,9 +169,7 @@ recentf
   (defconst linux-p (eq system-type 'gnu/linux))
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
-  (setq column-number-mode t)
-#+END_SRC
+*** emacs server
 
 #+BEGIN_SRC emacs-lisp
   ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
@@ -323,6 +330,18 @@ https://jwiegley.github.io/use-package/
       (setenv "PATH" (concat "C:\\Program Files\\Git\\cmd;"
 			     "C:\\Program Files\\Git\\bin;"
 			     (getenv "PATH"))))
+
+    ;; TODO
+    ;; ;; commit after save
+    ;; (defun git-commit-after-save ()
+    ;;   (let ((git-rev-parse-output "")
+    ;;         (git-rev-parse-cmd "git rev-parse")
+    ;;         (repository-p nil)
+    ;;         (git-commit-cmd "git commit")
+    ;;         (current-output ""))
+    ;;     (setq current-output (call-process git-rev-parse-cmd))
+    ;;     ))
+
     :hydra
     (hydra-magit (:hint nil)
 		 "
@@ -338,6 +357,8 @@ https://jwiegley.github.io/use-package/
 		 ("s" magit-status :exit t)
 		 )
     )
+
+  (add-hook 'before-save-hook 'ada-before-save)
 
   (use-package git-link
     :straight (:host github :repo "sshaw/git-link")
@@ -410,60 +431,62 @@ https://www.emacswiki.org/emacs/UndoTree
     ("\\.\\(org\\|txt\\)\\'" . org-mode)
     ("\\*notes\\*" . org-mode)
     :bind (("C-c a" . org-agenda)
-	   ("C-c c" . org-capture))
+           ("C-c c" . org-capture))
     :custom
     (org-id-link-to-org-use-id
      (quote create-if-interactive-and-no-custom-id)
      "org-store-link create an id")
+    (org-indent-indentation-per-level 0)
+    (org-adapt-indentation nil)
     :config
     (setq org-indent-mode 0
-	  org-adapt-indentation nil
-	  org-agenda-files (quote ("~/workspace/org/agenda"))
-	  org-default-notes-file "~/Dropbox/org/notes.org"
-	  org-file-apps
-	  (quote
-	   ((auto-mode . emacs)
-	    ("\\.mm\\'" . default)
-	    ("\\.x?html?\\'" . default)
-	    ("\\.pdf\\'" . default)
-	    (directory . emacs)))
-	  org-fontify-done-headline t
-	  org-hide-leading-stars nil
-	  org-html-table-default-attributes nil
-	  org-indent-indentation-per-level 0
-	  org-level-color-stars-only nil
-	  org-modules
-	  (quote
-	   (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
-	  org-publish-timestamp-directory "~/workspace/org/.org-timestamps/"
-	  org-refile-targets (quote ((org-agenda-files :maxlevel . 4)))
-	  org-src-window-setup (quote current-window)
-	  org-startup-shrink-all-tables t
-	  org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
-	  ;; org-headline-done ((t (:foreground "medium aquamarine")))
-	  org-capture-templates
-	  (quote
-	   (("l" "Link" entry
-	     (file+headline "~/Dropbox/org/new_links.org" "links")
-	     "** link
+          org-adapt-indentation nil
+          org-agenda-files (quote ("~/workspace/org/agenda"))
+          org-default-notes-file "~/Dropbox/org/notes.org"
+          org-file-apps
+          (quote
+           ((auto-mode . emacs)
+            ("\\.mm\\'" . default)
+            ("\\.x?html?\\'" . default)
+            ("\\.pdf\\'" . default)
+            (directory . emacs)))
+          org-fontify-done-headline t
+          org-hide-leading-stars nil
+          org-html-table-default-attributes nil
+          org-indent-indentation-per-level 0
+          org-level-color-stars-only nil
+          org-modules
+          (quote
+           (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
+          org-publish-timestamp-directory "~/workspace/org/.org-timestamps/"
+          org-refile-targets (quote ((org-agenda-files :maxlevel . 4)))
+          org-src-window-setup (quote current-window)
+          org-startup-shrink-all-tables t
+          org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
+          ;; org-headline-done ((t (:foreground "medium aquamarine")))
+          org-capture-templates
+          (quote
+           (("l" "Link" entry
+             (file+headline "~/Dropbox/org/new_links.org" "links")
+             "** link
       :PROPERTIES:
       :TITLE: %?
       :LINK:
       :END:
       ")
-	    ("t" "Task" entry
-	     (file+headline "" "Tasks")
-	     "* TODO %?
+            ("t" "Task" entry
+             (file+headline "" "Tasks")
+             "* TODO %?
       %u
       %a")
-	    ("c" "Clope" entry
-	     (file+headline "~/Dropbox/org/pauses.org" "pauses")
-	     "** clope
+            ("c" "Clope" entry
+             (file+headline "~/Dropbox/org/pauses.org" "pauses")
+             "** clope
       :PROPERTIES:
       :TIMES: %U%?
       :END:
       ")))
-	  )
+          )
     )
 
   ;; patched function org-translate-time from org.el
@@ -518,17 +541,17 @@ https://www.emacswiki.org/emacs/UndoTree
     :init (require 'ox-org)
     :config
     (setq org-mind-map-engine "dot"
-	  org-mind-map-default-graph-attribs
-	  (quote
-	   (("autosize" . "false")
-	    ("size" . "9,12")
-	    ("resolution" . "100")
-	    ("nodesep" . "0.75")
-	    ("overlap" . "false")
-	    ("splines" . "ortho")
-	    ("rankdir" . "LR")))
-	  org-mind-map-dot-output (quote ("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff"))
-	  )
+          org-mind-map-default-graph-attribs
+          (quote
+           (("autosize" . "false")
+            ("size" . "9,12")
+            ("resolution" . "100")
+            ("nodesep" . "0.75")
+            ("overlap" . "false")
+            ("splines" . "ortho")
+            ("rankdir" . "LR")))
+          org-mind-map-dot-output (quote ("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff"))
+          )
     )
 
   (use-package org-brain
@@ -923,12 +946,7 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 
 	    ibuffer-saved-filter-groups
 	    (quote (("default"
-		     ("bbvakeystore" (name . "bbvakeystore"))
-		     ("bbvamkstore" (name . "bbvamkstore"))
-		     ("bbvaskstore" (name . "bbvaskstore"))
-		     ("bbvatkgen" (name . "bbvatkgen"))
-		     ("bbvatkexp" (name . "bbvatkexp"))
-		     ("bookmarks" (name . "org/bookmarks"))
+		     ("bookmarks" (name . "bookmarks"))
 		     )))
 
 	    ibuffer-directory-abbrev-alist
@@ -1226,6 +1244,14 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
     :ensure t
     :custom
     (ConTeXt-Mark-version "IV")
+    :config
+    (add-hook 'ConTeXt-mode-hook
+              (lambda()
+                (setq TeX-command-default "ConTeXt Full")))
+    (add-hook 'TeX-mode-hook
+              (lambda()
+                (when (equal major-mode 'context-mode)
+                  (setq TeX-command-default "ConTeXt Full"))))
     )
 #+END_SRC
 
@@ -1931,9 +1957,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
     result)
 #+END_SRC
 
-#+CALL: insert-custom-file()
-
-#+RESULTS:
+#+RESULTS: insert-custom-file
 :results:
 #+BEGIN_SRC emacs-lisp :tangle no
 (custom-set-variables
@@ -1941,17 +1965,80 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ConTeXt-Mark-version "IV" t)
+ '(TeX-command-list
+   (quote
+    (("TeX" "%(PDF)%(tex) %(file-line-error) %`%(extraopts) %S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+      (plain-tex-mode texinfo-mode ams-tex-mode)
+      :help "Run plain TeX")
+     ("LaTeX" "%`%l%(mode)%' %T" TeX-run-TeX nil
+      (latex-mode doctex-mode)
+      :help "Run LaTeX")
+     ("Makeinfo" "makeinfo %(extraopts) %t" TeX-run-compile nil
+      (texinfo-mode)
+      :help "Run Makeinfo with Info output")
+     ("Makeinfo HTML" "makeinfo %(extraopts) --html %t" TeX-run-compile nil
+      (texinfo-mode)
+      :help "Run Makeinfo with HTML output")
+     ("AmSTeX" "amstex %(PDFout) %`%(extraopts) %S%(mode)%' %t" TeX-run-TeX nil
+      (ams-tex-mode)
+      :help "Run AMSTeX")
+     ("ConTeXt" "%(cntxcom) %(extraopts) %(execopts)%t" TeX-run-TeX nil
+      (context-mode)
+      :help "Run ConTeXt (ConTeXt Full alias)")
+     ("ConTeXt Full" "%(cntxcom) %(extraopts) %(execopts)%t" TeX-run-TeX nil
+      (context-mode)
+      :help "Run ConTeXt until completion")
+     ("BibTeX" "bibtex %s" TeX-run-BibTeX nil
+      (plain-tex-mode latex-mode doctex-mode context-mode texinfo-mode ams-tex-mode)
+      :help "Run BibTeX")
+     ("Biber" "biber %s" TeX-run-Biber nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Run Biber")
+     ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
+     ("Print" "%p" TeX-run-command t t :help "Print the file")
+     ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command)
+     ("File" "%(o?)dvips %d -o %f " TeX-run-dvips t
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Generate PostScript file")
+     ("Dvips" "%(o?)dvips %d -o %f " TeX-run-dvips nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Convert DVI file to PostScript")
+     ("Dvipdfmx" "dvipdfmx %d" TeX-run-dvipdfmx nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Convert DVI file to PDF with dvipdfmx")
+     ("Ps2pdf" "ps2pdf %f" TeX-run-ps2pdf nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Convert PostScript file to PDF")
+     ("Glossaries" "makeglossaries %s" TeX-run-command nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Run makeglossaries to create glossary
+     file")
+     ("Index" "makeindex %s" TeX-run-index nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Run makeindex to create index file")
+     ("upMendex" "upmendex %s" TeX-run-index t
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Run upmendex to create index file")
+     ("Xindy" "texindy %s" TeX-run-command nil
+      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+      :help "Run xindy to create index file")
+     ("Check" "lacheck %s" TeX-run-compile nil
+      (latex-mode)
+      :help "Check LaTeX file for correctness")
+     ("ChkTeX" "chktex -v6 %s" TeX-run-compile nil
+      (latex-mode)
+      :help "Check LaTeX file for common mistakes")
+     ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
+     ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
+     ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
+     ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))))
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(auto-revert-interval 3)
  '(backup-by-copying t)
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
- '(before-save-hook
-   (quote
-    (delete-trailing-whitespace)))
+ '(before-save-hook (quote (delete-trailing-whitespace)))
  '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
  '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
@@ -1983,6 +2070,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 
 #+END_SRC
 :end:
+
 
 * Local Variables                                                  :noexport:
 Local Variables:
