@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: src block elisp
+# key: src-el
+# --
+
+#+BEGIN_SRC emacs-lisp
+${1:`(if (region-active-p) (yas-selected-text) "")`}$0
+#+END_SRC
