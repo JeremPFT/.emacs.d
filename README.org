@@ -387,12 +387,27 @@ https://jwiegley.github.io/use-package/
 
 #+NAME: known repositories
 #+BEGIN_SRC emacs-lisp
-  (setq magit-repository-directories
-          '(("~/.emacs.d"  . 4)
-            ("~/.emacs.d/lisp/comb"  . 0)
-            ("~/workspace/" . 2)
-            ("~/workspace/ada_test_architecture" . 0)))
+  (setq
 
+   magit-repository-directories
+   '(("~/.emacs.d"  . 4)
+     ("~/.emacs.d/lisp/comb"  . 0)
+     ("~/workspace/" . 2)
+     ("~/workspace/ada_test_architecture" . 0))
+
+   magit-repolist-columns
+   '(("Name" 25 magit-repolist-column-ident nil)
+     ("Version" 25 magit-repolist-column-version nil)
+     ("Flag" 4 magit-repolist-column-flag ((:right-align t)))
+     ("B<U" 3 magit-repolist-column-unpulled-from-upstream
+      ((:right-align t)
+       (:help-echo "Upstream changes not in branch")))
+     ("B>U" 3 magit-repolist-column-unpushed-to-upstream
+      ((:right-align t)
+       (:help-echo "Local changes not in upstream")))
+     ("Path" 99 magit-repolist-column-path nil))
+
+   )
 #+END_SRC
 
 ** Encoding
