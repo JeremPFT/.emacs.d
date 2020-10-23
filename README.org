@@ -73,6 +73,7 @@ recentf
 
 *** global modes
 #+BEGIN_SRC emacs-lisp
+  (require 'autorevert)
   (global-auto-revert-mode)
   (setq auto-revert-interval 3)
   (global-hl-line-mode)
@@ -97,16 +98,16 @@ recentf
 #+BEGIN_SRC emacs-lisp
   (defun jp/initial-buffer()
     (interactive)
-    (setq jp--buffer (get-buffer-create "*fetching.org*"))
-    (set-buffer jp--buffer)
-    (org-mode)
-    (insert "#+NAME: output-fetch-repositories\n"
-	    "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
-    (beginning-of-line)
-    jp--buffer
-    )
+    (let ((jp--buffer (get-buffer-create "*fetching.org*")))
+      (set-buffer jp--buffer)
+      (org-mode)
+      (insert "#+NAME: output-fetch-repositories\n"
+	      "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
+      (beginning-of-line)
+      jp--buffer
+      ))
 
-    (setq initial-buffer-choice 'jp/initial-buffer)
+  (setq initial-buffer-choice 'jp/initial-buffer)
 #+END_SRC
 
 *** my functions
@@ -383,18 +384,33 @@ https://jwiegley.github.io/use-package/
   ;;   ("s" magit-status :exit t)
   ;;   )
 #+END_SRC
+
+#+NAME: known repositories
+#+BEGIN_SRC emacs-lisp
+  (setq magit-repository-directories
+          '(("~/.emacs.d"  . 4)
+            ("~/.emacs.d/lisp/comb"  . 0)
+            ("~/workspace/" . 2)
+            ("~/workspace/ada_test_architecture" . 0)))
+
+#+END_SRC
+
 ** Encoding
 #+BEGIN_SRC emacs-lisp
   ;; utf-8-unix
   ;; windows-1252
 
-  (setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
-  (set-keyboard-coding-system 'utf-8-unix) ; For old Carbon emacs on OS X only
+  ;; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
+  (setq utf-translate-cjk-mode nil)
+
+  ;; For old Carbon emacs on OS X only
+  (set-keyboard-coding-system 'utf-8-unix)
+
   (setq locale-coding-system 'windows-1252)
   (set-default-coding-systems 'utf-8-unix)
   (prefer-coding-system 'utf-8-unix)
 
-    ;;;; ensure org timestamp is in english format
+  ;; ensure org timestamp is in english format
   (setq system-time-locale "C")
 #+END_SRC
 *** Links
@@ -744,7 +760,7 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
     (bookmark-default-file (concat user-emacs-directory "emacs-bookmarks/bmk.emacs"))
     )
 #+END_SRC
-** C mode (Birdz)
+** C mode (Birdz)                                                        :dev:
 #+BEGIN_SRC emacs-lisp
   (when birdz-computer-p
 
@@ -753,7 +769,7 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 
     (c-add-style "birdz"
                  '("bsd"
-                   (c-basic-offset . 4)     ; Guessed value
+                   (c-basic-offset . 4)
                    ))
 
     (add-hook 'c-mode-hook (lambda () (c-set-style "birdz")))
@@ -763,9 +779,12 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 
     (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
+    (add-hook 'cc-mode-hook (lambda () (setq case-fold-search t)))
+
+    (setq c-default-style '((c++-mode . "birdz")))
     )
 #+END_SRC
-** C mode (Ingenico)
+** COMMENT C mode (Ingenico)                                                     :dev:
 #+BEGIN_SRC emacs-lisp
   (when ingenico-computer-p
 
@@ -855,7 +874,7 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
   )
 #+END_SRC
 
-** TODO ada mode                                                         :dev:
+** TODO COMMENT ada mode                                                         :dev:
 #+BEGIN_SRC emacs-lisp
   (when home-computer-p
     (require 'imenu)
@@ -1330,7 +1349,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 
 ** birdz ssh
 #+BEGIN_SRC emacs-lisp
-  (when (eq window-system 'w32)
+  (when (and birdz-computer-p (eq window-system 'w32))
     (require 'tramp)
 
     (setq tramp-default-method "plink")
@@ -2013,8 +2032,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-command-list
-   (quote
-    (("TeX" "%(PDF)%(tex) %(file-line-error) %`%(extraopts) %S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+   '(("TeX" "%(PDF)%(tex) %(file-line-error) %`%(extraopts) %S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
       (plain-tex-mode texinfo-mode ams-tex-mode)
       :help "Run plain TeX")
      ("LaTeX" "%`%l%(mode)%' %T" TeX-run-TeX nil
@@ -2078,26 +2096,26 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
      ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
      ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
      ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
-     ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))))
+     ("Other" "" TeX-run-command t t :help "Run an arbitrary command")))
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(backup-by-copying t)
- '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
- '(before-save-hook (quote (delete-trailing-whitespace)))
+ '(backup-directory-alist '(("." . "~/.emacs.d/backup")))
+ '(before-save-hook '(delete-trailing-whitespace))
  '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
- '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
+ '(bmkp-last-as-first-bookmark-file
+   "c:/Users/jeremy.piffret.ext/AppData/Roaming/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
- '(custom-enabled-themes (quote (tsdh-dark)))
+ '(custom-enabled-themes '(tsdh-dark))
  '(indent-tabs-mode nil)
- '(org-id-link-to-org-use-id (quote create-if-interactive-and-no-custom-id))
- '(python-fill-docstring-style (quote symmetric))
- '(recentf-auto-cleanup (quote never))
+ '(org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+ '(python-fill-docstring-style 'symmetric)
+ '(recentf-auto-cleanup 'never)
  '(recentf-mode nil)
  '(safe-local-variable-values
-   (quote
-    ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")
+   '((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository-test")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service-test")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object-test")
@@ -2107,7 +2125,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run")))))
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
