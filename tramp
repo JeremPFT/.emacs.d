@@ -1,8 +1,9 @@
-;; -*- emacs-lisp -*- <20/10/22 17:53:03 c:/Users/jeremy.piffret.ext/AppData/Roaming/.emacs.d/tramp>
+;; -*- emacs-lisp -*- <20/10/26 16:23:55 c:/Users/jeremy.piffret.ext/AppData/Roaming/.emacs.d/tramp>
 ;; Tramp connection history.  Don't change this file.
 ;; Run `M-x tramp-cleanup-all-connections' instead.
 
 (((tramp-file-name "plinkx" nil nil "dev" nil nil nil)
+  ("remote-shell" "/usr/bin/sh")
   ("~" "/home/jeremy.piffret")
   ("uname" "Linux 3.10.0-514.21.1.el7.x86_64")
   ("locale" "LC_ALL=en_US.utf8")
@@ -10,7 +11,6 @@
   ("remote-path"
    ("/usr/bin" "/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/opt/bin"))
   ("pipe-buf" 4096)
-  ("remote-shell" "/bin/sh")
   ("readlink" "\\readlink")
   ("stat" "env QUOTING_STYLE=locale \\stat")
   ("file-exists" "test -e")
@@ -32,13 +32,13 @@
   ("touch" "\\touch")
   ("uid-integer" 1024))
  ((tramp-file-name "plinkx" nil nil "bdd" nil nil nil)
+  ("remote-shell" "/usr/bin/sh")
   ("uname" "Linux 3.10.0-1062.9.1.el7.x86_64")
   ("locale" "LC_ALL=en_US.utf8")
   ("test" "test")
   ("remote-path"
    ("/usr/bin" "/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
   ("pipe-buf" 4096)
-  ("remote-shell" "/bin/sh")
   ("readlink" "\\readlink")
   ("stat" "env QUOTING_STYLE=locale \\stat")
   ("file-exists" "test -e")

@@ -775,6 +775,27 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
     (bookmark-default-file (concat user-emacs-directory "emacs-bookmarks/bmk.emacs"))
     )
 #+END_SRC
+** ggtags                                                                :dev:
+#+BEGIN_SRC emacs-lisp
+  (use-package ggtags
+    ;; https://github.com/leoliu/ggtags
+      :straight
+    (:host github :repo "leoliu/ggtags" :branch "master")
+    )
+#+END_SRC
+*** TODO insert config in use-package
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+                (ggtags-mode 1))))
+  (setq  ggtags-executable-directory "/usr/bin/etags")
+  ;; (setq  ggtags-executable-directory
+  ;;        "C:/Program Files/ctags-2020-10-26_p5.9.20201025.0-2-g5d000b1a-x64")
+#+END_SRC
+*** dependencies
+Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020-10-26%2Fp5.9.20201025.0-2-g5d000b1a
+
 ** C mode (Birdz)                                                        :dev:
 #+BEGIN_SRC emacs-lisp
   (when birdz-computer-p
@@ -1368,6 +1389,10 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
     (require 'tramp)
 
     (setq tramp-default-method "plink")
+
+    (add-to-list 'tramp-connection-properties
+                 (list (regexp-quote "/plinkx")
+                       "remote-shell" "/usr/bin/sh"))
 
     (let ((putty-directory "c:/Program Files/PuTTY"))
       (when (and (not (string-match putty-directory (getenv "PATH")))
