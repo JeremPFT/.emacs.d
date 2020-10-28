@@ -772,7 +772,9 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
     (:host github :repo "emacsmirror/bookmark-plus" :branch "master")
     :custom
     (bmkp-bmenu-state-file (concat user-emacs-directory "emacs-bookmarks/.bmk-bmenu-state.el"))
-    (bookmark-default-file (concat user-emacs-directory "emacs-bookmarks/bmk.emacs"))
+    (bookmark-default-file (concat user-emacs-directory
+                                   (cond (birdz-computer-p "emacs-bookmarks/bmk.birdz")
+                                         (t                "emacs-bookmarks/bmk.emacs"))))
     )
 #+END_SRC
 ** ggtags                                                                :dev:
