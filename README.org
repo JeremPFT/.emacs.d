@@ -547,7 +547,7 @@ https://www.emacswiki.org/emacs/UndoTree
    'org-babel-load-languages
    '(
      (python . t)
-     ;;   (sh . t)
+     (shell . t)
      (C . t)
      ;; Include other languages here...
      ))
