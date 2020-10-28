@@ -410,6 +410,14 @@ https://jwiegley.github.io/use-package/
    )
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+(use-package magit-gitflow
+  :straight (:host github :repo "jtatarik/magit-gitflow")
+  :config
+  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+  )
+#+END_SRC
+
 ** Encoding
 #+BEGIN_SRC emacs-lisp
   ;; utf-8-unix
@@ -435,10 +443,16 @@ see https://www.emacswiki.org/emacs/ChangingEncodings
   (use-package yasnippet
     ;; https://github.com/joaotavora/yasnippet
     ;; http://joaotavora.github.io/yasnippet/
+    :straight
+    (:host github :repo "joaotavora/yasnippet" :branch "master")
     :config
     (yas-global-mode 1)
+    (setq yas-snippet-dirs nil)
+    (add-to-list 'yas-snippet-dirs (concat user-emacs-directory "snippets"))
     )
 #+END_SRC
+*** links
+https://github.com/mrkkrp/common-lisp-snippets
 ** fill column
 #+BEGIN_SRC emacs-lisp
   (use-package fill-column-indicator
@@ -969,6 +983,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
   (use-package elpy
     ;; Python env. From https://realpython.com/emacs-the-best-python-editor/
+    :after yasnippet
     :config
     (elpy-enable) ;; config: "M-x elpy-config"
     (add-hook 'python-mode-hook (lambda () (electric-pair-mode)))

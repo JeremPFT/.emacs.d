@@ -82,10 +82,10 @@
  '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(column-number-mode t)
  '(custom-enabled-themes (quote (tsdh-dark)))
- '(grep-find-command
-   (quote
-    ("find . -type f -exec grep --color=always -n -e  \"{}\" NUL \";\"" . 48)))
  '(indent-tabs-mode nil)
+ '(org-agenda-files
+   (quote
+    ("~/workspace/org/agenda" "c:/Users/jeremy/AppData/Roaming/workspace/org/bookmarks/bookmarks-z-session.org.txt")))
  '(org-id-link-to-org-use-id (quote create-if-interactive-and-no-custom-id))
  '(python-fill-docstring-style (quote symmetric))
  '(recentf-auto-cleanup (quote never))
@@ -103,8 +103,9 @@
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run"))))
- '(show-paren-mode t)
- '(uniquify-buffer-name-style (quote post-forward) nil (uniquify)))
+ '(yas-snippet-dirs
+   (quote
+    ("c:/Users/jeremy/AppData/Roaming/.emacs.d/snippets" "c:/Users/jeremy/AppData/Roaming/.emacs.d/straight/build/elpy/snippets/"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

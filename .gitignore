@@ -25,3 +25,5 @@ recentf
 /init.el
 /README.html
 /emacs-bookmarks/.bmk-bmenu-state.el
+/url/
+emacs-bookmarks/.bmk-bmenu-state.el
