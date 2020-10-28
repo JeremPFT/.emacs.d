@@ -4,7 +4,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-command-list
-   '(("TeX" "%(PDF)%(tex) %(file-line-error) %`%(extraopts) %S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+   (quote
+    (("TeX" "%(PDF)%(tex) %(file-line-error) %`%(extraopts) %S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
       (plain-tex-mode texinfo-mode ams-tex-mode)
       :help "Run plain TeX")
      ("LaTeX" "%`%l%(mode)%' %T" TeX-run-TeX nil
@@ -68,27 +69,30 @@
      ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
      ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
      ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
-     ("Other" "" TeX-run-command t t :help "Run an arbitrary command")))
+     ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))))
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(backup-by-copying t)
- '(backup-directory-alist '(("." . "~/.emacs.d/backup")))
- '(before-save-hook '(delete-trailing-whitespace))
+ '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
+ '(before-save-hook (quote (delete-trailing-whitespace)))
  '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
- '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/bmk.birdz")
+ '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
- '(custom-enabled-themes '(tsdh-dark))
+ '(column-number-mode t)
+ '(custom-enabled-themes (quote (tsdh-dark)))
  '(grep-find-command
-   '("find . -type f -exec grep --color=always -n -e  \"{}\" NUL \";\"" . 48))
+   (quote
+    ("find . -type f -exec grep --color=always -n -e  \"{}\" NUL \";\"" . 48)))
  '(indent-tabs-mode nil)
- '(org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
- '(python-fill-docstring-style 'symmetric)
- '(recentf-auto-cleanup 'never)
+ '(org-id-link-to-org-use-id (quote create-if-interactive-and-no-custom-id))
+ '(python-fill-docstring-style (quote symmetric))
+ '(recentf-auto-cleanup (quote never))
  '(recentf-mode nil)
  '(safe-local-variable-values
-   '((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")
+   (quote
+    ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository-test")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service-test")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object-test")
@@ -99,9 +103,10 @@
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run"))))
+ '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#050000" :foreground "#bbe0f0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 150 :width normal :foundry "outline" :family "Courier New")))))
+ '(default ((t (:inherit nil :stipple nil :background "#050000" :foreground "#bbe0f0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 143 :width normal :foundry "PfEd" :family "DejaVu Sans Mono")))))
