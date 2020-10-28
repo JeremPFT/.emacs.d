@@ -78,7 +78,7 @@
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
  '(before-save-hook (quote (delete-trailing-whitespace)))
  '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
- '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
+ '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/emacs")
  '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(column-number-mode t)
  '(custom-enabled-themes (quote (tsdh-dark)))
