@@ -78,14 +78,15 @@
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
  '(before-save-hook (quote (delete-trailing-whitespace)))
  '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
- '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/emacs")
+ '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/birdz")
  '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(column-number-mode t)
  '(custom-enabled-themes (quote (tsdh-dark)))
- '(indent-tabs-mode nil)
- '(org-agenda-files
+ '(enable-remote-dir-locals t)
+ '(grep-find-command
    (quote
-    ("~/workspace/org/agenda" "c:/Users/jeremy/AppData/Roaming/workspace/org/bookmarks/bookmarks-z-session.org.txt")))
+    ("find . -type f -exec grep --color=always -n -e  \"{}\" NUL \";\"" . 48)))
+ '(indent-tabs-mode nil)
  '(org-id-link-to-org-use-id (quote create-if-interactive-and-no-custom-id))
  '(python-fill-docstring-style (quote symmetric))
  '(recentf-auto-cleanup (quote never))
@@ -103,9 +104,10 @@
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run"))))
+ '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#050000" :foreground "#bbe0f0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "outline" :family "Courier New")))))
+ '(default ((t (:inherit nil :stipple nil :background "#050000" :foreground "#bbe0f0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 143 :width normal :foundry "PfEd" :family "DejaVu Sans Mono")))))
