@@ -802,7 +802,7 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
                                          (t                "emacs-bookmarks/bmk.emacs"))))
     )
 #+END_SRC
-** ggtags                                                                :dev:
+** TODO COMMENT ggtags                                                           :dev:
 #+BEGIN_SRC emacs-lisp
   (use-package ggtags
     ;; https://github.com/leoliu/ggtags
