@@ -103,9 +103,6 @@
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run"))))
- '(yas-snippet-dirs
-   (quote
-    ("c:/Users/jeremy/AppData/Roaming/.emacs.d/snippets" "c:/Users/jeremy/AppData/Roaming/.emacs.d/straight/build/elpy/snippets/"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

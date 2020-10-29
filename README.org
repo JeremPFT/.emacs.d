@@ -449,6 +449,7 @@ see https://www.emacswiki.org/emacs/ChangingEncodings
     (yas-global-mode 1)
     (setq yas-snippet-dirs nil)
     (add-to-list 'yas-snippet-dirs (concat user-emacs-directory "snippets"))
+    (add-to-list 'yas-snippet-dirs (concat user-emacs-directory "straight/build/elpy/snippets/"))
     )
 #+END_SRC
 *** links
