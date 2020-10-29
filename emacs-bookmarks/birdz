@@ -2,9 +2,9 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(#1=(#("birdz-dev-plink-dev" 0 19
+(#1=(#("birdz-plink-dev-dev" 0 19
       (bmkp-full-record #1#))
-    (buffer-name . "dev.plink.dev")
+    (buffer-name . "plink.dev.dev")
     (front-context-string . "  /plinkx:dev:/h")
     (rear-context-string)
     (front-context-region-string)
@@ -20,9 +20,9 @@
     (dired-subdirs)
     (dired-hidden-dirs)
     (handler . bmkp-jump-dired))
-#1=(#("birdz-dev-plink-home" 0 20
+#1=(#("birdz-plink-dev-home" 0 20
       (bmkp-full-record #1#))
-    (buffer-name . "dev.plink.home")
+    (buffer-name . "plink.dev.home")
     (front-context-string . ".bash_aliases\n  ")
     (rear-context-string . "59 Oct 22 16:50 ")
     (front-context-region-string)
@@ -38,9 +38,9 @@
     (dired-subdirs)
     (dired-hidden-dirs)
     (handler . bmkp-jump-dired))
-#1=(#("birdz-bdd-plink-home" 0 20
+#1=(#("birdz-plink-bdd-home" 0 20
       (bmkp-full-record #1#))
-    (buffer-name . "bdd.plink.home")
+    (buffer-name . "plink.bdd.home")
     (front-context-string . ".bash_history\n  ")
     (rear-context-string . "25 Oct 28 13:48 ")
     (front-context-region-string)
@@ -68,9 +68,9 @@
     (time 24473 19546 989522 0)
     (created 24472 20756 144286 40000)
     (position . 1))
-#1=(#("birdz-dev-ssh-home" 0 18
+#1=(#("birdz-ssh-dev-home" 0 18
       (bmkp-full-record #1#))
-    (buffer-name . "dev.ssh.home")
+    (buffer-name . "ssh.dev.home")
     (front-context-string . "dev\n  drwx------")
     (rear-context-string . "96 Oct 27 14:01 ")
     (front-context-region-string)
@@ -86,9 +86,9 @@
     (dired-subdirs)
     (dired-hidden-dirs)
     (handler . bmkp-jump-dired))
-#1=(#("birdz-bdd-ssh-home" 0 18
+#1=(#("birdz-ssh-bdd-home" 0 18
       (bmkp-full-record #1#))
-    (buffer-name . "bdd.ssh.home")
+    (buffer-name . "ssh.bdd.home")
     (front-context-string . ".bash_history\n  ")
     (rear-context-string . "06 Oct 27 16:24 ")
     (front-context-region-string)
@@ -104,9 +104,9 @@
     (dired-subdirs)
     (dired-hidden-dirs)
     (handler . bmkp-jump-dired))
-#1=(#("birdz-dev-ssh-dev" 0 17
+#1=(#("birdz-ssh-dev-dev" 0 17
       (bmkp-full-record #1#))
-    (buffer-name . "dev.ssh.dev")
+    (buffer-name . "ssh.dev.dev")
     (front-context-string . "crplus\n  -rw-rw-")
     (rear-context-string . "96 Oct 23 10:56 ")
     (front-context-region-string)
