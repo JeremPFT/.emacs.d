@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: src block c
-# key: src-c
-# --
-
-#+BEGIN_SRC C
-${1:`(if (region-active-p) (yas-selected-text) "")`}$0
-#+END_SRC

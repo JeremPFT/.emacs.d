@@ -1,4 +1,4 @@
-;; used by snippet: new_link
+;; used by snippet: [[file:~/.emacs.d/snippets/org-mode/new_link][new_link]]
 
 ;; ######################################################
 ;; replaces URL with Org-mode link including description
@@ -16,7 +16,7 @@ from: http://www.opensubscriber.com/message/help-gnu-emacs@gnu.org/14332449.html
       (decode-coding-string title (intern (downcase (match-string 1))))))
   )
 
-(defun my-url-link-image(url)
+(defun my-url-link-image-wo-arg()
   "Build string to output."
   (interactive)
   (let* (
@@ -24,9 +24,14 @@ from: http://www.opensubscriber.com/message/help-gnu-emacs@gnu.org/14332449.html
          ;; (beg (car bds))
          ;; (end (cdr bds))
          ;; (url (buffer-substring-no-properties beg end))
-         (title (my-www-get-page-title url))
+         (url "")
+         (title "")
          )
-    (concat "[[" url "][" title "]]")))
+    (message "my-url-link-image-wo-arg")
+    (setq url (funcall interprogram-paste-function))
+    (if (or (string= url "") (eq url nil))
+        "no url in clipboard"
+      (concat "[[" url "][" (my-www-get-page-title url) "]]"))))
 
 (defun my-url-linkify ()
   "Make URL at cursor point into an Org-mode link.

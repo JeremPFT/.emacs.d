@@ -1,0 +1,11 @@
+* [[file:~/.emacs.d/snippets/org-mode/new_link][snippet]] (open with C-u C-o)
+* TODO duplicate
+start by going to beggining of buffer and search for url
+(search doesn't look in org link, remove mask)
+* TODO url
+take selection if exists, else interprogram-paste-function
+* TODO interprogram-paste-function
+call it inside lisp function, not from snippet
+* TODO automatically insert stars '*'
+* TODO replace '&amp;' with '&' in url
+* TODO code
