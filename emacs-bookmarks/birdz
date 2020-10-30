@@ -56,16 +56,16 @@
     (dired-subdirs)
     (dired-hidden-dirs)
     (handler . bmkp-jump-dired))
-#1=(#("notes_birdz.org.txt" 0 19
+#1=(#("birdz_notes.org.txt" 0 19
       (bmkp-full-record #1#))
-    (filename . "~/workspace/org/birdz/notes_birdz.org.txt")
-    (buffer-name . "notes_birdz.org.txt")
+    (filename . "~/workspace/org/birdz/birdz_notes.org.txt")
+    (buffer-name . "birdz_notes.org.txt")
     (front-context-string . "jeremy.piffret.e")
     (rear-context-string)
     (front-context-region-string)
     (rear-context-region-string)
-    (visits . 1)
-    (time 24473 19546 989522 0)
+    (visits . 2)
+    (time 24475 59469 267405 0)
     (created 24472 20756 144286 40000)
     (position . 1))
 #1=(#("birdz-ssh-dev-home" 0 18
