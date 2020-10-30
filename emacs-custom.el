@@ -87,33 +87,24 @@
    '("find . -type f -exec grep --color=always -n -e  \"{}\" NUL \";\"" . 48))
  '(indent-tabs-mode nil)
  '(org-agenda-files
-   (quote
-    ()))
- '("~/.emacs.d/README.org"
-   "~/workspace/org/reference-cards/org-categories-tests/OrgTutorial.org"
-   "~/workspace/org/birdz/birdz_tasksn.org.txt"
-   "~/workspace/org/agenda/agenda.org"
-   "~/workspace/org/agenda/dates.org"
-   "~/workspace/org/agenda/dette_cetelem.org"
-   "~/workspace/org/agenda/pauses.org"))
-'(org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
-'(python-fill-docstring-style 'symmetric)
-'(recentf-auto-cleanup 'never)
->>>>>>> Stashed changes
-'(recentf-mode nil)
-'(safe-local-variable-values
-  '((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")
-    (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository-test")
-    (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service-test")
-    (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object-test")
-    (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-service-test")
-    (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object-test")
-    (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object")
-    (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service")
-    (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
-    (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
-    (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run")))
-'(show-paren-mode t))
+   '("~/.emacs.d/README.org" "~/workspace/org/reference-cards/org-categories-tests/OrgTutorial.org" "~/workspace/org/birdz/birdz_tasks.org.txt" "~/workspace/org/agenda/agenda.org" "~/workspace/org/agenda/dates.org" "~/workspace/org/agenda/dette_cetelem.org" "~/workspace/org/agenda/pauses.org"))
+ '(org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+ '(python-fill-docstring-style 'symmetric)
+ '(recentf-auto-cleanup 'never)
+ '(recentf-mode nil)
+ '(safe-local-variable-values
+   '((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-service-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object-test")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
+     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run")))
+ '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
