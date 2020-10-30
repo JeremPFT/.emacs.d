@@ -844,7 +844,11 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 #+END_SRC
 *** dependencies
 Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020-10-26%2Fp5.9.20201025.0-2-g5d000b1a
-
+*** [[https://www.emacswiki.org/emacs/GnuGlobal][EmacsWiki: Gnu Global]] :emacs:ggtags:
+:PROPERTIES:
+:CREATED:  [2020-10-30 Fri 17:26]
+:END:
+* new_link
 ** C mode (Birdz)                                                        :dev:
 #+BEGIN_SRC emacs-lisp
   (when birdz-computer-p
@@ -1450,6 +1454,18 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
         (setenv "PATH" (concat putty-directory ";" (getenv "PATH")))
         (add-to-list 'exec-path putty-directory))))
 #+END_SRC
+
+*** sshfs
+[[https://forum.ubuntu-fr.org/viewtopic.php?id=369517][[Résolu][SSHFS] Connection reset by peer / Accès internet et réseaux / Forum Ubuntu-fr.org]] ::
+:PROPERTIES:
+:CREATED:  [2020-10-30 Fri 17:25]
+:END:
+[[https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh][How To Use SSHFS to Mount Remote File Systems Over SSH | DigitalOcean]] ::
+:PROPERTIES:
+:CREATED:  [2020-10-30 Fri 17:25]
+:END:
+
+
 
 ** custom set faces
 #+BEGIN_SRC emacs-lisp
