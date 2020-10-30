@@ -78,7 +78,7 @@
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backup"))))
  '(before-save-hook (quote (delete-trailing-whitespace)))
  '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
- '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/birdz")
+ '(bmkp-last-as-first-bookmark-file "~/.emacs.d/emacs-bookmarks/emacs")
  '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
  '(column-number-mode t)
  '(custom-enabled-themes (quote (tsdh-dark)))
@@ -87,6 +87,9 @@
    (quote
     ("find . -type f -exec grep --color=always -n -e  \"{}\" NUL \";\"" . 48)))
  '(indent-tabs-mode nil)
+ '(org-agenda-files
+   (quote
+    ("~/.emacs.d/README.org" "~/workspace/org/reference-cards/org-categories-tests/OrgTutorial.org")))
  '(org-id-link-to-org-use-id (quote create-if-interactive-and-no-custom-id))
  '(python-fill-docstring-style (quote symmetric))
  '(recentf-auto-cleanup (quote never))

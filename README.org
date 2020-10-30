@@ -296,8 +296,7 @@ https://jwiegley.github.io/use-package/
   (use-package git-package
     :straight (:host github :repo "mnewt/git-package"))
 #+END_SRC
-*** links
-**** TODO see https://github.com/mnewt/git-package
+*** TODO [[https://github.com/mnewt/git-package][git-package (installation par un depot git)]]
 ** Hydra
 #+BEGIN_SRC emacs-lisp
   (use-package hydra
@@ -367,6 +366,7 @@ https://jwiegley.github.io/use-package/
   (add-hook 'before-save-hook 'ada-before-save)
 
   (use-package git-link
+    :after magit
     :straight (:host github :repo "sshaw/git-link")
     )
 
@@ -385,7 +385,7 @@ https://jwiegley.github.io/use-package/
   ;;   )
 #+END_SRC
 
-#+NAME: known repositories
+#+NAME: repositories list
 #+BEGIN_SRC emacs-lisp
   (setq
 
@@ -398,6 +398,8 @@ https://jwiegley.github.io/use-package/
    magit-repolist-columns
    '(("Name" 25 magit-repolist-column-ident nil)
      ("Version" 25 magit-repolist-column-version nil)
+     ("Branch" 25 magit-repolist-column-branch nil)
+     ("Branches" 8 magit-repolist-column-branches nil)
      ("Flag" 4 magit-repolist-column-flag ((:right-align t)))
      ("B<U" 3 magit-repolist-column-unpulled-from-upstream
       ((:right-align t)
@@ -405,18 +407,21 @@ https://jwiegley.github.io/use-package/
      ("B>U" 3 magit-repolist-column-unpushed-to-upstream
       ((:right-align t)
        (:help-echo "Local changes not in upstream")))
-     ("Path" 99 magit-repolist-column-path nil))
-
+     ("Path" 50 magit-repolist-column-path nil)
+     ("Push" 4 magit-repolist-column-unpushed-to-pushremote))
    )
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(use-package magit-gitflow
-  :straight (:host github :repo "jtatarik/magit-gitflow")
-  :config
-  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
-  )
+  (use-package magit-gitflow
+    :after magit
+    :straight (:host github :repo "jtatarik/magit-gitflow")
+    :config
+    (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+    )
 #+END_SRC
+
+*** TODO link: [[https://github.com/magit/magit/issues/2971][Batch operation in magit-list-repositories]]
 
 ** Encoding
 #+BEGIN_SRC emacs-lisp
@@ -493,7 +498,6 @@ https://www.emacswiki.org/emacs/UndoTree
     :config
     (setq org-indent-mode 0
           org-adapt-indentation nil
-          org-agenda-files (quote ("~/workspace/org/agenda"))
           org-default-notes-file "~/Dropbox/org/notes.org"
           org-file-apps
           (quote
@@ -511,7 +515,6 @@ https://www.emacswiki.org/emacs/UndoTree
           (quote
            (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
           org-publish-timestamp-directory "~/workspace/org/.org-timestamps/"
-          org-refile-targets (quote ((org-agenda-files :maxlevel . 4)))
           org-src-window-setup (quote current-window)
           org-startup-shrink-all-tables t
           org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
@@ -631,9 +634,28 @@ https://www.emacswiki.org/emacs/UndoTree
       (org-babel-tangle)))
   (add-hook 'after-save-hook 'org-save-and-tangle)
 #+END_SRC
-*** links
-https://github.com/thisirs/org-context
-
+*** agenda
+#+BEGIN_SRC emacs-lisp
+  ;; (setq org-agenda-files (quote ("~/workspace/org/agenda")))
+  (setq org-agenda-files (list "~/workspace/org/reference-cards/org-categories-tests/OrgTutorial.org")
+	org-log-done t
+	;; org-agenda-files (quote ("~/workspace/org/agenda"))
+	org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
+#+END_SRC
+** TODO link: [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]                                 :agenda:github:
+** TODO link: [[https://github.com/thisirs/org-context][org-context]]                                             :github:
+** [[https://orgmode.org/manual/Agenda-Views.html][Agenda Views (The Org Manual)]]                                      :agenda:
+:PROPERTIES:
+:CREATED:  [2020-10-30 Fri 01:28]
+:END:
+** [[http://cachestocaches.com/2016/9/my-workflow-org-agenda/][My Workflow with Org-Agenda]] :agenda:
+:PROPERTIES:
+:CREATED:  [2020-10-30 Fri 01:29]
+:END:
+** [[https://orgmode.org/worg/org-tutorials/org4beginners.html][Org mode beginning at the basics]] :agenda:
+:PROPERTIES:
+:CREATED:  [2020-10-30 Fri 01:29]
+:END:
 ** link-hint
 #+BEGIN_SRC emacs-lisp
   (use-package link-hint
@@ -778,7 +800,7 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 ;; (highlight ((t (:background "light slate gray"))))
 
 #+END_SRC
-** icicle
+** COMMENT icicle
 #+BEGIN_SRC emacs-lisp
   (use-package icicles
     ;; https://github.com/emacsmirror/icicles
