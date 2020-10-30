@@ -1450,6 +1450,15 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
         (setenv "PATH" (concat putty-directory ";" (getenv "PATH")))
         (add-to-list 'exec-path putty-directory))))
 #+END_SRC
+
+** custom set faces
+#+BEGIN_SRC emacs-lisp
+  (let ((foundry (cond (windows-p "outline") (linux-p "PfEd") (t "")))
+        (family (cond (windows-p "Consolas") (linux-p "DejaVu Sans Mono")))
+        (height 139))
+    (set-face-attribute 'default nil :inherit nil :stipple nil :background "#050000" :foreground "#bbe0f0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant 'normal :weight 'normal :height height :width 'normal :foundry "outline" :family "Consolas"))
+#+END_SRC
+
 ** custom file
 #+BEGIN_SRC emacs-lisp
   ;;;; custom file
