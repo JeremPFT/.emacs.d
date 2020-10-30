@@ -2,7 +2,19 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(#1=(#("birdz-plink-dev-dev" 0 19
+(#1=(#("birdz_tasks.org.txt" 0 19
+      (bmkp-full-record #1#))
+    (filename . "~/workspace/org/birdz/birdz_tasks.org.txt")
+    (buffer-name . "birdz_tasks.org.txt")
+    (front-context-string . "#+STARTUP: align")
+    (rear-context-string)
+    (front-context-region-string)
+    (rear-context-region-string)
+    (visits . 0)
+    (time . #2=(24476 16923 529020 0))
+    (created . #2#)
+    (position . 1))
+#1=(#("birdz-plink-dev-dev" 0 19
       (bmkp-full-record #1#))
     (buffer-name . "plink.dev.dev")
     (front-context-string . "  /plinkx:dev:/h")
@@ -64,8 +76,8 @@
     (rear-context-string)
     (front-context-region-string)
     (rear-context-region-string)
-    (visits . 2)
-    (time 24475 59469 267405 0)
+    (visits . 3)
+    (time 24476 16908 474691 0)
     (created 24472 20756 144286 40000)
     (position . 1))
 #1=(#("birdz-ssh-dev-home" 0 18
