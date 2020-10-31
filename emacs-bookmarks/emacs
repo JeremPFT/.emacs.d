@@ -2,7 +2,37 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(#1=(#("bookmarks-loisirs-mangas.org.txt" 0 32
+(#1=(#("org-reference-card.org" 0 22
+      (bmkp-full-record #1#))
+    (buffer-name . "reference-cards")
+    (front-context-string . "org-reference-ca")
+    (rear-context-string . "44 Oct 28 01:28 ")
+    (front-context-region-string)
+    (rear-context-region-string)
+    (visits . 0)
+    (time . #2=(24476 36933 248318 0))
+    (created . #2#)
+    (position . 538)
+    (filename . #3="c:/Users/jeremy/AppData/Roaming/workspace/org/reference-cards/")
+    (dired-directory . #3#)
+    (dired-marked)
+    (dired-switches . "-al")
+    (dired-subdirs)
+    (dired-hidden-dirs)
+    (handler . bmkp-jump-dired))
+#1=(#("org-snippet-new-link.org" 0 24
+      (bmkp-full-record #1#))
+    (filename . "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org")
+    (buffer-name . "org-snippet-new-link.org")
+    (front-context-string)
+    (rear-context-string . "_SRC emacs-lisp\n")
+    (front-context-region-string)
+    (rear-context-region-string)
+    (visits . 1)
+    (time 24476 36344 741904 0)
+    (created 24476 36272 253696 0)
+    (position . 24))
+#1=(#("bookmarks-loisirs-mangas.org.txt" 0 32
       (bmkp-full-record #1#))
     (filename . "~/workspace/org/bookmarks/bookmarks-loisirs-mangas.org.txt")
     (buffer-name . "bookmarks-loisirs-mangas.org.txt")
