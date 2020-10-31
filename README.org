@@ -65,11 +65,24 @@ recentf
 #+BEGIN_SRC emacs-lisp
   (setq debug-on-error t)
 #+END_SRC
-*** personnal functions & shortcuts
+*** default directory
+first thing to ensure we always start in .emacs.d/
 #+BEGIN_SRC emacs-lisp
-  ;;;; default directory
   (setq default-directory user-emacs-directory)
 #+END_SRC
+*** backup configuration & recentf
+#+BEGIN_SRC emacs-lisp
+  (setq backup-by-copying t
+        backup-directory-alist '(("." . "~/.emacs.d/backup"))
+        recentf-auto-cleanup 'never
+        recentf-mode nil)
+#+END_SRC
+*** theme
+#+BEGIN_SRC emacs-lisp
+  (setq custom-enabled-themes (quote (tsdh-dark)))
+#+END_SRC
+
+*** TODO personnal functions & shortcuts
 
 *** global modes
 #+BEGIN_SRC emacs-lisp
@@ -80,7 +93,6 @@ recentf
   (electric-pair-mode)
   (show-paren-mode)
 #+END_SRC
-
 *** custom
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -94,6 +106,12 @@ recentf
   (setq fill-column 90)
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+  ;; lisp perso / downloaded files
+  (add-to-list 'load-path (concat user-emacs-directory "lisp"))
+  ;; functions used by my snippets
+  (add-to-list 'load-path (concat user-emacs-directory "lisp/yasnippet"))
+#+END_SRC
 *** initial-buffer
 #+BEGIN_SRC emacs-lisp
   (defun jp/initial-buffer()
@@ -109,7 +127,6 @@ recentf
 
   (setq initial-buffer-choice 'jp/initial-buffer)
 #+END_SRC
-
 *** my functions
 #+BEGIN_SRC emacs-lisp
   (defconst ingenico-computer-name "FR0WSC3NRYM2")
@@ -174,9 +191,7 @@ recentf
   (global-set-key (kbd "C-*") 'next-error)
   (global-set-key (kbd "C-/") 'previous-error)
 #+END_SRC
-
 *** emacs server
-
 #+BEGIN_SRC emacs-lisp
   ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
   (require 'server)
@@ -212,6 +227,7 @@ It can also be activated only for prog-modes:
     (when (file-exists-p config-file)
       (load config-file)))
 #+END_SRC
+*** TODO see how to use it correctly
 * Standard configuration
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init.el"
@@ -251,7 +267,6 @@ It can also be activated only for prog-modes:
   ;;       '((nil . "default.el")
   ;;         ;; Packages which are pinned to a specific commit.
   ;;         (pinned . "pinned.el")))
-
 #+END_SRC
 *** explanations
 **** straight (package manager)
@@ -275,11 +290,17 @@ https://jwiegley.github.io/use-package/
 ** use-package extensions
 #+BEGIN_SRC emacs-lisp
   (use-package use-package-ensure-system-package)
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp
   (use-package key-chord)
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp
   (use-package use-package-chords)
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp
   (use-package diminish
     ;;
     ;; only works with minor mode
@@ -289,14 +310,19 @@ https://jwiegley.github.io/use-package/
     (defun diminish-emacs-lisp-mode() (setq mode-name "elisp"))
     (add-hook 'emacs-lisp-mode-hook 'diminish-emacs-lisp-mode)
     )
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp
   (use-package delight
     :disabled)
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp
   (use-package git-package
     :straight (:host github :repo "mnewt/git-package"))
 #+END_SRC
-*** TODO [[https://github.com/mnewt/git-package][git-package (installation par un depot git)]]
+*** TODO integrate git-package [[https://github.com/mnewt/git-package][git-package (installation par un depot git)]]
+*** TODO if I separate each src block in headers, they are not tangled.   :bug:
 ** Hydra
 #+BEGIN_SRC emacs-lisp
   (use-package hydra
@@ -362,8 +388,6 @@ https://jwiegley.github.io/use-package/
                  ("s" magit-status :exit t)
                  )
     )
-
-  (add-hook 'before-save-hook 'ada-before-save)
 
   (use-package git-link
     :after magit
@@ -453,7 +477,7 @@ see https://www.emacswiki.org/emacs/ChangingEncodings
     :config
     (yas-global-mode 1)
     (setq yas-snippet-dirs nil)
-    (add-to-list 'yas-snippet-dirs (concat user-emacs-directory "snippets"))
+    (add-to-list 'yas-snippet-dirs (concat user-emacs-directory "yasnippet"))
     (add-to-list 'yas-snippet-dirs (concat user-emacs-directory "straight/build/elpy/snippets/"))
     )
 #+END_SRC
@@ -480,6 +504,7 @@ https://github.com/mrkkrp/common-lisp-snippets
 *** links
 https://github.com/apchamberlain/undo-tree.el
 https://www.emacswiki.org/emacs/UndoTree
+*** TODO undo-tree and yasnippet https://github.com/joaotavora/yasnippet/issues/478 :bug:
 ** org-mode
 #+BEGIN_SRC emacs-lisp
   (use-package org
@@ -499,6 +524,7 @@ https://www.emacswiki.org/emacs/UndoTree
     (setq org-indent-mode 0
           org-adapt-indentation nil
           org-default-notes-file "~/Dropbox/org/notes.org"
+          org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
           org-file-apps
           (quote
            ((auto-mode . emacs)
@@ -636,11 +662,15 @@ https://www.emacswiki.org/emacs/UndoTree
 #+END_SRC
 *** agenda
 #+BEGIN_SRC emacs-lisp
-  ;; (setq org-agenda-files (quote ("~/workspace/org/agenda")))
-  (setq org-agenda-files (list "~/workspace/org/reference-cards/org-categories-tests/OrgTutorial.org")
-	org-log-done t
-	;; org-agenda-files (quote ("~/workspace/org/agenda"))
-	org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
+  (setq org-agenda-files
+        (quote
+         ("~/workspace/org/agenda"
+          "~/workspace/org/reference-cards/emacs-reference-card.org"
+          "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org"
+          "~/.emacs.d/README.org"))
+        org-log-done t
+        ;; org-agenda-files (quote ("~/workspace/org/agenda"))
+        org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
 #+END_SRC
 ** TODO link: [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]                                 :agenda:github:
 ** TODO link: [[https://github.com/thisirs/org-context][org-context]]                                             :github:
@@ -812,7 +842,6 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 #+END_SRC
 ** bookmark+
 #+BEGIN_SRC emacs-lisp
-  ;; TODO see if necessary (load-file (concat user-emacs-directory "lisp/bookmark-plus/bookmark+-mac.el"))
   (use-package bookmark+
     ;; https://www.emacswiki.org/emacs/BookmarkPlus
     :straight
@@ -820,8 +849,9 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
     :custom
     (bmkp-bmenu-state-file (concat user-emacs-directory "emacs-bookmarks/.bmk-bmenu-state.el"))
     (bookmark-default-file (concat user-emacs-directory
-                                   (cond (birdz-computer-p "emacs-bookmarks/bmk.birdz")
-                                         (t                "emacs-bookmarks/bmk.emacs"))))
+                                   (cond (birdz-computer-p "emacs-bookmarks/birdz")
+                                         (t                "emacs-bookmarks/emacs"))))
+    (bmkp-last-as-first-bookmark-file nil)
     )
 #+END_SRC
 ** TODO COMMENT ggtags                                                           :dev:
@@ -848,7 +878,6 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 :PROPERTIES:
 :CREATED:  [2020-10-30 Fri 17:26]
 :END:
-* new_link
 ** C mode (Birdz)                                                        :dev:
 #+BEGIN_SRC emacs-lisp
   (when birdz-computer-p
@@ -1023,6 +1052,8 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
      "Fill method used for docstring. See emacs doc"
      )
     )
+
+  (setq python-fill-docstring-style (quote symmetric))
 #+END_SRC
 ** fic-mode: highlight TODO/FIXME/...                                    :dev:
 #+BEGIN_SRC emacs-lisp
@@ -1395,6 +1426,73 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
               (lambda()
                 (when (equal major-mode 'context-mode)
                   (setq TeX-command-default "ConTeXt Full"))))
+    (setq TeX-command-list
+          (quote
+           (("TeX" "%(PDF)%(tex) %(file-line-error) %`%(extraopts) %S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+             (plain-tex-mode texinfo-mode ams-tex-mode)
+             :help "Run plain TeX")
+            ("LaTeX" "%`%l%(mode)%' %T" TeX-run-TeX nil
+             (latex-mode doctex-mode)
+             :help "Run LaTeX")
+            ("Makeinfo" "makeinfo %(extraopts) %t" TeX-run-compile nil
+             (texinfo-mode)
+             :help "Run Makeinfo with Info output")
+            ("Makeinfo HTML" "makeinfo %(extraopts) --html %t" TeX-run-compile nil
+             (texinfo-mode)
+             :help "Run Makeinfo with HTML output")
+            ("AmSTeX" "amstex %(PDFout) %`%(extraopts) %S%(mode)%' %t" TeX-run-TeX nil
+             (ams-tex-mode)
+             :help "Run AMSTeX")
+            ("ConTeXt" "%(cntxcom) %(extraopts) %(execopts)%t" TeX-run-TeX nil
+             (context-mode)
+             :help "Run ConTeXt (ConTeXt Full alias)")
+            ("ConTeXt Full" "%(cntxcom) %(extraopts) %(execopts)%t" TeX-run-TeX nil
+             (context-mode)
+             :help "Run ConTeXt until completion")
+            ("BibTeX" "bibtex %s" TeX-run-BibTeX nil
+             (plain-tex-mode latex-mode doctex-mode context-mode texinfo-mode ams-tex-mode)
+             :help "Run BibTeX")
+            ("Biber" "biber %s" TeX-run-Biber nil
+             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+             :help "Run Biber")
+            ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
+            ("Print" "%p" TeX-run-command t t :help "Print the file")
+            ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command)
+            ("File" "%(o?)dvips %d -o %f " TeX-run-dvips t
+             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+             :help "Generate PostScript file")
+            ("Dvips" "%(o?)dvips %d -o %f " TeX-run-dvips nil
+             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+             :help "Convert DVI file to PostScript")
+            ("Dvipdfmx" "dvipdfmx %d" TeX-run-dvipdfmx nil
+             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+             :help "Convert DVI file to PDF with dvipdfmx")
+            ("Ps2pdf" "ps2pdf %f" TeX-run-ps2pdf nil
+             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+             :help "Convert PostScript file to PDF")
+            ("Glossaries" "makeglossaries %s" TeX-run-command nil
+             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+             :help "Run makeglossaries to create glossary
+     file")
+            ("Index" "makeindex %s" TeX-run-index nil
+             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+             :help "Run makeindex to create index file")
+            ("upMendex" "upmendex %s" TeX-run-index t
+             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+             :help "Run upmendex to create index file")
+            ("Xindy" "texindy %s" TeX-run-command nil
+             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+             :help "Run xindy to create index file")
+            ("Check" "lacheck %s" TeX-run-compile nil
+             (latex-mode)
+             :help "Check LaTeX file for correctness")
+            ("ChkTeX" "chktex -v6 %s" TeX-run-compile nil
+             (latex-mode)
+             :help "Check LaTeX file for common mistakes")
+            ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
+            ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
+            ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
+            ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))))
     )
 #+END_SRC
 
@@ -1403,7 +1501,28 @@ https://github.com/hmenke/context-examples/blob/master/GUIDE.md
 https://tex.loria.fr/formats/context/context-getting-started.pdf
 https://wiki.contextgarden.net/AUCTeX
 https://www.ntg.nl/maps/24/16.pdf latex to context
+** TODO comb (learn it)
+#+BEGIN_SRC emacs-lisp
+  (use-package comb
+    ;; https://github.com/cyrus-and/comb
+    ;; grep & notes
+    ;;
+    ;; - repository is cloned in ~/.emacs.d/lisp, the code in comb-report.el is
+    ;;   changed
+    ;; - use M-x re-builder to open a buffer and dynamically try a regex
+    ;; - the shortkeys are not defined in all generated buffer => define a hydra
+    :straight (:host github :repo "JeremPFT/comb" :branch "master")
+    :preface (unless (file-directory-p (concat user-emacs-directory "lisp/comb"))
+               (error "missing comb directory"))
+    )
+#+END_SRC
 
+** grep
+#+BEGIN_SRC emacs-lisp
+  (setq grep-find-command
+        (quote
+         ("find . -type f -exec grep --color=always -n -e  \"{}\" NUL \";\"" . 48)))
+#+END_SRC
 ** wgrep
 #+BEGIN_SRC emacs-lisp
   (use-package wgrep
@@ -1436,7 +1555,6 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 	    )
     )
 #+END_SRC
-
 ** birdz ssh
 #+BEGIN_SRC emacs-lisp
   (when (and birdz-computer-p (eq window-system 'w32))
@@ -1464,14 +1582,11 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 :PROPERTIES:
 :CREATED:  [2020-10-30 Fri 17:25]
 :END:
-
-
-
 ** custom set faces
 #+BEGIN_SRC emacs-lisp
   (let ((foundry (cond (windows-p "outline") (linux-p "PfEd") (t "")))
         (family (cond (windows-p "Consolas") (linux-p "DejaVu Sans Mono")))
-        (height 139))
+        (height 160))
     (set-face-attribute 'default nil :inherit nil :stipple nil :background "#050000" :foreground "#bbe0f0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant 'normal :weight 'normal :height height :width 'normal :foundry "outline" :family "Consolas"))
 #+END_SRC
 
@@ -1669,20 +1784,6 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
       ("f" describe-function "function")
       ("v" describe-variable "variable")
       ("i" info-lookup-symbol "info lookup"))))
-
-  (use-package comb
-    ;; https://github.com/cyrus-and/comb
-    ;; grep & notes
-    ;;
-    ;; - repository is cloned in ~/.emacs.d/lisp, the code in comb-report.el is
-    ;;   changed
-    ;; - use M-x re-builder to open a buffer and dynamically try a regex
-    ;; - the shortkeys are not defined in all generated buffer => define a hydra
-    :straight
-    :straight (:host github :repo "JeremPFT/comb" :branch "master")
-    :preface (unless (file-directory-p (concat user-emacs-directory "lisp/comb"))
-	       (error "missing comb directory"))
-    )
 
   ;; (use-package popup-kill-ring
   ;;   :straight (:host github :repo "waymondo/popup-kill-ring" :branch "master")
@@ -1887,7 +1988,6 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
   (add-to-list 'load-path (concat user-emacs-directory "lisp/openssl-cipher"))
   (require 'openssl-cipher)
 
-  (add-to-list 'load-path (concat user-emacs-directory "lisp"))
   (require 'ingenico-parse-log)
   (global-set-key (kbd "M-/") 'hippie-expand)
 
