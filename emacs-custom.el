@@ -10,6 +10,9 @@
  '(column-number-mode t)
  '(enable-remote-dir-locals t)
  '(indent-tabs-mode nil)
+ '(org-agenda-files
+   (quote
+    ("~/workspace/org/bookmarks/z/bookmarks-z-session.org.txt" "c:/Users/jeremy/AppData/Roaming/workspace/org/agenda/agenda.org" "c:/Users/jeremy/AppData/Roaming/workspace/org/agenda/dates.org" "c:/Users/jeremy/AppData/Roaming/workspace/org/agenda/dette_cetelem.org" "c:/Users/jeremy/AppData/Roaming/workspace/org/agenda/pauses.org" "~/workspace/org/reference-cards/emacs-reference-card.org" "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org" "~/.emacs.d/README.org")))
  '(safe-local-variable-values
    (quote
     ((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")

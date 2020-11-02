@@ -3,7 +3,7 @@
 ;; ######################################################
 ;; replaces URL with Org-mode link including description
 ;; see id:2014-03-09-inbox-to-bookmarks
-(defun my-www-get-page-title (url)
+(defun my-www-get-page-title-2 (url)
   "retrieve title of web page.
 from: http://www.opensubscriber.com/message/help-gnu-emacs@gnu.org/14332449.html"
   (let ((title))
@@ -13,7 +13,8 @@ from: http://www.opensubscriber.com/message/help-gnu-emacs@gnu.org/14332449.html
       (setq title (match-string 1))
       (goto-char (point-min))
       (re-search-forward "charset=\"?\\([-0-9a-zA-Z]*\\)\"?" nil t 1)
-      (decode-coding-string title (intern (downcase (match-string 1))))))
+      ;; (decode-coding-string title (intern (downcase (match-string 1))))))
+      (decode-coding-string title 'utf-8)))
   )
 
 (defun my-url-link-image()
@@ -24,7 +25,7 @@ from: http://www.opensubscriber.com/message/help-gnu-emacs@gnu.org/14332449.html
          ;; (beg (car bds))
          ;; (end (cdr bds))
          ;; (url (buffer-substring-no-properties beg end))
-         (title (my-www-get-page-title url))
+         (title (my-www-get-page-title-2 url))
          )
     (concat "[[" url "][" title "]]")))
 

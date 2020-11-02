@@ -1,4 +1,4 @@
-;; used by snippet: [[file:~/.emacs.d/snippets/org-mode/new_link][new_link]]
+;; used by snippet ~/.emacs.d/snippets/org-mode/new_link
 
 ;; ######################################################
 ;; replaces URL with Org-mode link including description
@@ -7,7 +7,10 @@
   "retrieve title of web page.
 from: http://www.opensubscriber.com/message/help-gnu-emacs@gnu.org/14332449.html"
   (let ((title))
-    (with-current-buffer (url-retrieve-synchronously url)
+
+    (with-current-buffer (get-buffer-create "*capture url*")
+      (erase-buffer)
+      (insert-buffer (url-retrieve-synchronously url))
       (goto-char (point-min))
       (re-search-forward "<title>\\([^<]*\\)</title>" nil t 1)
       (setq title (match-string 1))
@@ -16,7 +19,7 @@ from: http://www.opensubscriber.com/message/help-gnu-emacs@gnu.org/14332449.html
       (decode-coding-string title (intern (downcase (match-string 1))))))
   )
 
-(defun my-url-link-image-wo-arg()
+(defun my-url-link-image()
   "Build string to output."
   (interactive)
   (let* (

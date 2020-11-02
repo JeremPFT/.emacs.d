@@ -1,7 +1,9 @@
 * [[file:~/.emacs.d/snippets/org-mode/new_link][snippet]] (open with C-u C-o)
 * TODO duplicate
 start by going to beggining of buffer and search for url
-(search doesn't look in org link, remove mask)
+
+WARNING: search doesn't look in org link, remove mask: [[https://emacs.stackexchange.com/questions/21208/search-and-replace-invisible-url-link-in-org-mode][see this link]],
+about org-toggle-link-display 'ortogli' and example.
 * TODO url
 take selection if exists, else interprogram-paste-function
 * TODO interprogram-paste-function

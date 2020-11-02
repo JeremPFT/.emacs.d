@@ -5,13 +5,11 @@
   2. insert the time stamp
   3. insert snippet key
 
-  my-url-link-image is defined in ~/.emacs.d/lisp/org-capture-link.el
-
-
-`(progn (load "~/.emacs.d/lisp/org-capture-link.el")
-        (my-url-link-image-wo-arg))` :$1:
+  my-url-link-image is defined in
+  ~/.emacs.d/lisp/yasnippet/org-capture-link.el
 # --
-`(progn (my-url-link-image-wo-arg))` :$1:
+`(progn (load "~/.emacs.d/lisp/yasnippet/org-capture-link.el")
+        (my-url-link-image))` :$1:$0
 :PROPERTIES:
 :CREATED:  `(let ((fmt (cdr org-time-stamp-formats))
                   (stamp ""))
@@ -19,4 +17,4 @@
                     stamp (format-time-string fmt (current-time)))
               stamp)`
 :END:
-new_link$0
+`(make-string (org-current-level) ?*)` new_link
