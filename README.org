@@ -1589,10 +1589,34 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 :END:
 ** custom set faces
 #+BEGIN_SRC emacs-lisp
-  (let ((foundry (cond (windows-p "outline") (linux-p "PfEd") (t "")))
-        (family (cond (windows-p "Consolas") (linux-p "DejaVu Sans Mono")))
-        (height 140))
-    (set-face-attribute 'default nil :inherit nil :stipple nil :background "#050000" :foreground "#bbe0f0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant 'normal :weight 'normal :height height :width 'normal :foundry foundry :family family))
+  (let ((foundry (cond (windows-p "outline")
+                       (linux-p   "PfEd")
+                       (t         "")
+                       ))
+        (family (cond (windows-p "Consolas")
+                      (linux-p   "DejaVu Sans Mono")
+                      (t         "")
+                      ))
+        (height (cond
+                 (birdz-debian-computer-p 130)
+                 (t 140)))
+        )
+    (set-face-attribute 'default nil
+                        :inherit nil
+                        :stipple nil
+                        :background "#050000"
+                        :foreground "#bbe0f0"
+                        :inverse-video nil
+                        :box nil
+                        :strike-through nil
+                        :overline nil
+                        :underline nil
+                        :slant 'normal
+                        :weight 'normal
+                        :height height
+                        :width 'normal
+                        :foundry foundry
+                        :family family))
 #+END_SRC
 
 ** custom file
