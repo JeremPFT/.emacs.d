@@ -27,7 +27,7 @@
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run"))))
- '(show-paren-mode t))
+ '(show-paren-mode t)
  '(tramp-connection-properties '(("/plinkx" "remote-shell" "/bin/bash"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
