@@ -1519,11 +1519,21 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
     )
 #+END_SRC
 
-** grep
+** grep & find-dired
 #+BEGIN_SRC emacs-lisp
-  (setq grep-find-command
-        (quote
-         ("find . -type f -exec grep --color=always -n -e  \"{}\" NUL \";\"" . 48)))
+  (cond
+   (linux-p nil)
+   (birdz-computer-p (setenv "PATH" (concat "c:/installs/msys64/usr/bin" path-separator (getenv "PATH"))))
+   (t (error "undefined environment for this computer"))
+   )
+
+    ;; (setq grep-find-ls-root (cond
+    ;;                          (birdz-computer-p "c:/installs/msys64/usr/bin/")
+    ;;                          (t                "c:/path-to-define")))
+    ;; (setq grep-program (concat grep-find-ls-root "grep"))
+    ;; (setq find-program (concat grep-find-ls-root "find"))
+    ;; (setq find-ls-option
+    ;;       '((concat "-exec " grep-find-ls-root "ls -ld {} \";\"") . "-ld"))
 #+END_SRC
 ** wgrep
 #+BEGIN_SRC emacs-lisp
