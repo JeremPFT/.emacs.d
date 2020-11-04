@@ -426,7 +426,7 @@ https://jwiegley.github.io/use-package/
    magit-repolist-columns
    '(("Name" 25 magit-repolist-column-ident nil)
      ("Version" 25 magit-repolist-column-version nil)
-     ("Branch" 25 magit-repolist-column-branch nil)
+     ("Branch" 15 magit-repolist-column-branch nil)
      ("Branches" 8 magit-repolist-column-branches nil)
      ("Flag" 4 magit-repolist-column-flag ((:right-align t)))
      ("B<U" 3 magit-repolist-column-unpulled-from-upstream
@@ -435,7 +435,7 @@ https://jwiegley.github.io/use-package/
      ("B>U" 3 magit-repolist-column-unpushed-to-upstream
       ((:right-align t)
        (:help-echo "Local changes not in upstream")))
-     ("Path" 50 magit-repolist-column-path nil)
+     ("Path" 30 magit-repolist-column-path nil)
      ("Push" 4 magit-repolist-column-unpushed-to-pushremote))
    )
 #+END_SRC
