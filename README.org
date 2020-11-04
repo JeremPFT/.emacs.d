@@ -998,7 +998,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 #+END_SRC
 ** ada mode                                                              :dev:
 #+BEGIN_SRC emacs-lisp
-  ;; (when home-computer-p
+  (when home-computer-p
     (require 'imenu)
 
     (use-package wisi
@@ -1032,7 +1032,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
       (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
       )
-    ;; )
+    )
 #+END_SRC
 ** python                                                                :dev:
 #+BEGIN_SRC emacs-lisp
