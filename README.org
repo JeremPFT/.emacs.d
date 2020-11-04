@@ -996,7 +996,6 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
     (add-hook 'cc-mode-hook (lambda () (c-set-style "ingenico")))
   )
 #+END_SRC
-
 ** ada mode                                                              :dev:
 #+BEGIN_SRC emacs-lisp
   ;; (when home-computer-p
@@ -1035,7 +1034,6 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
       )
     ;; )
 #+END_SRC
-
 ** python                                                                :dev:
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
@@ -1378,7 +1376,6 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
       ) ;; end progn
     )
 #+END_SRC
-
 ** calfw calendar
 #+BEGIN_SRC emacs-lisp
   (use-package calfw
