@@ -676,17 +676,17 @@ https://www.emacswiki.org/emacs/UndoTree
         ;; org-agenda-files (quote ("~/workspace/org/agenda"))
         org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
 #+END_SRC
-** TODO link: [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]                                 :agenda:github:
-** TODO link: [[https://github.com/thisirs/org-context][org-context]]                                             :github:
-** [[https://orgmode.org/manual/Agenda-Views.html][Agenda Views (The Org Manual)]]                                      :agenda:
+*** TODO link: [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]                                 :agenda:github:
+*** TODO link: [[https://github.com/thisirs/org-context][org-context]]                                             :github:
+*** [[https://orgmode.org/manual/Agenda-Views.html][Agenda Views (The Org Manual)]]                                      :agenda:
 :PROPERTIES:
 :CREATED:  [2020-10-30 Fri 01:28]
 :END:
-** [[http://cachestocaches.com/2016/9/my-workflow-org-agenda/][My Workflow with Org-Agenda]] :agenda:
+*** [[http://cachestocaches.com/2016/9/my-workflow-org-agenda/][My Workflow with Org-Agenda]]                                        :agenda:
 :PROPERTIES:
 :CREATED:  [2020-10-30 Fri 01:29]
 :END:
-** [[https://orgmode.org/worg/org-tutorials/org4beginners.html][Org mode beginning at the basics]] :agenda:
+*** [[https://orgmode.org/worg/org-tutorials/org4beginners.html][Org mode beginning at the basics]]                                   :agenda:
 :PROPERTIES:
 :CREATED:  [2020-10-30 Fri 01:29]
 :END:
