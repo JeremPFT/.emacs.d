@@ -8,6 +8,7 @@
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(column-number-mode t)
+ '(desktop-path '("~/.emacs.d/sessions"))
  '(enable-remote-dir-locals t)
  '(indent-tabs-mode nil)
  '(org-agenda-files
