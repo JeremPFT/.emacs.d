@@ -13,7 +13,6 @@ semanticdb/
 server/server*
 transient/
 /amx-items
-.org-id-locations
 recentf
 /projectile.cache
 /projectile-bookmarks.eld
