@@ -2,7 +2,25 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(#1=(#("org-reference-card.org" 0 22
+(#1=(#("c:/Users/jeremy/Dropbox:" 0 24
+      (bmkp-full-record #1#))
+    (buffer-name . "Dropbox")
+    (front-context-string . "  c:/Users/jerem")
+    (rear-context-string)
+    (front-context-region-string)
+    (rear-context-region-string)
+    (visits . 0)
+    (time . #2=(24483 182 268940 0))
+    (created . #2#)
+    (position . 1)
+    (filename . #3="c:/Users/jeremy/Dropbox/")
+    (dired-directory . #3#)
+    (dired-marked)
+    (dired-switches . "-al")
+    (dired-subdirs)
+    (dired-hidden-dirs)
+    (handler . bmkp-jump-dired))
+#1=(#("org-reference-card.org" 0 22
       (bmkp-full-record #1#))
     (buffer-name . "reference-cards")
     (front-context-string . "org-reference-ca")
