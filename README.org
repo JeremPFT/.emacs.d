@@ -237,12 +237,15 @@ It can also be activated only for prog-modes:
 :END:
 ** package
 #+BEGIN_SRC emacs-lisp
-  (require 'package)
-  (add-to-list 'package-archives
-	       '("melpa" . "https://melpa.org/packages"))
-  (add-to-list 'package-archives
-	       '("MELPA Stable" . "https://stable.melpa.org/packages") t)
-  (unless package--initialized (package-initialize t))
+  (progn
+    (require 'package)
+    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")))
+    (add-to-list 'package-archives
+                 '("melpa" . "https://melpa.org/packages/"))
+    (add-to-list 'package-archives
+                 '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
+    (unless package--initialized (package-initialize t))
+    )
 #+END_SRC
 ** straight & use-package
 #+BEGIN_SRC emacs-lisp
