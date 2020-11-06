@@ -105,13 +105,6 @@ first thing to ensure we always start in .emacs.d/
 #+BEGIN_SRC emacs-lisp
   (setq fill-column 90)
 #+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  ;; lisp perso / downloaded files
-  (add-to-list 'load-path (concat user-emacs-directory "lisp"))
-  ;; functions used by my snippets
-  (add-to-list 'load-path (concat user-emacs-directory "lisp/yasnippet"))
-#+END_SRC
 *** initial-buffer
 #+BEGIN_SRC emacs-lisp
     (defun jp/initial-buffer()
@@ -238,12 +231,23 @@ It can also be activated only for prog-modes:
 ** package
 #+BEGIN_SRC emacs-lisp
   (require 'package)
-  (add-to-list 'package-archives
-	       '("melpa" . "https://melpa.org/packages"))
-  (add-to-list 'package-archives
-	       '("MELPA Stable" . "https://stable.melpa.org/packages") t)
-  (unless package--initialized (package-initialize t))
+  (progn
+    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")))
+    (add-to-list 'package-archives
+                 '("melpa" . "https://melpa.org/packages/") t)
+    (add-to-list 'package-archives
+                 '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
+    (add-to-list 'package-archives
+                 '("my-melpa" . "~/.emacs.d/my-melpa/packages/") t)
+    (unless package--initialized (package-initialize t))
+    )
 #+END_SRC
+*** TODO custom melpa. See links:
+**** TODO https://emacs.stackexchange.com/questions/28731/easiest-way-to-downgrade-a-package-installed-via-melpa
+**** TODO https://github.com/melpa/melpa
+**** TODO https://github.com/melpa/melpa/wiki/Custom-Melpa-Archive
+**** TODO https://sodocumentation.net/fr/emacs/topic/2414/gestion-des-packages
+**** TODO see variable [[help:package-pinned-packages]]
 ** straight & use-package
 #+BEGIN_SRC emacs-lisp
   (defvar bootstrap-version)
@@ -327,6 +331,11 @@ https://jwiegley.github.io/use-package/
 #+END_SRC
 *** TODO integrate git-package [[https://github.com/mnewt/git-package][git-package (installation par un depot git)]]
 *** TODO if I separate each src block in headers, they are not tangled.   :bug:
+** leaf (another package manager)
+#+BEGIN_SRC emacs-lisp
+  (use-package leaf)
+#+END_SRC
+
 ** Hydra
 #+BEGIN_SRC emacs-lisp
   (use-package hydra
@@ -479,10 +488,16 @@ see https://www.emacswiki.org/emacs/ChangingEncodings
     :straight
     (:host github :repo "joaotavora/yasnippet" :branch "master")
     :config
-    (yas-global-mode 1)
     (setq yas-snippet-dirs nil)
-    (add-to-list 'yas-snippet-dirs (concat user-emacs-directory "yasnippet/"))
-    (add-to-list 'yas-snippet-dirs (concat user-emacs-directory "straight/build/elpy/snippets/"))
+    (add-to-list 'load-path (concat user-emacs-directory "lisp/yasnippet"))
+    (cond (home-computer-p
+           (setq yas-snippet-dirs nil)
+           (add-to-list 'yas-snippet-dirs (expand-file-name (concat user-emacs-directory "yasnippet/home")))
+           (add-to-list 'yas-snippet-dirs (expand-file-name (concat user-emacs-directory "straight/build/elpy/snippets/"))))
+          (birdz-computer-p
+           (setq yas-snippet-dirs nil)
+           (add-to-list 'yas-snippet-dirs (concat user-emacs-directory "yasnippet/birdz"))))
+    (yas-global-mode 1)
     )
 #+END_SRC
 *** links
@@ -495,7 +510,6 @@ https://github.com/mrkkrp/common-lisp-snippets
       (setq fci-rule-column 80))
     (add-hook 'prog-mode-hook 'fci-mode)
     (add-hook 'prog-mode-hook 'set-fci-to-80)
-    (add-hook 'ada-mode-hook 'fci-mode)
     )
 #+END_SRC
 ** undo-tree
@@ -659,10 +673,14 @@ https://www.emacswiki.org/emacs/UndoTree
   ;;   (setq org-html-validation-link nil)
   ;;   )
 
-  (defun org-save-and-tangle ()
-    (when (eq major-mode 'org-mode)
-      (org-babel-tangle)))
-  (add-hook 'after-save-hook 'org-save-and-tangle)
+  (defun org-readme-save-tangle-load ()
+    (when (and (eq major-mode 'org-mode)
+               (string= (buffer-file-name)
+                        (expand-file-name
+                         (concat user-emacs-directory "README.org"))))
+      (org-babel-tangle)
+      (byte-compile-file (concat user-emacs-directory "init.el") t)))
+  (add-hook 'after-save-hook 'org-readme-save-tangle-load)
 #+END_SRC
 *** agenda
 #+BEGIN_SRC emacs-lisp
@@ -729,21 +747,22 @@ Note: use counsel-yank instead
 *** TODO links
 ** line numbering. linum
 #+BEGIN_SRC emacs-lisp
-  (unless window-system
+  (linum-mode)
+  (let (linum-format-fmt linum-format)
     (add-hook 'linum-before-numbering-hook
-	      (lambda ()
-		(setq-local linum-format-fmt
-			    (let ((w (length (number-to-string
-					      (count-lines (point-min) (point-max))))))
-			      (concat "%" (number-to-string w) "d"))))))
+              (lambda ()
+                (setq-local linum-format-fmt
+                            (let ((w (length (number-to-string
+                                              (count-lines (point-min) (point-max))))))
+                              (concat "%" (number-to-string w) "d")))))
 
-  (defun linum-format-func (line)
-    (concat
-     (propertize (format linum-format-fmt line) 'face 'linum)
-     (propertize " " 'face 'mode-line)))
+    (defun linum-format-func (line)
+      (concat
+       (propertize (format linum-format-fmt line) 'face 'linum)
+       (propertize " " 'face 'mode-line)))
 
-  (unless window-system
-    (setq linum-format 'linum-format-func))
+    (setq linum-format 'linum-format-func)
+    )
 #+END_SRC
 *** links
 customize -format
@@ -859,7 +878,19 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
     (bmkp-last-as-first-bookmark-file nil)
     )
 #+END_SRC
-** TODO COMMENT ggtags                                                           :dev:
+** TODO imenu                                                            :dev:
+#+BEGIN_SRC emacs-lisp
+  (use-package imenu)
+
+  (use-package imenus
+    :after imenu
+    :straight (:host github :repo "alezost/imenus.el"))
+
+  (use-package imenu-list
+    :after imenu
+    :straight (:host github :repo "bmag/imenu-list"))
+#+END_SRC
+** TODO COMMENT ggtags                                                   :dev:
 #+BEGIN_SRC emacs-lisp
   (use-package ggtags
     ;; https://github.com/leoliu/ggtags
@@ -907,7 +938,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
     (setq c-default-style '((c++-mode . "birdz")))
     )
 #+END_SRC
-** COMMENT C mode (Ingenico)                                                     :dev:
+** COMMENT C mode (Ingenico)                                             :dev:
 #+BEGIN_SRC emacs-lisp
   (when ingenico-computer-p
 
@@ -1002,10 +1033,14 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
     (require 'imenu)
 
     (use-package wisi
+      :disabled
+      :if home-computer-p
       :straight (:host github :repo "emacsmirror/wisi")
       )
 
     (use-package ada-mode
+      :disabled
+      :if home-computer-p
       :straight (:host github :repo "emacsmirror/ada-mode")
       :after wisi fill-column-indicator
       :config
@@ -1021,6 +1056,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
       (add-hook 'before-save-hook 'ada-before-save)
       (add-hook 'ada-mode-hook (lambda () (electric-pair-mode)))
+      (add-hook 'ada-mode-hook 'fci-mode)
 
       ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
       (defun hippie-expand-ada-symbols (orig-fun &rest args)
@@ -1254,8 +1290,16 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
      ("b" hydra-ibuffer-main/body "back" :color blue))
     ); use-package ibuffer
 #+END_SRC
+** dired
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (local-set-key (kbd "<f1>") (quote hydra-summary/body))
+              ;; (local-set-key (kbd "M-b") (quote backward-word))
+              ))
 
-** dired+
+#+END_SRC
+** dired: dired+
 #+BEGIN_SRC emacs-lisp
   (use-package dired+
     :after hydra
@@ -1268,9 +1312,9 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
       ) ;; end progn
     :bind
     (:map dired-mode-map
-	  ("M-b" . backward-word)
-	  ("<f1>" . hydra-dired/body)
-	  )
+          ("M-b" . backward-word)
+          ("<f1>" . hydra-dired/body)
+          )
 
     ;; :hook (lambda ()
     ;;         (local-set-key (kbd "<f1>") (quote hydra-summary/body))
@@ -1279,7 +1323,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
     :hydra
     (hydra-dired (:hint nil :color pink)
-		 "
+                 "
   _+_ mkdir          _v_iew           _m_ark             _(_ details        _i_nsert-subdir    wdired
   _C_opy             _O_ view other   _U_nmark all       _)_ omit-mode      _$_ hide-subdir    C-x C-q : edit
   _D_elete           _o_pen other     _u_nmark           _l_ redisplay      _w_ kill-subdir    C-c C-c : commit
@@ -1292,88 +1336,76 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
   T - tag prefix
   "
-		 ("\\" dired-do-ispell)
-		 ("(" dired-hide-details-mode)
-		 (")" dired-omit-mode)
-		 ("+" dired-create-directory)
-		 ("=" diredp-ediff)         ;; smart diff
-		 ("?" dired-summary)
-		 ("$" diredp-hide-subdir-nomove)
-		 ("A" dired-do-find-regexp)
-		 ("C" dired-do-copy)        ;; Copy all marked files
-		 ("D" dired-do-delete)
-		 ("E" dired-mark-extension)
-		 ("e" dired-ediff-files)
-		 ("F" dired-do-find-marked-files)
-		 ("G" dired-do-chgrp)
-		 ("g" revert-buffer)        ;; read all directories again (refresh)
-		 ("i" dired-maybe-insert-subdir)
-		 ("l" dired-do-redisplay)   ;; relist the marked or singel directory
-		 ("M" dired-do-chmod)
-		 ("m" dired-mark)
-		 ("O" dired-display-file)
-		 ("o" dired-find-file-other-window)
-		 ("Q" dired-do-find-regexp-and-replace)
-		 ("R" dired-do-rename)
-		 ("r" dired-do-rsynch)
-		 ("S" dired-do-symlink)
-		 ("s" dired-sort-toggle-or-edit)
-		 ("t" dired-toggle-marks)
-		 ("U" dired-unmark-all-marks)
-		 ("u" dired-unmark)
-		 ("v" dired-view-file)      ;; q to exit, s to search, = gets line #
-		 ("w" dired-kill-subdir)
-		 ("Y" dired-do-relsymlink)
-		 ("z" diredp-compress-this-file)
-		 ("Z" dired-do-compress)
-		 ("q" nil)
-		 ("." nil :color blue))
+                 ("\\" dired-do-ispell)
+                 ("(" dired-hide-details-mode)
+                 (")" dired-omit-mode)
+                 ("+" dired-create-directory)
+                 ("=" diredp-ediff)         ;; smart diff
+                 ("?" dired-summary)
+                 ("$" diredp-hide-subdir-nomove)
+                 ("A" dired-do-find-regexp)
+                 ("C" dired-do-copy)        ;; Copy all marked files
+                 ("D" dired-do-delete)
+                 ("E" dired-mark-extension)
+                 ("e" dired-ediff-files)
+                 ("F" dired-do-find-marked-files)
+                 ("G" dired-do-chgrp)
+                 ("g" revert-buffer)        ;; read all directories again (refresh)
+                 ("i" dired-maybe-insert-subdir)
+                 ("l" dired-do-redisplay)   ;; relist the marked or singel directory
+                 ("M" dired-do-chmod)
+                 ("m" dired-mark)
+                 ("O" dired-display-file)
+                 ("o" dired-find-file-other-window)
+                 ("Q" dired-do-find-regexp-and-replace)
+                 ("R" dired-do-rename)
+                 ("r" dired-do-rsynch)
+                 ("S" dired-do-symlink)
+                 ("s" dired-sort-toggle-or-edit)
+                 ("t" dired-toggle-marks)
+                 ("U" dired-unmark-all-marks)
+                 ("u" dired-unmark)
+                 ("v" dired-view-file)      ;; q to exit, s to search, = gets line #
+                 ("w" dired-kill-subdir)
+                 ("Y" dired-do-relsymlink)
+                 ("z" diredp-compress-this-file)
+                 ("Z" dired-do-compress)
+                 ("q" nil)
+                 ("." nil :color blue))
     )
-
-  (add-hook 'dired-mode-hook
-	    (lambda ()
-	      (local-set-key (kbd "<f1>") (quote hydra-summary/body))
-	      ;; (local-set-key (kbd "M-b") (quote backward-word))
-	      ))
-
+#+END_SRC
+** dired: dired-filter
+#+BEGIN_SRC emacs-lisp
   (use-package dired-filter
-    ;; TODO replace shortcuts with hydra
     :after hydra
     :bind (:map dired-mode-map ("/" . hydra-dired-filter/body))
     :hydra (hydra-dired-filter
-	    ()
-	    "dired-filter
+            ()
+            "dired-filter
 
   "
-	    ("n" dired-filter-by-name "by name" :column "filter by")
-	    ("r" dired-filter-by-regexp "regexp")
-	    ("e" dired-filter-by-extension "extension")
-	    ("f" dired-filter-by-file "files" :column "filter only")
-	    ("p" dired-filter-pop "pop last filter" :column "others")
-	    ("H" (package-menu-describe-package dired-filter) "Help" :column "manual")
-	    )
+            ("n" dired-filter-by-name "by name" :column "filter by")
+            ("r" dired-filter-by-regexp "regexp")
+            ("e" dired-filter-by-extension "extension")
+            ("f" dired-filter-by-file "files" :column "filter only")
+            ("p" dired-filter-pop "pop last filter" :column "others")
+            ("H" (package-menu-describe-package 'dired-filter) "Help" :column "manual")
+            )
     )
 
   (add-hook 'dired-mode-hook (lambda ()
-			       (when (eq system-type 'windows-nt)
-				 (make-local-variable 'coding-system-for-read)
-				 (setq coding-system-for-read 'utf-8-dos))
-			       ) ;; end lambda
-	    ) ;; add-hook
-
+                               (when (eq system-type 'windows-nt)
+                                 (make-local-variable 'coding-system-for-read)
+                                 (setq coding-system-for-read 'utf-8-dos))
+                               ) ;; end lambda
+            ) ;; add-hook
+#+END_SRC
+** dired: find-dired+ (bugged)
+#+BEGIN_SRC emacs-lisp
   (use-package find-dired+
     ;; https://www.emacswiki.org/emacs/find-dired+.el
-
-    :disabled ;; freeze emacs ???
-
+    :disabled ;; freeze emacs...
     :load-path "local-packages/"
-    :config
-
-    (progn
-      (when ingenico-computer-p
-	(setq find-program "C:/Ingenico/GnuWin32/bin/find.exe")
-	) ;; end when
-      ) ;; end progn
     )
 #+END_SRC
 ** calfw calendar
@@ -1391,6 +1423,11 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
     )
 
   (global-set-key (kbd "<f1>") 'hydra-summary/body)
+
+  (defvar org-dir (concat (file-name-as-directory (getenv "HOME"))
+			  (file-name-as-directory "workspace")
+			  (file-name-as-directory "org")
+			  "bookmarks"))
 
   (defhydra hydra-bookmarks ()
     ("D"  (find-file org-dir)                                      "directory" :column "my bookmarks" :exit t)
@@ -1411,91 +1448,94 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
     ("-" text-scale-decrease "out"))
 #+END_SRC
 
-** latex
+** latex with use-package
+use-package is replaced with leaf since when not installed, byte-compilation raise an
+error.
 #+BEGIN_SRC emacs-lisp
-  (use-package auctex
+  (leaf auctex
     ;; https://www.gnu.org/software/auctex/
+    ;; :disabled
     :when home-computer-p
-    :defer t
     :ensure t
     :custom
     (ConTeXt-Mark-version "IV")
     :config
-    (add-hook 'ConTeXt-mode-hook
-              (lambda()
-                (setq TeX-command-default "ConTeXt Full")))
-    (add-hook 'TeX-mode-hook
-              (lambda()
-                (when (equal major-mode 'context-mode)
-                  (setq TeX-command-default "ConTeXt Full"))))
-    (setq TeX-command-list
-          (quote
-           (("TeX" "%(PDF)%(tex) %(file-line-error) %`%(extraopts) %S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
-             (plain-tex-mode texinfo-mode ams-tex-mode)
-             :help "Run plain TeX")
-            ("LaTeX" "%`%l%(mode)%' %T" TeX-run-TeX nil
-             (latex-mode doctex-mode)
-             :help "Run LaTeX")
-            ("Makeinfo" "makeinfo %(extraopts) %t" TeX-run-compile nil
-             (texinfo-mode)
-             :help "Run Makeinfo with Info output")
-            ("Makeinfo HTML" "makeinfo %(extraopts) --html %t" TeX-run-compile nil
-             (texinfo-mode)
-             :help "Run Makeinfo with HTML output")
-            ("AmSTeX" "amstex %(PDFout) %`%(extraopts) %S%(mode)%' %t" TeX-run-TeX nil
-             (ams-tex-mode)
-             :help "Run AMSTeX")
-            ("ConTeXt" "%(cntxcom) %(extraopts) %(execopts)%t" TeX-run-TeX nil
-             (context-mode)
-             :help "Run ConTeXt (ConTeXt Full alias)")
-            ("ConTeXt Full" "%(cntxcom) %(extraopts) %(execopts)%t" TeX-run-TeX nil
-             (context-mode)
-             :help "Run ConTeXt until completion")
-            ("BibTeX" "bibtex %s" TeX-run-BibTeX nil
-             (plain-tex-mode latex-mode doctex-mode context-mode texinfo-mode ams-tex-mode)
-             :help "Run BibTeX")
-            ("Biber" "biber %s" TeX-run-Biber nil
-             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-             :help "Run Biber")
-            ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
-            ("Print" "%p" TeX-run-command t t :help "Print the file")
-            ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command)
-            ("File" "%(o?)dvips %d -o %f " TeX-run-dvips t
-             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-             :help "Generate PostScript file")
-            ("Dvips" "%(o?)dvips %d -o %f " TeX-run-dvips nil
-             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-             :help "Convert DVI file to PostScript")
-            ("Dvipdfmx" "dvipdfmx %d" TeX-run-dvipdfmx nil
-             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-             :help "Convert DVI file to PDF with dvipdfmx")
-            ("Ps2pdf" "ps2pdf %f" TeX-run-ps2pdf nil
-             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-             :help "Convert PostScript file to PDF")
-            ("Glossaries" "makeglossaries %s" TeX-run-command nil
-             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-             :help "Run makeglossaries to create glossary
+    (with-no-warnings ;; remove free variable warning
+      (add-hook 'ConTeXt-mode-hook
+                (lambda()
+                  (setq TeX-command-default "ConTeXt Full")))
+      (add-hook 'TeX-mode-hook
+                (lambda()
+                  (when (equal major-mode 'context-mode)
+                    (setq TeX-command-default "ConTeXt Full"))))
+      (setq TeX-command-list
+            (quote
+             (("TeX" "%(PDF)%(tex) %(file-line-error) %`%(extraopts) %S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+               (plain-tex-mode texinfo-mode ams-tex-mode)
+               :help "Run plain TeX")
+              ("LaTeX" "%`%l%(mode)%' %T" TeX-run-TeX nil
+               (latex-mode doctex-mode)
+               :help "Run LaTeX")
+              ("Makeinfo" "makeinfo %(extraopts) %t" TeX-run-compile nil
+               (texinfo-mode)
+               :help "Run Makeinfo with Info output")
+              ("Makeinfo HTML" "makeinfo %(extraopts) --html %t" TeX-run-compile nil
+               (texinfo-mode)
+               :help "Run Makeinfo with HTML output")
+              ("AmSTeX" "amstex %(PDFout) %`%(extraopts) %S%(mode)%' %t" TeX-run-TeX nil
+               (ams-tex-mode)
+               :help "Run AMSTeX")
+              ("ConTeXt" "%(cntxcom) %(extraopts) %(execopts)%t" TeX-run-TeX nil
+               (context-mode)
+               :help "Run ConTeXt (ConTeXt Full alias)")
+              ("ConTeXt Full" "%(cntxcom) %(extraopts) %(execopts)%t" TeX-run-TeX nil
+               (context-mode)
+               :help "Run ConTeXt until completion")
+              ("BibTeX" "bibtex %s" TeX-run-BibTeX nil
+               (plain-tex-mode latex-mode doctex-mode context-mode texinfo-mode ams-tex-mode)
+               :help "Run BibTeX")
+              ("Biber" "biber %s" TeX-run-Biber nil
+               (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+               :help "Run Biber")
+              ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
+              ("Print" "%p" TeX-run-command t t :help "Print the file")
+              ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command)
+              ("File" "%(o?)dvips %d -o %f " TeX-run-dvips t
+               (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+               :help "Generate PostScript file")
+              ("Dvips" "%(o?)dvips %d -o %f " TeX-run-dvips nil
+               (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+               :help "Convert DVI file to PostScript")
+              ("Dvipdfmx" "dvipdfmx %d" TeX-run-dvipdfmx nil
+               (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+               :help "Convert DVI file to PDF with dvipdfmx")
+              ("Ps2pdf" "ps2pdf %f" TeX-run-ps2pdf nil
+               (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+               :help "Convert PostScript file to PDF")
+              ("Glossaries" "makeglossaries %s" TeX-run-command nil
+               (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+               :help "Run makeglossaries to create glossary
      file")
-            ("Index" "makeindex %s" TeX-run-index nil
-             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-             :help "Run makeindex to create index file")
-            ("upMendex" "upmendex %s" TeX-run-index t
-             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-             :help "Run upmendex to create index file")
-            ("Xindy" "texindy %s" TeX-run-command nil
-             (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-             :help "Run xindy to create index file")
-            ("Check" "lacheck %s" TeX-run-compile nil
-             (latex-mode)
-             :help "Check LaTeX file for correctness")
-            ("ChkTeX" "chktex -v6 %s" TeX-run-compile nil
-             (latex-mode)
-             :help "Check LaTeX file for common mistakes")
-            ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
-            ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
-            ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
-            ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))))
-    )
+              ("Index" "makeindex %s" TeX-run-index nil
+               (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+               :help "Run makeindex to create index file")
+              ("upMendex" "upmendex %s" TeX-run-index t
+               (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+               :help "Run upmendex to create index file")
+              ("Xindy" "texindy %s" TeX-run-command nil
+               (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
+               :help "Run xindy to create index file")
+              ("Check" "lacheck %s" TeX-run-compile nil
+               (latex-mode)
+               :help "Check LaTeX file for correctness")
+              ("ChkTeX" "chktex -v6 %s" TeX-run-compile nil
+               (latex-mode)
+               :help "Check LaTeX file for common mistakes")
+              ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
+              ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
+              ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
+              ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))))
+      ))
 #+END_SRC
 
 *** links
@@ -2204,11 +2244,6 @@ https://github.com/tkf/emacs-request
   ;; https://github.com/abo-abo/hydra/wiki/Org-agenda
   ;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
 
-  (defvar org-dir (concat (file-name-as-directory (getenv "HOME"))
-			  (file-name-as-directory "workspace")
-			  (file-name-as-directory "org")
-			  "bookmarks"))
-
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;; tests
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2281,120 +2316,6 @@ https://github.com/tkf/emacs-request
 			 "\n#+END_SRC\n"))
     result)
 #+END_SRC
-
-#+RESULTS: insert-custom-file
-:results:
-#+BEGIN_SRC emacs-lisp :tangle no
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(TeX-command-list
-   '(("TeX" "%(PDF)%(tex) %(file-line-error) %`%(extraopts) %S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
-      (plain-tex-mode texinfo-mode ams-tex-mode)
-      :help "Run plain TeX")
-     ("LaTeX" "%`%l%(mode)%' %T" TeX-run-TeX nil
-      (latex-mode doctex-mode)
-      :help "Run LaTeX")
-     ("Makeinfo" "makeinfo %(extraopts) %t" TeX-run-compile nil
-      (texinfo-mode)
-      :help "Run Makeinfo with Info output")
-     ("Makeinfo HTML" "makeinfo %(extraopts) --html %t" TeX-run-compile nil
-      (texinfo-mode)
-      :help "Run Makeinfo with HTML output")
-     ("AmSTeX" "amstex %(PDFout) %`%(extraopts) %S%(mode)%' %t" TeX-run-TeX nil
-      (ams-tex-mode)
-      :help "Run AMSTeX")
-     ("ConTeXt" "%(cntxcom) %(extraopts) %(execopts)%t" TeX-run-TeX nil
-      (context-mode)
-      :help "Run ConTeXt (ConTeXt Full alias)")
-     ("ConTeXt Full" "%(cntxcom) %(extraopts) %(execopts)%t" TeX-run-TeX nil
-      (context-mode)
-      :help "Run ConTeXt until completion")
-     ("BibTeX" "bibtex %s" TeX-run-BibTeX nil
-      (plain-tex-mode latex-mode doctex-mode context-mode texinfo-mode ams-tex-mode)
-      :help "Run BibTeX")
-     ("Biber" "biber %s" TeX-run-Biber nil
-      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-      :help "Run Biber")
-     ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
-     ("Print" "%p" TeX-run-command t t :help "Print the file")
-     ("Queue" "%q" TeX-run-background nil t :help "View the printer queue" :visible TeX-queue-command)
-     ("File" "%(o?)dvips %d -o %f " TeX-run-dvips t
-      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-      :help "Generate PostScript file")
-     ("Dvips" "%(o?)dvips %d -o %f " TeX-run-dvips nil
-      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-      :help "Convert DVI file to PostScript")
-     ("Dvipdfmx" "dvipdfmx %d" TeX-run-dvipdfmx nil
-      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-      :help "Convert DVI file to PDF with dvipdfmx")
-     ("Ps2pdf" "ps2pdf %f" TeX-run-ps2pdf nil
-      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-      :help "Convert PostScript file to PDF")
-     ("Glossaries" "makeglossaries %s" TeX-run-command nil
-      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-      :help "Run makeglossaries to create glossary
-     file")
-     ("Index" "makeindex %s" TeX-run-index nil
-      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-      :help "Run makeindex to create index file")
-     ("upMendex" "upmendex %s" TeX-run-index t
-      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-      :help "Run upmendex to create index file")
-     ("Xindy" "texindy %s" TeX-run-command nil
-      (plain-tex-mode latex-mode doctex-mode texinfo-mode ams-tex-mode)
-      :help "Run xindy to create index file")
-     ("Check" "lacheck %s" TeX-run-compile nil
-      (latex-mode)
-      :help "Check LaTeX file for correctness")
-     ("ChkTeX" "chktex -v6 %s" TeX-run-compile nil
-      (latex-mode)
-      :help "Check LaTeX file for common mistakes")
-     ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
-     ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
-     ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
-     ("Other" "" TeX-run-command t t :help "Run an arbitrary command")))
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(backup-by-copying t)
- '(backup-directory-alist '(("." . "~/.emacs.d/backup")))
- '(before-save-hook '(delete-trailing-whitespace))
- '(bmkp-bmenu-state-file "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
- '(bmkp-last-as-first-bookmark-file
-   "c:/Users/jeremy.piffret.ext/AppData/Roaming/.emacs.d/emacs-bookmarks/bmk.emacs")
- '(bookmark-default-file "~/.emacs.d/emacs-bookmarks/bmk.emacs")
- '(custom-enabled-themes '(tsdh-dark))
- '(indent-tabs-mode nil)
- '(org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
- '(python-fill-docstring-style 'symmetric)
- '(recentf-auto-cleanup 'never)
- '(recentf-mode nil)
- '(safe-local-variable-values
-   '((eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository-test")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service-test")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object-test")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-service-test")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object-test")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run"))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#050000" :foreground "#bbe0f0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "outline" :family "Courier New")))))
-
-#+END_SRC
-:end:
-
 
 * Local Variables                                                  :noexport:
 Local Variables:
