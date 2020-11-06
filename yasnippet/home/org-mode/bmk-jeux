@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: bookmarks - loisirs - jeux
+# key: bmk-jeux
+# --
+
+#+TITLE: bookmarks - loisirs - jeux - ${1:game name}
+#+COLUMNS: %3RMQ %75ITEM %LINK
+
+* $1
+$0
+
+* COMMENT Local Variables
+
+# Local Variables:
+# mode: org
+# coding: utf-8-unix
+# End:

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: id attribute
+# key: id
+# --
+
+#+ID: ${1:`(org-id-new)`}

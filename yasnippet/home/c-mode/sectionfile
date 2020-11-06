@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name: section-file
+# key: secf
+# --
+
+/*******************************************************************************
+ * ${1:$$(yas-choose-value '(
+ "Includes"
+ "Functions"
+ "Public functions declarations"
+ "Public functions definitions"
+ "Local functions declarations"
+ "Local functions definitions"
+ "Macros"
+ "Types"))}
+ */
+
+$0

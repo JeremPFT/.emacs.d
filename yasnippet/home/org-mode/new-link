@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: new link bookmark org
+# key: new_link
+  1. insert copied text
+  2. insert the time stamp
+  3. insert snippet key
+
+  my-url-link-image is defined in
+  ~/.emacs.d/lisp/yasnippet/org-capture-link.el
+# --
+`(progn (load "~/.emacs.d/lisp/yasnippet/org-capture-link.el")
+        (my-url-link-image))` :$1:$0
+:PROPERTIES:
+:CREATED:  `(let ((fmt (cdr org-time-stamp-formats))
+                  (stamp ""))
+              (setq fmt (concat "[" (substring fmt 1 -1) "]")
+                    stamp (format-time-string fmt (current-time)))
+              stamp)`
+:END:
+`(make-string (org-current-level) ?*)` new_link
