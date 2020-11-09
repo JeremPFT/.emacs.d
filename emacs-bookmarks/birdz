@@ -2,18 +2,42 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(#1=(#("birdz_tasks.org.txt" 0 19
+(#1=(#("Help - package-pinned-packages" 0 30
       (bmkp-full-record #1#))
+    (buffer-name . "*Help*")
+    (visits . 0)
+    (time . #2=(24485 24433 714990 0))
+    (created . #2#)
+    (position . 1)
+    (help-fn . describe-variable)
+    (help-args package-pinned-packages "README.org")
+    (position . 1)
+    (handler . help-bookmark-jump))
+#1=(#("bookmarks" 0 9
+      (bmkp-full-record #1#))
+    (filename . "~/workspace/org/birdz/birdz_bookmarks.org")
+    (buffer-name . "birdz_bookmarks.org")
+    (front-context-string . "#+TITLE: Birdz -")
+    (rear-context-string)
+    (front-context-region-string)
+    (rear-context-region-string)
+    (visits . 0)
+    (time . #2=(24483 51864 64570 0))
+    (created . #2#)
+    (position . 1))
+#1=(#("tasks" 0 5
+      (bmkp-full-record #1#))
+    (end-position . 24)
     (filename . "~/workspace/org/birdz/birdz_tasks.org.txt")
     (buffer-name . "birdz_tasks.org.txt")
     (front-context-string . "#+STARTUP: align")
     (rear-context-string)
     (front-context-region-string)
     (rear-context-region-string)
-    (visits . 0)
-    (time . #2=(24476 16923 529020 0))
-    (created . #2#)
-    (position . 1))
+    (visits . 1)
+    (time 24483 52320 993562 0)
+    (created 24476 16923 529020 0)
+    (position . 24))
 #1=(#("birdz-plink-dev-dev" 0 19
       (bmkp-full-record #1#))
     (buffer-name . "plink.dev.dev")
@@ -21,8 +45,8 @@
     (rear-context-string)
     (front-context-region-string)
     (rear-context-region-string)
-    (visits . 1)
-    (time 24473 27184 18183 0)
+    (visits . 2)
+    (time 24483 55883 680887 0)
     (created 24473 27109 850349 0)
     (position . 1)
     (filename . "/plinkx:dev:/home/jeremy.piffret/dev/")
@@ -68,7 +92,7 @@
     (dired-subdirs)
     (dired-hidden-dirs)
     (handler . bmkp-jump-dired))
-#1=(#("birdz_notes.org.txt" 0 19
+#1=(#("notes" 0 5
       (bmkp-full-record #1#))
     (filename . "~/workspace/org/birdz/birdz_notes.org.txt")
     (buffer-name . "birdz_notes.org.txt")
