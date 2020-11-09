@@ -2,7 +2,19 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(#1=(#("c:/Users/jeremy/Dropbox:" 0 24
+(#1=(#("new-link-elisp" 0 14
+      (bmkp-full-record #1#))
+    (filename . "~/.emacs.d/lisp/yasnippet/org-capture-link.el")
+    (buffer-name . "org-capture-link.el")
+    (front-context-string . ";; used by snipp")
+    (rear-context-string)
+    (front-context-region-string)
+    (rear-context-region-string)
+    (visits . 0)
+    (time . #2=(24485 33595 294802 0))
+    (created . #2#)
+    (position . 1))
+#1=(#("c:/Users/jeremy/Dropbox:" 0 24
       (bmkp-full-record #1#))
     (buffer-name . "Dropbox")
     (front-context-string . "  c:/Users/jerem")
@@ -46,8 +58,8 @@
     (rear-context-string . "_SRC emacs-lisp\n")
     (front-context-region-string)
     (rear-context-region-string)
-    (visits . 1)
-    (time 24476 36344 741904 0)
+    (visits . 2)
+    (time 24485 34815 260700 0)
     (created 24476 36272 253696 0)
     (position . 24))
 #1=(#("bookmarks-loisirs-mangas.org.txt" 0 32
@@ -136,18 +148,17 @@
     (time 24428 43193 979751 0)
     (created 24307 5122 42549 0)
     (position . 1))
-#1=(#("agenda" 0 6
-      (bmkp-full-record #1#))
-    (filename . "~/workspace/org/agenda/agenda.org")
-    (buffer-name . "agenda.org")
-    (front-context-string . "* Tcl :transport")
-    (rear-context-string)
-    (front-context-region-string)
-    (rear-context-region-string)
-    (visits . 1)
-    (time 24385 19210 478284 0)
-    (created 24300 49675 376021 0)
-    (position . 1))
+("agenda"
+ (filename . "~/workspace/org/agenda/agenda.org")
+ (buffer-name . "agenda.org")
+ (front-context-string . "* Tcl :transport")
+ (rear-context-string)
+ (front-context-region-string)
+ (rear-context-region-string)
+ (visits . 2)
+ (time 24485 60904 602534 0)
+ (created 24300 49675 376021 0)
+ (position . 1))
 #1=(#("Documents" 0 9
       (bmkp-full-record #1#))
     (buffer-name . "Documents")

@@ -1527,7 +1527,8 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
   (cond
    (linux-p nil)
    (birdz-computer-p (setenv "PATH" (concat "c:/installs/msys64/usr/bin" path-separator (getenv "PATH"))))
-   (t (error "undefined environment for this computer"))
+   (home-computer-p  (setenv "PATH" (concat "E:/programs/msys64" path-separator (getenv "PATH"))))
+   (t (error "ERROR JPI: undefined environment for this computer"))
    )
 
     ;; (setq grep-find-ls-root (cond
