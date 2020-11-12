@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: xml cnd 161
+# key: xml
+# --
+    <field name="$0"
+           signification=""
+           type=""
+           optional="">
+      <signification>
+      </signification>
+      <source_code>
+      </source_code>
+      <getter>
+      </getter>
+    </field>

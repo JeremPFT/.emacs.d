@@ -1,0 +1,25 @@
+# -*- mode: snippet -*-
+# name: xml cnd 161
+# key: xml
+# --
+
+<field>
+  <name>
+  $1
+  </name>
+  <signification>
+  $2
+  </signification>
+  <type>
+  $3
+  </type>
+  <optional>
+  $4
+  </optional>
+  <source_code>
+  $5
+  </source_code>
+  <getter>
+  $6
+  </getter>
+</field>
