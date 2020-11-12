@@ -82,12 +82,13 @@ first thing to ensure we always start in .emacs.d/
   (defconst ingenico-computer-name "FR0WSC3NRYM2")
   (defconst home-computer-name "DESKTOP-5R08DIM")
   (defconst birdz-computer-name "JPIFFRET-PC")
-  (defconst birdz-debian-computer-name "debian-birdz-jpi")
+  (defconst birdz-debian-computer-name "DEBIAN-BIRDZ-JPI")
+  (defconst current-computer-name (upcase (system-name)))
 
-  (defconst ingenico-computer-p (string= (system-name) ingenico-computer-name))
-  (defconst home-computer-p (string= (system-name) home-computer-name))
-  (defconst birdz-computer-p (string= (system-name) birdz-computer-name))
-  (defconst birdz-debian-computer-p (string= (system-name) birdz-computer-name))
+  (defconst ingenico-computer-p (string= current-computer-name ingenico-computer-name))
+  (defconst home-computer-p (string= current-computer-name home-computer-name))
+  (defconst birdz-computer-p (string= current-computer-name birdz-computer-name))
+  (defconst birdz-debian-computer-p (string= current-computer-name birdz-computer-name))
 
   (defconst windows-p (eq system-type 'windows-nt))
   (defconst linux-p (eq system-type 'gnu/linux))
