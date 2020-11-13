@@ -1341,10 +1341,15 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
   (global-set-key (kbd "<f1>") 'hydra-summary/body)
 
+  (defvar org-bmk-dir (concat user-emacs-directory
+                          (file-name-as-directory "workspace")
+                          (file-name-as-directory "org")
+                          "bookmarks"))
+
   (defhydra hydra-bookmarks ()
-    ("D"  (find-file org-dir)                                      "directory" :column "my bookmarks" :exit t)
-    ("bc" (find-file (concat org-dir "bookmarks-current.org.txt")) "current" :exit t)
-    ("bl" (find-file (concat org-dir "bookmarks-loisirs.org.txt")) "loisir" :exit t)
+    ("D"  (find-file org-bmk-dir)                                      "directory" :column "my bookmarks" :exit t)
+    ("bc" (find-file (concat org-bmk-dir "bookmarks-current.org.txt")) "current" :exit t)
+    ("bl" (find-file (concat org-bmk-dir "bookmarks-loisirs.org.txt")) "loisir" :exit t)
 
     ("sv" bookmark-save "save" :column "bookmark-mode")
     ("l" bookmark-load  "load")
@@ -2074,11 +2079,6 @@ https://github.com/tkf/emacs-request
   ;; https://github.com/abo-abo/hydra
   ;; https://github.com/abo-abo/hydra/wiki/Org-agenda
   ;; https://www.reddit.com/r/emacs/comments/8of6tx/tip_how_to_be_a_beast_with_hydra/
-
-  (defvar org-dir (concat (file-name-as-directory (getenv "HOME"))
-			  (file-name-as-directory "workspace")
-			  (file-name-as-directory "org")
-			  "bookmarks"))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;; tests
