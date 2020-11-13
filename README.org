@@ -1012,9 +1012,8 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   (use-package ibuffer
     ;; https://github.com/reinh/dotemacs/blob/master/conf/init.org#ido
     ;; https://www.emacswiki.org/emacs/IbufferMode
-
+    :init (require 'ibuffer nil t) ;; prevent "functions might not be defined at runtime" message when byte-compiling
     :after hydra
-
     :bind
     ("C-x C-b" . ibuffer)
 
@@ -1027,69 +1026,68 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
     :init
     (add-hook 'ibuffer-mode-hook
-	      (lambda ()
-		(ibuffer-auto-mode)
-		(ibuffer-switch-to-saved-filter-groups "default")))
+              (lambda ()
+                (ibuffer-auto-mode)
+                (ibuffer-switch-to-saved-filter-groups "default")))
 
     :config
     (progn
-  ;;;###autoload (autoload 'ibuffer-do-sort-by-filename-or-dired "init")
       (define-ibuffer-sorter filename-or-dired
-	"Sort the buffers by their pathname."
-	(:description "filenames plus dired")
-	(string-lessp
-	 (with-current-buffer (car a)
-	   (or buffer-file-name
-	       (if (eq major-mode 'dired-mode)
-		   (expand-file-name dired-directory))
-	       ;; so that all non pathnames are at the end
-	       "~"))
-	 (with-current-buffer (car b)
-	   (or buffer-file-name
-	       (if (eq major-mode 'dired-mode)
-		   (expand-file-name dired-directory))
-	       ;; so that all non pathnames are at the end
-	       "~"))))
+        "Sort the buffers by their pathname."
+        (:description "filenames plus dired")
+        (string-lessp
+         (with-current-buffer (car a)
+           (or buffer-file-name
+               (if (eq major-mode 'dired-mode)
+                   (expand-file-name dired-directory))
+               ;; so that all non pathnames are at the end
+               "~"))
+         (with-current-buffer (car b)
+           (or buffer-file-name
+               (if (eq major-mode 'dired-mode)
+                   (expand-file-name dired-directory))
+               ;; so that all non pathnames are at the end
+               "~"))))
 
       (define-key ibuffer-mode-map (kbd "s p")
-	'ibuffer-do-sort-by-filename-or-dired)
+        'ibuffer-do-sort-by-filename-or-dired)
 
       (setq ibuffer-show-empty-filter-groups t
 
-	    ibuffer-saved-filter-groups
-	    (quote (("default"
-		     ("bookmarks" (name . "bookmarks"))
-		     )))
+            ibuffer-saved-filter-groups
+            (quote (("default"
+                     ("bookmarks" (name . "bookmarks"))
+                     )))
 
-	    ibuffer-directory-abbrev-alist
-	    (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"
-		     . "SUPTER-7682_mexique")
-		    ("dllsch_t3_bbva_key_injection_pin_block_private"
-		     . "dllsch_t3_..._private")))
+            ibuffer-directory-abbrev-alist
+            (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"
+                     . "SUPTER-7682_mexique")
+                    ("dllsch_t3_bbva_key_injection_pin_block_private"
+                     . "dllsch_t3_..._private")))
 
-	    ibuffer-default-sorting-mode (quote filename-or-dired)
+            ibuffer-default-sorting-mode (quote filename-or-dired)
 
-	    ibuffer-formats
-	    (quote
-	     ((mark modified read-only locked " "
-		    (name 25 25 :left :elide)
-		    " "
-		    (size 7 -1 :right)
-		    " "
-		    (mode 8 8 :left :elide)
-		    " " filename-and-process)
-	      (mark " "
-		    (name 16 -1)
-		    " " filename)))
-	    ) ;; setq
+            ibuffer-formats
+            (quote
+             ((mark modified read-only locked " "
+                    (name 25 25 :left :elide)
+                    " "
+                    (size 7 -1 :right)
+                    " "
+                    (mode 8 8 :left :elide)
+                    " " filename-and-process)
+              (mark " "
+                    (name 16 -1)
+                    " " filename)))
+            ) ;; setq
 
       (define-ibuffer-column size-h
-	(:name "Size" :inline t)
-	(cond
-	 ((> (buffer-size) 1000000) (format "%7.1fM" (/ (buffer-size) 1000000.0)))
-	 ((> (buffer-size) 100000) (format "%7.0fk" (/ (buffer-size) 1000.0)))
-	 ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
-	 (t (format "%8d" (buffer-size)))))
+        (:name "Size" :inline t)
+        (cond
+         ((> (buffer-size) 1000000) (format "%7.1fM" (/ (buffer-size) 1000000.0)))
+         ((> (buffer-size) 100000) (format "%7.0fk" (/ (buffer-size) 1000.0)))
+         ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
+         (t (format "%8d" (buffer-size)))))
       ) ;; progn
 
     :hydra
@@ -1125,8 +1123,8 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
     (hydra-ibuffer-mark
      (:color teal
-	     :columns 5
-	     :after-exit (hydra-ibuffer-main/body))
+             :columns 5
+             :after-exit (hydra-ibuffer-main/body))
      "Mark"
      ("*" ibuffer-unmark-all "unmark all")
      ("M" ibuffer-mark-by-mode "mode")
@@ -1142,9 +1140,9 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
     (hydra-ibuffer-action
      (:color teal :columns 4
-	     :after-exit
-	     (if (eq major-mode 'ibuffer-mode)
-		 (hydra-ibuffer-main/body)))
+             :after-exit
+             (if (eq major-mode 'ibuffer-mode)
+                 (hydra-ibuffer-main/body)))
      "Action"
      ("A" ibuffer-do-view "view")
      ("E" ibuffer-do-eval "eval")
