@@ -10,6 +10,8 @@
  '(column-number-mode t)
  '(desktop-path '("~/.emacs.d/sessions"))
  '(enable-remote-dir-locals t)
+ '(grep-find-command
+   '("find . -type f -exec grep --color=always -nH -e  \"{}\" +" . 49))
  '(indent-tabs-mode nil)
  '(org-agenda-files
    (quote
