@@ -607,6 +607,16 @@ https://www.emacswiki.org/emacs/UndoTree
     ;; to export html file
     )
 
+  (defun org-save-this-readme ()
+    (let ((this-file-name (expand-file-name
+                           "README.org"
+                           user-emacs-directory)))
+      (when (and (not (eq (buffer-file-name) nil))
+                 (string= (buffer-file-name) this-file-name))
+        (org-babel-tangle)
+        (byte-compile-file "init.el" t))))
+  (add-hook 'after-save-hook 'org-save-this-readme)
+#+END_SRC
 *** TODO org-linkz [[https://github.com/p-kolacz/org-linkz][github]]
   ;; (use-package org-linkz
   ;;   :straight
@@ -615,11 +625,6 @@ https://www.emacswiki.org/emacs/UndoTree
   ;;   (setq org-html-validation-link nil)
   ;;   )
 
-  (defun org-save-and-tangle ()
-    (when (eq major-mode 'org-mode)
-      (org-babel-tangle)))
-  (add-hook 'after-save-hook 'org-save-and-tangle)
-#+END_SRC
 *** agenda
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-files
