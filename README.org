@@ -1192,6 +1192,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 ** dired+
 #+BEGIN_SRC emacs-lisp
   (use-package dired+
+    :init (require 'dired+ nil t) ;; prevent "functions might not be defined at runtime" message when byte-compiling
     :after hydra
     :straight
     (:host github :repo "emacsmirror/dired-plus" :branch "master")
@@ -1200,11 +1201,17 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
       ;; I want the same color for file name and extension
       (setq diredp-file-suffix diredp-file-name)
       ) ;; end progn
+
+    ;; following defs prevent byte-compilation warnings
+    (defun dired-do-ispell() (message "JPI: undefined function"))
+    (defun dired-ediff-files() (message "JPI: undefined function"))
+    (defun dired-do-rsynch() (message "JPI: undefined function"))
+
     :bind
     (:map dired-mode-map
-	  ("M-b" . backward-word)
-	  ("<f1>" . hydra-dired/body)
-	  )
+          ("M-b" . backward-word)
+          ("<f1>" . hydra-dired/body)
+          )
 
     ;; :hook (lambda ()
     ;;         (local-set-key (kbd "<f1>") (quote hydra-summary/body))
@@ -1213,7 +1220,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
     :hydra
     (hydra-dired (:hint nil :color pink)
-		 "
+                 "
   _+_ mkdir          _v_iew           _m_ark             _(_ details        _i_nsert-subdir    wdired
   _C_opy             _O_ view other   _U_nmark all       _)_ omit-mode      _$_ hide-subdir    C-x C-q : edit
   _D_elete           _o_pen other     _u_nmark           _l_ redisplay      _w_ kill-subdir    C-c C-c : commit
@@ -1226,75 +1233,83 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
   T - tag prefix
   "
-		 ("\\" dired-do-ispell)
-		 ("(" dired-hide-details-mode)
-		 (")" dired-omit-mode)
-		 ("+" dired-create-directory)
-		 ("=" diredp-ediff)         ;; smart diff
-		 ("?" dired-summary)
-		 ("$" diredp-hide-subdir-nomove)
-		 ("A" dired-do-find-regexp)
-		 ("C" dired-do-copy)        ;; Copy all marked files
-		 ("D" dired-do-delete)
-		 ("E" dired-mark-extension)
-		 ("e" dired-ediff-files)
-		 ("F" dired-do-find-marked-files)
-		 ("G" dired-do-chgrp)
-		 ("g" revert-buffer)        ;; read all directories again (refresh)
-		 ("i" dired-maybe-insert-subdir)
-		 ("l" dired-do-redisplay)   ;; relist the marked or singel directory
-		 ("M" dired-do-chmod)
-		 ("m" dired-mark)
-		 ("O" dired-display-file)
-		 ("o" dired-find-file-other-window)
-		 ("Q" dired-do-find-regexp-and-replace)
-		 ("R" dired-do-rename)
-		 ("r" dired-do-rsynch)
-		 ("S" dired-do-symlink)
-		 ("s" dired-sort-toggle-or-edit)
-		 ("t" dired-toggle-marks)
-		 ("U" dired-unmark-all-marks)
-		 ("u" dired-unmark)
-		 ("v" dired-view-file)      ;; q to exit, s to search, = gets line #
-		 ("w" dired-kill-subdir)
-		 ("Y" dired-do-relsymlink)
-		 ("z" diredp-compress-this-file)
-		 ("Z" dired-do-compress)
-		 ("q" nil)
-		 ("." nil :color blue))
+                 ("\\" dired-do-ispell)
+                 ("(" dired-hide-details-mode)
+                 (")" dired-omit-mode)
+                 ("+" dired-create-directory)
+                 ("=" diredp-ediff)         ;; smart diff
+                 ("?" dired-summary)
+                 ("$" diredp-hide-subdir-nomove)
+                 ("A" dired-do-find-regexp)
+                 ("C" dired-do-copy)        ;; Copy all marked files
+                 ("D" dired-do-delete)
+                 ("E" dired-mark-extension)
+                 ("e" dired-ediff-files)
+                 ("F" dired-do-find-marked-files)
+                 ("G" dired-do-chgrp)
+                 ("g" revert-buffer)        ;; read all directories again (refresh)
+                 ("i" dired-maybe-insert-subdir)
+                 ("l" dired-do-redisplay)   ;; relist the marked or singel directory
+                 ("M" dired-do-chmod)
+                 ("m" dired-mark)
+                 ("O" dired-display-file)
+                 ("o" dired-find-file-other-window)
+                 ("Q" dired-do-find-regexp-and-replace)
+                 ("R" dired-do-rename)
+                 ("r" dired-do-rsynch)
+                 ("S" dired-do-symlink)
+                 ("s" dired-sort-toggle-or-edit)
+                 ("t" dired-toggle-marks)
+                 ("U" dired-unmark-all-marks)
+                 ("u" dired-unmark)
+                 ("v" dired-view-file)      ;; q to exit, s to search, = gets line #
+                 ("w" dired-kill-subdir)
+                 ("Y" dired-do-relsymlink)
+                 ("z" diredp-compress-this-file)
+                 ("Z" dired-do-compress)
+                 ("q" nil)
+                 ("." nil :color blue))
     )
 
   (add-hook 'dired-mode-hook
-	    (lambda ()
-	      (local-set-key (kbd "<f1>") (quote hydra-summary/body))
-	      ;; (local-set-key (kbd "M-b") (quote backward-word))
-	      ))
+            (lambda ()
+              (local-set-key (kbd "<f1>") (quote hydra-summary/body))
+              ;; (local-set-key (kbd "M-b") (quote backward-word))
+              ))
 
+  (add-hook 'dired-mode-hook (lambda ()
+                               (when (eq system-type 'windows-nt)
+                                 (make-local-variable 'coding-system-for-read)
+                                 (setq coding-system-for-read 'utf-8-dos))
+                               ) ;; end lambda
+            ) ;; add-hook
+#+END_SRC
+
+** dired-filter
+#+BEGIN_SRC emacs-lisp
   (use-package dired-filter
     ;; TODO replace shortcuts with hydra
     :after hydra
     :bind (:map dired-mode-map ("/" . hydra-dired-filter/body))
     :hydra (hydra-dired-filter
-	    ()
-	    "dired-filter
+            ()
+            "dired-filter
 
   "
-	    ("n" dired-filter-by-name "by name" :column "filter by")
-	    ("r" dired-filter-by-regexp "regexp")
-	    ("e" dired-filter-by-extension "extension")
-	    ("f" dired-filter-by-file "files" :column "filter only")
-	    ("p" dired-filter-pop "pop last filter" :column "others")
-	    ("H" (package-menu-describe-package dired-filter) "Help" :column "manual")
-	    )
+            ("n" dired-filter-by-name "by name" :column "filter by")
+            ("r" dired-filter-by-regexp "regexp")
+            ("e" dired-filter-by-extension "extension")
+            ("f" dired-filter-by-file "files" :column "filter only")
+            ("p" dired-filter-pop "pop last filter" :column "others")
+            )
     )
+#+END_SRC
 
-  (add-hook 'dired-mode-hook (lambda ()
-			       (when (eq system-type 'windows-nt)
-				 (make-local-variable 'coding-system-for-read)
-				 (setq coding-system-for-read 'utf-8-dos))
-			       ) ;; end lambda
-	    ) ;; add-hook
+*** TODO https://melpa.org/#/dired-filter
 
+*** TODO https://github.com/Fuco1/dired-hacks
+** find-dired+ (disabled)
+#+BEGIN_SRC emacs-lisp
   (use-package find-dired+
     ;; https://www.emacswiki.org/emacs/find-dired+.el
 
