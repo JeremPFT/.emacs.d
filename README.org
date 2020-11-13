@@ -607,6 +607,7 @@ https://www.emacswiki.org/emacs/UndoTree
     ;; to export html file
     )
 
+*** TODO org-linkz [[https://github.com/p-kolacz/org-linkz][github]]
   ;; (use-package org-linkz
   ;;   :straight
   ;;   (:host github :repo "p-kolacz/org-linkz" :branch "master")
