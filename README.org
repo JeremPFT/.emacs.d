@@ -1474,32 +1474,33 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 #+BEGIN_SRC emacs-lisp
   (use-package wgrep
     ;; editable grep results
+    :init (require 'wgrep nil t) ;; prevent "functions might not be defined at runtime" message when byte-compiling
     :after hydra
     :straight
     (:host github :repo "mhayashi1120/Emacs-wgrep" :branch "master")
     :bind (
-	   :map grep-mode-map
-	   ("<f1>" . hydra-enter-wgrep/body)
-	   :map wgrep-mode-map
-	   ("<f1>" . hydra-wgrep/body)
-	   )
+           :map grep-mode-map
+           ("<f1>" . hydra-enter-wgrep/body)
+           :map wgrep-mode-map
+           ("<f1>" . hydra-wgrep/body)
+           )
     :hydra (hydra-enter-wgrep
-	    ()
-	    "wgrep commands
+            ()
+            "wgrep commands
 
   "
-	    ("s" wgrep-change-to-wgrep-mode "start wgrep")
-	    )
+            ("s" wgrep-change-to-wgrep-mode "start wgrep")
+            )
     :hydra (hydra-wgrep
-	    ()
-	    "wgrep commands
+            ()
+            "wgrep commands
 
   "
-	    ("u" wgrep-remove-change "remove region changes")
-	    ("U" wgrep-remove-all-change "remove all changes")
-	    ("a" wgrep-apply-change "apply")
-	    ("s" wgrep-save-all-buffers "save all")
-	    )
+            ("u" wgrep-remove-change "remove region changes")
+            ("U" wgrep-remove-all-change "remove all changes")
+            ("a" wgrep-apply-change "apply")
+            ("s" wgrep-save-all-buffers "save all")
+            )
     )
 #+END_SRC
 ** birdz ssh
