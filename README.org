@@ -688,15 +688,17 @@ Note: use counsel-yank instead
     )
 #+END_SRC
 *** TODO links
-** line numbering. linum
+** line numbering. [[https://www.emacswiki.org/emacs/LineNumbers][linum]]
 #+BEGIN_SRC emacs-lisp
+  (defvar linum-format-fmt)
+  (defvar linum-format)
   (unless window-system
     (add-hook 'linum-before-numbering-hook
-	      (lambda ()
-		(setq-local linum-format-fmt
-			    (let ((w (length (number-to-string
-					      (count-lines (point-min) (point-max))))))
-			      (concat "%" (number-to-string w) "d"))))))
+              (lambda ()
+                (setq-local linum-format-fmt
+                            (let ((w (length (number-to-string
+                                              (count-lines (point-min) (point-max))))))
+                              (concat "%" (number-to-string w) "d"))))))
 
   (defun linum-format-func (line)
     (concat
