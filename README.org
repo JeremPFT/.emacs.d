@@ -174,13 +174,6 @@ It can also be activated only for prog-modes:
 #+END_SRC
 *** see help section
 [[help:gc-cons-threshold][help: gc-cons-threshold]] (default: 800000)
-** load standard configuration
-#+BEGIN_SRC emacs-lisp :tangle no
-  (let ((config-file (concat user-emacs-directory "init-post.el")))
-    (when (file-exists-p config-file)
-      (load config-file)))
-#+END_SRC
-*** TODO see how to use it correctly
 * Standard configuration
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init.el"
