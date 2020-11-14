@@ -1191,6 +1191,11 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
 ** dired+
 #+BEGIN_SRC emacs-lisp
+  ;; following defs prevent byte-compilation warnings
+  (defun dired-do-ispell() (message "JPI: undefined function"))
+  (defun dired-ediff-files() (message "JPI: undefined function"))
+  (defun dired-do-rsynch() (message "JPI: undefined function"))
+
   (use-package dired+
     :init (require 'dired+ nil t) ;; prevent "functions might not be defined at runtime" message when byte-compiling
     :after hydra
@@ -1202,10 +1207,6 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
       (setq diredp-file-suffix diredp-file-name)
       ) ;; end progn
 
-    ;; following defs prevent byte-compilation warnings
-    (defun dired-do-ispell() (message "JPI: undefined function"))
-    (defun dired-ediff-files() (message "JPI: undefined function"))
-    (defun dired-do-rsynch() (message "JPI: undefined function"))
 
     :bind
     (:map dired-mode-map
