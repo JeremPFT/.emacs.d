@@ -1365,9 +1365,9 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
     ("-" text-scale-decrease "out"))
 #+END_SRC
 
-** latex
+** latex * auctex * context
 #+BEGIN_SRC emacs-lisp
-  (let ((extracted-file "lisp/latex-install.el"))
+  (let ((extracted-file (concat lisp-dir "auctex-install.el")))
     (when (and home-computer-p
                (file-exists-p extracted-file))
       (load extracted-file)))
