@@ -1496,9 +1496,8 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
                         :family family))
 #+END_SRC
 
-** custom file
+** load custom file
 #+BEGIN_SRC emacs-lisp
-  ;;;; custom file
   (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
   (when (file-exists-p custom-file) (load custom-file))
 #+END_SRC
