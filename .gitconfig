@@ -1,0 +1,9 @@
+[user]
+	name = Jeremy Piffret
+	email = j.piffret@gmail.com
+	username = jpiffret
+[github]
+	user = JeremPFT
+	token = token
+[core]
+	filemode = false
