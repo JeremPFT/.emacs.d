@@ -824,7 +824,16 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 #+BEGIN_SRC emacs-lisp
     (require 'imenu)
 #+END_SRC
-** TODO COMMENT ggtags                                                           :dev:
+** TODO COMMENT ctags ggtags                                             :dev:
+#+BEGIN_SRC emacs-lisp
+  (setq path-to-ctags "/usr/bin/ctags")
+
+  (defun create-tags (dir-name)
+    "Create tags file."
+    (interactive "DDirectory: ")
+    (shell-command
+     (format "%s -f TAGS -e -R %s" path-to-ctags (directory-file-name dir-name)))
+    )
 #+BEGIN_SRC emacs-lisp
   (use-package ggtags
     ;; https://github.com/leoliu/ggtags
@@ -848,6 +857,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 :PROPERTIES:
 :CREATED:  [2020-10-30 Fri 17:26]
 :END:
+#+END_SRC
 ** C mode (Birdz)                                                        :dev:
 #+BEGIN_SRC emacs-lisp
   (when birdz-computer-p
