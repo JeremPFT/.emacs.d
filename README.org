@@ -822,32 +822,33 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 #+END_SRC
 ** imenu                                                                 :dev:
 #+BEGIN_SRC emacs-lisp
-    (require 'imenu)
+  (require 'imenu)
 #+END_SRC
-** TODO COMMENT ctags ggtags                                             :dev:
+** TODO ctags ggtags                                                     :dev:
 #+BEGIN_SRC emacs-lisp
-  (setq path-to-ctags "/usr/bin/ctags")
+  ;; (defconst path-to-ctags "/usr/bin/ctags")
 
-  (defun create-tags (dir-name)
-    "Create tags file."
-    (interactive "DDirectory: ")
-    (shell-command
-     (format "%s -f TAGS -e -R %s" path-to-ctags (directory-file-name dir-name)))
-    )
-#+BEGIN_SRC emacs-lisp
+  ;; (defun create-tags (dir-name)
+  ;;   "Create tags file."
+  ;;   (interactive "DDirectory: ")
+  ;;   (shell-command
+  ;;    (format "%s -f TAGS -e -R %s" path-to-ctags (directory-file-name dir-name)))
+  ;;   )
+
   (use-package ggtags
     ;; https://github.com/leoliu/ggtags
-      :straight
+    :straight
     (:host github :repo "leoliu/ggtags" :branch "master")
     )
 #+END_SRC
+*** TODO cscope
 *** TODO insert config in use-package
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'c-mode-common-hook
-            (lambda ()
-              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-                (ggtags-mode 1))))
-  (setq  ggtags-executable-directory "/usr/bin/etags")
+  ;; (add-hook 'c-mode-common-hook
+  ;;           (lambda ()
+  ;;             (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+  ;;               (ggtags-mode 1))))
+  ;; (setq  ggtags-executable-directory "/usr/bin/etags")
   ;; (setq  ggtags-executable-directory
   ;;        "C:/Program Files/ctags-2020-10-26_p5.9.20201025.0-2-g5d000b1a-x64")
 #+END_SRC
@@ -1497,7 +1498,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
                       ))
         (height (cond
                  (birdz-debian-computer-p 130)
-                 (t 140)))
+                 (t 160)))
         )
     (set-face-attribute 'default nil
                         :inherit nil
