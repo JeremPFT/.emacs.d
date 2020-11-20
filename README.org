@@ -623,7 +623,8 @@ https://www.emacswiki.org/emacs/UndoTree
   ;;   :config
   ;;   (setq org-html-validation-link nil)
   ;;   )
-
+*** TODO emacs and mail
+**** TODO https://www.reddit.com/r/emacs/comments/jvnzxl/mu4e_dashboard_using_orgmode_with_mu4e_links/
 *** agenda
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-files
