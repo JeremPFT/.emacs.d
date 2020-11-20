@@ -1208,7 +1208,11 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
      ("b" hydra-ibuffer-main/body "back" :color blue))
     ); use-package ibuffer
 #+END_SRC
+** dired
+#+BEGIN_SRC emacs-lisp
+  (setq dired-guess-shell-alist-user (quote (("\\.sh" "bash") ("\\.py" "python"))))
 
+#+END_SRC
 ** dired+
 #+BEGIN_SRC emacs-lisp
   ;; following defs prevent byte-compilation warnings
