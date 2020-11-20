@@ -636,6 +636,16 @@ https://www.emacswiki.org/emacs/UndoTree
         ;; org-agenda-files (quote ("~/workspace/org/agenda"))
         org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
 #+END_SRC
+*** org-sidebar
+**** [[https://github.com/alphapapa/org-sidebar][link github]]
+**** TODO [[https://www.reddit.com/r/emacs/comments/jtydiy/who_needs_github_to_manage_a_project_when_you/][from this reddit post]]
+**** configuration
+#+BEGIN_SRC emacs-lisp
+  (use-package org-sidebar
+    :after org
+    :straight (:host github :repo "alphapapa/org-sidebar"))
+#+END_SRC
+
 *** TODO link: [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]                                 :agenda:github:
 *** TODO link: [[https://github.com/thisirs/org-context][org-context]]                                             :github:
 *** [[https://orgmode.org/manual/Agenda-Views.html][Agenda Views (The Org Manual)]]                                      :agenda:
