@@ -612,7 +612,8 @@ https://www.emacswiki.org/emacs/UndoTree
       (when (and (not (eq (buffer-file-name) nil))
                  (string= (buffer-file-name) this-file-name))
         (org-babel-tangle)
-        (byte-compile-file "init.el" t))))
+        (when (y-or-n-p-with-timeout "Recompile? " 2 nil)
+          (byte-compile-file "init.el" t)))))
   (add-hook 'after-save-hook 'org-save-this-readme)
 #+END_SRC
 *** TODO org-linkz [[https://github.com/p-kolacz/org-linkz][github]]
