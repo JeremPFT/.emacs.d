@@ -12,7 +12,7 @@
 ** personnal functions & shortcuts
 *** COMMENT enter debug mode if necessary
 #+BEGIN_SRC emacs-lisp
-  (setq debug-on-error t)
+  (setq debug-on-error nil)
 #+END_SRC
 *** default directory
 first thing to ensure we always start in .emacs.d/
