@@ -10,7 +10,7 @@
 :header-args+: :tangle "~/.emacs.d/init.el"
 :END:
 ** personnal functions & shortcuts
-*** enter debug mode if necessary
+*** COMMENT enter debug mode if necessary
 #+BEGIN_SRC emacs-lisp
   (setq debug-on-error t)
 #+END_SRC
@@ -1497,8 +1497,9 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
                       (t         "")
                       ))
         (height (cond
-                 (birdz-debian-computer-p 130)
-                 (t 160)))
+                 (home-computer-p 140)
+                 (birdz-debian-computer-p 160)
+                 (t 140)))
         )
     (set-face-attribute 'default nil
                         :inherit nil
