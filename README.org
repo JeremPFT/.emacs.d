@@ -1343,7 +1343,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 *** TODO https://melpa.org/#/dired-filter
 
 *** TODO https://github.com/Fuco1/dired-hacks
-** find-dired+ (disabled)
+** COMMENT find-dired+ (disabled)
 #+BEGIN_SRC emacs-lisp
   (use-package find-dired+
     ;; https://www.emacswiki.org/emacs/find-dired+.el
