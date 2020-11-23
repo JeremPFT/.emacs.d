@@ -61,10 +61,12 @@ first thing to ensure we always start in .emacs.d/
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
+  (defconst lisp-dir (file-name-as-directory (concat user-emacs-directory "lisp")))
+
   ;; lisp perso / downloaded files
-  (add-to-list 'load-path (concat user-emacs-directory "lisp"))
+  (add-to-list 'load-path lisp-dir)
   ;; functions used by my snippets
-  (add-to-list 'load-path (concat user-emacs-directory "lisp/yasnippet"))
+  (add-to-list 'load-path (concat lisp-dir "yasnippet"))
 #+END_SRC
 *** initial-buffer
 #+BEGIN_SRC emacs-lisp
@@ -142,7 +144,6 @@ first thing to ensure we always start in .emacs.d/
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (defconst lisp-dir (file-name-as-directory (concat user-emacs-directory "lisp")))
   (defalias 'yes-or-no-p 'y-or-n-p)
   (global-set-key (kbd "<f5>") 'revert-buffer)
   (global-set-key (kbd "C-x C-g") 'goto-line)
