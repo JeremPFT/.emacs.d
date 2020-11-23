@@ -25,9 +25,10 @@ first thing to ensure we always start in .emacs.d/
         backup-directory-alist '(("." . "~/.emacs.d/backup"))
         recentf-auto-cleanup 'never
         recentf-mode nil
-        desktop-path '("~/.emacs.d/sessions")
         enable-remote-dir-locals t
         )
+
+  (defvar desktop-path '("~/.emacs.d/sessions"))
 #+END_SRC
 *** theme
 #+BEGIN_SRC emacs-lisp
