@@ -1532,12 +1532,28 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 #+BEGIN_SRC emacs-lisp
   (use-package rnc-mode)
 #+END_SRC
-
-**** [[https://relaxng.org/compact-tutorial-20030326.html][RELAX NG Compact Syntax Tutorial]]                        :xml:shema:rng:rnc:
+**** [[https://relaxng.org/compact-tutorial-20030326.html][RELAX NG Compact Syntax Tutorial]]                        :xml:schema:rng:rnc:
 :PROPERTIES:
 :CREATED:  [2020-11-23 Mon 12:17]
 :END:
-*** newlink
+**** [[http://books.xmlschemata.org/relaxng/page2.html][RELAX NG]]                                        :xml:schema:rng:rnc:syntax:
+**** [[https://www.gnu.org/software/emacs/manual/html_node/nxml-mode/Completion.html#Completion][nxml-mode/Completion]]
+:PROPERTIES:
+:CREATED:  [2020-11-23 Mon 18:12]
+:END:
+**** [[http://books.xmlschemata.org/relaxng/ch17-77106.html][grammar]] ::
+:PROPERTIES:
+:CREATED:  [2020-11-23 Mon 18:13]
+:END:
+**** [[https://relaxng.org/compact-tutorial-20030326.html#annotations][RELAX NG Compact Syntax Tutorial]] ::
+:PROPERTIES:
+:CREATED:  [2020-11-23 Mon 18:13]
+:END:
+**** [[https://relaxng.org/compatibility-20011203.html][RELAX NG DTD Compatibility]] ::
+:PROPERTIES:
+:CREATED:  [2020-11-23 Mon 18:13]
+:END:
+**** newlink
 ** custom set faces
 #+BEGIN_SRC emacs-lisp
   (let ((foundry (cond (windows-p "outline")
