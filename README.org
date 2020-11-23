@@ -44,8 +44,8 @@ first thing to ensure we always start in .emacs.d/
   (global-hl-line-mode)
   (electric-pair-mode)
   (show-paren-mode)
-  (setq indent-tabs-mode nil)
-  (show-paren-mode)
+  (setq-default
+   indent-tabs-mode nil)
 #+END_SRC
 *** custom
 #+BEGIN_SRC emacs-lisp
