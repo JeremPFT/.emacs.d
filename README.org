@@ -14,6 +14,12 @@
 #+BEGIN_SRC emacs-lisp
   (setq debug-on-error nil)
 #+END_SRC
+**** TODO debugger emacs: ielm
+[[https://emacs.stackexchange.com/questions/33928/file-error-cannot-open-load-file-no-such-file-or-directory-multi-web-mode][config - File error: Cannot open load file, no such file or directory, multi-web-mode - Emacs Stack Exchange]] ::
+:PROPERTIES:
+:CREATED:  [2020-11-23 Mon 18:23]
+:END:
+**** newlink
 *** default directory
 first thing to ensure we always start in .emacs.d/
 #+BEGIN_SRC emacs-lisp
