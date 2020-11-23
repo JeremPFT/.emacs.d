@@ -1511,6 +1511,19 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 :PROPERTIES:
 :CREATED:  [2020-10-30 Fri 17:25]
 :END:
+
+** nxml
+
+*** relax NG compact
+#+BEGIN_SRC emacs-lisp
+  (use-package rnc-mode)
+#+END_SRC
+
+**** [[https://relaxng.org/compact-tutorial-20030326.html][RELAX NG Compact Syntax Tutorial]]                        :xml:shema:rng:rnc:
+:PROPERTIES:
+:CREATED:  [2020-11-23 Mon 12:17]
+:END:
+*** newlink
 ** custom set faces
 #+BEGIN_SRC emacs-lisp
   (let ((foundry (cond (windows-p "outline")
