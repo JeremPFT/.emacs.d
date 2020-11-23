@@ -36,7 +36,6 @@ first thing to ensure we always start in .emacs.d/
 #+END_SRC
 
 *** TODO personnal functions & shortcuts
-
 *** global modes
 #+BEGIN_SRC emacs-lisp
   (require 'autorevert)
