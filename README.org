@@ -92,19 +92,26 @@ first thing to ensure we always start in .emacs.d/
 #+END_SRC
 *** my functions
 #+BEGIN_SRC emacs-lisp
+  (defconst current-computer-name (upcase (system-name)))
   (defconst ingenico-computer-name "FR0WSC3NRYM2")
   (defconst home-computer-name "DESKTOP-5R08DIM")
   (defconst birdz-computer-name "JPIFFRET-PC")
   (defconst birdz-debian-computer-name "DEBIAN-BIRDZ-JPI")
-  (defconst current-computer-name (upcase (system-name)))
 
   (defconst ingenico-computer-p (string= current-computer-name ingenico-computer-name))
   (defconst home-computer-p (string= current-computer-name home-computer-name))
   (defconst birdz-computer-p (string= current-computer-name birdz-computer-name))
-  (defconst birdz-debian-computer-p (string= current-computer-name birdz-computer-name))
+  (defconst birdz-debian-computer-p (string= current-computer-name birdz-debian-computer-name))
 
   (defconst windows-p (eq system-type 'windows-nt))
   (defconst linux-p (eq system-type 'gnu/linux))
+
+  (unless (or
+           ingenico-computer-p
+           home-computer-p
+           birdz-computer-p
+           birdz-debian-computer-p)
+    (error "current computer unknown"))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
