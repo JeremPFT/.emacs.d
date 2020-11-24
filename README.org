@@ -50,6 +50,8 @@ first thing to ensure we always start in .emacs.d/
   (global-hl-line-mode)
   (electric-pair-mode)
   (show-paren-mode)
+
+  ;; setting indent-tabs-mode using `setq' make the value buffer-local.
   (setq-default
    indent-tabs-mode nil)
 #+END_SRC
