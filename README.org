@@ -1552,6 +1552,10 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 :PROPERTIES:
 :CREATED:  [2020-11-23 Mon 18:13]
 :END:
+**** [[https://martinfowler.com/articles/emacs-nxml-completion.html][Fixing attribute completion in Emacs nxml-mode]]              :xml:emacslisp:
+:PROPERTIES:
+:CREATED:  [2020-11-24 Tue 15:41]
+:END:
 **** newlink
 ** custom set faces
 #+BEGIN_SRC emacs-lisp
