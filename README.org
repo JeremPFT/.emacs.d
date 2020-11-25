@@ -1103,6 +1103,9 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
             ibuffer-saved-filter-groups
             (quote (("default"
                      ("bookmarks" (name . "bookmarks"))
+                     ("git" (name . "magit"))
+                     ("birdz" (filename . "birdz"))
+                     ("ssh:dev" (filename . "ssh:dev"))
                      )))
 
             ibuffer-directory-abbrev-alist
