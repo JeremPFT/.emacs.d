@@ -1059,8 +1059,10 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
       (occur "\\<\\(FIXME\\|TODO\\|BUG\\):?"))
     )
 #+END_SRC
-
 ** ibuffer
+*** links
+**** [[http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html][Tips for using Emacs Ibuffer]]
+*** configuration
 #+BEGIN_SRC emacs-lisp
   (use-package ibuffer
     ;; https://github.com/reinh/dotemacs/blob/master/conf/init.org#ido
@@ -1107,12 +1109,19 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
       (setq ibuffer-show-empty-filter-groups t
 
+            ;; *Help*
+            ;; ibuffer-filtering-alist
+            ;; ibuffer-filtering-qualifiers
             ibuffer-saved-filter-groups
             (quote (("default"
                      ("bookmarks" (name . "bookmarks"))
-                     ("git" (name . "magit"))
-                     ("birdz" (filename . "birdz"))
+                     ("Magit" (name . "^magit"))
+                     ("birdz-dirs" (and (mode . dired-mode)(filename . "birdz")))
+                     ("birdz" (or (filename . "birdz") (name . "cnd-161")))
                      ("ssh:dev" (filename . "ssh:dev"))
+                     ("Help" (or (name . "\*Help\*")
+                                 (name . "\*Apropos\*")
+                                 (name . "\*info\*")))
                      )))
 
             ibuffer-directory-abbrev-alist
