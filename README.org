@@ -494,6 +494,12 @@ https://www.emacswiki.org/emacs/UndoTree
     (org-indent-indentation-per-level 0)
     (org-adapt-indentation nil)
     :config
+    (setq org-file-apps
+          (quote ((auto-mode . emacs)
+                  ("\\.mm\\'" . default)
+                  ("\\.x?html?\\'" . default)
+                  ("\\.pdf\\'" . "evince %s")
+                  (directory . emacs))))
     (setq org-indent-mode 0
           org-adapt-indentation nil
           org-default-notes-file "~/Dropbox/org/notes.org"
