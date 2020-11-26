@@ -569,6 +569,7 @@ https://www.emacswiki.org/emacs/UndoTree
   (org-babel-do-load-languages
    'org-babel-load-languages
    '(
+     (emacs-lisp t)
      (python . t)
      (shell . t)
      (C . t)
