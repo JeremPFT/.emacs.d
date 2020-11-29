@@ -294,6 +294,10 @@ https://jwiegley.github.io/use-package/
 #+END_SRC
 *** TODO integrate git-package [[https://github.com/mnewt/git-package][git-package (installation par un depot git)]]
 *** TODO if I separate each src block in headers, they are not tangled.   :bug:
+** desktop
+#+BEGIN_SRC emacs-lisp
+  (desktop-save-mode)
+#+END_SRC
 ** TODO TOSEE [[https://github.com/quelpa/quelpa][quelpa]] https://framagit.org/steckerhalter/steckemacs.el/-/tree/master [[https://github.com/quelpa/quelpa-use-package][quelpa-use-package]]
 ** Hydra
 #+BEGIN_SRC emacs-lisp
