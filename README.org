@@ -294,6 +294,23 @@ https://jwiegley.github.io/use-package/
 #+END_SRC
 *** TODO integrate git-package [[https://github.com/mnewt/git-package][git-package (installation par un depot git)]]
 *** TODO if I separate each src block in headers, they are not tangled.   :bug:
+** shell
+use ~/bash-aliases
+#+BEGIN_SRC emacs-lisp
+  (defconst home-dir (file-name-as-directory (getenv "HOME")))
+
+  (defconst home-bin-dir (file-name-as-directory (concat home-dir "bin")))
+
+  (unless (file-exists-p home-bin-dir)
+    (error "please create \"~/bin\" directory"))
+
+  (setq shell-file-name (concat home-bin-dir "bash"))
+
+  (unless (file-exists-p shell-file-name)
+    (error "please create \"~/bin/bash\" file, and make it executable"))
+
+  (setq shell-command-switch "-ic")
+#+END_SRC
 ** desktop
 #+BEGIN_SRC emacs-lisp
   (desktop-save-mode)
@@ -1842,7 +1859,7 @@ https://github.com/tkf/emacs-request
     (setq
 
      plantuml-jar-path
-     (concat (getenv "HOME") "workspace/plantuml.jar")
+     (concat home-dir "workspace/plantuml.jar")
 
      plantuml-default-exec-mode
      'jar)
