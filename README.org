@@ -309,7 +309,7 @@ use ~/bash-aliases
   (unless (file-exists-p shell-file-name)
     (error "please create \"~/bin/bash\" file, and make it executable"))
 
-  (setq shell-command-switch "-ic")
+  (setq shell-command-switch "-c")
 #+END_SRC
 ** desktop
 #+BEGIN_SRC emacs-lisp
