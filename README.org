@@ -33,8 +33,6 @@ first thing to ensure we always start in .emacs.d/
         recentf-mode nil
         enable-remote-dir-locals t
         )
-
-  (defvar desktop-path '("~/.emacs.d/sessions"))
 #+END_SRC
 *** theme
 #+BEGIN_SRC emacs-lisp
@@ -316,7 +314,17 @@ use ~/bash-aliases
 #+END_SRC
 ** desktop
 #+BEGIN_SRC emacs-lisp
-  (desktop-save-mode)
+  (use-package desktop
+    :config
+    (desktop-save-mode)
+    :custom
+    (desktop-path (quote ("~/.emacs.d")))
+    (desktop-base-file-name (cond
+                             (home-computer-p ".emacs-home.desktop")
+                             (birdz-computer-p ".emacs-birdz.desktop")
+                             (birdz-debian-computer-p ".emacs-birdz-debian.desktop")
+                             (t (error "current computer unknown"))))
+    (desktop-base-lock-name (concat desktop-base-file-name ".lock")))
 #+END_SRC
 ** TODO TOSEE [[https://github.com/quelpa/quelpa][quelpa]] https://framagit.org/steckerhalter/steckemacs.el/-/tree/master [[https://github.com/quelpa/quelpa-use-package][quelpa-use-package]]
 ** Hydra
