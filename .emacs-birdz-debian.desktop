@@ -2,56 +2,140 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Wed Dec  2 14:19:42 2020
+;; Created Wed Dec  2 17:25:11 2020
 ;; Desktop file format version 208
 ;; Emacs version 26.1
 
 ;; Global section:
-(setq desktop-saved-frameset [frameset 1 (24519 37998 40909 350000) (desktop . "208") "jeremy@debian-birdz-jpi" nil nil ((((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-21-*-*-*-m-0-iso10646-1") (font-parameter . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-21-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (sticky) (environment) (frameset--id . "8442-43DC-F058-1166") (frameset--mini t . t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (height . 29) (width . 120) (left + -1) (top . 27)) ((min-height . 4) (min-width . 10) (min-height-ignore . 2) (min-width-ignore . 5) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 100) (min-pixel-width . 130) (min-pixel-height-ignore . 50) (min-pixel-width-ignore . 65) (min-pixel-height-safe . 25) (min-pixel-width-safe . 26)) leaf (pixel-width . 1600) (pixel-height . 707) (total-width . 123) (total-height . 28) (normal-height . 1.0) (normal-width . 1.0) (buffer "magit: .emacs.d" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 3357) (start . 3357))))])
+(setq desktop-saved-frameset [frameset 1 (24519 49127 912127 185000) (desktop . "208") "jeremy@debian-birdz-jpi" nil nil ((((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (font-parameter . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (sticky) (frameset--id . "663D-374C-FF93-702D") (frameset--mini t) (height . 31) (width . 142) (modeline . t) (unsplittable) (left + -1) (top . 27) (icon-name) (display . ":0") (explicit-name)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 5) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 92) (min-pixel-width . 110) (min-pixel-height-ignore . 69) (min-pixel-width-ignore . 55) (min-pixel-height-safe . 23) (min-pixel-width-safe . 22)) leaf (pixel-width . 1600) (pixel-height . 709) (total-width . 145) (total-height . 30) (normal-height . 1.0) (normal-width . 1.0) (buffer "*Org Src cnd-161.org[ xml ]*" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 42029) (start . 41961))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (font-parameter) (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (sticky) (frameset--id . "BFD0-F45D-1960-3EEB") (frameset--mini t) (height . 31) (width . 142) (modeline . t) (unsplittable) (left + -1) (top . 27) (icon-name) (display . ":0") (explicit-name)) ((min-height . 4) (min-width . 10) (min-height-ignore . 2) (min-width-ignore . 5) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 92) (min-pixel-width . 110) (min-pixel-height-ignore . 46) (min-pixel-width-ignore . 55) (min-pixel-height-safe . 23) (min-pixel-width-safe . 22)) leaf (pixel-width . 1600) (pixel-height . 709) (total-width . 145) (total-height . 31) (normal-height . 1.0) (normal-width . 1.0) (buffer "DS51_spec.cpp" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 35319) (start . 33838))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (font-parameter) (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (environment) (sticky) (frameset--id . "8442-43DC-F058-1166") (frameset--mini t . t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (height . 31) (width . 142) (left + -1) (top . 27)) ((min-height . 4) (min-width . 10) (min-height-ignore . 2) (min-width-ignore . 5) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 92) (min-pixel-width . 110) (min-pixel-height-ignore . 46) (min-pixel-width-ignore . 55) (min-pixel-height-safe . 23) (min-pixel-width-safe . 22)) leaf (pixel-width . 1600) (pixel-height . 709) (total-width . 145) (total-height . 31) (normal-height . 1.0) (normal-width . 1.0) (buffer "*shell*" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 196056) (start . 195574))))])
 (setq desktop-missing-file-warning nil)
-(setq tags-file-name nil)
-(setq tags-table-list nil)
-(setq search-ring '("	" "cons" "readme" "desktop-path" "desktop-" "desktop" "custom" "desktop"))
-(setq regexp-search-ring nil)
+(setq tags-file-name "/home/jeremy/workspace/birdz/src_dev2/TAGS")
+(setq tags-table-list '("/home/jeremy/workspace/birdz/src_dev2/TAGS"))
+(setq search-ring '("days" "daysout" "dayssf" "autocodayssf" "f.get" "todo" "DS51_SF_TX_LR_2" "ds1_" "todo" "//" "autocoLR" "ds51.auto" "ds51_t2v" "todo" "confiu" "CRITI"))
+(setq regexp-search-ring '("getter>." "^lr_" "^delete"))
 (setq register-alist nil)
-(setq file-name-history '("~/.emacs.d/emacs-bookmarks/birdz" "/home/jeremy/.emacs.d/" "~/.emacs.d/" "/home/jeremy/.emacs.d/README.org"))
+(setq file-name-history '("/home/jeremy/workspace/birdz/cnd-161/output/" "/home/jeremy/workspace/birdz/cnd-161/output/ds51_18_v_2.cpp" "/home/jeremy/workspace/birdz/cnd-161/" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/" "/home/jeremy/workspace/birdz/src_dev2/hrlib/warm/include/homerider/warm/" "/home/jeremy/workspace/birdz/" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/" "/home/jeremy/workspace/birdz/cnd-161/output/cnd-161.rnc" "~/workspace/birdz/src_dev2/" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS51_spec.h" "/home/jeremy/workspace/birdz/src_dev2/etags.org" "/home/jeremy/workspace/birdz/src_dev2/" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import" "~/workspace/birdz/src_dev2/" "~/.emacs.d/emacs-bookmarks/birdz" "/home/jeremy/workspace/birdz/.gitignore" "~/workspace/birdz/" "~/workspace/birdz/src_dev2/ExclusionRSync__" "~/.emacs.d/emacs-bookmarks/birdz" "/home/jeremy/.emacs.d/" "~/.emacs.d/" "/home/jeremy/.emacs.d/README.org"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
 (desktop-create-buffer 208
-  "/home/jeremy/.emacs.d/README.org"
-  "README.org"
-  'org-mode
-  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
-  11097
-  '(10585 nil)
+  "/home/jeremy/workspace/birdz/cnd-161/output/ds51_18_v_2.cpp"
+  "ds51_18_v_2.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  14432
+  '(15127 nil)
   nil
   nil
-  '((buffer-display-time 24519 37843 78774 54000) (buffer-file-coding-system . utf-8-unix) (fill-column . 90) (truncate-lines . t))
-  '((mark-ring (10585 1))))
+  '((buffer-display-time 24519 48994 720719 218000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (13761 1 14404 6367 5846 6329 6367 5846 817 6367 6329 1 15127 5240 5236 105))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS51_spec.cpp"
+  "DS51_spec.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  35319
+  '(35827 nil)
+  nil
+  nil
+  '((buffer-display-time 24519 48758 841220 27000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (35352 58878 39224 35595 55398 35936 35221 36447 36457 35221 36447 57983 54747 57983 35317 37646))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS51_handle.cpp"
+  "DS51_handle.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode ggtags-mode fic-mode)
+  67407
+  '(75042 nil)
+  nil
+  nil
+  '((buffer-display-time 24519 48931 38724 385000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (75027 72870 67618 67298 67298 63833 61525 77596 61360 61360 61360 61360 61360 61360 61360 61360))))
 
 (desktop-create-buffer 208
   "/home/jeremy/workspace/birdz/cnd-161/cnd-161.org"
   "cnd-161.org"
   'org-mode
   '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
-  1
+  50003
+  '(2352 nil)
+  nil
+  nil
+  '((buffer-display-time 24519 48863 235463 294000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (2428 3103 2428 2210 1904 62090 1))))
+
+(desktop-create-buffer 208
+  nil
+  "output"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  550
   '(nil nil)
-  nil
-  nil
-  '((buffer-display-time 24519 37838 889863 326000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  t
+  '("/home/jeremy/workspace/birdz/cnd-161/output/")
+  '((buffer-display-time 24519 48814 225851 696000))
   '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/cnd-161/Datamodel SystÅËme pour FUSION-GCP.txt"
+  "Datamodel SystÅËme pour FUSION-GCP.txt"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  46434
+  '(46055 nil)
+  nil
+  nil
+  '((buffer-display-time 24519 47947 419088 342000) (buffer-file-coding-system . utf-8-unix) (truncate-lines))
+  '((mark-ring (44719 46514 38976 45644 24764 1 38976 46514 44852 45384 46366))))
 
 (desktop-create-buffer 208
   nil
   "cnd-161"
   'dired-mode
   '(global-auto-revert-mode override-global-mode yas-minor-mode)
-  245
-  '(nil nil)
+  544
+  '(1 nil)
   t
   '("/home/jeremy/workspace/birdz/cnd-161/")
-  '((buffer-display-time 24519 37826 561651 232000))
+  '((buffer-display-time 24519 47358 422998 901000))
   '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "src"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  3219
+  '(2538 nil)
+  t
+  '("/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/")
+  '((buffer-display-time 24519 47172 639796 739000))
+  '((mark-ring (261))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/hrlib/warm/include/homerider/warm/Device.h"
+  "Device.h"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  430
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24519 47159 957620 341000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/README.org"
+  "README.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  56402
+  '(29330 nil)
+  nil
+  nil
+  '((buffer-display-time 24519 47059 727573 778000) (buffer-file-coding-system . utf-8-unix) (fill-column . 90) (truncate-lines . t))
+  '((mark-ring (29725 29725 16982 16782 11097 10585 10585 1 16982))))
 
 (desktop-create-buffer 208
   nil
@@ -59,22 +143,166 @@
   'dired-mode
   '(global-auto-revert-mode override-global-mode yas-minor-mode)
   229
-  '(nil nil)
+  '(1 nil)
   t
   '("/home/jeremy/workspace/birdz/")
-  '((buffer-display-time 24519 37820 609693 118000))
+  '((buffer-display-time 24519 46974 914238 198000))
+  '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  nil
+  "warm2g_import"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  1072
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/birdz/src_dev2/warm2g_import/")
+  '((buffer-display-time 24519 46898 429147 284000))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
-  "/home/jeremy/.emacs.d/.emacs-birdz-debian.desktop"
-  ".emacs-birdz-debian.desktop"
+  nil
+  "src_dev2"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  410
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/birdz/src_dev2/")
+  '((buffer-display-time 24519 46896 630258 495000))
+  '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/cnd-161/output/cnd-161.py"
+  "cnd-161.py"
+  'python-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode elpy-mode flycheck-mode company-mode highlight-indentation-mode fic-mode)
+  3402
+  '(1154 t)
+  t
+  nil
+  '((tab-width . 8) (indent-tabs-mode) (buffer-display-time 24519 43923 331509 163000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (1154 1154 1154 1154 1 10150 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/cnd-161/output/cnd-161.xml"
+  "cnd-161.xml"
+  'nxml-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  46
+  '(46 nil)
+  t
+  nil
+  '((buffer-display-time 24519 43056 289684 326000) (buffer-file-coding-system . utf-8-unix))
+  '((mark-ring (3983 42686 3983 413 392))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/cnd-161/output/cnd-161.rnc"
+  "cnd-161.rnc"
+  'rnc-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  413
+  '(1 nil)
+  t
+  nil
+  '((buffer-display-time 24519 43020 312767 707000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (413 413 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS51_spec.h"
+  "DS51_spec.h"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  7908
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24519 42516 552490 36000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/etags.org"
+  "etags.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  81
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24519 42439 238215 284000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/rsync_export_to_dev2.sh"
+  "rsync_export_to_dev2.sh"
+  'sh-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  t
+  nil
+  '((buffer-display-time 24519 42089 500910 445000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/rsync_import_from_dev2.sh"
+  "rsync_import_from_dev2.sh"
+  'sh-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  339
+  '(nil nil)
+  t
+  nil
+  '((buffer-display-time 24519 42073 865652 100000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/rsync.org"
+  "rsync.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1152
+  '(1106 nil)
+  nil
+  nil
+  '((buffer-display-time 24519 42050 571575 680000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (1191 1176 1083 1191 1168 663 980 1144 1106 80 38 1287 1193 1083 627 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/emacs-custom.el"
+  "emacs-custom.el"
   'emacs-lisp-mode
   '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
-  3547
+  1877
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24519 41947 893830 245000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (1877))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/.gitignore"
+  ".gitignore"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(84 nil)
+  nil
+  nil
+  '((buffer-display-time 24519 40694 358902 611000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (83 57))))
+
+(desktop-create-buffer 208
+  nil
+  "bookmarks"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  244
   '(nil nil)
-  nil
-  nil
-  '((buffer-display-time 24519 37805 34592 552000) (buffer-file-coding-system . emacs-mule-unix) (truncate-lines . t))
+  t
+  '("/home/jeremy/workspace/org/bookmarks/")
+  '((buffer-display-time 24519 38558 492403 302000))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
@@ -86,18 +314,6 @@
   '(1 nil)
   t
   '("/home/jeremy/.emacs.d/")
-  '((buffer-display-time 24519 37782 806867 510000))
+  '((buffer-display-time 24519 38132 196931 434000))
   '((mark-ring (1 1 1 1 1))))
-
-(desktop-create-buffer 208
-  "/home/jeremy/.emacs.d/emacs-custom.el"
-  "emacs-custom.el"
-  'emacs-lisp-mode
-  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
-  1968
-  '(1 nil)
-  nil
-  nil
-  '((buffer-display-time 24519 37781 89932 513000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
-  '((mark-ring (1968))))
 
