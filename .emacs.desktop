@@ -1,0 +1,43 @@
+;; -*- mode: emacs-lisp; lexical-binding:t; coding: utf-8-emacs; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Mon Nov 30 01:44:24 2020
+;; Desktop file format version 208
+;; Emacs version 27.1
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (24516 16488 816283 0) (desktop . "208") "jeremy@DESKTOP-5R08DIM" nil nil ((((minibuffer . t) (undecorated) (skip-taskbar) (font . "-outline-Consolas-normal-normal-normal-mono-19-*-*-*-c-*-iso8859-1") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-focus-on-map) (no-accept-focus) (no-special-glyphs) (alpha) (menu-bar-lines . 1) (tab-bar-lines . 0) (height . 43) (tool-bar-lines . 3) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 17) (scroll-bar-height . 17) (fullscreen . maximized) (z-group) (visibility . t) (display-type . color) (background-mode . dark) (cursor-color . "white") (environment) (last-focus-update . t) (frameset--id . "50C2-D864-69B3-AB56") (frameset--mini t . t) (width . 188) (modeline . t) (unsplittable) (left + -8) (top + -8) (icon-name) (display . "w32") (explicit-name) (tool-bar-position . top)) ((min-height . 4) (min-width . 20) (min-height-ignore . 2) (min-width-ignore . 12) (min-height-safe . 1) (min-width-safe . 4) (min-pixel-height . 88) (min-pixel-width . 200) (min-pixel-height-ignore . 44) (min-pixel-width-ignore . 120) (min-pixel-height-safe . 22) (min-pixel-width-safe . 40)) hc (pixel-width . 1920) (pixel-height . 939) (total-width . 192) (total-height . 43) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 960) (pixel-height . 939) (total-width . 96) (total-height . 43) (normal-height . 1.0) (normal-width . 0.5) (buffer "magit: org" (selected . t) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 2 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 139) (start . 1)) (prev-buffers ("*Ibuffer*" 1 1) ("magit: .emacs.d" 1 253) ("bookmarks-loisirs-mangas.org.txt" 2032 7903) ("magit-diff: org" 1 1) ("README.org" 234 9884) ("*scratch*" 1 145))) (leaf (last . t) (pixel-width . 960) (pixel-height . 939) (total-width . 96) (total-height . 43) (normal-height . 1.0) (normal-width . 0.5) (buffer "magit-process: .emacs.d" (selected) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 2 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 152) (start . 1)) (prev-buffers ("magit-process: .emacs.d" 1 152) ("README.org" 234 9884) ("magit: org" 1 139)))))])
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '(#("douluo" 0 6 (isearch-regexp-function nil isearch-case-fold-search t)) #("versa" 0 5 (isearch-regexp-function nil isearch-case-fold-search t)) #("manga" 0 5 (isearch-regexp-function nil isearch-case-fold-search t)) #("z " 0 2 (isearch-regexp-function nil isearch-case-fold-search t)) #("rebirth" 0 7 (isearch-regexp-function nil isearch-case-fold-search t)) #("apot" 0 4 (isearch-regexp-function nil isearch-case-fold-search t)) #("l pe" 0 4 (isearch-regexp-function nil isearch-case-fold-search t)) #("god of " 0 7 (isearch-regexp-function nil isearch-case-fold-search t)) #("moshi" 0 5 (isearch-regexp-function nil isearch-case-fold-search t))))
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq file-name-history '("~/.emacs.d/" "~/workspace/org/bookmarks/bookmarks-loisirs-mangas.org.txt" "~/.emacs.d/emacs-bookmarks/emacs" "~/workspace/org/bookmarks/z/bookmarks-z-session.org.txt" "~/.emacs.d/url/cookies" "~/workspace/org/bookmarks/bookmarks-loisirs.org.txt" "~/workspace/org/startup.org" "~/workspace/org/bookmarks/z/bookmarks-z.org.txt" "~/workspace/org/bookmarks/bookmarks-loisirs-jeux/overcrowd.org.txt" "~/workspace/org/bookmarks/bookmarks-software.org.txt" "~/workspace/org/bookmarks/bookmarks-loisirs-jeux/total-war.org.txt" "~/workspace/org/bookmarks/bookmarks-loisirs-jeux/the-sims-4.org.txt" "~/.emacs.d/.emacs.desktop" "e:/Dropbox/orgzly/bookmarks.org" "~/workspace/org/reference-cards/org-reference-card.org" "~/workspace/org/bookmarks/bookmarks-session.org.txt" "~/workspace/org/bookmarks/bookmarks-dev.org.txt" "e:/download/z/__full/00_cleaning.org" "e:/download/z/__full/__.org" "~/.emacs.d/straight/repos/swiper/counsel.el" "~/.emacs.d/straight/build/counsel/counsel.el"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 208
+  "c:/Users/jeremy/AppData/Roaming/.emacs.d/README.org"
+  "README.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  9884
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24516 16401 372643 0) (buffer-file-coding-system . utf-8-unix) (fill-column . 90) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "c:/Users/jeremy/AppData/Roaming/workspace/org/bookmarks/bookmarks-loisirs-mangas.org.txt"
+  "bookmarks-loisirs-mangas.org.txt"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  7903
+  '(33452 nil)
+  nil
+  nil
+  '((buffer-display-time 24516 16396 854902 0) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (22071 4040 16313 9904 4040 17373 1))))
+
