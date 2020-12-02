@@ -302,6 +302,8 @@ use ~/bash-aliases
 
   (defconst home-bin-dir (file-name-as-directory (concat home-dir "bin")))
 
+  (defconst workspace-dir (file-name-as-directory (concat home-dir "workspace")))
+
   (unless (file-exists-p home-bin-dir)
     (error "please create \"~/bin\" directory"))
 
