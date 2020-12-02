@@ -1617,7 +1617,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
                       ))
         (height (cond
                  (home-computer-p 140)
-                 (birdz-debian-computer-p 160)
+                 (birdz-debian-computer-p 140)
                  (t 140)))
         )
     (set-face-attribute 'default nil
