@@ -174,6 +174,9 @@ first thing to ensure we always start in .emacs.d/
 #+END_SRC
 *** emacs hooks
 #+BEGIN_SRC emacs-lisp
+  (defun untabify-whole-buffer()
+    (untabify (point-min) (point-max)))
+  (add-hook 'before-save-hook 'untabify-whole-buffer)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 **** note about before-save-hook
@@ -215,15 +218,15 @@ It can also be activated only for prog-modes:
 #+BEGIN_SRC emacs-lisp
   (defvar bootstrap-version)
   (let ((bootstrap-file
-	 (concat user-emacs-directory "straight/repos/straight.el/bootstrap.el"))
-	(bootstrap-version 5))
+         (concat user-emacs-directory "straight/repos/straight.el/bootstrap.el"))
+        (bootstrap-version 5))
     (unless (file-exists-p bootstrap-file)
       (with-current-buffer
-	  (url-retrieve-synchronously
-	   "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-	   'silent 'inhibit-cookies)
-	(goto-char (point-max))
-	(eval-print-last-sexp)))
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage))
 
   (require 'straight-x)
@@ -550,23 +553,23 @@ https://www.emacswiki.org/emacs/UndoTree
            (("l" "Link" entry
              (file+headline "~/Dropbox/org/new_links.org" "links")
              "** link
-      :PROPERTIES:
-      :TITLE: %?
-      :LINK:
-      :END:
-      ")
+          :PROPERTIES:
+          :TITLE: %?
+          :LINK:
+          :END:
+          ")
             ("t" "Task" entry
              (file+headline "" "Tasks")
              "* TODO %?
-      %u
-      %a")
+          %u
+          %a")
             ("c" "Clope" entry
              (file+headline "~/Dropbox/org/pauses.org" "pauses")
              "** clope
-      :PROPERTIES:
-      :TIMES: %U%?
-      :END:
-      ")))
+          :PROPERTIES:
+          :TIMES: %U%?
+          :END:
+          ")))
           )
     )
 
@@ -788,14 +791,14 @@ source: https://www.emacswiki.org/emacs/LineNumbers#toc8
     ;; https://www.youtube.com/user/abo5abo
     ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
     :bind (:map ivy-minibuffer-map
-		("<RET>" . ivy-alt-done)
-		("C-j" . ivy-immediate-done)
-		)
+                ("<RET>" . ivy-alt-done)
+                ("C-j" . ivy-immediate-done)
+                )
     :config
     (setq ivy-re-builders-alist
-	  '((counsel-ag . ivy--regex-plus)
-	    (swiper-isearch . ivy--regex-ignore-order)
-	    (t      . ivy--regex-fuzzy)))
+          '((counsel-ag . ivy--regex-plus)
+            (swiper-isearch . ivy--regex-ignore-order)
+            (t      . ivy--regex-fuzzy)))
     (setq ivy-use-virtual-buffers 'bookmarks)
     (setq ivy-height 15)
     )
@@ -809,7 +812,7 @@ source: https://www.emacswiki.org/emacs/LineNumbers#toc8
     (("M-y" . counsel-yank-pop)
      ("C-x r b" . counsel-bookmark)
      ("C-x b" . ivy-switch-buffer) ;; counsel-switch-buffer show a
-				   ;; preview of buffer, it's too long
+                                   ;; preview of buffer, it's too long
      ("M-x" . counsel-M-x)
      ("C-h f" . counsel-describe-function)
      ("C-h v" . counsel-describe-variable)
@@ -1413,8 +1416,8 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
     (progn
       (when ingenico-computer-p
-	(setq find-program "C:/Ingenico/GnuWin32/bin/find.exe")
-	) ;; end when
+        (setq find-program "C:/Ingenico/GnuWin32/bin/find.exe")
+        ) ;; end when
       ) ;; end progn
     )
 #+END_SRC
@@ -1655,9 +1658,9 @@ https://github.com/tkf/emacs-request
 
   (let ((straight-current-profile 'pinned))
     (add-to-list 'straight-x-pinned-packages
-		 '("ada-mode" . "c56045a140816f76abfd43aa8351a18fe56a8d15"))
+                 '("ada-mode" . "c56045a140816f76abfd43aa8351a18fe56a8d15"))
     (add-to-list 'straight-x-pinned-packages
-		 '("wisi" . "83ca0c16350ff4e79ff5172abcc5a2a78c755530")))
+                 '("wisi" . "83ca0c16350ff4e79ff5172abcc5a2a78c755530")))
 
   ;; TODO Enable Flycheck. Integrate in use-package
 
@@ -1686,7 +1689,7 @@ https://github.com/tkf/emacs-request
 
   (require 'ls-lisp)
   (setq  ls-lisp-use-insert-directory-program nil
-	 ls-lisp-verbosity nil)
+         ls-lisp-verbosity nil)
 
   (load-file (concat local-packages-dir "dired-config.el"))
 
@@ -1762,9 +1765,9 @@ https://github.com/tkf/emacs-request
     ;;
     ;; directory as a tree
     :bind (:map ztree-mode-map
-		("p" . ztree-previous-line)
-		("n" . ztree-next-line)
-		)
+                ("p" . ztree-previous-line)
+                ("n" . ztree-next-line)
+                )
     )
 
   (use-package elpa-mirror
@@ -1798,17 +1801,17 @@ https://github.com/tkf/emacs-request
     ;; we mainly want projects defined by a few markers and we always want to take
     ;; the top-most marker. Reorder so other cases are secondary.
     (setq  projectile-project-root-files #'( ".projectile" )
-	   projectile-project-root-files-functions #'(projectile-root-top-down
-						      projectile-root-top-down-recurring
-						      projectile-root-bottom-up
-						      projectile-root-local))
+           projectile-project-root-files-functions #'(projectile-root-top-down
+                                                      projectile-root-top-down-recurring
+                                                      projectile-root-bottom-up
+                                                      projectile-root-local))
     :config
     (projectile-mode t)
     (setq projectile-enable-caching t)
 
     :delight '(:eval (concat " " (projectile-project-namea)))
     :bind (:map projectile-mode-map
-		("C-c p" . projectile-command-map))
+                ("C-c p" . projectile-command-map))
     )
 
   ;; (projectile-register-project-type 'ada '(".gpr" "src")
@@ -1892,8 +1895,8 @@ https://github.com/tkf/emacs-request
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   (setenv "PATH"
-	  (concat "C:\\Program Files (x86)\\GnuWin32\\bin;"
-		  (getenv "PATH")))
+          (concat "C:\\Program Files (x86)\\GnuWin32\\bin;"
+                  (getenv "PATH")))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;; development
@@ -1910,21 +1913,21 @@ https://github.com/tkf/emacs-request
       (setq tag (read-from-minibuffer "tag? "))
       (setq in-region (region-active-p))
       (when in-region
-	(setq region-start (region-beginning)
-	      region-stop (region-end))
-	)
+        (setq region-start (region-beginning)
+              region-stop (region-end))
+        )
 
       (when in-region
-	(goto-char region-start))
+        (goto-char region-start))
       (insert ?< tag ?>)
       (when in-region
-	(goto-char (+ region-stop (string-width tag) 2)))
+        (goto-char (+ region-stop (string-width tag) 2)))
       (insert ?< ?/ tag ?>)
       ))
 
   (add-hook 'c-mode-hook
-	    (lambda ()
-	      (local-set-key (kbd "C-c C-t") (quote insert-html-tag))))
+            (lambda ()
+              (local-set-key (kbd "C-c C-t") (quote insert-html-tag))))
 
   ;; pretty print
   ;;
@@ -1950,68 +1953,68 @@ https://github.com/tkf/emacs-request
 
     (while group-operators
       (let (operator regexp)
-	(setq operator (car group-operators)
-	      group-operators (cdr group-operators)
-	      regexp "[]A-Za-z_0-9*&<>[()+/*,\"]")
+        (setq operator (car group-operators)
+              group-operators (cdr group-operators)
+              regexp "[]A-Za-z_0-9*&<>[()+/*,\"]")
 
-	(goto-char start-pos)
+        (goto-char start-pos)
 
-	(while (search-forward operator nil t nil)
+        (while (search-forward operator nil t nil)
 
-	  ;; not inside string or comment
-	  (unless (or (nth 3 (syntax-ppss))
-		      (nth 4 (syntax-ppss)))
+          ;; not inside string or comment
+          (unless (or (nth 3 (syntax-ppss))
+                      (nth 4 (syntax-ppss)))
 
-	    (unless (= (point) (line-beginning-position))
-	      (forward-char -1)
-	      (when (looking-back regexp)
-		(insert " ")))
+            (unless (= (point) (line-beginning-position))
+              (forward-char -1)
+              (when (looking-back regexp)
+                (insert " ")))
 
-	    (forward-char 1)
-	    (when (looking-at regexp)
-	      (unless (looking-at ",")
-		(insert " ")))
-	    ) ;; unless inside
-	  ) ;; while search
-	) ;; let
+            (forward-char 1)
+            (when (looking-at regexp)
+              (unless (looking-at ",")
+                (insert " ")))
+            ) ;; unless inside
+          ) ;; while search
+        ) ;; let
       ) ;; while group-operators
 
     (while operators
       (let (operator)
-	(setq operator (car operators)
-	      operators (cdr operators)
-	      regexp "[A-Za-z_0-9]")
+        (setq operator (car operators)
+              operators (cdr operators)
+              regexp "[A-Za-z_0-9]")
 
-	(goto-char start-pos)
+        (goto-char start-pos)
 
-	(while (search-forward operator nil t nil)
+        (while (search-forward operator nil t nil)
 
-	  (unless (or (nth 3 (syntax-ppss))
-		      (nth 4 (syntax-ppss)))
+          (unless (or (nth 3 (syntax-ppss))
+                      (nth 4 (syntax-ppss)))
 
-	    ;; insert space before operator
-	    (unless (string= operator ",")
-	      (unless (= (point) (line-beginning-position))
-		(forward-char -1)
-		(when (looking-back regexp)
-		  (unless (or (string= (buffer-substring-no-properties
-					(point) (+ 2 (point))) "->")
-			      (string= (buffer-substring-no-properties
-					(point) (+ 2 (point))) "*/")
-			      (string= (buffer-substring-no-properties
-					(point) (+ 2 (point))) "++")
-			      (string= (buffer-substring-no-properties
-					(point) (+ 2 (point))) "--"))
-		    (insert " ")))
-		(forward-char)))
+            ;; insert space before operator
+            (unless (string= operator ",")
+              (unless (= (point) (line-beginning-position))
+                (forward-char -1)
+                (when (looking-back regexp)
+                  (unless (or (string= (buffer-substring-no-properties
+                                        (point) (+ 2 (point))) "->")
+                              (string= (buffer-substring-no-properties
+                                        (point) (+ 2 (point))) "*/")
+                              (string= (buffer-substring-no-properties
+                                        (point) (+ 2 (point))) "++")
+                              (string= (buffer-substring-no-properties
+                                        (point) (+ 2 (point))) "--"))
+                    (insert " ")))
+                (forward-char)))
 
-	    ;; insert space after operator
-	    (when (looking-at regexp)
-	      (unless (string= (buffer-substring-no-properties
-				(- (point) 2) (point)) "->")
-		(insert " "))))
-	  ) ;; while search
-	) ;; let
+            ;; insert space after operator
+            (when (looking-at regexp)
+              (unless (string= (buffer-substring-no-properties
+                                (- (point) 2) (point)) "->")
+                (insert " "))))
+          ) ;; while search
+        ) ;; let
       ) ;; while operators
     )
 
@@ -2060,7 +2063,7 @@ https://github.com/tkf/emacs-request
   ;; warning: The old asn1-mode works. The new one doesn't.
 
   (setq auto-mode-alist
-	(cons '("\\.[Aa][Ss][Nn][1]?$" . asn1-mode) auto-mode-alist))
+        (cons '("\\.[Aa][Ss][Nn][1]?$" . asn1-mode) auto-mode-alist))
   (autoload 'asn1-mode "asn1-mode.el"
     "Major mode for editing ASN.1 specifications." t)
 
@@ -2081,23 +2084,23 @@ https://github.com/tkf/emacs-request
   ;; add week number
   (copy-face font-lock-constant-face 'calendar-iso-week-face)
   (set-face-attribute 'calendar-iso-week-face nil
-		      :height 1.0 :foreground "salmon")
+                      :height 1.0 :foreground "salmon")
   ;; (set-face-attribute 'calendar-iso-week-face nil
   ;;                     :height 0.7)
   (setq calendar-intermonth-text
-	'(propertize
-	  (format "%2d"
-		  (car
-		   (calendar-iso-from-absolute
-		    (calendar-absolute-from-gregorian (list month day year)))))
-	  'font-lock-face 'calendar-iso-week-face))
+        '(propertize
+          (format "%2d"
+                  (car
+                   (calendar-iso-from-absolute
+                    (calendar-absolute-from-gregorian (list month day year)))))
+          'font-lock-face 'calendar-iso-week-face))
 
   (copy-face 'default 'calendar-iso-week-header-face)
   (set-face-attribute 'calendar-iso-week-header-face nil
-		      :height 1.0 :foreground "salmon")
+                      :height 1.0 :foreground "salmon")
   (setq calendar-intermonth-header
-	(propertize "Wk"                  ; or e.g. "KW" in Germany
-		    'font-lock-face 'calendar-iso-week-header-face))
+        (propertize "Wk"                  ; or e.g. "KW" in Germany
+                    'font-lock-face 'calendar-iso-week-header-face))
 
   (require 'french-holidays)
   (setq calendar-holidays holiday-french-holidays)
@@ -2113,8 +2116,8 @@ https://github.com/tkf/emacs-request
     :straight (:host github :repo "purcell/page-break-lines")
     :config
     (set-fontset-font "fontset-default"
-		      (cons page-break-lines-char page-break-lines-char)
-		      (face-attribute 'default :family))
+                      (cons page-break-lines-char page-break-lines-char)
+                      (face-attribute 'default :family))
     )
 
   (use-package dashboard
@@ -2160,9 +2163,9 @@ https://github.com/tkf/emacs-request
 
   (defun unkillable-scratch-buffer ()
     (if (equal (buffer-name (current-buffer)) "*scratch*")
-	(progn
-	  (delete-region (point-min) (point-max))
-	  nil)
+        (progn
+          (delete-region (point-min) (point-max))
+          nil)
       t))
 
   (add-hook 'kill-buffer-query-functions 'unkillable-scratch-buffer)
@@ -2198,7 +2201,7 @@ https://github.com/tkf/emacs-request
   (defadvice occur-next-error (before my-occur-next-error activate)
     (let ((win (get-buffer-window (current-buffer))))
       (if win
-	  (select-window win))))
+          (select-window win))))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;; hydra
@@ -2215,7 +2218,7 @@ https://github.com/tkf/emacs-request
 
   ;; from https://github.com/abo-abo/hydra/wiki/Projectile
   (defhydra hydra-projectile (:color teal
-				     :hint nil)
+                                     :hint nil)
     "
 
        Find File            Search/Tags          Buffers                Cache
@@ -2277,8 +2280,8 @@ https://github.com/tkf/emacs-request
 #+BEGIN_SRC emacs-lisp :tangle no :results value drawer :exports
   (let ((result ""))
     (setq result (concat "#+BEGIN_SRC emacs-lisp :tangle no\n"
-			 (with-temp-buffer (insert-file-contents (concat user-emacs-directory "emacs-custom.el")) (buffer-string))
-			 "\n#+END_SRC\n"))
+                         (with-temp-buffer (insert-file-contents (concat user-emacs-directory "emacs-custom.el")) (buffer-string))
+                         "\n#+END_SRC\n"))
     result)
 #+END_SRC
 
