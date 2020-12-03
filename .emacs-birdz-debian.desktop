@@ -2,152 +2,296 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Wed Dec  2 17:25:11 2020
+;; Created Thu Dec  3 17:49:06 2020
 ;; Desktop file format version 208
 ;; Emacs version 26.1
 
 ;; Global section:
-(setq desktop-saved-frameset [frameset 1 (24519 49127 912127 185000) (desktop . "208") "jeremy@debian-birdz-jpi" nil nil ((((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (font-parameter . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (sticky) (frameset--id . "663D-374C-FF93-702D") (frameset--mini t) (height . 31) (width . 142) (modeline . t) (unsplittable) (left + -1) (top . 27) (icon-name) (display . ":0") (explicit-name)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 5) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 92) (min-pixel-width . 110) (min-pixel-height-ignore . 69) (min-pixel-width-ignore . 55) (min-pixel-height-safe . 23) (min-pixel-width-safe . 22)) leaf (pixel-width . 1600) (pixel-height . 709) (total-width . 145) (total-height . 30) (normal-height . 1.0) (normal-width . 1.0) (buffer "*Org Src cnd-161.org[ xml ]*" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 42029) (start . 41961))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (font-parameter) (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (sticky) (frameset--id . "BFD0-F45D-1960-3EEB") (frameset--mini t) (height . 31) (width . 142) (modeline . t) (unsplittable) (left + -1) (top . 27) (icon-name) (display . ":0") (explicit-name)) ((min-height . 4) (min-width . 10) (min-height-ignore . 2) (min-width-ignore . 5) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 92) (min-pixel-width . 110) (min-pixel-height-ignore . 46) (min-pixel-width-ignore . 55) (min-pixel-height-safe . 23) (min-pixel-width-safe . 22)) leaf (pixel-width . 1600) (pixel-height . 709) (total-width . 145) (total-height . 31) (normal-height . 1.0) (normal-width . 1.0) (buffer "DS51_spec.cpp" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 35319) (start . 33838))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (font-parameter) (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (environment) (sticky) (frameset--id . "8442-43DC-F058-1166") (frameset--mini t . t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (height . 31) (width . 142) (left + -1) (top . 27)) ((min-height . 4) (min-width . 10) (min-height-ignore . 2) (min-width-ignore . 5) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 92) (min-pixel-width . 110) (min-pixel-height-ignore . 46) (min-pixel-width-ignore . 55) (min-pixel-height-safe . 23) (min-pixel-width-safe . 22)) leaf (pixel-width . 1600) (pixel-height . 709) (total-width . 145) (total-height . 31) (normal-height . 1.0) (normal-width . 1.0) (buffer "*shell*" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 196056) (start . 195574))))])
+(setq desktop-saved-frameset [frameset 1 (24521 5890 61599 742000) (desktop . "208") "jeremy@debian-birdz-jpi" nil nil ((((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (font-parameter . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (sticky) (frameset--id . "D3AF-A437-0D5C-C401") (frameset--mini t) (height . 39) (width . 171) (modeline . t) (unsplittable) (left + -1) (top . 27) (icon-name) (display . ":0") (explicit-name)) ((min-height . 4) (min-width . 20) (min-height-ignore . 2) (min-width-ignore . 10) (min-height-safe . 1) (min-width-safe . 4) (min-pixel-height . 92) (min-pixel-width . 220) (min-pixel-height-ignore . 46) (min-pixel-width-ignore . 110) (min-pixel-height-safe . 23) (min-pixel-width-safe . 44)) hc (pixel-width . 1920) (pixel-height . 889) (total-width . 175) (total-height . 39) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 963) (pixel-height . 889) (total-width . 88) (total-height . 39) (normal-height . 1.0) (normal-width . 0.5) (buffer "bufferFromHexa.h" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 785) (start . 1))) (leaf (last . t) (pixel-width . 957) (pixel-height . 889) (total-width . 87) (total-height . 39) (normal-height . 1.0) (normal-width . 0.5) (buffer "*grep*" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 3457) (start . 2906)))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (font-parameter) (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (sticky) (frameset--id . "BFD0-F45D-1960-3EEB") (frameset--mini t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (height . 39) (width . 171) (left + -1) (top . 27)) ((min-height . 4) (min-width . 20) (min-height-ignore . 3) (min-width-ignore . 10) (min-height-safe . 1) (min-width-safe . 4) (min-pixel-height . 92) (min-pixel-width . 220) (min-pixel-height-ignore . 69) (min-pixel-width-ignore . 110) (min-pixel-height-safe . 23) (min-pixel-width-safe . 44)) hc (pixel-width . 1920) (pixel-height . 889) (total-width . 175) (total-height . 39) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 963) (pixel-height . 889) (total-width . 88) (total-height . 39) (normal-height . 1.0) (normal-width . 0.5) (buffer "*shell*" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 2075795) (start . 2073650))) (leaf (last . t) (pixel-width . 957) (pixel-height . 889) (total-width . 87) (total-height . 39) (normal-height . 1.0) (normal-width . 0.5) (buffer "*Org Src cnd-161.org[ python ]*" (selected) (hscroll . 26) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 6641) (start . 6105)))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (font-parameter . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (environment) (sticky) (frameset--id . "8442-43DC-F058-1166") (frameset--mini t . t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (height . 39) (width . 171) (left + -1) (top . 27)) ((min-height . 8) (min-width . 20) (min-height-ignore . 5) (min-width-ignore . 10) (min-height-safe . 2) (min-width-safe . 4) (min-pixel-height . 184) (min-pixel-width . 220) (min-pixel-height-ignore . 115) (min-pixel-width-ignore . 110) (min-pixel-height-safe . 46) (min-pixel-width-safe . 44)) hc (pixel-width . 1920) (pixel-height . 889) (total-width . 175) (total-height . 39) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (vc (pixel-width . 963) (pixel-height . 889) (total-width . 88) (total-height . 39) (normal-height . 1.0) (normal-width . 0.5) (combination-limit) (leaf (pixel-width . 963) (pixel-height . 452) (total-width . 88) (total-height . 20) (normal-height . 0.5) (normal-width . 1.0) (buffer "*Org Src cnd-161.org[ xml ]*" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 9915) (start . 9683))) (leaf (last . t) (pixel-width . 963) (pixel-height . 437) (total-width . 88) (total-height . 19) (normal-height . 0.5) (normal-width . 1.0) (buffer "ds99.cpp" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 1) (start . 1)))) (leaf (last . t) (pixel-width . 957) (pixel-height . 889) (total-width . 87) (total-height . 39) (normal-height . 1.0) (normal-width . 0.5) (buffer "DS99_2_frame.h" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 16742) (start . 14732)))))])
 (setq desktop-missing-file-warning nil)
 (setq tags-file-name "/home/jeremy/workspace/birdz/src_dev2/TAGS")
 (setq tags-table-list '("/home/jeremy/workspace/birdz/src_dev2/TAGS"))
-(setq search-ring '("days" "daysout" "dayssf" "autocodayssf" "f.get" "todo" "DS51_SF_TX_LR_2" "ds1_" "todo" "//" "autocoLR" "ds51.auto" "ds51_t2v" "todo" "confiu" "CRITI"))
-(setq regexp-search-ring '("getter>." "^lr_" "^delete"))
+(setq search-ring '("raw" "ds16_2" "handle" "decrytp" "valid" "type" "decrypted" "getva" "validmesas" "buffer" ", " "\"16\"" "lrsign" "p18" "cfgNetPowerTx" "todo"))
+(setq regexp-search-ring '("^class" "getter>." "^lr_" "^delete"))
 (setq register-alist nil)
-(setq file-name-history '("/home/jeremy/workspace/birdz/cnd-161/output/" "/home/jeremy/workspace/birdz/cnd-161/output/ds51_18_v_2.cpp" "/home/jeremy/workspace/birdz/cnd-161/" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/" "/home/jeremy/workspace/birdz/src_dev2/hrlib/warm/include/homerider/warm/" "/home/jeremy/workspace/birdz/" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/" "/home/jeremy/workspace/birdz/cnd-161/output/cnd-161.rnc" "~/workspace/birdz/src_dev2/" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS51_spec.h" "/home/jeremy/workspace/birdz/src_dev2/etags.org" "/home/jeremy/workspace/birdz/src_dev2/" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import" "~/workspace/birdz/src_dev2/" "~/.emacs.d/emacs-bookmarks/birdz" "/home/jeremy/workspace/birdz/.gitignore" "~/workspace/birdz/" "~/workspace/birdz/src_dev2/ExclusionRSync__" "~/.emacs.d/emacs-bookmarks/birdz" "/home/jeremy/.emacs.d/" "~/.emacs.d/" "/home/jeremy/.emacs.d/README.org"))
+(setq file-name-history '("/home/jeremy/workspace/birdz/cnd-161/output/" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/" "/home/jeremy/workspace/birdz/src_dev2/hrlib/hrbase/include/homerider/bufferFromHexa.h" "/home/jeremy/workspace/birdz/" "/home/jeremy/workspace/birdz/cnd-161/" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS99/" "/home/jeremy/workspace/birdz/src_dev2/" "/home/jeremy/workspace/birdz/cnd-161/output/ds51.cpp" "~/workspace/birdz/cnd-161/output/cnd-161.rnc" "~/workspace/birdz/cnd-161/output/cnd-161.rnc" "/usr/share/emacs/26.1/lisp/nxml/" "/home/jeremy/workspace/birdz/cnd-161/tmp.xml" "~/workspace/birdz/cnd-161/output/cnd-161.rnc" "/home/jeremy/workspace/birdz/cnd-161/output/cnd-161.rnc" "/home/jeremy/workspace/org/reference-cards/" "~/.emacs.d/emacs-bookmarks/birdz" "/home/jeremy/workspace/birdz/cnd-161/output/ds51_18_v_2.cpp" "/home/jeremy/workspace/birdz/src_dev2/hrlib/warm/include/homerider/warm/" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/" "/home/jeremy/workspace/birdz/cnd-161/output/cnd-161.rnc" "~/workspace/birdz/src_dev2/" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS51_spec.h" "/home/jeremy/workspace/birdz/src_dev2/etags.org" "/home/jeremy/workspace/birdz/src_dev2/warm2g_import" "~/workspace/birdz/src_dev2/" "~/.emacs.d/emacs-bookmarks/birdz" "/home/jeremy/workspace/birdz/.gitignore" "~/workspace/birdz/" "~/workspace/birdz/src_dev2/ExclusionRSync__" "~/.emacs.d/emacs-bookmarks/birdz" "/home/jeremy/.emacs.d/" "~/.emacs.d/" "/home/jeremy/.emacs.d/README.org"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
-(desktop-create-buffer 208
-  "/home/jeremy/workspace/birdz/cnd-161/output/ds51_18_v_2.cpp"
-  "ds51_18_v_2.cpp"
-  'c++-mode
-  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
-  14432
-  '(15127 nil)
-  nil
-  nil
-  '((buffer-display-time 24519 48994 720719 218000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
-  '((mark-ring (13761 1 14404 6367 5846 6329 6367 5846 817 6367 6329 1 15127 5240 5236 105))))
-
-(desktop-create-buffer 208
-  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS51_spec.cpp"
-  "DS51_spec.cpp"
-  'c++-mode
-  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
-  35319
-  '(35827 nil)
-  nil
-  nil
-  '((buffer-display-time 24519 48758 841220 27000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
-  '((mark-ring (35352 58878 39224 35595 55398 35936 35221 36447 36457 35221 36447 57983 54747 57983 35317 37646))))
-
-(desktop-create-buffer 208
-  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS51_handle.cpp"
-  "DS51_handle.cpp"
-  'c++-mode
-  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode ggtags-mode fic-mode)
-  67407
-  '(75042 nil)
-  nil
-  nil
-  '((buffer-display-time 24519 48931 38724 385000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
-  '((mark-ring (75027 72870 67618 67298 67298 63833 61525 77596 61360 61360 61360 61360 61360 61360 61360 61360))))
-
 (desktop-create-buffer 208
   "/home/jeremy/workspace/birdz/cnd-161/cnd-161.org"
   "cnd-161.org"
   'org-mode
   '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
-  50003
-  '(2352 nil)
+  56536
+  '(4277 nil)
   nil
   nil
-  '((buffer-display-time 24519 48863 235463 294000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
-  '((mark-ring (2428 3103 2428 2210 1904 62090 1))))
+  '((buffer-display-time 24521 5854 499434 430000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (4168 1811 1723 1 72208 1 4593 4593 1920 1920 1920 1 4593 1920 4593 1920))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/cnd-161/output/ds99.cpp"
+  "ds99.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24521 5844 812844 673000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS99/DS99_2_frame.h"
+  "DS99_2_frame.h"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  16742
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24521 5844 812845 328000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (3933 16624 16486 3943 1 3943 3930 17332 17241 17249 17279 17265 17256 1 17249 17333))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/cnd-161/output/ds51.cpp"
+  "ds51.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24521 5820 967020 422000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
 
 (desktop-create-buffer 208
   nil
   "output"
   'dired-mode
   '(global-auto-revert-mode override-global-mode yas-minor-mode)
-  550
+  664
   '(nil nil)
   t
   '("/home/jeremy/workspace/birdz/cnd-161/output/")
-  '((buffer-display-time 24519 48814 225851 696000))
+  '((buffer-display-time 24521 5811 668503 286000))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
-  "/home/jeremy/workspace/birdz/cnd-161/Datamodel SystÅËme pour FUSION-GCP.txt"
-  "Datamodel SystÅËme pour FUSION-GCP.txt"
-  'org-mode
-  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
-  46434
-  '(46055 nil)
+  "/home/jeremy/workspace/birdz/cnd-161/output/ds16.cpp"
+  "ds16.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  272
+  '(14 nil)
   nil
   nil
-  '((buffer-display-time 24519 47947 419088 342000) (buffer-file-coding-system . utf-8-unix) (truncate-lines))
-  '((mark-ring (44719 46514 38976 45644 24764 1 38976 46514 44852 45384 46366))))
+  '((buffer-display-time 24521 5809 74821 234000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (14 14 14 14))))
 
 (desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS16.cpp"
+  "DS16.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  13569
+  '(13485 nil)
   nil
-  "cnd-161"
-  'dired-mode
-  '(global-auto-revert-mode override-global-mode yas-minor-mode)
-  544
+  nil
+  '((buffer-display-time 24521 5771 950425 349000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (13125 3768 3606 1102 1 7150 12866 13172 13061 12895 2575 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/ValidMessage.h"
+  "ValidMessage.h"
+  'c-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1179
   '(1 nil)
-  t
-  '("/home/jeremy/workspace/birdz/cnd-161/")
-  '((buffer-display-time 24519 47358 422998 901000))
+  nil
+  nil
+  '((buffer-display-time 24521 5708 879081 297000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
   nil
   "src"
   'dired-mode
-  '(global-auto-revert-mode override-global-mode yas-minor-mode)
-  3219
-  '(2538 nil)
+  '(global-auto-revert-mode override-global-mode yas-minor-mode dired-filter-mode)
+  5920
+  '(3375 nil)
   t
   '("/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/")
-  '((buffer-display-time 24519 47172 639796 739000))
-  '((mark-ring (261))))
+  '((buffer-display-time 24521 5677 966043 834000))
+  '((mark-ring (2558 1 1))))
 
 (desktop-create-buffer 208
-  "/home/jeremy/workspace/birdz/src_dev2/hrlib/warm/include/homerider/warm/Device.h"
-  "Device.h"
-  'c++-mode
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/ProcessedMessage.h"
+  "ProcessedMessage.h"
+  'c-mode
   '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
-  430
-  '(nil nil)
+  314
+  '(314 nil)
   nil
   nil
-  '((buffer-display-time 24519 47159 957620 341000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((buffer-display-time 24521 5677 757980 798000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
-  "/home/jeremy/.emacs.d/README.org"
-  "README.org"
-  'org-mode
-  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
-  56402
-  '(29330 nil)
+  "/home/jeremy/workspace/birdz/src_dev2/hrlib/hrbase/include/homerider/bufferFromHexa.h"
+  "bufferFromHexa.h"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  785
+  '(679 nil)
   nil
   nil
-  '((buffer-display-time 24519 47059 727573 778000) (buffer-file-coding-system . utf-8-unix) (fill-column . 90) (truncate-lines . t))
-  '((mark-ring (29725 29725 16982 16782 11097 10585 10585 1 16982))))
+  '((buffer-display-time 24521 5536 498550 51000) (buffer-file-coding-system . undecided-dos) (truncate-lines . t))
+  '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  nil
+  "hrlib"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  241
+  '(nil nil)
+  t
+  '("/home/jeremy/workspace/birdz/src_dev2/hrlib/")
+  '((buffer-display-time 24521 5535 708258 62000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "src_dev2"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  301
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/birdz/src_dev2/")
+  '((buffer-display-time 24521 5432 507912 609000))
+  '((mark-ring (1))))
 
 (desktop-create-buffer 208
   nil
   "birdz"
   'dired-mode
   '(global-auto-revert-mode override-global-mode yas-minor-mode)
-  229
+  790
   '(1 nil)
   t
   '("/home/jeremy/workspace/birdz/")
-  '((buffer-display-time 24519 46974 914238 198000))
+  '((buffer-display-time 24521 5415 204386 639000))
+  '((mark-ring (1 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS16_spec.h"
+  "DS16_spec.h"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  2935
+  '(2277 nil)
+  nil
+  nil
+  '((buffer-display-time 24521 5232 212927 233000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
   '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  nil
+  "cnd-161"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  483
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/birdz/cnd-161/")
+  '((buffer-display-time 24521 5161 923233 409000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "DS99"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  679
+  '(620 nil)
+  t
+  '("/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS99/")
+  '((buffer-display-time 24521 4991 558956 582000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS99/DS99_2.h"
+  "DS99_2.h"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(496 nil)
+  nil
+  nil
+  '((buffer-display-time 24521 4972 60195 33000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS99/DS99_2.cpp"
+  "DS99_2.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  984
+  '(477 nil)
+  nil
+  nil
+  '((buffer-display-time 24521 4966 396745 238000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (477 25 477 472 477 477 477 477 477 477 477 477 477 477 477 477))))
+
+(desktop-create-buffer 208
+  nil
+  "org"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  814
+  '(339 nil)
+  t
+  '("/home/jeremy/workspace/org/")
+  '((buffer-display-time 24521 4842 240648 773000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS51_spec.cpp"
+  "DS51_spec.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  5386
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24521 3829 776695 826000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (3882 33021 5523 78888 58094 37709 37605 36121 36115 36087 35691 32088 38881 35319 35319 3807))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS16_spec.cpp"
+  "DS16_spec.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  11461
+  '(11474 nil)
+  nil
+  nil
+  '((buffer-display-time 24521 3293 601702 353000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (11461 9981 1 10354 7290 15322 1 9097 1673 347))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS51_handle.cpp"
+  "DS51_handle.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode ggtags-mode fic-mode)
+  61734
+  '(61649 nil)
+  nil
+  nil
+  '((buffer-display-time 24521 3123 369497 935000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (61646 61527 61525 61469 61381 61380 62035 65041 18647 18660 1 88279 76233 76217 73005 67407))))
 
 (desktop-create-buffer 208
   nil
@@ -158,56 +302,152 @@
   '(1 nil)
   t
   '("/home/jeremy/workspace/birdz/src_dev2/warm2g_import/")
-  '((buffer-display-time 24519 46898 429147 284000))
+  '((buffer-display-time 24520 65184 458708 474000))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
-  nil
-  "src_dev2"
-  'dired-mode
-  '(global-auto-revert-mode override-global-mode yas-minor-mode)
-  410
-  '(1 nil)
-  t
-  '("/home/jeremy/workspace/birdz/src_dev2/")
-  '((buffer-display-time 24519 46896 630258 495000))
-  '((mark-ring (1))))
-
-(desktop-create-buffer 208
-  "/home/jeremy/workspace/birdz/cnd-161/output/cnd-161.py"
-  "cnd-161.py"
-  'python-mode
-  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode elpy-mode flycheck-mode company-mode highlight-indentation-mode fic-mode)
-  3402
-  '(1154 t)
-  t
-  nil
-  '((tab-width . 8) (indent-tabs-mode) (buffer-display-time 24519 43923 331509 163000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
-  '((mark-ring (1154 1154 1154 1154 1 10150 1))))
-
-(desktop-create-buffer 208
-  "/home/jeremy/workspace/birdz/cnd-161/output/cnd-161.xml"
-  "cnd-161.xml"
-  'nxml-mode
+  "/home/jeremy/workspace/birdz/cnd-161/Datamodel SystÅËme pour FUSION-GCP.txt"
+  "Datamodel SystÅËme pour FUSION-GCP.txt"
+  'org-mode
   '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
-  46
-  '(46 nil)
-  t
+  38671
+  '(38690 nil)
   nil
-  '((buffer-display-time 24519 43056 289684 326000) (buffer-file-coding-system . utf-8-unix))
-  '((mark-ring (3983 42686 3983 413 392))))
+  nil
+  '((buffer-display-time 24520 63383 188143 768000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (50428 50291 37343 1 129187 1 37334 37334 34472 8039 1 37334 37333 37330 37334 37333))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/README.org"
+  "README.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  54723
+  '(54969 nil)
+  nil
+  nil
+  '((buffer-display-time 24520 57874 879675 965000) (buffer-file-coding-system . utf-8-unix) (fill-column . 90) (truncate-lines . t))
+  '((mark-ring (55025 55523 54964 54723 54887 54723 57110 29330 29725 29725))))
 
 (desktop-create-buffer 208
   "/home/jeremy/workspace/birdz/cnd-161/output/cnd-161.rnc"
   "cnd-161.rnc"
   'rnc-mode
   '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
-  413
+  2027
   '(1 nil)
   t
   nil
-  '((buffer-display-time 24519 43020 312767 707000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
-  '((mark-ring (413 413 1))))
+  '((buffer-display-time 24520 52611 34669 60000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (1 1 1 1))))
+
+(desktop-create-buffer 208
+  "/usr/share/emacs/26.1/lisp/nxml/nxml-rap.el.gz"
+  "nxml-rap.el.gz"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode yas-minor-mode fic-mode)
+  6857
+  '(nil nil)
+  t
+  nil
+  '((buffer-display-time 24520 52219 185009 38000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "nxml"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  237
+  '(1 nil)
+  t
+  '("/usr/share/emacs/26.1/lisp/nxml/")
+  '((buffer-display-time 24520 52217 527226 455000))
+  '((mark-ring (2142 224))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/straight/repos/auto-complete/auto-complete.el"
+  "auto-complete.el"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  66208
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24520 51769 275594 325000) (buffer-file-coding-system . prefer-utf-8-unix) (truncate-lines . t))
+  '((mark-ring (72305))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-loisirs-mangas.org.txt"
+  "bookmarks-loisirs-mangas.org.txt"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24520 50245 803176 720000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "bookmarks"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  1133
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/org/bookmarks/")
+  '((buffer-display-time 24520 47091 612475 870000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/reference-cards/org-reference-card.org"
+  "org-reference-card.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  19139
+  '(18412 nil)
+  nil
+  nil
+  '((buffer-display-time 24519 53374 42214 169000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (11887 19139))))
+
+(desktop-create-buffer 208
+  nil
+  "reference-cards"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  606
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/org/reference-cards/")
+  '((buffer-display-time 24519 52955 544846 178000))
+  '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/hrlib/warm/include/homerider/warm/Device.h"
+  "Device.h"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  430
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24519 47675 97467 680000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/cnd-161/output/cnd-161.py"
+  "cnd-161.py"
+  'python-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode elpy-mode flycheck-mode company-mode highlight-indentation-mode fic-mode)
+  3414
+  '(1154 t)
+  t
+  nil
+  '((tab-width . 8) (indent-tabs-mode) (buffer-display-time 24519 44439 58942 786000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (1154 1154 1154 1154 1 5962 1))))
 
 (desktop-create-buffer 208
   "/home/jeremy/workspace/birdz/src_dev2/warm2g_import/src/DS51_spec.h"
@@ -218,7 +458,7 @@
   '(1 nil)
   nil
   nil
-  '((buffer-display-time 24519 42516 552490 36000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((buffer-display-time 24519 43032 684383 99000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
@@ -230,7 +470,7 @@
   '(1 nil)
   nil
   nil
-  '((buffer-display-time 24519 42439 238215 284000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((buffer-display-time 24519 42955 385768 982000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
   '((mark-ring (1))))
 
 (desktop-create-buffer 208
@@ -242,7 +482,7 @@
   '(nil nil)
   t
   nil
-  '((buffer-display-time 24519 42089 500910 445000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((buffer-display-time 24519 42605 687348 556000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
@@ -254,7 +494,7 @@
   '(nil nil)
   t
   nil
-  '((buffer-display-time 24519 42073 865652 100000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((buffer-display-time 24519 42590 74734 814000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
@@ -266,7 +506,7 @@
   '(1106 nil)
   nil
   nil
-  '((buffer-display-time 24519 42050 571575 680000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((buffer-display-time 24519 42566 796762 764000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
   '((mark-ring (1191 1176 1083 1191 1168 663 980 1144 1106 80 38 1287 1193 1083 627 1))))
 
 (desktop-create-buffer 208
@@ -278,7 +518,7 @@
   '(1 nil)
   nil
   nil
-  '((buffer-display-time 24519 41947 893830 245000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((buffer-display-time 24519 42464 143491 897000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
   '((mark-ring (1877))))
 
 (desktop-create-buffer 208
@@ -290,20 +530,8 @@
   '(84 nil)
   nil
   nil
-  '((buffer-display-time 24519 40694 358902 611000) (buffer-file-coding-system . undecided-unix))
+  '((buffer-display-time 24519 41210 624563 844000) (buffer-file-coding-system . undecided-unix))
   '((mark-ring (83 57))))
-
-(desktop-create-buffer 208
-  nil
-  "bookmarks"
-  'dired-mode
-  '(global-auto-revert-mode override-global-mode yas-minor-mode)
-  244
-  '(nil nil)
-  t
-  '("/home/jeremy/workspace/org/bookmarks/")
-  '((buffer-display-time 24519 38558 492403 302000))
-  '((mark-ring nil)))
 
 (desktop-create-buffer 208
   nil
@@ -314,6 +542,6 @@
   '(1 nil)
   t
   '("/home/jeremy/.emacs.d/")
-  '((buffer-display-time 24519 38132 196931 434000))
+  '((buffer-display-time 24519 49644 343869 624000))
   '((mark-ring (1 1 1 1 1))))
 
