@@ -295,6 +295,12 @@ https://jwiegley.github.io/use-package/
 #+END_SRC
 *** TODO integrate git-package [[https://github.com/mnewt/git-package][git-package (installation par un depot git)]]
 *** TODO if I separate each src block in headers, they are not tangled.   :bug:
+** isearch
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs ; isearch
+    :custom
+    (case-fold-search t))
+#+END_SRC
 ** shell
 use ~/bash-aliases
 #+BEGIN_SRC emacs-lisp
