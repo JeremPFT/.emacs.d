@@ -1584,11 +1584,9 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 :CREATED:  [2020-10-30 Fri 17:25]
 :END:
 ** nxml
-
-*** package nxml
+*** nxml customization
 #+BEGIN_SRC emacs-lisp
-  (use-package nxml-mode
-    :ensure nil
+  (use-package emacs ; nxml-mode
     :custom
     (nxml-slash-auto-complete-flag t))
 #+END_SRC
