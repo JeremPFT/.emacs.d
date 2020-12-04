@@ -1510,7 +1510,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
     :ensure nil
     :custom
     (grep-find-command
-     '("find . -type f -exec grep --color=always -nH -e  \"{}\" +" . 49))
+     '("find . -type f -exec grep --color=always -nH -e  \\{\\} +" . 49))
     (grep-save-buffers nil)
     (grep-use-null-filename-separator nil))
 
