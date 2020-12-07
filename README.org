@@ -1221,6 +1221,39 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   (setq dired-guess-shell-alist-user (quote (("\\.sh" "bash") ("\\.py" "python"))))
 
 #+END_SRC
+** hydra custom
+#+BEGIN_SRC emacs-lisp
+  (defhydra hydra-summary ()
+    ("m" hydra-magit/body "magit" :exit t) ;; defined in local-packages/git-config.el
+    ("b" hydra-bookmarks/body "bookmarks" :exit t)
+    ("z" hydra-zoom/body "zoom" :exit t)
+    )
+
+  (global-set-key (kbd "<f1>") 'hydra-summary/body)
+
+  (defvar org-bmk-dir (concat user-emacs-directory
+                              (file-name-as-directory "workspace")
+                              (file-name-as-directory "org")
+                              "bookmarks"))
+
+  (defhydra hydra-bookmarks ()
+    ("D"  (find-file org-bmk-dir)                                      "directory" :column "my bookmarks" :exit t)
+    ("bc" (find-file (concat org-bmk-dir "bookmarks-current.org.txt")) "current" :exit t)
+    ("bl" (find-file (concat org-bmk-dir "bookmarks-loisirs.org.txt")) "loisir" :exit t)
+
+    ("sv" bookmark-save "save" :column "bookmark-mode")
+    ("l" bookmark-load  "load")
+
+    ("a" bmkp-add-tags       "add" :column "tags")
+    ("c" bmkp-copy-tags      "copy")
+    ("p" bmkp-paste-add-tags "past")
+    )
+
+  (defhydra hydra-zoom ()
+    "zoom"
+    ("+" text-scale-increase "in")
+    ("-" text-scale-decrease "out"))
+#+END_SRC
 ** dired+
 #+BEGIN_SRC emacs-lisp
   ;; following defs prevent byte-compilation warnings
@@ -1245,11 +1278,6 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
           ("M-b" . backward-word)
           ("<f1>" . hydra-dired/body)
           )
-
-    ;; :hook (lambda ()
-    ;;         (local-set-key (kbd "<f1>") (quote hydra-summary/body))
-    ;;         ;; (local-set-key (kbd "M-b") (quote backward-word))
-    ;;         )
 
     :hydra
     (hydra-dired (:hint nil :color pink)
@@ -1345,40 +1373,6 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 #+BEGIN_SRC emacs-lisp
   (use-package calfw
     :ensure t)
-#+END_SRC
-
-** hydra custom
-#+BEGIN_SRC emacs-lisp
-  (defhydra hydra-summary ()
-    ("m" hydra-magit/body "magit" :exit t) ;; defined in local-packages/git-config.el
-    ("b" hydra-bookmarks/body "bookmarks" :exit t)
-    ("z" hydra-zoom/body "zoom" :exit t)
-    )
-
-  (global-set-key (kbd "<f1>") 'hydra-summary/body)
-
-  (defvar org-bmk-dir (concat user-emacs-directory
-                              (file-name-as-directory "workspace")
-                              (file-name-as-directory "org")
-                              "bookmarks"))
-
-  (defhydra hydra-bookmarks ()
-    ("D"  (find-file org-bmk-dir)                                      "directory" :column "my bookmarks" :exit t)
-    ("bc" (find-file (concat org-bmk-dir "bookmarks-current.org.txt")) "current" :exit t)
-    ("bl" (find-file (concat org-bmk-dir "bookmarks-loisirs.org.txt")) "loisir" :exit t)
-
-    ("sv" bookmark-save "save" :column "bookmark-mode")
-    ("l" bookmark-load  "load")
-
-    ("a" bmkp-add-tags       "add" :column "tags")
-    ("c" bmkp-copy-tags      "copy")
-    ("p" bmkp-paste-add-tags "past")
-    )
-
-  (defhydra hydra-zoom ()
-    "zoom"
-    ("+" text-scale-increase "in")
-    ("-" text-scale-decrease "out"))
 #+END_SRC
 
 ** latex * auctex * context
