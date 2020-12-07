@@ -8,13 +8,9 @@
     ("~/workspace/org/bookmarks/z/bookmarks-z-session.org.txt" "c:/Users/jeremy/AppData/Roaming/workspace/org/agenda/dates.org" "c:/Users/jeremy/AppData/Roaming/workspace/org/agenda/pauses.org" "~/workspace/org/reference-cards/emacs-reference-card.org" "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org" "~/.emacs.d/README.org")))
  '(safe-local-variable-values
    (quote
-    ((eval let
-           ((elisp-file "output/cnd-161.el"))
-           (make-directory "output" t)
-           (unless
-               (file-exists-p elisp-file)
-             (org-babel-tangle))
-           (load-file elisp-file))
+    ((eval progn
+           (org-babel-tangle)
+           (load-file "output/cnd-161.el"))
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository-test")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service-test")
