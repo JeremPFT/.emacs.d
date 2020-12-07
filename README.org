@@ -111,7 +111,7 @@ first thing to ensure we always start in .emacs.d/
            home-computer-p
            birdz-computer-p
            birdz-debian-computer-p)
-    (error "current computer unknown"))
+    (warn (concat "current computer unknown: " current-computer-name)))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -311,19 +311,19 @@ use ~/bash-aliases
   (defconst workspace-dir (file-name-as-directory (concat home-dir "workspace")))
 
   (unless (file-exists-p home-bin-dir)
-    (error "please create \"~/bin\" directory"))
+    (warn "please create \"~/bin\" directory"))
 
   (setq shell-file-name (concat home-bin-dir "bash"))
 
   (unless (file-exists-p shell-file-name)
-    (error "please create \"~/bin/bash\" file, and make it executable"))
+    (warn "please create \"~/bin/bash\" file, and make it executable"))
 
   (setq shell-command-switch "-c")
   (cond
    (linux-p nil)
    (birdz-computer-p (setenv "PATH" (concat "c:/installs/msys64/usr/bin" path-separator (getenv "PATH"))))
    (home-computer-p  (setenv "PATH" (concat "E:/programs/msys64" path-separator (getenv "PATH"))))
-   (t (error "ERROR JPI: undefined environment for this computer"))
+   (t (warn "ERROR JPI: undefined environment for this computer"))
    )
 #+END_SRC
 ** desktop
@@ -337,7 +337,7 @@ use ~/bash-aliases
                              (home-computer-p ".emacs-home.desktop")
                              (birdz-computer-p ".emacs-birdz.desktop")
                              (birdz-debian-computer-p ".emacs-birdz-debian.desktop")
-                             (t (error "current computer unknown"))))
+                             (t (warn "can't set `desktop-base-file-name'"))))
     (desktop-base-lock-name (concat desktop-base-file-name ".lock")))
 #+END_SRC
 ** TODO TOSEE [[https://github.com/quelpa/quelpa][quelpa]] https://framagit.org/steckerhalter/steckemacs.el/-/tree/master [[https://github.com/quelpa/quelpa-use-package][quelpa-use-package]]
