@@ -951,6 +951,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
     (use-package ada-mode
       :straight (:host github :repo "emacsmirror/ada-mode")
       :after wisi fill-column-indicator
+      :defines ada-mode-syntax-table
       :functions ada-case-adjust-buffer ada-reset-parser hippie-expand-ada-symbols
       :custom
       (ada-parser 'elisp)
