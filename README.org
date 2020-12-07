@@ -206,6 +206,7 @@ It can also be activated only for prog-modes:
     (require 'package)
 
     (when (version< emacs-version "26.3")
+      (defvar gnutls-algorithm-priority)
       (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
     ;; set package.el repositories
@@ -704,8 +705,8 @@ https://www.emacswiki.org/emacs/UndoTree
         (when (file-exists-p init-el-file) (delete-file init-el-file))
         (when (file-exists-p init-elc-file) (delete-file init-elc-file))
         (org-babel-tangle)
-        (when (y-or-n-p-with-timeout "Recompile? " 2 nil)
-          (byte-compile-file "init.el" t))
+        ;; (when (y-or-n-p-with-timeout "Recompile? " 2 nil)
+        ;;   (byte-compile-file "init.el" t))
         )))
   ;; (defun org-save-this-readme ()())
   (add-hook 'after-save-hook 'org-save-this-readme)
@@ -1046,9 +1047,42 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
                 (ibuffer-auto-mode)
                 (ibuffer-switch-to-saved-filter-groups "default")))
 
-    :config
-    (setq ibuffer-show-empty-filter-groups nil)
+    :custom
+    (ibuffer-show-empty-filter-groups nil)
+            ;; *Help*
+            ;; ibuffer-filtering-alist
+            ;; ibuffer-filtering-qualifiers
+    (ibuffer-saved-filter-groups
+     (quote (("default"
+                     ("bookmarks" (name . "bookmarks"))
+                     ("Magit" (name . "^magit"))
+                     ("birdz-dirs" (and (mode . dired-mode)(filename . "birdz")))
+                     ("birdz" (or (filename . "birdz") (name . "cnd-161")))
+                     ("ssh:dev" (filename . "ssh:dev"))
+                     ("Help" (or (name . "\*Help\*")
+                                 (name . "\*Apropos\*")
+                                 (name . "\*info\*")))
+                     ))))
+    (ibuffer-directory-abbrev-alist
+            (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"
+                     . "SUPTER-7682_mexique")
+                    ("dllsch_t3_bbva_key_injection_pin_block_private"
+                     . "dllsch_t3_..._private"))))
+    (ibuffer-default-sorting-mode (quote filename-or-dired))
+    (ibuffer-formats
+            (quote
+             ((mark modified read-only locked " "
+                    (name 25 25 :left :elide)
+                    " "
+                    (size 7 -1 :right)
+                    " "
+                    (mode 8 8 :left :elide)
+                    " " filename-and-process)
+              (mark " "
+                    (name 16 -1)
+                    " " filename))))
 
+    :config
     (progn
       (define-ibuffer-sorter filename-or-dired
         "Sort the buffers by their pathname."
@@ -1069,45 +1103,6 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
       (define-key ibuffer-mode-map (kbd "s p")
         'ibuffer-do-sort-by-filename-or-dired)
-
-      (setq ibuffer-show-empty-filter-groups t
-
-            ;; *Help*
-            ;; ibuffer-filtering-alist
-            ;; ibuffer-filtering-qualifiers
-            ibuffer-saved-filter-groups
-            (quote (("default"
-                     ("bookmarks" (name . "bookmarks"))
-                     ("Magit" (name . "^magit"))
-                     ("birdz-dirs" (and (mode . dired-mode)(filename . "birdz")))
-                     ("birdz" (or (filename . "birdz") (name . "cnd-161")))
-                     ("ssh:dev" (filename . "ssh:dev"))
-                     ("Help" (or (name . "\*Help\*")
-                                 (name . "\*Apropos\*")
-                                 (name . "\*info\*")))
-                     )))
-
-            ibuffer-directory-abbrev-alist
-            (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"
-                     . "SUPTER-7682_mexique")
-                    ("dllsch_t3_bbva_key_injection_pin_block_private"
-                     . "dllsch_t3_..._private")))
-
-            ibuffer-default-sorting-mode (quote filename-or-dired)
-
-            ibuffer-formats
-            (quote
-             ((mark modified read-only locked " "
-                    (name 25 25 :left :elide)
-                    " "
-                    (size 7 -1 :right)
-                    " "
-                    (mode 8 8 :left :elide)
-                    " " filename-and-process)
-              (mark " "
-                    (name 16 -1)
-                    " " filename)))
-            ) ;; setq
 
       (define-ibuffer-column size-h
         (:name "Size" :inline t)
@@ -1264,6 +1259,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   (use-package dired+
     :init (require 'dired+ nil t) ;; prevent "functions might not be defined at runtime" message when byte-compiling
     :after hydra
+    :defines diredp-file-name diredp-file-suffix
     :straight
     (:host github :repo "emacsmirror/dired-plus" :branch "master")
     :config
@@ -1513,6 +1509,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
     ;; editable grep results
     :init (require 'wgrep nil t) ;; prevent "functions might not be defined at runtime" message when byte-compiling
     :after hydra
+    :defines wgrep-mode-map
     :straight
     (:host github :repo "mhayashi1120/Emacs-wgrep" :branch "master")
     :bind (
