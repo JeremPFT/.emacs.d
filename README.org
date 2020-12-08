@@ -945,45 +945,51 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 #+END_SRC
 ** ada mode                                                            :dev::
 #+BEGIN_SRC emacs-lisp
-  (defun jp-config-ada-mode nil
-    (use-package wisi
-      :straight (:host github :repo "emacsmirror/wisi")
-      )
+  (use-package wisi
+    :straight (:host github :repo "emacsmirror/wisi")
+    )
 
-    (use-package ada-mode
-      :straight (:host github :repo "emacsmirror/ada-mode")
-      :after wisi fill-column-indicator
-      :defines ada-mode-syntax-table
-      :functions ada-case-adjust-buffer ada-reset-parser hippie-expand-ada-symbols
-      :custom
-      (ada-parser 'elisp)
-      :config
-      (setq fci-rule-column 78)
-      ;; (ada-case-read-all-exceptions)
+  (defun ada-before-save ()
+    (when (or (eq major-mode 'ada-mode) (eq major-mode 'gpr-mode))
+      (wisi-case-adjust-buffer)
+      (wisi-reset-parser)
+      (indent-buffer)))
 
-      (defun ada-before-save ()
-        (when (or (eq major-mode 'ada-mode) (eq major-mode 'gpr-mode))
-          (ada-case-adjust-buffer)
-          (ada-reset-parser)
-          (indent-buffer)))
+  (defun hippie-expand-ada-symbols (orig-fun &rest args)
+    (if (eq major-mode 'ada-mode)
+        (let ((table (make-syntax-table ada-mode-syntax-table)))
+          (modify-syntax-entry ?. "_" table)
+          (with-syntax-table table (apply orig-fun args)))
+      (apply orig-fun args)))
 
-      (add-hook 'before-save-hook 'ada-before-save)
-      (add-hook 'ada-mode-hook (lambda () (electric-pair-mode)))
+  (use-package ada-mode
+    :straight (:host github :repo "emacsmirror/ada-mode")
+    :after wisi fill-column-indicator
+    :defines ada-mode-syntax-table
+    :functions hippie-expand-ada-symbols
+    ;; :custom
+    ;; (ada-parser 'elisp)
+    :config
 
-      ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
-      (defun hippie-expand-ada-symbols (orig-fun &rest args)
-        (if (eq major-mode 'ada-mode)
-            (let ((table (make-syntax-table ada-mode-syntax-table)))
-              (modify-syntax-entry ?. "_" table)
-              (with-syntax-table table (apply orig-fun args)))
-          (apply orig-fun args)))
+    (setq exec-path (add-to-list 'exec-path (concat user-emacs-directory "straight/repos/ada-mode")))
 
-      (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
-      )
+    (setq fci-rule-column 78)
+    ;; (ada-case-read-all-exceptions)
 
-    "jp-config-ada-mode success")
+    (add-hook 'before-save-hook 'ada-before-save)
+    (add-hook 'ada-mode-hook (lambda () (electric-pair-mode)))
 
-  (when home-computer-p (jp-config-ada-mode))
+    ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
+    (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
+
+    (global-set-key (kbd "C-M-*") 'wisi-fix-compiler-error)
+
+    )
+
+  ;; (define-key map "\C-c`"   'ada-show-secondary-error)
+  ;; (define-key map "\C-c\M-`"        'wisi-fix-compiler-error)
+
+  (message "jp-config-ada-mode.el ok")
 #+END_SRC
 ** python                                                              :dev::
 #+BEGIN_SRC emacs-lisp
