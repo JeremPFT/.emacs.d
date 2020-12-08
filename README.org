@@ -173,7 +173,8 @@ first thing to ensure we always start in .emacs.d/
 *** emacs hooks
 #+BEGIN_SRC emacs-lisp
   (defun untabify-whole-buffer()
-    (untabify (point-min) (point-max)))
+    (unless (derived-mode-p 'makefile-mode)
+      (untabify (point-min) (point-max))))
   (add-hook 'before-save-hook 'untabify-whole-buffer)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
