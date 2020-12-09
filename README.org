@@ -345,7 +345,7 @@ use ~/bash-aliases
 
   (defconst workspace-dir (file-name-as-directory (concat home-dir "workspace")))
 
-  (when linux-p
+  (when nil
     (unless (file-exists-p home-bin-dir)
       (warn "please create \"~/bin\" directory"))
     (setq shell-file-name (concat home-bin-dir "bash"))
