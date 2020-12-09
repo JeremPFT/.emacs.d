@@ -1262,7 +1262,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 #+END_SRC
 ** dired
 #+BEGIN_SRC emacs-lisp
-  (setq dired-guess-shell-alist-user (quote (("\\.sh" "bash") ("\\.py" "python"))))
+  (setq dired-guess-shell-alist-user (quote (("\\.sh" "bash") ("\\.py" "python3"))))
 
 #+END_SRC
 ** hydra custom
