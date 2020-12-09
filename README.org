@@ -189,14 +189,55 @@ It can also be activated only for prog-modes:
 
 ** Speed-up at startup: boost garbage collector memory
 #+BEGIN_SRC emacs-lisp
-  (defconst normal-gc-cons-threshold (* 20 1024 1024))
-  (defconst init-gc-cons-threshold (* 20 1024 1024))
-  (setq gc-cons-threshold init-gc-cons-threshold)
-  (add-hook 'emacs-startup-hook
-            (lambda () (setq gc-cons-threshold normal-gc-cons-threshold)))
+  (use-package emacs ; garbage collector
+    :config
+    (progn
+      (defconst normal-gc-cons-threshold (* 20 1024 1024))
+      (defconst init-gc-cons-threshold (* 20 1024 1024))
+      (setq gc-cons-threshold init-gc-cons-threshold))
+
+    (add-hook 'emacs-startup-hook
+              (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
 #+END_SRC
 *** see help section
 [[help:gc-cons-threshold][help: gc-cons-threshold]] (default: 800000)
+** frame title
+sources:
+- [[https://emacs.stackexchange.com/questions/16834/how-to-change-the-title-from-emacshost-to-file-name][emacs.stackexchange]]
+- [[https://www.emacswiki.org/emacs/FrameTitle][emacswiki]]
+#+BEGIN_COMMENT default value
+(setq-default frame-title-format
+              '(:eval
+                (format "%s@%s: %s %s"
+                        (or (file-remote-p default-directory 'user)
+                            user-real-login-name)
+                        (or (file-remote-p default-directory 'host)
+                            system-name)
+                        (buffer-name)
+                        (cond
+                         (buffer-file-truename
+                          (concat "(" buffer-file-truename ")"))
+                         (dired-directory
+                          (concat "{" dired-directory "}"))
+                         (t
+                          "[no file]")))))
+#+END_COMMENT
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default frame-title-format
+                '(:eval
+                  (format "%s: %s %s"
+                          (or (file-remote-p default-directory 'host)
+                              system-name)
+                          (buffer-name)
+                          (cond
+                           (buffer-file-truename
+                            (concat "(" buffer-file-truename ")"))
+                           (dired-directory
+                            (concat "{" dired-directory "}"))
+                           (t
+                            "[no file]")))))
+#+END_SRC
 * Standard configuration
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init.el"
