@@ -10,7 +10,7 @@
    (quote
     ((eval progn
            (org-babel-tangle)
-           (load-file "output/cnd-161.el"))
+           (load-file "output/datasys-1.el"))
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository-test")
      (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service-test")
