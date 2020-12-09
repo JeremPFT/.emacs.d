@@ -345,15 +345,16 @@ use ~/bash-aliases
 
   (defconst workspace-dir (file-name-as-directory (concat home-dir "workspace")))
 
-  (unless (file-exists-p home-bin-dir)
-    (warn "please create \"~/bin\" directory"))
-
-  (setq shell-file-name (concat home-bin-dir "bash"))
-
-  (unless (file-exists-p shell-file-name)
-    (warn "please create \"~/bin/bash\" file, and make it executable"))
+  (when linux-p
+    (unless (file-exists-p home-bin-dir)
+      (warn "please create \"~/bin\" directory"))
+    (setq shell-file-name (concat home-bin-dir "bash"))
+    (unless (file-exists-p shell-file-name)
+      (warn "please create \"~/bin/bash\" file, and make it executable"))
+   )
 
   (setq shell-command-switch "-c")
+
   (cond
    (linux-p nil)
    (birdz-computer-p (setenv "PATH" (concat "c:/installs/msys64/usr/bin" path-separator (getenv "PATH"))))
