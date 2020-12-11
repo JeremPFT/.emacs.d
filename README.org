@@ -425,6 +425,117 @@ use ~/bash-aliases
                              (t (warn "can't set `desktop-base-file-name'"))))
     (desktop-base-lock-name (concat desktop-base-file-name ".lock")))
 #+END_SRC
+** grep & find-dired
+#+BEGIN_SRC emacs-lisp
+  (use-package grep
+    :ensure nil
+    :preface
+    ;; (defun grep-find-command-build()
+    ;;   (let* (
+    ;;          (grep-find-command-part-1 "find . -type f ")
+    ;;          (grep-find-command-part-2 "-name \"*.cpp\" -o -name \"*.h\" ")
+    ;;          (grep-find-command-part-3 "-exec grep --color=always -nH -ie ")
+    ;;          (grep-find-command-prefix (concat
+    ;;                                     grep-find-command-part-1
+    ;;                                     grep-find-command-part-2
+    ;;                                     grep-find-command-part-3))
+    ;;          (grep-find-command-end " {} +")
+    ;;          (grep-find-command-complete "")
+    ;;          (grep-find-command-length 0)
+    ;;          )
+    ;;     (setq grep-find-command-complete (concat grep-find-command-prefix grep-find-command-end)
+    ;;           grep-find-command-length (length grep-find-command-prefix))
+    ;;     (cons grep-find-command-complete grep-find-command-length)
+    ;;     ))
+    :custom
+    (grep-command "grep --color=always -nH -ie ")
+
+    (grep-find-command
+     '("find . -type f -exec grep --color=always -nH -ie  {} +" . 50))
+
+    (grep-find-ignored-directories '(".git"))
+
+    (grep-find-template
+     "find <D> <X> -type f <F> -exec grep <C> -nH <R> {} +")
+
+    (grep-use-null-device nil)
+
+    (grep-files-aliases
+     '(("all" . "* .[!.]* ..?*")
+       ("el" . "*.el")
+       ("ch" . "*.[ch] *.[ch]pp")
+       ("c" . "*.c")
+       ("cc" . "*.cc *.cxx *.cpp *.C *.CC *.c++")
+       ("cchh" . "*.cc *.[ch]xx *.[ch]pp *.[CHh] *.CC *.HH *.[ch]++")
+       ("hh" . "*.hxx *.hpp *.[Hh] *.HH *.h++")
+       ("h" . "*.h")
+       ("l" . "[Cc]hange[Ll]og*")
+       ("m" . "[Mm]akefile*")
+       ("tex" . "*.tex")
+       ("texi" . "*.texi")
+       ("asm" . "*.[sS]")))
+
+    (grep-save-buffers nil)
+    (grep-use-null-filename-separator nil)
+    :config
+    (defun rgrep-default-command (regexp files dir)
+      "Compute the command for \\[rgrep] to use by default."
+      (require 'find-dired)      ; for `find-name-arg'
+      (grep-expand-template
+       grep-find-template
+       regexp
+       (concat (shell-quote-argument "(")
+               " " find-name-arg " "
+               (mapconcat
+                #'shell-quote-argument
+                (split-string files)
+                (concat " -o " find-name-arg " "))
+               " "
+               (shell-quote-argument ")"))
+       dir
+       (concat
+        (and grep-find-ignored-directories
+             (concat "-type d "
+                     (shell-quote-argument "(")
+                     ;; we should use shell-quote-argument here
+                     " -path "
+                     (mapconcat (lambda (d) (shell-quote-argument (concat "*/" d)))
+                                (rgrep-find-ignored-directories dir)
+                                " -o -path ")
+                     " "
+                     (shell-quote-argument ")")
+                     " -prune -o "))
+        (and grep-find-ignored-files
+             (concat " -type f "
+                     ;; JPI emacs code doesn't work:
+                     ;; (shell-quote-argument "!") " -type d "
+                     (shell-quote-argument "(")
+                     ;; we should use shell-quote-argument here
+                     " -name "
+                     (mapconcat
+                      #'(lambda (ignore)
+                          (cond ((stringp ignore)
+                                 (shell-quote-argument ignore))
+                                ((consp ignore)
+                                 (and (funcall (car ignore) dir)
+                                      (shell-quote-argument
+                                       (cdr ignore))))))
+                      grep-find-ignored-files
+                      " -o -name ")
+                     " "
+                     (shell-quote-argument ")")
+                     " -prune -o ")))))
+
+    (setq grep-find-command
+          '("find . -type f -exec grep --color=always -nH -ie  {} +" . 50) ;; works at home
+          ;; '("find . -type f -exec grep --color=always -nH -ie  \"{}\" +" . 50))
+          ;; '((car (grep-find-command-build)) . (cadr (grep-find-command-build)))))
+          )
+
+    ;; (setq find-ls-option
+    ;;       '((concat "-exec " grep-find-ls-root "ls -ld {} \";\"") . "-ld"))
+    )
+#+END_SRC
 ** TODO TOSEE [[https://github.com/quelpa/quelpa][quelpa]] https://framagit.org/steckerhalter/steckemacs.el/-/tree/master [[https://github.com/quelpa/quelpa-use-package][quelpa-use-package]]
 ** Hydra
 #+BEGIN_SRC emacs-lisp
@@ -1532,25 +1643,6 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
     )
 #+END_SRC
 
-** grep & find-dired
-#+BEGIN_SRC emacs-lisp
-  (use-package grep
-    :ensure nil
-    :custom
-    (grep-find-command
-     '("find . -type f -exec grep --color=always -nH -ie  \\{\\} +" . 50))
-     ;; '("find . -type f -name \"*.cpp\" -exec grep --color=always -nH -ie  \\{\\} +" . 64))
-    (grep-save-buffers nil)
-    (grep-use-null-filename-separator nil))
-
-  ;; (setq grep-find-ls-root (cond
-  ;;                          (birdz-computer-p "c:/installs/msys64/usr/bin/")
-  ;;                          (t                "c:/path-to-define")))
-  ;; (setq grep-program (concat grep-find-ls-root "grep"))
-  ;; (setq find-program (concat grep-find-ls-root "find"))
-  ;; (setq find-ls-option
-  ;;       '((concat "-exec " grep-find-ls-root "ls -ld {} \";\"") . "-ld"))
-#+END_SRC
 ** wgrep
 #+BEGIN_SRC emacs-lisp
   (use-package wgrep
