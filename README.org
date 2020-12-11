@@ -392,14 +392,22 @@ use ~/bash-aliases
     (setq shell-file-name (concat home-bin-dir "bash"))
     (unless (file-exists-p shell-file-name)
       (warn "please create \"~/bin/bash\" file, and make it executable"))
-   )
+    )
 
   (setq shell-command-switch "-c")
 
   (cond
    (linux-p nil)
    (birdz-computer-p (setenv "PATH" (concat "c:/installs/msys64/usr/bin" path-separator (getenv "PATH"))))
-   (home-computer-p  (setenv "PATH" (concat "E:/programs/msys64" path-separator (getenv "PATH"))))
+   (home-computer-p (dolist (dir '(
+                                   "~/.emacs.d/straight/repos/ada-mode"
+                                   "c:/Program Files/Git/cmd"
+                                   "c:/Program Files/Git/bin"
+                                   "e:/programs/msys64/mingw64/bin"
+                                   "e:/programs/msys64/usr/bin"
+                                   ))
+                      (setenv "PATH" (concat dir path-separator (getenv "PATH")))
+                      (setq exec-path (add-to-list 'exec-path dir))))
    (t (warn "ERROR JPI: undefined environment for this computer"))
    )
 #+END_SRC
@@ -448,14 +456,6 @@ use ~/bash-aliases
     ;; :pin gnu
     :after hydra
     :config
-
-    ;; speed up magit
-    (when (eq system-type 'windows-nt)
-      (setq exec-path (add-to-list 'exec-path "C:/Program Files/Git/cmd"))
-      (setq exec-path (add-to-list 'exec-path "C:/Program Files/Git/bin"))
-      (setenv "PATH" (concat "C:\\Program Files\\Git\\cmd;"
-                             "C:\\Program Files\\Git\\bin;"
-                             (getenv "PATH"))))
 
     :custom
     (magit-repository-directories
@@ -1012,8 +1012,6 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
     ;; :custom
     ;; (ada-parser 'elisp)
     :config
-
-    (setq exec-path (add-to-list 'exec-path (concat user-emacs-directory "straight/repos/ada-mode")))
 
     (setq fci-rule-column 78)
     ;; (ada-case-read-all-exceptions)
