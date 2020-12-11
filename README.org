@@ -1585,7 +1585,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
             )
     )
 #+END_SRC
-** birdz ssh
+** COMMENT birdz ssh
 #+BEGIN_SRC emacs-lisp
   (when (and birdz-computer-p (eq window-system 'w32))
     (require 'tramp)
