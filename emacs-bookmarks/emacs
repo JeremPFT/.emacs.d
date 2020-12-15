@@ -2,7 +2,25 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(#1=(#("new-link-elisp" 0 14
+(#1=(#("jinja2" 0 6
+(bmkp-full-record #1#))
+(buffer-name . "jinja2")
+(front-context-string . "  /usr/lib/pytho")
+(rear-context-string)
+(front-context-region-string)
+(rear-context-region-string)
+(visits . 0)
+(time . #2=(24536 51127 870726 275000))
+(created . #2#)
+(position . 1)
+(filename . #3="/usr/lib/python3/dist-packages/jinja2/")
+(dired-directory . #3#)
+(dired-marked)
+(dired-switches . "-al")
+(dired-subdirs)
+(dired-hidden-dirs)
+(handler . bmkp-jump-dired))
+#1=(#("new-link-elisp" 0 14
 (bmkp-full-record #1#))
 (filename . "~/.emacs.d/lisp/yasnippet/org-capture-link.el")
 (buffer-name . "org-capture-link.el")
