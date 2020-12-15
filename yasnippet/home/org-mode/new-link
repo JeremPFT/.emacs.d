@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: new link bookmark org
-# key: new_link
+# key: newlink
   1. insert copied text
   2. insert the time stamp
   3. insert snippet key
@@ -17,4 +17,4 @@
                     stamp (format-time-string fmt (current-time)))
               stamp)`
 :END:
-`(make-string (org-current-level) ?*)` new_link
+`(make-string (org-current-level) ?*)` newlink
