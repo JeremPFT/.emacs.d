@@ -657,7 +657,8 @@ use ~/bash-aliases
   ;; For old Carbon emacs on OS X only
   (set-keyboard-coding-system 'utf-8-unix)
 
-  (setq locale-coding-system 'windows-1252)
+  ;; (setq locale-coding-system 'windows-1252)
+  (setq locale-coding-system 'utf-8-unix)
   (set-default-coding-systems 'utf-8-unix)
   (prefer-coding-system 'utf-8-unix)
 
@@ -1151,6 +1152,8 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   (use-package elpy
     ;; Python env. From https://realpython.com/emacs-the-best-python-editor/
     :after yasnippet
+    :init
+    (setenv "PYTHONPATH" "e:/programs/msys64/mingw64/lib/python3.8/site-packages")
     :defines elpy-modules
     :config
     (elpy-enable) ;; config: "M-x elpy-config"
@@ -2075,12 +2078,6 @@ https://github.com/tkf/emacs-request
   ;;   (dired-quick-sort-setup)
   ;;   )
 
-  ;; (use-package counsel-projectile
-  ;;   :after projectile counsel
-  ;;   :config
-  ;;   (counsel-projectile-mode +1)
-  ;;   )
-
   (use-package ivy-hydra
     ;; completion
     )
@@ -2144,6 +2141,12 @@ https://github.com/tkf/emacs-request
   ;;                                   :compile "gprbuild"
   ;;                                   :src-dir "src/"
   ;;                                   :test-dir "src/tests/")
+
+  ;; (use-package counsel-projectile
+  ;;   :after projectile counsel
+  ;;   :config
+  ;;   (counsel-projectile-mode +1)
+  ;;   )
 
   (major-mode-hydra-define emacs-lisp-mode nil
     ("Eval"
