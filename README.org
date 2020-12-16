@@ -1094,6 +1094,11 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   (add-hook 'c-mode-hook (lambda () (setq comment-start "//"
                                           comment-end   "")))
 
+  (when birdz-debian-computer-p
+    (add-to-list 'load-path "/usr/share/emacs/site-lisp/clang-format-7")
+    (require 'clang-format)
+    )
+
   (defconst birdz-cc-style
     '("bsd"
       (c-basic-offset . 4)
