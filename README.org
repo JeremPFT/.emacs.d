@@ -2660,7 +2660,7 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
 
 #+RESULTS: insert-custom-file
 
-* Local Variables
+* COMMENT Local Variables
 Local Variables:
 mode: org
 coding: utf-8-unix
