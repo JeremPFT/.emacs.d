@@ -155,20 +155,24 @@ first thing to ensure we always start in .emacs.d/
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(defun indent-buffer ()
-  (interactive)
-  (let ((position (point)))
-    (indent-region (point-min) (point-max))
-    (goto-char position)))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key (kbd "C-x C-g") 'goto-line)
 (global-set-key (kbd "C-*") 'next-error)
 (global-set-key (kbd "C-/") 'previous-error)
 #+END_SRC
+**** indent-buffer
+#+BEGIN_SRC emacs-lisp
+(defun indent-buffer ()
+  (interactive)
+  (let ((position (point)))
+    (cond ((derived-mode-p 'cc-mode)
+           (clang-format-buffer))
+          (t
+           (indent-region (point-min) (point-max))
+           (goto-char position)))))
+#+END_SRC
+***** TODO check clang exists.
 *** emacs server
 #+BEGIN_SRC emacs-lisp
 ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
