@@ -680,6 +680,7 @@ use ~/bash-aliases
 *** Links
 see https://www.emacswiki.org/emacs/ChangingEncodings
 ** yasnippet
+** yasnippet configuration
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
   ;; https://github.com/joaotavora/yasnippet
@@ -695,6 +696,7 @@ see https://www.emacswiki.org/emacs/ChangingEncodings
   (yas-global-mode 1)
   )
 #+END_SRC
+** TODO remove home / birdz directories, use condition inside snippets.
 *** links
 https://github.com/mrkkrp/common-lisp-snippets
 ** fill column
