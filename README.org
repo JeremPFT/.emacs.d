@@ -1133,13 +1133,13 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   )
 
 (defun ada-before-save ()
-  (when (or (eq major-mode 'ada-mode) (eq major-mode 'gpr-mode))
+  (when (derived-mode-p 'ada-mode 'gpr-mode)
     (wisi-case-adjust-buffer)
     (wisi-reset-parser)
     (indent-buffer)))
 
 (defun hippie-expand-ada-symbols (orig-fun &rest args)
-  (if (eq major-mode 'ada-mode)
+  (if (derived-mode-p 'ada-mode)
       (let ((table (make-syntax-table ada-mode-syntax-table)))
         (modify-syntax-entry ?. "_" table)
         (with-syntax-table table (apply orig-fun args)))
@@ -1280,13 +1280,13 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
       (string-lessp
        (with-current-buffer (car a)
          (or buffer-file-name
-             (if (eq major-mode 'dired-mode)
+             (if (derived-mode-p 'dired-mode)
                  (expand-file-name dired-directory))
              ;; so that all non pathnames are at the end
              "~"))
        (with-current-buffer (car b)
          (or buffer-file-name
-             (if (eq major-mode 'dired-mode)
+             (if (derived-mode-p 'dired-mode)
                  (expand-file-name dired-directory))
              ;; so that all non pathnames are at the end
              "~"))))
@@ -1354,7 +1354,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   (hydra-ibuffer-action
    (:color teal :columns 4
            :after-exit
-           (if (eq major-mode 'ibuffer-mode)
+           (if (derived-mode-p 'ibuffer-mode)
                (hydra-ibuffer-main/body)))
    "Action"
    ("A" ibuffer-do-view "view")
@@ -1589,7 +1589,7 @@ T - tag prefix
                 (setq TeX-command-default "ConTeXt Full")))
     (add-hook 'TeX-mode-hook
               (lambda()
-                (when (equal major-mode 'context-mode)
+                (when (derived-mode-p 'context-mode)
                   (setq TeX-command-default "ConTeXt Full"))))
     (setq TeX-command-list
           (quote
