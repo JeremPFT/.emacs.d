@@ -734,32 +734,26 @@ https://www.emacswiki.org/emacs/UndoTree
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture))
   :custom
-  (org-id-link-to-org-use-id
-   (quote create-if-interactive-and-no-custom-id)
-   "org-store-link create an id")
-  (org-indent-indentation-per-level 0)
-  (org-adapt-indentation nil)
-  (org-html-table-default-attributes nil)
-  (org-publish-timestamp-directory "~/workspace/org/.org-timestamps/")
+  (org-adapt-indentation nil "don't indent levels contents")
   (org-default-notes-file "~/Dropbox/org/notes.org")
-  (org-startup-shrink-all-tables t)
-  (org-indent-mode 0)
-  (org-indent-indentation-per-level 0)
   (org-edit-src-content-indentation 0)
-  (org-fontify-done-headline t)
-  (org-hide-leading-stars nil)
-  (org-level-color-stars-only nil)
+  (org-hide-leading-stars nil "show all levels stars")
+  (org-html-table-default-attributes nil "no html table default attributes")
+  (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id "org-store-link create an id")
+  (org-indent-indentation-per-level 0 "sub levels indentation to 0")
+  (org-indent-mode nil "don't try to indent sub levels")
+  (org-level-color-stars-only nil "level titles are colored too")
+  (org-modules '(org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
+  (org-publish-timestamp-directory "~/workspace/org/.org-timestamps/")
   (org-src-window-setup (quote current-window))
+  (org-startup-shrink-all-tables t)
+  (org-tags-column 80 "tags alignment")
   (org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>")))
-  (org-modules
-   (quote
-    (org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
-  (org-file-apps
-   (quote
-    (("\\.mm\\'" . default)
-     ("\\.x?html?\\'" . default)
-     (auto-mode . emacs)
-     (directory . emacs))))
+
+  (org-file-apps '(("\\.mm\\'" . default)
+                   ("\\.x?html?\\'" . default)
+                   (auto-mode . emacs)
+                   (directory . emacs)))
 
   (org-capture-templates
    (quote
@@ -901,6 +895,7 @@ https://www.emacswiki.org/emacs/UndoTree
       ;; org-agenda-files (quote ("~/workspace/org/agenda"))
       org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
 #+END_SRC
+**** TODO integrate inside org. Or repeat a "use-package org".
 *** org-ql
 **** [[https://github.com/alphapapa/org-ql][link github]]
 **** configuration
