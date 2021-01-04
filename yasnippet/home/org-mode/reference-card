@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: reference - card
+# key: refcard
+# --
+#+TITLE: My ${1:refcard title} Reference Card
+#+SETUPFILE: refcard-setup.org
+
+* $0
+
+* COMMENT Local Variables
+# Local Variables:
+# mode: org
+# coding: utf-8-unix
+# End:
