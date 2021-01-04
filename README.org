@@ -778,6 +778,9 @@ https://www.emacswiki.org/emacs/UndoTree
            :END:
            "))))
   ;; org-headline-done ((t (:foreground "medium aquamarine")))
+  :config
+  (add-to-list 'load-path (concat user-emacs-directory "straight/repos/org/contrib/lisp"))
+  (require 'org-velocity) ;; TODO remove it. org-ql is a lot more rich (but I don't understand it yet...)
   )
 
 ;; patched function org-translate-time from org.el
