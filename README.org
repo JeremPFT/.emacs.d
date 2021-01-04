@@ -796,17 +796,6 @@ https://www.emacswiki.org/emacs/UndoTree
 ;; see https://orgmode.org/manual/Capturing-column-view.html:
 ;;    C-c C-x i (org-insert-columns-dblock)
 
-;; setting up org-babel for literate programming
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '(
-   (emacs-lisp t)
-   (python . t)
-   (shell . t)
-   (C . t)
-   ;; Include other languages here...
-   ))
-
 (progn
   (defvar org-html-postamble)
   (setq org-html-postamble nil))
@@ -873,6 +862,24 @@ https://www.emacswiki.org/emacs/UndoTree
       )))
 ;; (defun org-save-this-readme ()())
 (add-hook 'after-save-hook 'org-save-this-readme)
+#+END_SRC
+*** org babel configuration
+#+BEGIN_SRC elisp
+(use-package org
+  :config
+  ;; (let ((babel-langages nil))
+  ;;   (add-to-list 'babel-langages emacs-lisp)
+
+  ;; setting up org-babel for literate programming
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     (C . t)
+     (emacs-lisp t)
+     (python . t)
+     (shell . t)
+     ;; Include other languages here...
+     )))
 #+END_SRC
 *** TODO org-linkz [[https://github.com/p-kolacz/org-linkz][github]]
 ;; (use-package org-linkz
