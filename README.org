@@ -11,22 +11,22 @@
 :END:
 ** personnal functions & shortcuts
 *** COMMENT enter debug mode if necessary
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (setq debug-on-error nil)
 #+END_SRC
 **** TODO debugger emacs: ielm
-[[https://emacs.stackexchange.com/questions/33928/file-error-cannot-open-load-file-no-such-file-or-directory-multi-web-mode][config - File error: Cannot open load file, no such file or directory, multi-web-mode - Emacs Stack Exchange]] ::
+[[https://emacs.stackexchange.com/questions/33928/file-error-cannot-open-load-file-no-such-file-or-directory-multi-web-mode][config - File error: Cannot open load file, no such file or directory, multi-web-mode - Emacs Stack Exchange]]
 :PROPERTIES:
 :CREATED:  [2020-11-23 Mon 18:23]
 :END:
 **** newlink
 *** default directory
 first thing to ensure we always start in .emacs.d/
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (setq default-directory user-emacs-directory)
 #+END_SRC
 *** backup configuration, recentf, desktop
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (setq-default backup-by-copying t
               backup-directory-alist '(("." . "~/.emacs.d/backup"))
               recentf-auto-cleanup 'never
@@ -35,13 +35,13 @@ first thing to ensure we always start in .emacs.d/
               )
 #+END_SRC
 *** theme
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (setq custom-enabled-themes '(tsdh-dark))
 #+END_SRC
 
 *** TODO personnal functions & shortcuts
 *** global modes
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (require 'autorevert)
 (global-auto-revert-mode)
 (setq auto-revert-interval 3)
@@ -54,19 +54,19 @@ first thing to ensure we always start in .emacs.d/
  indent-tabs-mode nil)
 #+END_SRC
 *** custom
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (setq column-number-mode t)
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (setq fill-column 90)
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defconst lisp-dir (file-name-as-directory (concat user-emacs-directory "lisp")))
 
 ;; immediately load use-package (can be 'not found' otherwise)
@@ -81,7 +81,7 @@ first thing to ensure we always start in .emacs.d/
 (add-to-list 'load-path (concat lisp-dir "yasnippet"))
 #+END_SRC
 *** initial-buffer
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defun jp/initial-buffer()
   (interactive)
   (let ((jp--buffer (get-buffer-create "*fetching.org*")))
@@ -97,7 +97,7 @@ first thing to ensure we always start in .emacs.d/
 (setq initial-buffer-choice (concat user-emacs-directory "README.org"))
 #+END_SRC
 *** my functions
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defconst current-computer-name (upcase (system-name)))
 (defconst ingenico-computer-name "FR0WSC3NRYM2")
 (defconst home-computer-name "DESKTOP-5R08DIM")
@@ -120,7 +120,7 @@ first thing to ensure we always start in .emacs.d/
   (warn (concat "current computer unknown: " current-computer-name)))
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 ;; frame & display:
 ;; https://stackoverflow.com/questions/16481984/get-width-of-current-monitor-in-emacs-lisp
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Frame-Commands.html
@@ -154,7 +154,7 @@ first thing to ensure we always start in .emacs.d/
   )
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key (kbd "C-x C-g") 'goto-line)
@@ -162,7 +162,7 @@ first thing to ensure we always start in .emacs.d/
 (global-set-key (kbd "C-/") 'previous-error)
 #+END_SRC
 **** indent-buffer
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defun indent-buffer ()
   (interactive)
   (let ((position (point)))
@@ -174,14 +174,14 @@ first thing to ensure we always start in .emacs.d/
 #+END_SRC
 ***** TODO check clang exists.
 *** emacs server
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 ;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
 (require 'server)
 (unless (server-running-p)
   (server-start))
 #+END_SRC
 *** emacs hooks
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defun untabify-whole-buffer()
   (unless (derived-mode-p 'makefile-mode)
     (untabify (point-min) (point-max))))
@@ -190,7 +190,7 @@ first thing to ensure we always start in .emacs.d/
 #+END_SRC
 **** note about before-save-hook
 It can also be activated only for prog-modes:
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC elisp :tangle no
 (defun my-prog-nuke-trailing-whitespace ()
   (when (derived-mode-p 'prog-mode)
     (delete-trailing-whitespace)))
@@ -198,7 +198,7 @@ It can also be activated only for prog-modes:
 #+END_SRC
 
 ** Speed-up at startup: boost garbage collector memory
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package emacs ; garbage collector
   :config
   (progn
@@ -233,7 +233,7 @@ system-name)
 "[no file]")))))
 #+END_COMMENT
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (setq-default frame-title-format
               '(:eval
                 (format "%s: %s %s"
@@ -253,7 +253,7 @@ system-name)
 :header-args+: :tangle "~/.emacs.d/init.el"
 :END:
 ** package
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defun jp-config-package()
   (require 'package)
 
@@ -290,7 +290,7 @@ system-name)
 (jp-config-package)
 #+END_SRC
 ** straight & use-package
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defun jp-config-straight()
 
   (defvar bootstrap-version)
@@ -341,7 +341,7 @@ https://emacs.nasy.moe/
 https://jwiegley.github.io/use-package/
 ** use-package extensions
 *** use-package extension use-package-ensure-system-package
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defun jp-config-use-package-ensure-system-package()
   (use-package use-package-ensure-system-package)
   "success"
@@ -350,15 +350,15 @@ https://jwiegley.github.io/use-package/
 (jp-config-use-package-ensure-system-package)
 #+END_SRC
 *** use-package extension key-chord
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package key-chord)
 #+END_SRC
 *** use-package extension use-package-chords
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package use-package-chords)
 #+END_SRC
 *** use-package extension diminish
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package diminish
   ;;
   ;; only works with minor mode
@@ -370,26 +370,26 @@ https://jwiegley.github.io/use-package/
   )
 #+END_SRC
 *** use-package extension delight
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package delight
   :disabled)
 #+END_SRC
 *** use-package extension git-package
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package git-package
   :straight (:host github :repo "mnewt/git-package"))
 #+END_SRC
 *** TODO integrate git-package [[https://github.com/mnewt/git-package][git-package (installation par un depot git)]]
 *** TODO if I separate each src block in headers, they are not tangled.   :bug:
 ** isearch
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package emacs ; isearch
   :custom
   (case-fold-search t))
 #+END_SRC
 ** shell
 use ~/bash-aliases
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defconst home-dir (file-name-as-directory (getenv "HOME")))
 
 (defconst home-bin-dir (file-name-as-directory (concat home-dir "bin")))
@@ -422,7 +422,7 @@ use ~/bash-aliases
  )
 #+END_SRC
 ** desktop
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package desktop
   :config
   (desktop-save-mode)
@@ -437,7 +437,7 @@ use ~/bash-aliases
 #+END_SRC
 ** grep & find-dired
 *** grep configuration
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package grep
   :ensure nil
   :preface
@@ -541,7 +541,7 @@ use ~/bash-aliases
 **** https://github.com/Wilfred/ag.el
 **** [[https://agel.readthedocs.io/en/latest/index.html]]
 **** ag configuration
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package ag
   :straight (:host github :repo "Wilfred/ag.el"))
 #+END_SRC
@@ -550,7 +550,7 @@ use ~/bash-aliases
 **** https://www.howtogeek.com/682244/how-to-use-the-fd-command-on-linux/
 ** TODO TOSEE [[https://github.com/quelpa/quelpa][quelpa]] https://framagit.org/steckerhalter/steckemacs.el/-/tree/master [[https://github.com/quelpa/quelpa-use-package][quelpa-use-package]]
 ** Hydra
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package hydra
   ;; bindings keys
   ;; https://github.com/abo-abo/hydra
@@ -571,7 +571,7 @@ use ~/bash-aliases
   )
 #+END_SRC
 ** magit
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package magit
   ;;
   ;; TODO see magit-gitflow
@@ -650,7 +650,7 @@ use ~/bash-aliases
 ;;   )
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package magit-gitflow
   :after magit
   :straight (:host github :repo "jtatarik/magit-gitflow")
@@ -662,7 +662,7 @@ use ~/bash-aliases
 *** TODO link: [[https://github.com/magit/magit/issues/2971][Batch operation in magit-list-repositories]]
 
 ** Encoding
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 ;; utf-8-unix
 ;; windows-1252
 
@@ -681,7 +681,7 @@ use ~/bash-aliases
 see https://www.emacswiki.org/emacs/ChangingEncodings
 ** yasnippet
 ** yasnippet configuration
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package yasnippet
   ;; https://github.com/joaotavora/yasnippet
   ;; http://joaotavora.github.io/yasnippet/
@@ -700,7 +700,7 @@ see https://www.emacswiki.org/emacs/ChangingEncodings
 *** links
 https://github.com/mrkkrp/common-lisp-snippets
 ** fill column
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package fill-column-indicator
   :defines fci-rule-column
   :config
@@ -712,7 +712,7 @@ https://github.com/mrkkrp/common-lisp-snippets
   )
 #+END_SRC
 ** undo-tree
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package undo-tree
   :when home-computer-p
   :straight
@@ -724,8 +724,8 @@ https://www.emacswiki.org/emacs/UndoTree
 *** TODO undo-tree and yasnippet https://github.com/joaotavora/yasnippet/issues/478 :bug:
 ** org-mode
 *** about mixed installs: https://orgmode.org/worg/org-faq.html#mixed-install
-*** org configuration
-#+BEGIN_SRC emacs-lisp
+*** org core configuration
+#+BEGIN_SRC elisp
 (use-package org
   ;; used tag: release_9.3.7
   :mode
@@ -884,7 +884,7 @@ https://www.emacswiki.org/emacs/UndoTree
 *** TODO emacs and mail
 **** TODO https://www.reddit.com/r/emacs/comments/jvnzxl/mu4e_dashboard_using_orgmode_with_mu4e_links/
 *** agenda
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (setq org-agenda-files
       (quote
        ("~/workspace/org/agenda"
@@ -899,7 +899,7 @@ https://www.emacswiki.org/emacs/UndoTree
 *** org-ql
 **** [[https://github.com/alphapapa/org-ql][link github]]
 **** configuration
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package org-ql
   :after org
   :straight (:host github :repo "alphapapa/org-ql"))
@@ -909,7 +909,7 @@ https://www.emacswiki.org/emacs/UndoTree
 **** [[https://github.com/alphapapa/org-sidebar][link github]]
 **** TODO [[https://www.reddit.com/r/emacs/comments/jtydiy/who_needs_github_to_manage_a_project_when_you/][from this reddit post]]
 **** configuration
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package org-sidebar
   :after org
   :straight (:host github :repo "alphapapa/org-sidebar"))
@@ -930,7 +930,7 @@ https://www.emacswiki.org/emacs/UndoTree
 :CREATED:  [2020-10-30 Fri 01:29]
 :END:
 ** link-hint
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package link-hint
   :bind
   ("C-c l o" . link-hint-open-link)
@@ -939,7 +939,7 @@ https://www.emacswiki.org/emacs/UndoTree
 *** links
 https://github.com/noctuid/link-hint.el
 ** moving in emacs
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package avy
   ;; https://github.com/abo-abo/avy
   ;; like ace-jump
@@ -957,7 +957,7 @@ https://github.com/noctuid/link-hint.el
 #+END_SRC
 ** browse-kill-ring
 Note: use counsel-yank instead
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC elisp :tangle no
 (use-package browse-kill-ring
   :straight (:host github :repo "browse-kill-ring/browse-kill-ring" :branch "master")
   :config
@@ -967,7 +967,7 @@ Note: use counsel-yank instead
 #+END_SRC
 *** TODO links
 ** completion
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package flx
   ;; flx mode. Used with completion list
   ;; flx-isearch exists, but take a long time inside a long file
@@ -1030,7 +1030,7 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 *** TODO setup key in counsel
 
 ** bookmark+
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package bookmark+
   ;; https://www.emacswiki.org/emacs/BookmarkPlus
   :straight
@@ -1043,12 +1043,12 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
   (bmkp-last-as-first-bookmark-file nil)
   )
 #+END_SRC
-** imenu                                                               :dev::
-#+BEGIN_SRC emacs-lisp
+** imenu                                                               :dev:
+#+BEGIN_SRC elisp
 (require 'imenu)
 #+END_SRC
-** TODO ctags ggtags                                                   :dev::
-#+BEGIN_SRC emacs-lisp
+** TODO ctags ggtags                                                   :dev:
+#+BEGIN_SRC elisp
 ;; (defconst path-to-ctags "/usr/bin/ctags")
 
 ;; (defun create-tags (dir-name)
@@ -1066,7 +1066,7 @@ https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_s
 #+END_SRC
 *** TODO cscope
 *** TODO insert config in use-package
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 ;; (add-hook 'c-mode-common-hook
 ;;           (lambda ()
 ;;             (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
@@ -1082,8 +1082,8 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 :CREATED:  [2020-10-30 Fri 17:26]
 :END:
 #+END_SRC
-** C mode (Birdz)                                                      :dev::
-#+BEGIN_SRC emacs-lisp
+** C mode (Birdz)                                                      :dev:
+#+BEGIN_SRC elisp
 (when (or birdz-computer-p birdz-debian-computer-p)
 
   (add-hook 'c-mode-hook (lambda () (setq comment-start "//"
@@ -1121,8 +1121,8 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   (setq c-default-style '((c++-mode . "birdz")))
   )
 #+END_SRC
-** ada mode                                                            :dev::
-#+BEGIN_SRC emacs-lisp
+** ada mode                                                                     :dev:
+#+BEGIN_SRC elisp
 (use-package wisi
   :straight (:host github :repo "emacsmirror/wisi")
   )
@@ -1167,8 +1167,8 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
 (message "jp-config-ada-mode.el ok")
 #+END_SRC
-** python                                                              :dev::
-#+BEGIN_SRC emacs-lisp
+** python                                                              :dev:
+#+BEGIN_SRC elisp
 (use-package flycheck
   :after elpy
   )
@@ -1194,8 +1194,8 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
 (setq python-fill-docstring-style (quote symmetric))
 #+END_SRC
-** fic-mode: highlight TODO/FIXME/...                                  :dev::
-#+BEGIN_SRC emacs-lisp
+** fic-mode: highlight TODO/FIXME/...                                  :dev:
+#+BEGIN_SRC elisp
 (use-package fic-mode
   :config
   (add-hook 'prog-mode-hook #'fic-mode)
@@ -1210,7 +1210,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 *** links
 **** [[http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html][Tips for using Emacs Ibuffer]]
 *** configuration
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package ibuffer
   ;; https://github.com/reinh/dotemacs/blob/master/conf/init.org#ido
   ;; https://www.emacswiki.org/emacs/IbufferMode
@@ -1397,12 +1397,12 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   ); use-package ibuffer
 #+END_SRC
 ** dired
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (setq dired-guess-shell-alist-user (quote (("\\.sh" "bash") ("\\.py" "python3"))))
 
 #+END_SRC
 ** hydra custom
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defhydra hydra-summary ()
   ("m" hydra-magit/body "magit" :exit t) ;; defined in local-packages/git-config.el
   ("b" hydra-bookmarks/body "bookmarks" :exit t)
@@ -1435,7 +1435,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   ("-" text-scale-decrease "out"))
 #+END_SRC
 ** dired-hacks: subtree
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package dired-subtree
   :straight
   (:host github :repo "Fuco1/dired-hacks" :branch "master")
@@ -1444,7 +1444,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   )
 #+END_SRC
 ** dired-hacks: filter
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package dired-filter
   ;; TODO replace shortcuts with hydra
   :after hydra
@@ -1469,7 +1469,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
 
 *** TODO https://github.com/Fuco1/dired-hacks
 ** COMMENT dired+
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 ;; following defs prevent byte-compilation warnings
 (defun dired-do-ispell() (message "JPI: undefined function"))
 (defun dired-ediff-files() (message "JPI: undefined function"))
@@ -1562,13 +1562,13 @@ T - tag prefix
 #+END_SRC
 
 ** calfw calendar
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package calfw
   :ensure t)
 #+END_SRC
 
 ** latex * auctex * context
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defun jp-config-auctex ()
   (use-package auctex
     ;; https://www.gnu.org/software/auctex/
@@ -1666,7 +1666,7 @@ https://tex.loria.fr/formats/context/context-getting-started.pdf
 https://wiki.contextgarden.net/AUCTeX
 https://www.ntg.nl/maps/24/16.pdf latex to context
 ** TODO comb (learn it)
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package comb
   ;; https://github.com/cyrus-and/comb
   ;; grep & notes
@@ -1682,7 +1682,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 #+END_SRC
 
 ** wgrep
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package wgrep
   ;; editable grep results
   :init
@@ -1721,7 +1721,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
   )
 #+END_SRC
 ** COMMENT birdz ssh
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (when (and birdz-computer-p (eq window-system 'w32))
   (require 'tramp)
 
@@ -1740,28 +1740,28 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 (setq tramp-connection-properties '(("/plinkx" "remote-shell" "/bin/bash")))
 #+END_SRC
 *** sshfs
-[[https://forum.ubuntu-fr.org/viewtopic.php?id=369517][[Résolu][SSHFS] Connection reset by peer / Accès internet et réseaux / Forum Ubuntu-fr.org]] ::
+[[https://forum.ubuntu-fr.org/viewtopic.php?id=369517][[Résolu][SSHFS] Connection reset by peer / Accès internet et réseaux / Forum Ubuntu-fr.org]]
 :PROPERTIES:
 :CREATED:  [2020-10-30 Fri 17:25]
 :END:
-[[https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh][How To Use SSHFS to Mount Remote File Systems Over SSH | DigitalOcean]] ::
+[[https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh][How To Use SSHFS to Mount Remote File Systems Over SSH | DigitalOcean]]
 :PROPERTIES:
 :CREATED:  [2020-10-30 Fri 17:25]
 :END:
 ** nxml
 *** nxml customization
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package emacs ; nxml-mode
   :custom
   (nxml-slash-auto-complete-flag t))
 #+END_SRC
 *** package rnc-mode (relax NG compact)
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package rnc-mode)
 #+END_SRC
 **** https://github.com/aki2o/auto-complete-nxml
 *** package auto-complete-nxml
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package auto-complete-nxml
   :straight (:host github :repo "aki2o/auto-complete-nxml")
   :custom
@@ -1782,15 +1782,15 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 :PROPERTIES:
 :CREATED:  [2020-11-23 Mon 18:12]
 :END:
-**** [[http://books.xmlschemata.org/relaxng/ch17-77106.html][grammar]] ::
+**** [[http://books.xmlschemata.org/relaxng/ch17-77106.html][grammar]]
 :PROPERTIES:
 :CREATED:  [2020-11-23 Mon 18:13]
 :END:
-**** [[https://relaxng.org/compact-tutorial-20030326.html#annotations][RELAX NG Compact Syntax Tutorial]] ::
+**** [[https://relaxng.org/compact-tutorial-20030326.html#annotations][RELAX NG Compact Syntax Tutorial]]
 :PROPERTIES:
 :CREATED:  [2020-11-23 Mon 18:13]
 :END:
-**** [[https://relaxng.org/compatibility-20011203.html][RELAX NG DTD Compatibility]] ::
+**** [[https://relaxng.org/compatibility-20011203.html][RELAX NG DTD Compatibility]]
 :PROPERTIES:
 :CREATED:  [2020-11-23 Mon 18:13]
 :END:
@@ -1799,7 +1799,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 :CREATED:  [2020-11-24 Tue 15:41]
 :END:
 ** custom set faces
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (let ((foundry (cond (windows-p "outline")
                      (linux-p   "PfEd")
                      (t         "")
@@ -1832,12 +1832,12 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 #+END_SRC
 
 ** load custom file
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
 (when (file-exists-p custom-file) (load custom-file))
 #+END_SRC
 ** line numbering
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (defun jp-config-linum()
 
   (defvar linum-format-fmt)
@@ -1870,7 +1870,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 
 ** FOLLOWING PARTS ARE COMMENTED
 ** COMMENT visual
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package all-the-icons
   :disabled
   :ensure t
@@ -1893,7 +1893,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 
 #+END_SRC
 ** COMMENT icicle
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package icicles
   :disabled
   ;; https://github.com/emacsmirror/icicles
@@ -1903,8 +1903,8 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
   :config
   (icy-mode t))
 #+END_SRC
-** COMMENT C mode (Ingenico)                                           :dev::
-#+BEGIN_SRC emacs-lisp
+** COMMENT C mode (Ingenico)                                           :dev:
+#+BEGIN_SRC elisp
 (when ingenico-computer-p
 
   (add-hook 'c-mode-hook (lambda () (setq comment-start "//"
@@ -1993,7 +1993,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
   )
 #+END_SRC
 ** COMMENT find-dired+ (disabled)
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package find-dired+
   ;; https://www.emacswiki.org/emacs/find-dired+.el
 
@@ -2011,7 +2011,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 #+END_SRC
 ** TODO COMMENT request (web page)
 https://github.com/tkf/emacs-request
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package request
   )
 #+END_SRC
@@ -2019,7 +2019,7 @@ https://github.com/tkf/emacs-request
 *** TODO note: downloaded in lis
 * COMMENT others packages to check
 ** to sort
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; TODO to sort
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2636,7 +2636,7 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
 #+END_SRC
 
 * tangle and load file
-#+BEGIN_SRC emacs-lisp :results output silent
+#+BEGIN_SRC elisp :results output silent
 (progn
   (org-babel-tangle)
   (when (y-or-n-p "load init.el? ")
@@ -2645,9 +2645,9 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
 
 * emacs-custom content
 #+NAME: insert-custom-file
-#+BEGIN_SRC emacs-lisp :tangle no :results value drawer :exports
+#+BEGIN_SRC elisp :tangle no :results value drawer :exports
 (let ((result ""))
-  (setq result (concat "#+BEGIN_SRC emacs-lisp :tangle no\n"
+  (setq result (concat "#+BEGIN_SRC elisp :tangle no\n"
                        (with-temp-buffer (insert-file-contents (concat user-emacs-directory "emacs-custom.el")) (buffer-string))
                        "\n#+END_SRC\n"))
   result)
