@@ -883,6 +883,20 @@ https://www.emacswiki.org/emacs/UndoTree
      ;; Include other languages here...
      )))
 #+END_SRC
+*** org export html patch                                        :org:html:bug:
+- The problem is when org exports a source block as html, it uses a temporary buffer,
+  activates code mode, then uses htmlize. But activating code mode activates fci-mode
+  which generates a special character. This character is processed by htmlize.
+- The used solution add an advice to org-html-do-format-code which remove generated
+  characters.
+#+BEGIN_SRC emacs-lisp
+(use-package org
+  :config
+  (defun org-html-clean-exported-code (code)
+    (replace-regexp-in-string "&#57344;&#57345;&#57345;" "" code))
+  (advice-add 'org-html-do-format-code :filter-return #org-html-clean-exported-code)
+)
+#+END_SRC
 *** TODO org-linkz [[https://github.com/p-kolacz/org-linkz][github]]
 ;; (use-package org-linkz
 ;;   :straight
@@ -897,7 +911,9 @@ https://www.emacswiki.org/emacs/UndoTree
 (setq org-agenda-files
       (quote
        ("~/workspace/org/agenda"
-        "~/workspace/org/reference-cards/emacs-reference-card.org"
+        "~/workspace/org/bookmarks"
+        "~/workspace/org/reference-cards"
+        "~/workspace/org/reference-cards/tests"
         "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org"
         "~/.emacs.d/README.org"))
       org-log-done t
