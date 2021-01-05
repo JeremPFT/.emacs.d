@@ -689,8 +689,8 @@ see https://www.emacswiki.org/emacs/ChangingEncodings
   (:host github :repo "joaotavora/yasnippet" :branch "master")
   :custom
   (yas-snippet-dirs
-   (list (concat user-emacs-directory "yasnippet/home")
-         (concat user-emacs-directory "yasnippet/birdz")
+   (list (concat user-emacs-directory "snippets/home")
+         (concat user-emacs-directory "snippets/birdz")
          (concat user-emacs-directory "straight/build/elpy/snippets/")))
   :config
   (yas-global-mode 1)
