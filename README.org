@@ -758,13 +758,9 @@ https://www.emacswiki.org/emacs/UndoTree
   (org-capture-templates
    (quote
     (("l" "Link" entry
-      (file+headline "~/Dropbox/org/new_links.org" "links")
-      "** link
-           :PROPERTIES:
-           :TITLE: %?
-           :LINK:
-           :END:
-           ")
+      (file+headline "~/workspace/org/new_links.org" "links")
+      (file "~/.emacs.d/org-capture-templates/capt-tmpl-link.org")
+      )
      ("t" "Task" entry
       (file+headline "" "Tasks")
       "* TODO %?
@@ -776,7 +772,10 @@ https://www.emacswiki.org/emacs/UndoTree
            :PROPERTIES:
            :TIMES: %U%?
            :END:
-           "))))
+           ")
+     ("E" "Event With Clipboard" entry (file+headline "~/workspace/org/events.org" "Transient")
+      "* EVENT %?\n%U\n   %c" :empty-lines 1))
+)))
   ;; org-headline-done ((t (:foreground "medium aquamarine")))
   :config
   (add-to-list 'load-path (concat user-emacs-directory "straight/repos/org/contrib/lisp"))
