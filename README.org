@@ -38,7 +38,14 @@ first thing to ensure we always start in .emacs.d/
 #+BEGIN_SRC elisp
 (setq custom-enabled-themes '(tsdh-dark))
 #+END_SRC
+*** standard libraries
+**** file path utils
+Modern API for working with files and directories
 
+f-join, f-filename, f-direname...
+#+BEGIN_SRC elisp
+(use-package f)
+#+END_SRC
 *** TODO personnal functions & shortcuts
 *** global modes
 #+BEGIN_SRC elisp
