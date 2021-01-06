@@ -9,19 +9,13 @@
  '(safe-local-variable-values
    (quote
     ((eval progn
+           (setq ada-build-make-cmd "gprbuild ${gpr_file} -XBUILD_TYPE=debug")
+           (setq ada-build-run-cmd "set BUILD_TYPE=DEBUG && cd ~/workspace/ada_test_architectures/bin && ./run")
+           (setq ada-build-prompt-prj
+                 (quote prompt)))
+     (eval progn
            (org-babel-tangle)
-           (load-file "output/datasys-1.el"))
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/utils-test")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository-test")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service-test")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object-test")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-service-test")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object-test")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-application-object")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-service")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-repository")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/ata-model-object")
-     (eval load "~/workspace/ada_test_architectures/src/.emacs_prj_settings/run")))))
+           (load-file "output/datasys-1.el"))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
