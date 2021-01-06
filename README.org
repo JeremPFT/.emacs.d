@@ -735,7 +735,7 @@ https://www.emacswiki.org/emacs/UndoTree
          ("C-c c" . org-capture))
   :custom
   (org-adapt-indentation nil "don't indent levels contents")
-  (org-default-notes-file "~/Dropbox/org/notes.org")
+  (org-default-notes-file "~/workspace/org/collect.org")
   (org-edit-src-content-indentation 0)
   (org-hide-leading-stars nil "show all levels stars")
   (org-html-table-default-attributes nil "no html table default attributes")
@@ -758,7 +758,7 @@ https://www.emacswiki.org/emacs/UndoTree
   (org-capture-templates
    (quote
     (("l" "Link" entry
-      (file+headline "~/workspace/org/new_links.org" "links")
+      (file+headline "~/workspace/org/collect.org" "any/every-thing")
       (file "~/.emacs.d/org-capture-templates/capt-tmpl-link.org")
       )
      ("t" "Task" entry
@@ -767,15 +767,19 @@ https://www.emacswiki.org/emacs/UndoTree
            %u
            %a")
      ("c" "Clope" entry
-      (file+headline "~/Dropbox/org/pauses.org" "pauses")
+      (file+headline "e:/Dropbox/org/pauses.org" "pauses")
       "** clope
            :PROPERTIES:
            :TIMES: %U%?
            :END:
            ")
      ("E" "Event With Clipboard" entry (file+headline "~/workspace/org/events.org" "Transient")
-      "* EVENT %?\n%U\n   %c" :empty-lines 1))
-)))
+      "* EVENT %?\n%U\n   %c" :empty-lines 1)
+     ("e" "note" entry (file+headline "~/workspace/org/collect.org" "any/every-thing")
+      (file "~/.emacs.d/org-capture-templates/capt-tmpl-link.org")
+      :empty-lines 1)
+     )
+    ))
   ;; org-headline-done ((t (:foreground "medium aquamarine")))
   :config
   (add-to-list 'load-path (concat user-emacs-directory "straight/repos/org/contrib/lisp"))
@@ -894,7 +898,7 @@ https://www.emacswiki.org/emacs/UndoTree
   :config
   (defun org-html-clean-exported-code (code)
     (replace-regexp-in-string "&#57344;&#57345;&#57345;" "" code))
-  (advice-add 'org-html-do-format-code :filter-return #org-html-clean-exported-code)
+  (advice-add 'org-html-do-format-code :filter-return #'org-html-clean-exported-code)
 )
 #+END_SRC
 *** TODO org-linkz [[https://github.com/p-kolacz/org-linkz][github]]
@@ -914,6 +918,7 @@ https://www.emacswiki.org/emacs/UndoTree
         "~/workspace/org/bookmarks"
         "~/workspace/org/reference-cards"
         "~/workspace/org/reference-cards/tests"
+        "~/workspace/org/collect.org"
         "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org"
         "~/.emacs.d/README.org"))
       org-log-done t
@@ -1825,16 +1830,16 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 :END:
 ** custom set faces
 #+BEGIN_SRC elisp
-(let ((foundry (cond (windows-p "outline")
+(let ((face-foundry (cond (windows-p "outline")
                      (linux-p   "PfEd")
                      (t         "")
                      ))
-      (family (cond (windows-p "Consolas")
+      (face-family (cond (windows-p "Consolas")
                     (linux-p   "DejaVu Sans Mono")
                     (t         "")
                     ))
-      (height (cond
-               (home-computer-p 140)
+      (face-height (cond
+               (home-computer-p 160)
                (birdz-debian-computer-p 140)
                (t 140)))
       )
@@ -1850,10 +1855,10 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
                       :underline nil
                       :slant 'normal
                       :weight 'normal
-                      :height height
+                      :height face-height
                       :width 'normal
-                      :foundry foundry
-                      :family family))
+                      :foundry face-foundry
+                      :family face-family))
 #+END_SRC
 
 ** load custom file
