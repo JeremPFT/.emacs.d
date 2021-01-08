@@ -921,13 +921,15 @@ https://www.emacswiki.org/emacs/UndoTree
 #+BEGIN_SRC elisp
 (setq org-agenda-files
       (quote
-       ("~/workspace/org/agenda"
+       (
+        "~/.emacs.d/README.org"
+        "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org"
+        "~/workspace/org/agenda"
         "~/workspace/org/bookmarks"
+        "~/workspace/org/collect.org"
         "~/workspace/org/reference-cards"
         "~/workspace/org/reference-cards/tests"
-        "~/workspace/org/collect.org"
-        "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org"
-        "~/.emacs.d/README.org"))
+        ))
       org-log-done t
       ;; org-agenda-files (quote ("~/workspace/org/agenda"))
       org-refile-targets (quote ((org-agenda-files :maxlevel . 4))))
