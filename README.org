@@ -754,7 +754,7 @@ https://www.emacswiki.org/emacs/UndoTree
   (org-publish-timestamp-directory "~/workspace/org/.org-timestamps/")
   (org-src-window-setup (quote current-window))
   (org-startup-shrink-all-tables t)
-  (org-tags-column 80 "tags alignment")
+  (org-tags-column -153 "tags alignment")
   (org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>")))
 
   (org-file-apps '(("\\.mm\\'" . default)
