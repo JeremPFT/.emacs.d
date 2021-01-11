@@ -738,8 +738,8 @@ https://www.emacswiki.org/emacs/UndoTree
   :mode
   ("\\.\\(org\\|txt\\)\\'" . org-mode)
   ("\\*notes\\*" . org-mode)
-  :bind (("C-c a" . org-agenda)
-         ("C-c c" . org-capture))
+  :bind
+  (("C-c a" . org-agenda))
   :custom
   (org-adapt-indentation nil "don't indent levels contents")
   (org-default-notes-file "~/workspace/org/collect.org")
@@ -762,31 +762,7 @@ https://www.emacswiki.org/emacs/UndoTree
                    (auto-mode . emacs)
                    (directory . emacs)))
 
-  (org-capture-templates
-   (quote
-    (("l" "Link" entry
-      (file+headline "~/workspace/org/collect.org" "any/every-thing")
-      (file "~/.emacs.d/org-capture-templates/capt-tmpl-link.org")
-      )
-     ("t" "Task" entry
-      (file+headline "" "Tasks")
-      "* TODO %?
-           %u
-           %a")
-     ("c" "Clope" entry
-      (file+headline "e:/Dropbox/org/pauses.org" "pauses")
-      "** clope
-           :PROPERTIES:
-           :TIMES: %U%?
-           :END:
-           ")
-     ("E" "Event With Clipboard" entry (file+headline "~/workspace/org/events.org" "Transient")
-      "* EVENT %?\n%U\n   %c" :empty-lines 1)
-     ("e" "note" entry (file+headline "~/workspace/org/collect.org" "any/every-thing")
-      (file "~/.emacs.d/org-capture-templates/capt-tmpl-link.org")
-      :empty-lines 1)
-     )
-    ))
+
   ;; org-headline-done ((t (:foreground "medium aquamarine")))
   :config
   (add-to-list 'load-path (concat user-emacs-directory "straight/repos/org/contrib/lisp"))
@@ -876,6 +852,70 @@ https://www.emacswiki.org/emacs/UndoTree
 ;; (defun org-save-this-readme ()())
 (add-hook 'after-save-hook 'org-save-this-readme)
 #+END_SRC
+*** org-capture                                                                 :emacs:org:capture:
+**** org-capture configuration
+#+BEGIN_SRC elisp
+(use-package org
+  :bind
+  (("C-c c" . org-capture))
+  :custom
+  (org-capture-templates
+   (quote
+    (("l" "Link" entry
+      (file+headline "~/workspace/org/collect.org" "any/every-thing")
+      (file "~/.emacs.d/org-capture-templates/capt-tmpl-link.org")
+      )
+     ("t" "Task" entry
+      (file+headline "" "Tasks")
+      "* TODO %?
+           %u
+           %a")
+     ("c" "Clope" entry
+      (file+headline "e:/Dropbox/org/pauses.org" "pauses")
+      "** clope
+           :PROPERTIES:
+           :TIMES: %U%?
+           :END:
+           ")
+     ("E" "Event With Clipboard" entry (file+headline "~/workspace/org/events.org" "Transient")
+      "* EVENT %?\n%U\n   %c" :empty-lines 1)
+     ("e" "note" entry (file+headline "~/workspace/org/collect.org" "any/every-thing")
+      (file "~/.emacs.d/org-capture-templates/capt-tmpl-link.org")
+      :empty-lines 1)
+
+     ("b" "bookmark")
+     ("bm" "manga" entry (file+headline "~/workspace/org/bookmarks/bookmarks-loisirs-mangas.org" "liste")
+      (file "~/.emacs.d/org-capture-templates/capt-tmpl-bmk-mangas.org")
+      :empty-lines 1)
+     )
+    )))
+#+END_SRC
+**** org-capture templates
+
+#+NAME: org-header-stars
+#+HEADER: :var level=1
+#+BEGIN_SRC elisp :exports none
+(make-string level ?*)
+#+END_SRC
+
+#+BEGIN_SRC org :noweb yes :comments "no" :tangle "~/.emacs.d/org-capture-templates/capt-tmpl-bmk-mangas.org"
+<<org-header-stars(3)>> %^{manga-title}                                                             :manga:
+:PROPERTIES:
+:CREATED: %U
+:LAST: %U
+:LINK: %^L
+:CHAPTER:
+:END:
+#+END_SRC
+
+#+BEGIN_SRC org :noweb yes :comments "no" :tangle "~/.emacs.d/org-capture-templates/capt-tmpl-bmk-mangas.org"
+<<org-header-stars(2)>> %^{link-title} %^G
+:PROPERTIES:
+:link: %^L
+:created: %U
+:END:
+#+END_SRC
+
 *** org babel configuration
 #+BEGIN_SRC elisp
 (use-package org
