@@ -1,0 +1,7 @@
+*** %^{manga-title}                                                             :manga:
+:PROPERTIES:
+:CREATED: %U
+:LAST: %U
+:LINK: %^L
+:CHAPTER:
+:END:
