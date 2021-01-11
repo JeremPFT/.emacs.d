@@ -931,6 +931,7 @@ https://www.emacswiki.org/emacs/UndoTree
      (emacs-lisp t)
      (python . t)
      (shell . t)
+     (org . t)
      ;; Include other languages here...
      )))
 #+END_SRC
