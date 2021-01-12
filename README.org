@@ -895,17 +895,21 @@ https://www.emacswiki.org/emacs/UndoTree
      ("bm" "manga" entry (file+headline "~/workspace/org/bookmarks/bookmarks-loisirs-mangas.org" "liste")
       (file "~/.emacs.d/org-capture-templates/capt-tmpl-bmk-mangas.org")
       :empty-lines 1)
+
+     ("p" "passwords" entry (file "~/workspace/org/passwords.org.gpg")
+      (file "~/.emacs.d/org-capture-templates/capt-tmpl-pwd.org"))
+
      )
     )))
 #+END_SRC
 **** org-capture templates
-
+***** function generating headline stars
 #+NAME: org-header-stars
 #+HEADER: :var level=1
 #+BEGIN_SRC elisp :exports none
 (make-string level ?*)
 #+END_SRC
-
+***** manga link template
 #+BEGIN_SRC org :noweb yes :comments "no" :tangle "~/.emacs.d/org-capture-templates/capt-tmpl-bmk-mangas.org"
 <<org-header-stars(3)>> %^{manga-title}                                                             :manga:
 :PROPERTIES:
@@ -915,7 +919,7 @@ https://www.emacswiki.org/emacs/UndoTree
 :CHAPTER:
 :END:
 #+END_SRC
-
+***** link template
 #+BEGIN_SRC org :noweb yes :comments "no" :tangle "~/.emacs.d/org-capture-templates/capt-tmpl-bmk-mangas.org"
 <<org-header-stars(2)>> %^{link-title} %^G
 :PROPERTIES:
@@ -923,7 +927,16 @@ https://www.emacswiki.org/emacs/UndoTree
 :created: %U
 :END:
 #+END_SRC
-
+***** password template
+#+BEGIN_SRC org :noweb yes :comments "no" :tangle "~/.emacs.d/org-capture-templates/capt-tmpl-pwd.org"
+<<org-header-stars(1)>> %^{title} %^G
+:PROPERTIES:
+:CREATED: %U
+:LINK: %^L
+:USERNAME: %^{username}
+:PASSWORD: %^{password}
+:END:
+#+END_SRC
 *** org babel configuration
 #+BEGIN_SRC elisp
 (use-package org
@@ -973,6 +986,7 @@ https://www.emacswiki.org/emacs/UndoTree
        (
         "~/.emacs.d/README.org"
         "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org"
+        "~/workspace/org/passwords.org.gpg"
         "~/workspace/org/agenda"
         "~/workspace/org/bookmarks"
         "~/workspace/org/collect.org"
@@ -1002,6 +1016,14 @@ https://www.emacswiki.org/emacs/UndoTree
   :after org
   :straight (:host github :repo "alphapapa/org-sidebar"))
 #+END_SRC
+*** org-password-manager
+**** config
+#+BEGIN_SRC elisp
+(use-package org-password-manager
+  :after org
+  :straight (:host github :repo "leafac/org-password-manager"))
+#+END_SRC
+**** WARN require pwgen
 
 *** TODO link: [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]                                 :agenda:github:
 *** TODO link: [[https://github.com/thisirs/org-context][org-context]]                                             :github:
