@@ -388,6 +388,14 @@ f-join, f-filename, f-direname...
 #+BEGIN_SRC elisp
 (use-package f)
 #+END_SRC
+** gpg EasyPG
+#+BEGIN_SRC elisp
+(use-package epg
+  :config
+  :custom
+  (epg-pinentry-mode 'loopback)
+  )
+#+END_SRC
 ** isearch
 #+BEGIN_SRC elisp
 (use-package emacs ; isearch
