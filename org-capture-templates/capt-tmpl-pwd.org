@@ -1,0 +1,7 @@
+* %^{title} %^G
+:PROPERTIES:
+:CREATED: %U
+:LINK: %^L
+:USERNAME: %^{username}
+:PASSWORD: %^{password}
+:END:
