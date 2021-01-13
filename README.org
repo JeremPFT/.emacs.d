@@ -992,6 +992,7 @@ https://www.emacswiki.org/emacs/UndoTree
         "~/workspace/org/collect.org"
         "~/workspace/org/reference-cards"
         "~/workspace/org/reference-cards/tests"
+        "~/workspace/ada_test_architectures"
         ))
       org-log-done t
       ;; org-agenda-files (quote ("~/workspace/org/agenda"))
