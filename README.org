@@ -2144,7 +2144,7 @@ https://github.com/tkf/emacs-request
   )
 #+END_SRC
 
-*** TODO note: downloaded in lis
+*** TODO note: downloaded in lisp
 
 ** plantuml                                                                                                                                     :dev:uml:
 https://medium.com/@shibucite/emacs-and-plantuml-for-uml-diagrams-academic-tools-6c34bc07fd2
