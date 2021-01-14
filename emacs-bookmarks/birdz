@@ -27,8 +27,8 @@
 (rear-context-string)
 (front-context-region-string)
 (rear-context-region-string)
-(visits . 5)
-(time 24528 58346 843357 876000)
+(visits . 6)
+(time 24575 12092 802682 125000)
 (created 24508 64241 732945 174000)
 (position . 1)
 (filename . "/home/jeremy/workspace/birdz/")
@@ -38,7 +38,7 @@
 (dired-subdirs)
 (dired-hidden-dirs)
 (handler . bmkp-jump-dired))
-#1=(#("README.org" 0 10
+#1=(#(".emacs.d/README.org" 0 19
 (bmkp-full-record #1#))
 (end-position . 52601)
 (filename . "~/.emacs.d/README.org")
@@ -47,8 +47,8 @@
 (rear-context-string)
 (front-context-region-string)
 (rear-context-region-string)
-(visits . 2)
-(time 24510 35410 921970 75000)
+(visits . 3)
+(time 24575 12064 324208 163000)
 (created 24493 1343 665264 0)
 (position . 52601))
 #1=(#("Help - package-pinned-packages" 0 30
