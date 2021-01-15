@@ -1012,6 +1012,7 @@ templates.
         "~/workspace/org/reference-cards"
         "~/workspace/org/reference-cards/tests"
         "~/workspace/ada_test_architectures"
+        "~/workspace/birdz/notes"
         ))
       org-log-done t
       ;; org-agenda-files (quote ("~/workspace/org/agenda"))
