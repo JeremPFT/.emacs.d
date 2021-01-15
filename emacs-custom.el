@@ -3,9 +3,29 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-directory "~/workspace/org")
+ '(safe-local-eval-forms
+   (quote
+    ((add-hook
+      (quote write-file-hooks)
+      (quote time-stamp))
+     (add-hook
+      (quote write-file-functions)
+      (quote time-stamp))
+     (add-hook
+      (quote before-save-hook)
+      (quote time-stamp)
+      nil t)
+     (add-hook
+      (quote before-save-hook)
+      (quote delete-trailing-whitespace)
+      nil t))))
  '(safe-local-variable-values
    (quote
-    ((eval progn
+    ((eval progn "README.org: evaluate all blocks without confirmation:"
+           (setq org-confirm-babel-evaluate nil))
+     (eval setq org-confirm-babel-evaluate nil)
+     (eval progn
            (setq ada-build-make-cmd "gprbuild ${gpr_file} -XBUILD_TYPE=debug")
            (setq ada-build-run-cmd "export BUILD_TYPE=debug && cd ~/workspace/ada_test_architectures/bin && ./run")
            (setq ada-build-prompt-prj
