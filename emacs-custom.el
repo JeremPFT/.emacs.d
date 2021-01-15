@@ -35,7 +35,8 @@
                  (quote prompt)))
      (eval progn
            (org-babel-tangle)
-           (load-file "output/datasys-1.el"))))))
+           (load-file "output/datasys-1.el")))))
+ '(tab-width 2))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
