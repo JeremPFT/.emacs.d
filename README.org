@@ -958,32 +958,32 @@ templates.
 #+END_SRC
 *** org babel configuration
 #+BEGIN_SRC elisp
-(use-package org
-  :config
-  ;; (let ((babel-langages nil))
-  ;;   (add-to-list 'babel-langages emacs-lisp)
-
-  ;; setting up org-babel for literate programming
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '(
-     (C . t)
-     (emacs-lisp t)
-     (python . t)
-     (shell . t)
-     (org . t)
-     ;; Include other languages here...
-     )))
-#+END_SRC
 *** org export html patch                                        :org:html:bug:
+  (use-package org
+    :config
+    ;; (let ((babel-langages nil))
+    ;;   (add-to-list 'babel-langages emacs-lisp)
+
+    ;; setting up org-babel for literate programming
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '(
+       (C . t)
+       (emacs-lisp t)
+       (python . t)
+       (shell . t)
+       (org . t)
+       (plantuml .t)
+       ;; Include other languages here...
+       )))
+#+END_SRC
 - The problem is when org exports a source block as html, it uses a temporary buffer,
   activates code mode, then uses htmlize. But activating code mode activates fci-mode
   which generates a special character. This character is processed by htmlize.
 - The used solution add an advice to org-html-do-format-code which remove generated
   characters.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package org
-  :config
   (defun org-html-clean-exported-code (code)
     (replace-regexp-in-string "&#57344;&#57345;&#57345;" "" code))
   (advice-add 'org-html-do-format-code :filter-return #'org-html-clean-exported-code)
