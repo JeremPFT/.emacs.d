@@ -5,9 +5,3 @@
 :LINK: %^L
 :CHAPTER:
 :END:
-
-** %^{link-title} %^G
-:PROPERTIES:
-:link: %^L
-:created: %U
-:END:
