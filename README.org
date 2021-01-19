@@ -966,7 +966,6 @@ templates.
 #+END_SRC
 *** org babel configuration
 #+BEGIN_SRC elisp
-*** org export html patch                                        :org:html:bug:
   (use-package org
     :config
     ;; (let ((babel-langages nil))
@@ -985,6 +984,7 @@ templates.
        ;; Include other languages here...
        )))
 #+END_SRC
+*** COMMENT org export html patch                                                                                                     :org:html:bug:TODO:
 - The problem is when org exports a source block as html, it uses a temporary buffer,
   activates code mode, then uses htmlize. But activating code mode activates fci-mode
   which generates a special character. This character is processed by htmlize.
