@@ -1013,7 +1013,6 @@ templates.
        (
         "~/.emacs.d/README.org"
         "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org"
-        "~/workspace/org/passwords.org.gpg"
         "~/workspace/org/agenda"
         "~/workspace/org/bookmarks"
         "~/workspace/org/collect.org"
