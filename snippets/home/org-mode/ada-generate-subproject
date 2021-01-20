@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: ada generate subproject
+# key: adaprj
+# --
+
+#+NAME: ada_subproject_${1:project_name}
+#+BEGIN_SRC elisp
+(generate (name: $1)
+ext-deps:(${2:external_dependancies})
+int-deps:(${3:external_dependancies})
+#+END_SRC
