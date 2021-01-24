@@ -2,115 +2,1495 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Mon Dec  7 18:15:38 2020
+;; Created Sun Jan 24 22:45:21 2021
 ;; Desktop file format version 208
 ;; Emacs version 26.1
 
 ;; Global section:
-(setq desktop-saved-frameset [frameset 1 (24526 25402 920622 8000) (desktop . "208") "jeremy@debian-birdz-jpi" nil nil ((((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (font-parameter) (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (sticky) (environment) (frameset--id . "AE6A-3D01-08A3-8592") (frameset--mini t . t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (height . 39) (width . 171) (left + -1) (top . 27)) ((min-height . 4) (min-width . 20) (min-height-ignore . 2) (min-width-ignore . 10) (min-height-safe . 1) (min-width-safe . 4) (min-pixel-height . 92) (min-pixel-width . 220) (min-pixel-height-ignore . 46) (min-pixel-width-ignore . 110) (min-pixel-height-safe . 23) (min-pixel-width-safe . 44)) hc (pixel-width . 1920) (pixel-height . 889) (total-width . 175) (total-height . 39) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 963) (pixel-height . 889) (total-width . 88) (total-height . 39) (normal-height . 1.0) (normal-width . 0.5) (buffer "emacs-custom.el" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 2051) (start . 1))) (leaf (last . t) (pixel-width . 957) (pixel-height . 889) (total-width . 87) (total-height . 39) (normal-height . 1.0) (normal-width . 0.5) (buffer "cnd-161.org" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 73828) (start . 1)))))])
+(setq desktop-saved-frameset [frameset 1 (24589 60017 218379 706000) (desktop . "208") "jeremy@debian-birdz-jpi" nil nil ((((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (font-parameter . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (sticky) (frameset--id . "273F-3D90-CD2F-6665") (frameset--mini t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (height . 39) (width . 171) (left + -1) (top . 27)) ((min-height . 4) (min-width . 20) (min-height-ignore . 3) (min-width-ignore . 10) (min-height-safe . 1) (min-width-safe . 4) (min-pixel-height . 92) (min-pixel-width . 220) (min-pixel-height-ignore . 69) (min-pixel-width-ignore . 110) (min-pixel-height-safe . 23) (min-pixel-width-safe . 44)) hc (pixel-width . 1920) (pixel-height . 889) (total-width . 175) (total-height . 39) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 963) (pixel-height . 889) (total-width . 88) (total-height . 39) (normal-height . 1.0) (normal-width . 0.5) (buffer "*Magit Repositories*" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 1) (start . 1))) (leaf (last . t) (pixel-width . 957) (pixel-height . 889) (total-width . 87) (total-height . 39) (normal-height . 1.0) (normal-width . 0.5) (buffer "magit: .emacs.d" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 89500) (start . 1)))) (((minibuffer . t) (undecorated) (override-redirect) (font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (font-parameter . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-19-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbe0f0") (background-color . "#050000") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "white") (environment) (sticky) (frameset--id . "5FC3-554E-60AA-D742") (frameset--mini t . t) (modeline . t) (unsplittable) (icon-name) (display . ":0") (explicit-name) (fullscreen-restore . maximized) (height . 36) (width . 80) (left + -10) (top . 20)) ((min-height . 4) (min-width . 20) (min-height-ignore . 2) (min-width-ignore . 10) (min-height-safe . 1) (min-width-safe . 4) (min-pixel-height . 92) (min-pixel-width . 220) (min-pixel-height-ignore . 46) (min-pixel-width-ignore . 110) (min-pixel-height-safe . 23) (min-pixel-width-safe . 44)) hc (pixel-width . 912) (pixel-height . 805) (total-width . 83) (total-height . 35) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 451) (pixel-height . 805) (total-width . 41) (total-height . 35) (normal-height . 1.0) (normal-width . 0.4945175438596491) (buffer "testing.prj" (selected) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 424) (start . 1))) (leaf (last . t) (pixel-width . 461) (pixel-height . 805) (total-width . 42) (total-height . 35) (normal-height . 1.0) (normal-width . 0.5054824561403509) (buffer "README.org<.emacs.d>" (selected) (hscroll . 33) (fringes 8 8 nil) (margins nil) (scroll-bars nil 2 t nil 0 t) (vscroll . 0) (dedicated) (point . 1584) (start . 1373)))))])
 (setq desktop-missing-file-warning nil)
 (setq tags-file-name nil)
 (setq tags-table-list nil)
-(setq search-ring '("rd sov" "command-def" "jp-config-auct" "auctex" "reset" "ada-parser" "ada-mode" "success" "OMMENT" "this-read" "-install" "install-" "use-package-ensure" "use-package" "byte-com" "cannot op"))
-(setq regexp-search-ring nil)
+(setq search-ring '("ada-build" "if there" "org-log-done t" "name . \"^" "constructor" "logger" "github" "ata_" "library_name" "," ")" "," "=" "shared_library_kind" "static-pic" "staic"))
+(setq regexp-search-ring '("^ *{" "^ +{" "el$" "\\<lisp"))
 (setq register-alist nil)
-(setq file-name-history '("~/.emacs.d/emacs-bookmarks/birdz" "/home/jeremy/.emacs.d/lisp/" "/home/jeremy/.emacs.d/" "~/.emacs.d/" "~/.emacs.d/init.el" "~/.emacs.d/init.el" "~/.emacs.d/lisp/" "~/.emacs.d/" "~/.emacs.d/lisp/" "~/.emacs.d/" "~/.emacs.d/init.el" "~/.emacs.d/lisp/package-config.el" "~/.emacs.d/lisp/" "~/.emacs.d/" "~/.emacs.d/lisp/" "~/.emacs.d/lisp/straight-install.el" "~/.emacs.d/"))
+(setq file-name-history '("/home/jeremy/.emacs.d/emacs-custom.el" "/home/jeremy/.emacs.d/README.org" "/home/jeremy/workspace/ada_utils/" "/home/jeremy/workspace/ada_utils/ada_utils-configuration.org" "/home/jeremy/workspace/ada_test_architectures/" "/home/jeremy/workspace/ada_utils/src/logger/" "/home/jeremy/workspace/ada_utils/src/" "testing.gpr" "~/workspace/ada_utils/src/testing/testing.prj" "~/workspace/ada_utils/src/logger/logger.prj" "" "~/workspace/ada_utils/src/simple_test_gpr_install_client/simple_test_gpr_install_client.prj" "/opt/gnatstudio/include/gnatcoll/" "/home/jeremy/workspace/ada_utils/src/.gpr/" "/home/jeremy/workspace/ada_utils/src/simple_test_gpr_install_client/" "~/workspace/ada_utils/src/simple_test_gpr_install_client/simple_test_gpr_install_client.prj" "/home/jeremy/workspace/ada_utils/src/simple_test_gpr_install/" "~/workspace/ada_utils/src/.gpr/" "simple_test_gpr_install.gpr" "~/workspace/ada_utils/src/simple_test_gpr_install/simple_test_gpr_install.prj" "/home/jeremy/workspace/ada_utils/src/simple_test_gpr_install/simple_test_gpr_install.ads" "/home/jeremy/workspace/ada_utils/scripts/template/" "/home/jeremy/workspace/ada_test_architectures/scripts/template/" "/home/jeremy/workspace/ada_test_architectures/src/.gpr/" "/opt/gnatstudio/include/simple_test_gpr_install/" "/opt/gnatstudio/share/" "/opt/gnatstudio/share/gpr/" "~/workspace/ada_utils/src/simple_test_gpr_install_client/simple_test_gpr_install_client.prj" "~/workspace/ada_utils/src/simple_test_gpr_install_client/" "~/workspace/ada_utils/src/simple_test_gpr_install/simple_test_gpr_install.prj" "~/workspace/ada_utils/src/simple_test_gpr_install" "~/workspace/ada_utils/src/logger/logger.prj" "/home/jeremy/workspace/ada_utils/src/.gpr/testing.gpr" "~/workspace/ada_utils/src/testing/testing.prj" "/home/jeremy/workspace/ada_utils/src/testing/" "~/workspace/ada_utils/src/testing/testing.prj" "~/workspace/ada_utils/src/testing/testing.prj.0" "~/workspace/ada_utils/src/testing/testing.prj" "~/.emacs.d/emacs-bookmarks/birdz" "/home/jeremy/opt/" "~/workspace/ada_utils/src/testing/testing.prj" "testing.gpr" "~/workspace/ada_utils/src/testing/testing.prj" "~/workspace/ada_utils/src/testing/testing.prj" "~/workspace/ada_utils/src/testing/testing.prj" "/opt/gnatstudio/" "~/workspace/ada_utils/src/testing/testing.prj" "/home/jeremy/workspace/ada_utils/src/result-tests/" "/home/jeremy/opt/GNAT/2020/share/gpr/" "/home/jeremy/.bashrc" "/home/jeremy/workspace/ada_utils/src/result-tests/tests_context.ads" "~/workspace/ada_utils/src/result-tests/result-tests.prj" "result-tests-value_or_error-with_success.adb" "result-tests-value_or_error-failure_with_many_code.adb" "result-tests-value_or_error-with_success.adb" "result-tests-value_or_error.ads" "result-tests-value_or_error-with_success.adb" "instance_of_result.ads" "result-tests-value_or_error-with_success.adb" "./result-tests-success_or_error-with_success.ads" "./result-tests-success_or_error-failure_with_one_code.ads" "./result-tests-value_or_error-with_success.adb" "./result-tests-value_or_error-failure_with_many_code.adb" "./result-tests-value_or_error-failure_with_many_code.ads" "./result-tests-success_or_error-failure_with_many_code.adb" "./result-tests-success_or_error-failure_with_many_code.ads" "./result-tests-value_or_error-with_success.ads" "./result-tests-value_or_error-failure_with_one_code.adb" "./result-tests-value_or_error-failure_with_one_code.ads" "./result-tests-success_or_error-with_success.adb" "./result-tests.ads" "result-tests-success_or_error-failure_with_one_code.adb" "/home/jeremy/workspace/ada_utils/src/result-tests/hello.ads" "result-tests-success_or_error-failure_with_one_code.adb" "instance_of_result.ads" "result-tests-value_or_error-with_success.adb" "result-tests-success_or_error-failure_with_one_code.adb" "result-tests-value_or_error.ads" "result-tests-value_or_error-failure_with_many_code.adb" "result-tests-success_or_error-failure_with_one_code.adb" "result-tests-value_or_error-failure_with_many_code.adb" "result-tests-success_or_error-failure_with_one_code.adb" "result-tests-value_or_error-failure_with_many_code.adb" "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-success_or_error-failure_with_one_code.ads" "result-tests-success_or_error-failure_with_one_code.adb" "result-tests-value_or_error-failure_with_many_code.adb" "~/workspace/ada_utils/src/result-tests/result-tests-value_or_error-failure_with_many_code.adb" "~/workspace/ada_utils/src/result-tests/result-tests-value_or_error-failure_with_many_code.ads" "~/workspace/ada_utils/src/result-tests/result-tests-success_or_error-failure_with_many_code.ads" "~/workspace/ada_utils/src/result-tests/result-tests-success_or_error-failure_with_many$$_code.adb" "result-tests-success_or_error-with_failure.adb" "/home/jeremy/workspace/ada_utils/src/result/" "result-tests-success_or_error-with_failure.adb" "result-tests-value_or_error-with_success.adb" "result-tests-value_or_error-with_success.ads" "result-tests-success_or_error-with_failure.ads" "instance_of_result.ads" "result-tests-success_or_error-with_failure.adb" "result-tests-value_or_error-with_success.adb" "result-tests-success_or_error.ads"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
-(desktop-create-buffer 208
-  "/home/jeremy/workspace/birdz/cnd-161/cnd-161.org"
-  "cnd-161.org"
-  'org-mode
-  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
-  73828
-  '(1 nil)
-  nil
-  nil
-  '((buffer-display-time 24526 25349 908635 954000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
-  '((mark-ring nil)))
-
 (desktop-create-buffer 208
   "/home/jeremy/.emacs.d/emacs-custom.el"
   "emacs-custom.el"
   'emacs-lisp-mode
   '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
-  2051
-  '(740 nil)
+  959
+  '(192 nil)
   nil
   nil
-  '((buffer-display-time 24526 25349 65139 241000) (buffer-file-coding-system . prefer-utf-8-unix) (truncate-lines . t))
-  '((mark-ring (740 1 1))))
-
-(desktop-create-buffer 208
-  nil
-  "cnd-161"
-  'dired-mode
-  '(global-auto-revert-mode override-global-mode yas-minor-mode)
-  245
-  '(nil nil)
-  t
-  '("/home/jeremy/workspace/birdz/cnd-161/")
-  '((buffer-display-time 24526 25346 7166 374000))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  nil
-  "birdz"
-  'dired-mode
-  '(global-auto-revert-mode override-global-mode yas-minor-mode)
-  229
-  '(nil nil)
-  t
-  '("/home/jeremy/workspace/birdz/")
-  '((buffer-display-time 24526 25343 279849 982000))
-  '((mark-ring nil)))
-
-(desktop-create-buffer 208
-  "/home/jeremy/workspace/org/bookmarks/bookmarks-loisirs-mangas.org.txt"
-  "bookmarks-loisirs-mangas.org.txt"
-  'org-mode
-  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
-  26315
-  '(1 nil)
-  nil
-  nil
-  '((buffer-display-time 24526 25303 148388 527000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
-  '((mark-ring nil)))
+  '((buffer-display-time 24589 59870 582063 555000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (1 2140 1 1 1 1))))
 
 (desktop-create-buffer 208
   "/home/jeremy/.emacs.d/README.org"
   "README.org"
   'org-mode
   '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
-  46729
-  '(1 nil)
+  1584
+  '(32415 nil)
   nil
   nil
-  '((buffer-display-time 24526 25193 857093 421000) (buffer-file-coding-system . utf-8-unix) (fill-column . 90) (truncate-lines . t))
-  '((mark-ring (30614 30287 65246 58107 59084 59084 59084 59084 59084 59084 59084 59084 59084 59084 59084 22191))))
+  '((buffer-display-time 24589 59868 628238 931000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (31914 31914 1 44117 43705 43865 1584 55629 31914 31914 31914 31914 31914 31914 31914 31914))))
 
 (desktop-create-buffer 208
-  "/home/jeremy/.emacs.d/init.el"
-  "init.el"
-  'emacs-lisp-mode
-  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
-  42311
+  nil
+  "ada_utils"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  951
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/")
+  '((buffer-display-time 24589 58960 831397 357000))
+  '((mark-ring (1 1 1 1 1 1 1 1 1 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/ada_utils-configuration.org"
+  "ada_utils-configuration.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1813
+  '(210 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 58746 666338 906000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (59 586 536 489 535 489 533 509 536 489 385 125 111 111 125 125))))
+
+(desktop-create-buffer 208
+  nil
+  "ada_test_architectures"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  250
   '(nil nil)
-  nil
-  nil
-  '((buffer-display-time 24526 24197 345379 404000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  t
+  '("/home/jeremy/workspace/ada_test_architectures/")
+  '((buffer-display-time 24589 58612 397314 713000))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
-  "/home/jeremy/.emacs.d/lisp/jp-config-auctex.el"
-  "jp-config-auctex.el"
-  'emacs-lisp-mode
-  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
-  4349
+  "/home/jeremy/workspace/org/passwords.org.gpg"
+  "passwords.org.gpg"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  928
+  '(968 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 58587 554082 255000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (917 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/logger/logger.prj"
+  "logger.prj"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  421
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 58485 554897 199000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "logger"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  362
+  '(nil nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/src/logger/")
+  '((buffer-display-time 24589 58246 419240 349000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/testing/testing.prj"
+  "testing.prj"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  424
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 58485 554977 192000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "testing"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  447
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/src/testing/")
+  '((buffer-display-time 24589 58249 28921 520000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "src"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  666
+  '(nil nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/src/")
+  '((buffer-display-time 24589 58246 484397 369000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/logger/logger.ads"
+  "logger.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  266
+  '(197 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 58247 546259 357000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (1094 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/testing/testing-assertions.ads"
+  "testing-assertions.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1178
+  '(1178 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 58238 917488 561000) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (690 718 690 712 79 79 105 79 665 1356 1356 690 696 10 10 10))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/simple_test_gpr_install_client/simple_test_gpr_install_client.ads"
+  "simple_test_gpr_install_client.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  208
+  '(58 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 58048 160738 499000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (125 91 27))))
+
+(desktop-create-buffer 208
+  "/opt/gnatstudio/include/gnatcoll/gnatcoll-json.ads"
+  "gnatcoll-json.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode fic-mode)
+  2763
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 57989 757583 417000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "gnatcoll"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  3617
+  '(nil nil)
+  t
+  '("/opt/gnatstudio/include/gnatcoll/")
+  '((buffer-display-time 24589 57986 77348 180000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/opt/gnatstudio/include/gnatcoll/gnatcoll-coders.ads"
+  "gnatcoll-coders.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode fic-mode)
+  2179
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 57986 44016 66000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/opt/gnatstudio/include/gnatcoll/gnatcoll-asserts.ads"
+  "gnatcoll-asserts.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode fic-mode)
+  8931
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 57980 121977 81000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "simple_test_gpr_install_client"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  268
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/src/simple_test_gpr_install_client/")
+  '((buffer-display-time 24589 57907 737393 393000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  ".gpr"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  601
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/src/.gpr/")
+  '((buffer-display-time 24589 57902 475294 157000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/.gpr/simple_test_gpr_install_client.gpr"
+  "simple_test_gpr_install_client.gpr"
+  'gpr-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  124
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 57902 404475 976000) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/simple_test_gpr_install__/simple_test_gpr_install.ads"
+  "simple_test_gpr_install.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  103
   '(1 nil)
   nil
   nil
-  '((buffer-display-time 24526 24187 251063 402000) (buffer-file-coding-system . prefer-utf-8-unix) (truncate-lines . t))
+  '((buffer-display-time 24589 57579 549711 273000) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (103))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/scripts/template/prj-name.gpr.lib.tmpl"
+  "prj-name.gpr.lib.tmpl"
+  'gpr-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1290
+  '(1134 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 57561 568096 793000) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t))
+  '((mark-ring (938 583 608 615 616 591 564 542 387 360 360 745 917 864 917 849))))
+
+(desktop-create-buffer 208
+  nil
+  "template"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  579
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/scripts/template/")
+  '((buffer-display-time 24589 57549 858246 758000))
+  '((mark-ring (1 1))))
+
+(desktop-create-buffer 208
+  nil
+  "scripts"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  496
+  '(nil nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/scripts/")
+  '((buffer-display-time 24589 57548 579259 95000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "workspace"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  223
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/")
+  '((buffer-display-time 24589 56751 786383 838000))
+  '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  "/opt/gnatstudio/share/gpr/simple_test_gpr_install.gpr"
+  "simple_test_gpr_install.gpr"
+  'gpr-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  1
+  '(574 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 56264 33565 888000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t))
+  '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  nil
+  "gpr"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  839
+  '(1 nil)
+  t
+  '("/opt/gnatstudio/share/gpr/")
+  '((buffer-display-time 24589 56261 939959 873000))
+  '((mark-ring (1 1 1 1 1 1))))
+
+(desktop-create-buffer 208
+  nil
+  "share"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  559
+  '(1 nil)
+  t
+  '("/opt/gnatstudio/share/")
+  '((buffer-display-time 24589 56260 575342 679000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "gnatstudio"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  484
+  '(1 nil)
+  t
+  '("/opt/gnatstudio/")
+  '((buffer-display-time 24589 56259 297334 781000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "include"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  1135
+  '(nil nil)
+  t
+  '("/opt/gnatstudio/include/")
+  '((buffer-display-time 24589 56258 295523 368000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "simple_test_gpr_install"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  248
+  '(nil nil)
+  t
+  '("/opt/gnatstudio/include/simple_test_gpr_install/")
+  '((buffer-display-time 24589 56257 725102 935000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/opt/gnatstudio/include/simple_test_gpr_install/simple_test_gpr_install.ads"
+  "simple_test_gpr_install.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 56257 669578 828000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/opt/gnatstudio/share/gpr/xmlada_input.gpr"
+  "xmlada_input.gpr"
+  'gpr-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 55905 647373 95000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/opt/gnatstudio/share/gpr/gnatcoll.gpr"
+  "gnatcoll.gpr"
+  'gpr-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  3654
+  '(869 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 54585 758019 566000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t))
+  '((mark-ring (3367 675 1 4079 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/.gpr/default.cgpr"
+  "default.cgpr"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  2342
+  '(2387 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 53337 463847 864000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (2342 4711))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/testing/testing-runner.ads"
+  "testing-runner.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 52833 734963 802000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "*info*"
+  'Info-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  34442
+  '(34307 nil)
+  t
+  '("/home/jeremy/.emacs.d/straight/build/ada-mode/ada-mode" "Use wisi project file" ((history ("/home/jeremy/.emacs.d/straight/build/ada-mode/ada-mode" "Top" 1107) ("dir" "Top" 551) ("/home/jeremy/.emacs.d/straight/build/wisi/wisi" "Top" 980) ("dir" "Top" 631) ("/home/jeremy/.emacs.d/straight/build/wisi/wisi" "Top" 1032) ("/home/jeremy/.emacs.d/straight/build/wisi/wisi" "Top" 1035) ("/home/jeremy/.emacs.d/straight/build/wisi/wisi" "Project extension" 23488) ("/home/jeremy/.emacs.d/straight/build/wisi/wisi" "Project files" 23585) ("/home/jeremy/.emacs.d/straight/build/wisi/wisi" "Project extension" 23488) ("/home/jeremy/.emacs.d/straight/build/wisi/wisi" "Top" 1054) ("dir" "Top" 631))))
+  '((tab-width . 8) (buffer-display-time 24589 52674 436564 166000) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t))
+  '((mark-ring (1009 1 1 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/gpr_projects_paths"
+  "gpr_projects_paths"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  17
+  '(26 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 52433 581653 481000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (1 1 69 1 1))))
+
+(desktop-create-buffer 208
+  nil
+  "birdz"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  418
+  '(nil nil)
+  t
+  '("/home/jeremy/workspace/birdz/")
+  '((buffer-display-time 24589 50936 258613 261000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-loisirs-mangas.org"
+  "bookmarks-loisirs-mangas.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode smerge-mode magit-file-mode yas-minor-mode)
+  23452
+  '(26712 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 52347 746596 208000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (17361 1 31215 10648 17361 4440 17048 1 38557 38557 38136 23388 23739 23388 4213 4213))))
+
+(desktop-create-buffer 208
+  nil
+  "opt"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  222
+  '(nil nil)
+  t
+  '("/home/jeremy/opt/")
+  '((buffer-display-time 24589 48863 521129 114000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "GNAT"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  222
+  '(nil nil)
+  t
+  '("/home/jeremy/opt/GNAT/")
+  '((buffer-display-time 24589 48862 944446 851000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "2020"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  1
+  '(1490 nil)
+  t
+  '("/home/jeremy/opt/GNAT/2020/")
+  '((buffer-display-time 24589 48860 577437 512000))
+  '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/testing/testing-runner.adb"
+  "testing-runner.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 48546 248238 372000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "result-tests"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  378
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/src/result-tests/")
+  '((buffer-display-time 24589 48450 602093 942000))
+  '((mark-ring (1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-success_or_error-with_success.adb"
+  "result-tests-success_or_error-with_success.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1211
+  '(1131 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 48450 640181 382000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (883 2075 2063 1907 1829 1589 1348 1670 1348 1079 817 831 48 1212 673 1211))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.bashrc"
+  ".bashrc"
+  'sh-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode fic-mode)
+  3714
+  '(3675 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 48417 926830 669000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (3715 3765 3715 3675 3688 3688 3674 1291 1038 1 3674))))
+
+(desktop-create-buffer 208
+  nil
+  "bin"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  1
+  '(2874 nil)
+  t
+  '("/opt/gnatstudio/bin/")
+  '((buffer-display-time 24589 48417 971272 364000))
+  '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  nil
+  "opt"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  193
+  '(nil nil)
+  t
+  '("/opt/")
+  '((buffer-display-time 24589 48199 196581 765000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "VBoxGuestAdditions-6.1.16"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  219
+  '(nil nil)
+  t
+  '("/opt/VBoxGuestAdditions-6.1.16/")
+  '((buffer-display-time 24589 48198 740274 876000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "/"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  1120
+  '(461 nil)
+  t
+  '("/")
+  '((buffer-display-time 24589 48196 542360 177000))
+  '((mark-ring (1 1532 1117))))
+
+(desktop-create-buffer 208
+  nil
+  "home"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  206
+  '(nil nil)
+  t
+  '("/home/")
+  '((buffer-display-time 24589 48195 748071 249000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "jeremy"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  2573
+  '(1 nil)
+  t
+  '("/home/jeremy/")
+  '((buffer-display-time 24589 48195 592749 458000))
+  '((mark-ring (2573 1 1 1 1))))
+
+(desktop-create-buffer 208
+  nil
+  "gpr"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  3
+  '(39 nil)
+  t
+  '("/home/jeremy/opt/GNAT/2020/share/gpr/")
+  '((buffer-display-time 24589 48194 521584 186000))
+  '((mark-ring (3 237))))
+
+(desktop-create-buffer 208
+  nil
+  "share"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  570
+  '(233 nil)
+  t
+  '("/home/jeremy/opt/GNAT/2020/share/")
+  '((buffer-display-time 24589 47251 665839 807000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "result"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  415
+  '(1 nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/src/result/")
+  '((buffer-display-time 24589 47047 541053 622000))
+  '((mark-ring (1 1 1 1))))
+
+(desktop-create-buffer 208
+  nil
+  "doc"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  532
+  '(nil nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/doc/")
+  '((buffer-display-time 24589 46942 855838 457000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "libexec"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  221
+  '(nil nil)
+  t
+  '("/opt/gnatstudio/libexec/")
+  '((buffer-display-time 24589 46913 11600 589000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "lib"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  224
+  '(nil nil)
+  t
+  '("/opt/gnatstudio/lib/")
+  '((buffer-display-time 24589 46911 834292 584000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "aunit"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  234
+  '(nil nil)
+  t
+  '("/opt/gnatstudio/include/aunit/")
+  '((buffer-display-time 24589 46909 802753 860000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "etc"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  217
+  '(nil nil)
+  t
+  '("/opt/gnatstudio/etc/")
+  '((buffer-display-time 24589 46907 301585 319000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/reference-cards/refcard-debian-install.org"
+  "refcard-debian-install.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  785
+  '(2501 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 46843 359722 374000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (2506 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/testing/testing-assertions.adb"
+  "testing-assertions.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  3433
+  '(2338 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 46107 341058 82000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (2380 2046 3117 2067 3623 3626 37 679 698 1 1414 37 40 40 244 244))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-value_or_error-failure_with_one_code.adb"
+  "result-tests-value_or_error-failure_with_one_code.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  2298
+  '(947 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 45947 124167 863000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (64 1430 1515 887 901 1 1036 887 967 685 402 1371 743 1 743 743))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-value_or_error-failure_with_one_code.ads"
+  "result-tests-value_or_error-failure_with_one_code.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  677
+  '(677 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 45909 129383 319000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (978 27 326 978 660 1 572 572 1 978 489 490 19 19 1031 19))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/instance_of_result-unit_tests.ads__"
+  "instance_of_result-unit_tests.ads__"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  125
+  '(83 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 45818 710597 313000) (buffer-file-coding-system . utf-8-unix))
+  '((mark-ring (10 1 171 171 145 125 133 124 1 1 201 1 132))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests.ads"
+  "result-tests.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  574
+  '(574 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 45354 761357 261000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (361 67 362 976 324 623 324 976 974 922 875 823 712 723 415 420))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-success_or_error-failure_with_one_code.adb"
+  "result-tests-success_or_error-failure_with_one_code.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  726
+  '(1055 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 45341 672874 568000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (112 681 112 541 69 133 1 450 406 239 175 232 681 681 681 69))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-success_or_error.ads"
+  "result-tests-success_or_error.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  124
+  '(50 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 45334 759164 834000) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (125 50 50 125 125 125 158 142 159 1 159))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-value_or_error.ads"
+  "result-tests-value_or_error.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  82
+  '(169 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 45306 915541 143000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (82 169 82 1 169 82))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-value_or_error-failure_with_many_code.adb"
+  "result-tests-value_or_error-failure_with_many_code.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  137
+  '(397 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 45283 252960 562000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (682 69 343 137 996 996 622 137 1 132 1 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-value_or_error-failure_with_many_code.ads"
+  "result-tests-value_or_error-failure_with_many_code.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  39
+  '(910 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 45271 566119 170000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (910 541 574 910 506 910 910 648 964 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-success_or_error-failure_with_many_code.adb"
+  "result-tests-success_or_error-failure_with_many_code.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  259
+  '(139 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 45266 515288 371000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (659 1052 1734 1606 1583 1634 1541 1436 1411 1464 1370 1266 1242 1294 1199 1093))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-success_or_error-failure_with_one_code.ads"
+  "result-tests-success_or_error-failure_with_one_code.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  57
+  '(59 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 45103 753278 485000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (27 636 636 466 59 1009 118 428 123 636 466 466 954 954 1 466))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-success_or_error-failure_with_many_code.ads"
+  "result-tests-success_or_error-failure_with_many_code.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  72
+  '(27 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 45094 1095 482000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (652 652 970 1 1021 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/instance_of_result.ads"
+  "instance_of_result.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  149
+  '(149 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 44888 403469 448000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (1 35))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result/result.ads"
+  "result.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode smerge-mode magit-file-mode yas-minor-mode fic-mode)
+  291
+  '(331 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 44869 736851 131000) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (1564 505 1533 1533 189 1687 505 332 524 2152 332 2152 524 1447 1321 1406))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/tests_context.ads"
+  "tests_context.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  260
+  '(167 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 44861 849851 347000) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-value_or_error-with_success.adb"
+  "result-tests-value_or_error-with_success.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  529
+  '(115 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 44814 931110 170000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (306 456 127 250 1093 719 110 719 263 412 263 1821 81 19))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-value_or_error-with_success.ads"
+  "result-tests-value_or_error-with_success.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  62
+  '(628 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 44792 296149 770000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (628 946 946 114 19 19 92 83 1 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/result-tests-success_or_error-with_success.ads"
+  "result-tests-success_or_error-with_success.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  595
+  '(595 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 44019 320705 116000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (19 913 387 82 952 387 913 1 507 507 1 913 425 425 114 82))))
+
+(desktop-create-buffer 208
+  nil
+  "reference-cards"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  625
+  '(689 nil)
+  t
+  '("/home/jeremy/workspace/org/reference-cards/")
+  '((buffer-display-time 24589 41772 103680 912000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result/result_usage.ads"
+  "result_usage.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  415
+  '(54 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 38589 334451 444000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (163 1078))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result-tests/0__old.tar.gz"
+  "0__old.tar.gz"
+  'tar-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  37
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 33407 32947 285000) (buffer-file-coding-system . no-conversion))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result/result.adb"
+  "result.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1476
+  '(1327 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 33363 759953 741000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (1266 1047 31 957 1202 1413 1330 94 94 637 138 386 196 138 1 2075))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/scripts/template/prj-name.gpr.tst.tmpl"
+  "prj-name.gpr.tst.tmpl"
+  'gpr-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  789
+  '(1112 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 33303 770365 105000) (buffer-file-coding-system . utf-8-unix) (case-fold-search . t))
+  '((mark-ring (849 2955 2955 317 317 140 100 3044 2977 1 2955 50 1 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/scripts/template/prj-name.gpr.exe.tmpl"
+  "prj-name.gpr.exe.tmpl"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 33293 945127 946000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (1 1 1 2129 2129 838 726 315 2129 654 635 313 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/doc/doc_result-tests.org"
+  "doc_result-tests.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  527
+  '(1028 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 33204 653745 680000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (1050 119 119 119 119 119 119 119 119 119 119 119 119 119 119 119))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/scripts/template/shared.gpr.tmpl"
+  "shared.gpr.tmpl"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  623
+  '(2279 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 28247 463706 133000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (29 2279 988 876 181 654 579 468 508 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/result/README.org"
+  "README.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode smerge-mode magit-file-mode yas-minor-mode)
+  2111
+  '(2111 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 25549 154489 208000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (2111 147 147 2111 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-dev.org"
+  "bookmarks-dev.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  19511
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 25523 522945 365000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "bookmarks"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  244
+  '(nil nil)
+  t
+  '("/home/jeremy/workspace/org/bookmarks/")
+  '((buffer-display-time 24589 25453 431534 944000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "org-capture-templates"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  1
+  '(nil nil)
+  t
+  '("/home/jeremy/.emacs.d/org-capture-templates/")
+  '((buffer-display-time 24589 25381 255551 133000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  ".emacs.d"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  2273
+  '(1 nil)
+  t
+  '("/home/jeremy/.emacs.d/")
+  '((buffer-display-time 24589 13160 996526 768000))
+  '((mark-ring (1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/reference-cards/refcard-emacs-magit.org"
+  "refcard-emacs-magit.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  31
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 8652 438009 204000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (1067 31 31 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/straight/repos/ada-mode/ada-core.el"
+  "ada-core.el"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  21809
+  '(18873 nil)
+  nil
+  nil
+  '((buffer-display-time 24589 1080 498928 136000) (buffer-file-coding-system . prefer-utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/straight/repos/wisi/wisi-prj.el"
+  "wisi-prj.el"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  24285
+  '(25733 nil)
+  nil
+  nil
+  '((buffer-display-time 24588 41817 752562 697000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (25693 24857 25693 26526 25693 24702 25310 1 25306 23947 2621 1792 12398 7212))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/straight/repos/ada-mode/ada-build.el"
+  "ada-build.el"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  3291
+  '(3600 nil)
+  nil
+  nil
+  '((buffer-display-time 24588 41040 114100 787000) (buffer-file-coding-system . prefer-utf-8-unix) (truncate-lines . t))
+  '((mark-ring (1838 1838 1838 1838 1 1838 1838))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/testing/testing-runner-definition.adb"
+  "testing-runner-definition.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  137
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24588 40508 842816 141000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (239))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/straight/repos/ada-mode/ada-mode.el"
+  "ada-mode.el"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  57763
+  '(57786 nil)
+  nil
+  nil
+  '((buffer-display-time 24588 35361 134994 641000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (57763 1))))
+
+(desktop-create-buffer 208
+  nil
+  "ada-mode"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  909
+  '(262 nil)
+  t
+  '("/home/jeremy/.emacs.d/straight/repos/ada-mode/")
+  '((buffer-display-time 24588 35320 505644 82000))
+  '((mark-ring (4081 1 1))))
+
+(desktop-create-buffer 208
+  nil
+  "wisi"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  8978
+  '(1 nil)
+  t
+  '("/home/jeremy/.emacs.d/straight/repos/wisi/")
+  '((buffer-display-time 24588 34612 441456 538000))
+  '((mark-ring (1 1))))
+
+(desktop-create-buffer 208
+  nil
+  "repos"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  4597
+  '(241 nil)
+  t
+  '("/home/jeremy/.emacs.d/straight/repos/")
+  '((buffer-display-time 24588 34610 666986 647000))
+  '((mark-ring (241))))
+
+(desktop-create-buffer 208
+  nil
+  "straight"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  415
+  '(nil nil)
+  t
+  '("/home/jeremy/.emacs.d/straight/")
+  '((buffer-display-time 24588 34609 397540 870000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "build"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  5062
+  '(1 nil)
+  t
+  '("/home/jeremy/.emacs.d/straight/build/")
+  '((buffer-display-time 24588 34607 886740 51000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "wisi"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  246
+  '(nil nil)
+  t
+  '("/home/jeremy/.emacs.d/straight/build/wisi/")
+  '((buffer-display-time 24588 33528 120923 826000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "ada-mode"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  250
+  '(nil nil)
+  t
+  '("/home/jeremy/.emacs.d/straight/build/ada-mode/")
+  '((buffer-display-time 24588 33523 711528 985000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "asis"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  232
+  '(nil nil)
+  t
+  '("/home/jeremy/workspace/asis/")
+  '((buffer-display-time 24588 31293 774338 586000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "org"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  230
+  '(nil nil)
+  t
+  '("/home/jeremy/workspace/org/")
+  '((buffer-display-time 24588 31290 107943 453000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/straight/repos/ada-mode/ada-mode.info"
+  "ada-mode.info"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  21504
+  '(20721 nil)
+  nil
+  nil
+  '((buffer-display-time 24588 31170 717787 127000) (buffer-file-coding-system . utf-8-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/straight/repos/ada-mode/gpr-skel.el"
+  "gpr-skel.el"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  3862
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24588 31027 603485 752000) (buffer-file-coding-system . prefer-utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/straight/repos/ada-mode/gnat-core.el"
+  "gnat-core.el"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  11815
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 9860 71062 246000) (buffer-file-coding-system . prefer-utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/straight/repos/wisi/wisi-parse-common.el"
+  "wisi-parse-common.el"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  13721
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24588 30029 79437 177000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/straight/repos/ada-mode/ada-indent-user-options.el"
+  "ada-indent-user-options.el"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  4621
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24588 29982 373397 446000) (buffer-file-coding-system . prefer-utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/.gitignore"
+  ".gitignore"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  108
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24587 21867 185144 847000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "run"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  293
+  '(nil nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/src/run/")
+  '((buffer-display-time 24587 21843 250994 768000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/run/run.ads"
+  "run.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  25
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24587 21843 408647 848000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "bin"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  241
+  '(nil nil)
+  t
+  '("/home/jeremy/workspace/ada_utils/bin/")
+  '((buffer-display-time 24587 21762 863342 261000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/run/run.adb"
+  "run.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  41
+  '(41 nil)
+  nil
+  nil
+  '((buffer-display-time 24587 21729 206317 160000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (41 41))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/collect.org"
+  "collect.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  21
+  '(21 nil)
+  nil
+  nil
+  '((buffer-display-time 24587 21262 747477 560000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (15279 15420 21 21 15759 1 8639 8639 8639 8639 8639 8639 8639 1 8639 8639))))
+
+(desktop-create-buffer 208
+  "/usr/lib/gcc/x86_64-linux-gnu/8/adainclude/a-convec.ads"
+  "a-convec.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode fic-mode)
+  2795
+  '(3803 nil)
+  t
+  nil
+  '((buffer-display-time 24587 20545 933577 417000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (2721 2795))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/.projectile"
+  ".projectile"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24587 18089 885730 790000))
   '((mark-ring nil)))
 
 (desktop-create-buffer 208
@@ -118,22 +1498,694 @@
   "lisp"
   'dired-mode
   '(global-auto-revert-mode override-global-mode yas-minor-mode)
-  992
+  1178
   '(1 nil)
   t
   '("/home/jeremy/.emacs.d/lisp/")
-  '((buffer-display-time 24526 24134 949364 241000))
-  '((mark-ring (1 1 1 1 1 1))))
+  '((buffer-display-time 24587 17695 487036 69000))
+  '((mark-ring (1 1 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/readme.org"
+  "readme.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  97
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24587 17658 809851 914000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/testing/testing-suites.ads"
+  "testing-suites.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24587 17466 822864 225000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/testing/testing-suites.adb"
+  "testing-suites.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  117
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24587 16673 196737 36000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/testing/testing.ads"
+  "testing.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24587 16659 387171 253000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/logger/logger.adb"
+  "logger.adb"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  19
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24587 16158 722621 892000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring (1394 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/scripts/ada-utils-generate-projects.el"
+  "ada-utils-generate-projects.el"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  431
+  '(1 nil)
+  nil
+  nil
+  '((buffer-display-time 24587 16089 806766 145000) (buffer-file-coding-system . prefer-utf-8-unix) (truncate-lines . t))
+  '((mark-ring (745 699 365 259 1 765 596 551 259 596 258 176 470 6213 1 6213))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/ada_utils.casing"
+  "ada_utils.casing"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24587 15685 820311 779000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/usr/lib/gcc/x86_64-linux-gnu/8/adainclude/a-contai.ads"
+  "a-contai.ads"
+  'ada-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  t
+  nil
+  '((buffer-display-time 24587 16458 598670 718000) (buffer-file-coding-system . undecided-unix) (case-fold-search . t) (truncate-lines . t))
+  '((mark-ring nil)))
 
 (desktop-create-buffer 208
   nil
-  ".emacs.d"
+  "common"
   'dired-mode
   '(global-auto-revert-mode override-global-mode yas-minor-mode)
-  1196
-  '(1 nil)
+  247
+  '(nil nil)
   t
-  '("/home/jeremy/.emacs.d/")
-  '((buffer-display-time 24526 24108 706026 916000))
-  '((mark-ring (1 1 1 1))))
+  '("/home/jeremy/workspace/org/reference-cards/common/")
+  '((buffer-display-time 24587 3200 439625 458000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/lisp/plantuml-mode.el"
+  "plantuml-mode.el"
+  'emacs-lisp-mode
+  '(eldoc-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  26146
+  '(26220 nil)
+  nil
+  nil
+  '((buffer-display-time 24587 952 588047 990000) (buffer-file-coding-system . prefer-utf-8-unix) (truncate-lines . t))
+  '((mark-ring (24554 24554 20654 31784 24554 32722 32722 32722 32722 32722 32722 32722 32722 32722 7145 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/notes/birdz_stockage_informations.org"
+  "birdz_stockage_informations.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24587 481 107460 255000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/notes/birdz_jsonwriter.org"
+  "birdz_jsonwriter.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1156
+  '(1136 nil)
+  nil
+  nil
+  '((buffer-display-time 24586 65118 676907 236000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (1665 1136 1957 2013 1916 1327 63 1327 1327 1327 1327 1327 1136 977 63 46))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/dev/warm2g_import/src/QMinQMax.cpp"
+  "QMinQMax.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  5664
+  '(5558 nil)
+  nil
+  nil
+  '((buffer-display-time 24586 63590 406258 339000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (1233 3076 3783 3520 5758 5749 6276 5815 5756 5741 5698 5558 5698))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/dev/hrlib/hrbase/include/homerider/JsonWriters.h"
+  "JsonWriters.h"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  910
+  '(882 nil)
+  nil
+  nil
+  '((buffer-display-time 24586 63190 767598 716000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/dev/hrlib/warm/include/homerider/warm/Helpers.h"
+  "Helpers.h"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1400
+  '(1561 nil)
+  nil
+  nil
+  '((buffer-display-time 24586 61350 495023 233000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring (1399))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/dev/warm2g_import/src/DS51_handle.cpp"
+  "DS51_handle.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  33235
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24586 59982 134932 257000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/dev/warm2g_import/src/WaterQuality.cpp"
+  "WaterQuality.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  25873
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24586 59984 368378 737000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/doc_dev2/hrlib.org"
+  "hrlib.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  427
+  '(1110 nil)
+  nil
+  nil
+  '((tab-width . 2) (buffer-display-time 24586 53668 807048 795000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (3045 2991 2974 3905 78))))
+
+(desktop-create-buffer 208
+  nil
+  "elpa-mirror"
+  'dired-mode
+  '(global-auto-revert-mode override-global-mode yas-minor-mode)
+  236
+  '(nil nil)
+  t
+  '("/home/jeremy/.emacs.d/lisp/elpa-mirror/")
+  '((buffer-display-time 24586 50880 977259 833000))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/dev/hrlib/hrlib/include/homerider/TableFields.h"
+  "TableFields.h"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(9773 nil)
+  nil
+  nil
+  '((buffer-display-time 24586 44324 940342 419000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/datasys-1/datasys-1.org"
+  "datasys-1.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1307
+  '(97474 nil)
+  nil
+  nil
+  '((buffer-display-time 24586 41566 198101 741000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (97394 1203 1217 1216 1307))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/reference-cards/tests/org-babel-automatic-call.org"
+  "org-babel-automatic-call.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(448 nil)
+  nil
+  nil
+  '((buffer-display-time 24586 23989 272188 524000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring (448 1 1 1))))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/notes/birdz_reunion_2020_12_09.org"
+  "birdz_reunion_2020_12_09.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(365 nil)
+  nil
+  nil
+  '((buffer-display-time 24586 21815 798596 560000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/.emacs.d/lisp/yasnippet/org-snippet-new-link.org"
+  "org-snippet-new-link.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24586 16463 803799 18000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/notes/birdz_reunion_2020_11_02.org"
+  "birdz_reunion_2020_11_02.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24586 58885 401289 746000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/dev/hrlib/hrbase/include/homerider/json.h"
+  "json.h"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24586 58891 693539 300000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/dev/hrlib/hrbase/json.cpp"
+  "json.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24586 58899 133378 152000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/dev/hrlib/hrbase/include/homerider/teleo.h"
+  "teleo.h"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24586 58900 816994 185000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/src_dev2/dev/hrlib/hrbase/teleo.cpp"
+  "teleo.cpp"
+  'c++-mode
+  '(abbrev-mode global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24587 1771 700773 663000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/scripts/set_env.bat"
+  "set_env.bat"
+  'bat-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode fic-mode)
+  71
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24587 21178 75703 772000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/agenda/dates.org"
+  "dates.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 4767 145973 309000) (buffer-file-coding-system . iso-latin-1-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/agenda/pauses.org"
+  "pauses.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 4767 892205 941000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-TO_SORT.org"
+  "bookmarks-TO_SORT.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 4776 761839 231000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-autres.org"
+  "bookmarks-autres.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 4932 296530 955000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-current.org"
+  "bookmarks-current.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 4932 754299 464000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-dev-ada.org"
+  "bookmarks-dev-ada.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 4962 559572 935000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-ingenico.org"
+  "bookmarks-ingenico.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 4964 745252 772000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-loisirs-jeux-1.org"
+  "bookmarks-loisirs-jeux-1.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 4981 330323 409000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-loisirs-jeux-2.org"
+  "bookmarks-loisirs-jeux-2.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5006 33993 782000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-loisirs-jeux-3.org"
+  "bookmarks-loisirs-jeux-3.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5009 260219 228000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-loisirs-jeux-flash.org"
+  "bookmarks-loisirs-jeux-flash.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5009 444892 114000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-loisirs-jeux.org"
+  "bookmarks-loisirs-jeux.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5009 626110 485000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-loisirs.org"
+  "bookmarks-loisirs.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5019 692506 911000) (buffer-file-coding-system . utf-8-with-signature-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-professionnel_ausy.org"
+  "bookmarks-professionnel_ausy.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5019 895582 132000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-professionnel_birdz.org"
+  "bookmarks-professionnel_birdz.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5020 101341 668000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-session.org"
+  "bookmarks-session.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5020 343834 130000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/bookmarks/bookmarks-software.org"
+  "bookmarks-software.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5152 694560 706000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/reference-cards/0-refcard-squeleton.org"
+  "0-refcard-squeleton.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5152 854190 318000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/reference-cards/essai.org"
+  "essai.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5153 24186 559000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/reference-cards/refcard-emacs.org"
+  "refcard-emacs.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5158 571362 893000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/reference-cards/refcard-git.org"
+  "refcard-git.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5159 166345 297000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/reference-cards/refcard-latex.org"
+  "refcard-latex.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5159 544732 394000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/reference-cards/refcard-msys2.org"
+  "refcard-msys2.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5159 953121 304000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/reference-cards/refcard-org-babel.org"
+  "refcard-org-babel.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5160 354814 943000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/org/reference-cards/refcard-org.org"
+  "refcard-org.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 5162 850066 659000) (buffer-file-coding-system . utf-8-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/birdz/notes/birdz_bookmarks.org"
+  "birdz_bookmarks.org"
+  'org-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 25488 86578 986000) (buffer-file-coding-system . undecided-unix) (truncate-lines . t))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/jeremy/workspace/ada_utils/src/simple_test_gpr_install_client/simple_test_gpr_install_client.prj"
+  "simple_test_gpr_install_client.prj"
+  'fundamental-mode
+  '(global-auto-revert-mode override-global-mode magit-file-mode yas-minor-mode)
+  493
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24589 58485 552405 466000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
 

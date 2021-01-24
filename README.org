@@ -1013,13 +1013,15 @@ templates.
        (
         "~/.emacs.d/README.org"
         "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org"
+        "~/workspace/ada_test_architectures"
+        "~/workspace/ada_utils/src/result/README.org"
+        "~/workspace/birdz/notes"
         "~/workspace/org/agenda"
         "~/workspace/org/bookmarks"
         "~/workspace/org/collect.org"
+        "~/workspace/org/emploi"
         "~/workspace/org/reference-cards"
         "~/workspace/org/reference-cards/tests"
-        "~/workspace/ada_test_architectures"
-        "~/workspace/birdz/notes"
         ))
       org-log-done t
       ;; org-agenda-files (quote ("~/workspace/org/agenda"))
@@ -1378,11 +1380,11 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
             ("bookmarks" (name . "bookmarks"))
             ("Magit" (name . "^magit"))
             ("birdz-dirs" (and (mode . dired-mode)(filename . "birdz")))
+            ("ada_utils" (or (filename . "ada_utils")))
+            ("ada_test_architectures" (or (filename . "ada_test_architectures")))
             ("birdz" (or (filename . "birdz") (name . "cnd-161")))
             ("ssh:dev" (filename . "ssh:dev"))
-            ("Help" (or (name . "\*Help\*")
-                        (name . "\*Apropos\*")
-                        (name . "\*info\*")))
+            ("Help" (or (name . "\*Help\*") (name . "\*Apropos\*") (name . "\*info\*")))
             ))))
   (ibuffer-directory-abbrev-alist
    (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"

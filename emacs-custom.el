@@ -27,7 +27,7 @@
      (eval setq org-confirm-babel-evaluate nil)
      (eval progn
            (setq ada-build-make-cmd "gprbuild ${gpr_file} -XBUILD_TYPE=debug")
-           (setq ada-build-run-cmd "export BUILD_TYPE=debug && cd ~/workspace/ada_test_architectures/bin && ./run")
+           (setq ada-build-run-cmd "export BUILD_TYPE=debug && cd ~/workspace/ada_utils/bin && ./run")
            (setq ada-build-prompt-prj
                  (quote prompt)))
      (eval add-hook
