@@ -767,7 +767,7 @@ https://www.emacswiki.org/emacs/UndoTree
   (("C-c a" . org-agenda))
   :custom
   (org-adapt-indentation nil "don't indent levels contents")
-  (org-default-notes-file "~/workspace/org/collect.org")
+  (org-default-notes-file "~/workspace/org/capture.org")
   (org-edit-src-content-indentation 0)
   (org-hide-leading-stars nil "show all levels stars")
   (org-html-table-default-attributes nil "no html table default attributes")
@@ -887,7 +887,7 @@ https://www.emacswiki.org/emacs/UndoTree
   (org-capture-templates
    (quote
     (("l" "Link" entry
-      (file+headline "~/workspace/org/collect.org" "any/every-thing")
+      (file+headline "~/workspace/org/capture.org" "any/every-thing")
       (file "~/.emacs.d/org-capture-templates/capt-tmpl-link.org")
       )
      ("t" "Task" entry
@@ -904,7 +904,7 @@ https://www.emacswiki.org/emacs/UndoTree
            ")
      ("E" "Event With Clipboard" entry (file+headline "~/workspace/org/events.org" "Transient")
       "* EVENT %?\n%U\n   %c" :empty-lines 1)
-     ("e" "note" entry (file+headline "~/workspace/org/collect.org" "any/every-thing")
+     ("e" "note" entry (file+headline "~/workspace/org/capture.org" "any/every-thing")
       (file "~/.emacs.d/org-capture-templates/capt-tmpl-link.org")
       :empty-lines 1)
 
@@ -1027,7 +1027,7 @@ templates.
         "~/workspace/birdz/notes"
         "~/workspace/org/agenda"
         "~/workspace/org/bookmarks"
-        "~/workspace/org/collect.org"
+        "~/workspace/org/capture.org"
         "~/workspace/org/emploi"
         "~/workspace/org/reference-cards"
         "~/workspace/org/reference-cards/tests"
