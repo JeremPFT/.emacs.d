@@ -611,9 +611,6 @@ use ~/bash-aliases
   :custom
   (magit-repository-directories
    '(("~/.emacs.d"  . 0)
-     ("~/workspace/org" 0)
-     ("~/workspace/ada_test_architecture" . 0)
-     ("~/.emacs.d"  . 5)
      ("~/.emacs.d/lisp/comb"  . 0)
      ("~/workspace/" . 2)
      ))
