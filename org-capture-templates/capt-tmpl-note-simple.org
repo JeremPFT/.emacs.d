@@ -1,0 +1,4 @@
+** %^{link-title} %^G
+:PROPERTIES:
+:created: %U
+:END:
