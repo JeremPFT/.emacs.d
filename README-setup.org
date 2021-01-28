@@ -1,0 +1,24 @@
+#
+# org configuration file used by README.org
+#
+
+#+TITLE: My literate emacs configuration using Leaf
+#+AUTHOR: Jérémy Piffret
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="README.css" />
+
+#+OPTIONS: ^:{} toc:nil html-style:nil
+# #+OPTIONS: html-style:nil
+
+#+TOC: headlines 2
+
+#+STARTUP: content
+# STARTUP options: see [[help:org-startup-options]]
+# values: showall, content, showstars
+
+#+PROPERTY: header-args+ :mkdirp yes
+#+PROPERTY: header-args+ :comments "both"
+
+#+FILETAGS: :emacs:configuration:with_leaf:
+
+https://orgmode.org/manual/In_002dbuffer-Settings.html

@@ -1,0 +1,125 @@
+/*
+ * css used by README.org
+ */
+
+body
+{
+    width: 100ex;
+    margin-left: 30%;
+    font-family: Arial, sans-serif;
+    /* font-family: "Times New Roman", Times, serif; */
+}
+
+pre.example, pre.src, code
+{
+    font-family: Consolas, "Lucida Console", Monaco, monospace;
+}
+
+pre.example, pre.src
+{
+    line-height: 120%;
+    font-size: 90%;
+    background: #f5f2f0;
+}
+
+pre[class*="src-"]
+{
+    width: 100%;
+    margin-left: 0pt;
+}
+
+
+/* code */
+/* { */
+/*     font-size: 105%; */
+/*     font-style: italic; */
+/* } */
+
+table.includedHeaders, table.includedHeaders > tbody
+{
+    border: 0px white;
+    rules: none;
+}
+
+table, tbody
+{
+    border: 1px solid black;
+    margin: 1em;
+    line-height: 12px;
+    cellpadding: 3px;
+    rules: groups;
+    frame: hsides;
+}
+
+table
+{
+    border-collapse: collapse;
+}
+
+p
+{
+    margin: auto;
+}
+
+p + p
+{
+    margin-top: 0.5ex;
+}
+
+tr:first-child > td
+{
+    padding-top: 1ex;
+}
+
+tr:last-child > td
+{
+    padding-bottom: 1ex;
+}
+
+tr:first-child > th
+{
+    padding-top: 1ex;
+}
+
+table > tbody > tr
+{
+    height:3ex;
+}
+
+tr:last-child > th
+{
+    padding-bottom: 1ex;
+}
+
+td
+{
+    padding-right: 1ex;
+    padding-left: 1ex;
+}
+
+ul > li > ul
+{
+    list-style-type: none;
+}
+
+ul > li > ul > li:before
+{
+    content: "- ";
+}
+
+ul
+{
+    padding-left: 0pt;
+    list-style-position: inside;
+}
+
+ol
+{
+    padding-left: 0pt;
+    list-style-position: inside;
+}
+
+ul > li > ol > li
+{
+    margin-top: 1ex;
+}
