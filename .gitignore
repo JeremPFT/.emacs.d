@@ -1,3 +1,5 @@
+*.desktop
+*.desktop.lock
 *.elc
 *~
 .session
