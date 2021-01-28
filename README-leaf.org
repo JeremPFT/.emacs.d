@@ -1,0 +1,175 @@
+#+TITLE: My literate emacs configuration using Leaf
+#+AUTHOR: Jérémy Piffret
+#+PROPERTY: header-args+ :comments "both"
+#+STARTUP: showall
+# STARTUP options: see [[help:org-startup-options]]
+
+* TODO emacs > 27 : early-init-file
+* NOTE remove native org from emacs
+#+BEGIN_SRC shell
+cd /usr/share/emacs/26.1/lisp/
+tar czf org
+rm -rf org
+#+END_SRC
+* remove use-package signature checks (msys2 bug)
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init-leaf.el"
+:END:
+#+BEGIN_SRC elisp
+(setq package-check-signature nil)
+#+END_SRC
+* leaf installation                                                                                                                  :emacs:package:leaf:
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init-leaf.el"
+:END:
+#+BEGIN_SRC elisp
+(eval-and-compile
+  (customize-set-variable
+   'package-archives '(("org" . "https://orgmode.org/elpa/")
+                       ("melpa" . "https://melpa.org/packages/")
+                       ("gnu" . "https://elpa.gnu.org/packages/")))
+  (package-initialize)
+  (unless (package-installed-p 'leaf)
+    (package-refresh-contents)
+    (package-install 'leaf))
+
+  (leaf leaf-keywords
+    :ensure t
+    :init
+    ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
+    (leaf hydra :ensure t)
+    (leaf el-get :ensure t)
+    (leaf blackout :ensure t)
+
+    :config
+    ;; initialize leaf-keywords.el
+    (leaf-keywords-init)))
+#+END_SRC
+
+* COMMENT leaf examples
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init-leaf.el"
+:END:
+;; Now you can use leaf!
+(leaf leaf-tree :ensure t)
+(leaf leaf-convert :ensure t)
+(leaf transient-dwim
+  :ensure t
+  :bind (("M-=" . transient-dwim-dispatch)))
+
+;; You can also configure builtin package via leaf!
+(leaf cus-start
+  :doc "define customization properties of builtins"
+  :tag "builtin" "internal"
+  :custom ((user-full-name . "Jérémy Piffret")
+           (user-mail-address . "j.piffret@gmail.com")
+           (user-login-name . "j.piffret")
+           (truncate-lines . t)
+           (menu-bar-mode . t)
+           (tool-bar-mode . nil)
+           (scroll-bar-mode . nil)
+           (indent-tabs-mode . nil)))
+
+* emacs defaults
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init-leaf.el"
+:END:
+** COMMENT emacs debug mode                                                                                                                 :emacs:debug:
+#+BEGIN_SRC elisp
+(setq debug-on-error nil)
+#+END_SRC
+*** TODO debugger emacs: ielm
+[[https://emacs.stackexchange.com/questions/33928/file-error-cannot-open-load-file-no-such-file-or-directory-multi-web-mode][config - File error: Cannot open load file, no such file or directory, multi-web-mode - Emacs Stack Exchange]]
+:PROPERTIES:
+:CREATED:  [2020-11-23 Mon 18:23]
+:END:
+** default directory
+#+BEGIN_SRC elisp
+(setq default-directory user-emacs-directory)
+#+END_SRC
+*** backup configuration, recentf, desktop
+#+BEGIN_SRC elisp
+(setq-default backup-by-copying t
+              backup-directory-alist '(("." . "~/.emacs.d/backup"))
+              recentf-auto-cleanup 'never
+              recentf-mode nil
+              enable-remote-dir-locals t
+              )
+#+END_SRC
+*** theme
+#+BEGIN_SRC elisp
+(setq custom-enabled-themes '(tsdh-dark))
+#+END_SRC
+
+*** TODO personnal functions & shortcuts
+*** global modes
+#+BEGIN_SRC elisp
+(require 'autorevert)
+(global-auto-revert-mode)
+(setq-default auto-revert-interval 1)
+(global-hl-line-mode)
+(electric-pair-mode)
+(show-paren-mode)
+
+;; setting indent-tabs-mode. Using `setq' make the value buffer-local.
+(setq-default indent-tabs-mode nil)
+#+END_SRC
+*** custom
+#+NAME: default-frame-alist
+#+BEGIN_SRC elisp
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+#+END_SRC
+
+#+NAME: setq-default
+#+BEGIN_SRC elisp
+(setq-default
+ column-number-mode t
+ fill-column 79)
+#+END_SRC
+
+#+NAME: directory constants, load-path
+#+BEGIN_SRC elisp
+(defconst lisp-dir (file-name-as-directory (concat user-emacs-directory "lisp")))
+;; lisp perso / downloaded files
+(add-to-list 'load-path lisp-dir)
+;; functions used by my snippets
+(add-to-list 'load-path (concat lisp-dir "yasnippet"))
+#+END_SRC
+
+#+NAME: straight preparations
+#+BEGIN_SRC elisp
+(defconst using-straight nil)
+
+(when using-straight
+  ;; immediately load use-package (can be 'not found' otherwise)
+  (add-to-list 'load-path (concat user-emacs-directory "straight/build/use-package"))
+  (load-file (concat user-emacs-directory "straight/build/use-package/use-package-autoloads.el"))
+  ;; load use-package version of org (prevent mixed versions problems, see org-mode section below)
+  (add-to-list 'load-path (concat user-emacs-directory "straight/build/org"))
+  (load-file (concat user-emacs-directory "straight/build/org/org-autoloads.el"))
+  )
+#+END_SRC
+*** TODO COMMENT initial-buffer
+#+BEGIN_SRC elisp
+(defun jp/initial-buffer()
+  (interactive)
+  (let ((jp--buffer (get-buffer-create "*fetching.org*")))
+    (set-buffer jp--buffer)
+    (org-mode)
+    (insert "#+NAME: output-fetch-repositories\n"
+            "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
+    (beginning-of-line)
+    jp--buffer
+    ))
+
+;; (setq initial-buffer-choice 'jp/initial-buffer)
+(setq initial-buffer-choice (concat user-emacs-directory "README.org"))
+#+END_SRC
+* TODO continue (from `*** my functions')
+* COMMENT Local Variables
+Local Variables:
+mode: org
+coding: utf-8-unix
+eval: (progn "README.org: evaluate all blocks without confirmation:"
+        (setq org-confirm-babel-evaluate nil)))
+End:
