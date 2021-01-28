@@ -204,7 +204,6 @@ It can also be activated only for prog-modes:
     (delete-trailing-whitespace)))
 (add-hook 'before-save-hook 'my-prog-nuke-trailing-whitespace)
 #+END_SRC
-
 ** Speed-up at startup: boost garbage collector memory
 #+BEGIN_SRC elisp
 (use-package emacs ; garbage collector
@@ -737,7 +736,6 @@ https://github.com/mrkkrp/common-lisp-snippets
     (setq fci-rule-column 80))
   (add-hook 'prog-mode-hook 'fci-mode)
   (add-hook 'prog-mode-hook 'set-fci-to-80)
-  (add-hook 'ada-mode-hook 'fci-mode)
   )
 #+END_SRC
 ** undo-tree
@@ -992,10 +990,11 @@ templates.
 #+END_SRC
 *** COMMENT org export html patch                                                                                                     :org:html:bug:TODO:
 - The problem is when org exports a source block as html, it uses a temporary buffer,
-  activates code mode, then uses htmlize. But activating code mode activates fci-mode
+  activates code mode, then uses htmlize. But code mode activation activates fci-mode
   which generates a special character. This character is processed by htmlize.
 - The used solution add an advice to org-html-do-format-code which remove generated
   characters.
+- Another solution would be to remove fci from hook (see [[https://emacs.stackexchange.com/questions/14438/remove-hooks-for-specific-modes][here]]).
 #+BEGIN_SRC elisp
 (use-package org
   (defun org-html-clean-exported-code (code)
@@ -1018,6 +1017,7 @@ templates.
       (quote
        (
         "~/.emacs.d/README.org"
+        "~/.emacs.d/README-leaf.org"
         "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org"
         "~/workspace/ada_test_architectures"
         "~/workspace/ada_utils/src/result/README.org"
@@ -2174,7 +2174,6 @@ https://medium.com/@shibucite/emacs-and-plantuml-for-uml-diagrams-academic-tools
   (setq org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
   (setq plantuml-default-exec-mode 'jar)
   (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
-  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
   (setq plantuml-indent-level 2)
   )
 (use-package-plantuml)
