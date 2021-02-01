@@ -190,11 +190,19 @@ first thing to ensure we always start in .emacs.d/
 #+END_SRC
 *** emacs hooks
 #+BEGIN_SRC elisp
-(defun untabify-whole-buffer()
+(defun untabify-whole-buffer ()
   (unless (derived-mode-p 'makefile-mode)
     (untabify (point-min) (point-max))))
 (add-hook 'before-save-hook 'untabify-whole-buffer)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(defun kill-passwords-gpg ()
+  (interactive)
+  (let ((buffer-name "passwords.org.gpg"))
+    (when (buffer-exists buffer-name)
+      (kill-buffer buffer-name))))
+
+(add-hook 'kill-emacs-hook 'kill-passwords-gpg)
 #+END_SRC
 **** note about before-save-hook
 It can also be activated only for prog-modes:

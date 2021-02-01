@@ -11,6 +11,7 @@
 #+BEGIN_SRC elisp
 (leaf a-package-configuration-to-expand
     :require t
+    :tag "builtin"
     :config
     (do-something)
     )
@@ -36,7 +37,7 @@
 #+END_SRC
 - VICTORY!!!
 * TODO emacs > 27 : see early-init-file
-* NOTE remove native org from emacs
+* remove native org from emacs
 #+BEGIN_SRC shell
 cd /usr/share/emacs/26.1/lisp/
 tar czf org
@@ -62,7 +63,7 @@ rm -rf org
   (package-initialize)
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
-    (package-install 'leaf))
+    (package-install 'leaf)))
 
 (leaf leaf
   :url "https://github.com/conao3/leaf.el"
@@ -75,6 +76,10 @@ rm -rf org
     (leaf hydra
       :ensure t)
     (leaf el-get
+      :url
+      "https://www.emacswiki.org/emacs/el-get"
+      "https://github.com/dimitri/el-get"
+      :doc "see package recipe on page"
       :ensure t)
     (leaf blackout
       :ensure t)
@@ -155,12 +160,12 @@ rm -rf org
 ** backup configuration, recentf, desktop
 #+BEGIN_SRC elisp
 (leaf files-backup
-(setq-default backup-by-copying t
-              backup-directory-alist '(("." . "~/.emacs.d/backup"))
-              recentf-auto-cleanup 'never
-              recentf-mode nil
-              enable-remote-dir-locals t
-              )
+  (setq-default backup-by-copying t
+                backup-directory-alist '(("." . "~/.emacs.d/backup"))
+                recentf-auto-cleanup 'never
+                recentf-mode nil
+                enable-remote-dir-locals t
+                ))
 #+END_SRC
 ** TODO frame title
 sources:
@@ -218,12 +223,21 @@ system-name)
 (setq-default indent-tabs-mode nil)
 #+END_SRC
 ** emacs hooks
+- delete-trailing-whitespace
+- untabify-whole-buffer
+- kill passwords.org.el
 #+BEGIN_SRC elisp
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 (defun untabify-whole-buffer()
   (unless (derived-mode-p 'makefile-mode)
     (untabify (point-min) (point-max))))
 (add-hook 'before-save-hook 'untabify-whole-buffer)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(defun kill-passwords-gpg ()
+  (interactive)
+  (let ((buffer-name "passwords.org.gpg"))
+    (when (buffer-exists buffer-name)
+      (kill-buffer buffer-name))))
+(add-hook 'kill-emacs-hook 'kill-passwords-gpg)
 #+END_SRC
 **** note about before-save-hook
 It can also be activated only for prog-modes:
@@ -367,7 +381,16 @@ It can also be activated only for prog-modes:
 ;; (setq initial-buffer-choice 'jp/initial-buffer)
 (setq initial-buffer-choice (concat user-emacs-directory "README.org"))
 #+END_SRC
-* TODO COMMENT Standard configuration
+* Standard configuration
+** uniquify-files
+#+BEGIN_SRC elisp
+(leaf uniquify-files
+  ;; :tag "builtin" "internal"
+  :require t
+  :tag "gnu"
+  )
+#+END_SRC
+* TODO COMMENT Standard configuration TO_INTEGRATE
 ** package
 #+BEGIN_SRC elisp
 (defun jp-config-package()
