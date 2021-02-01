@@ -1,6 +1,20 @@
 # README-leaf.org
 #+SETUPFILE: README-setup.org
 
+* TODO emacs > 27 : see early-init-file
+* remove native org from emacs
+#+BEGIN_SRC shell
+cd /usr/share/emacs/26.1/lisp/
+tar czf org
+rm -rf org
+#+END_SRC
+* remove use-package signature checks (msys2 bug)
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init-leaf.el"
+:END:
+#+BEGIN_SRC elisp
+(setq package-check-signature nil)
+#+END_SRC
 * [[https://github.com/conao3/leaf.el][github: leaf]]
 ** How to test a leaf macro (from [[https://emacs.stackexchange.com/questions/55774/working-with-printed-macro-expansions][emacs.stackexchange.com]]):
 :PROPERTIES:
@@ -36,21 +50,7 @@
     (do-something)))
 #+END_SRC
 - VICTORY!!!
-* TODO emacs > 27 : see early-init-file
-* remove native org from emacs
-#+BEGIN_SRC shell
-cd /usr/share/emacs/26.1/lisp/
-tar czf org
-rm -rf org
-#+END_SRC
-* remove use-package signature checks (msys2 bug)
-:PROPERTIES:
-:header-args+: :tangle "~/.emacs.d/init-leaf.el"
-:END:
-#+BEGIN_SRC elisp
-(setq package-check-signature nil)
-#+END_SRC
-* leaf installation                                                                                          :package:leaf:
+** leaf installation                                                                                                                       :package:leaf:
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init-leaf.el"
 :END:
@@ -67,7 +67,7 @@ rm -rf org
 
 (leaf leaf
   :url "https://github.com/conao3/leaf.el"
-  :init
+  :config
   (leaf leaf-keywords
     :url "https://github.com/conao3/leaf-keywords.el"
     :ensure t
@@ -89,12 +89,24 @@ rm -rf org
   (leaf leaf-tree
     :url "https://github.com/conao3/leaf-tree.el"
     :ensure t
-    :custom ((imenu-list-size . 30)
+    :custom ((imenu-list-size . 40)
              (imenu-list-position . 'left)))
-  ))
+  (leaf feather
+    :init
+    (leaf page-break-lines
+      :ensure t)
+    (leaf async-await
+      :ensure t)
+    (leaf ppp
+      :ensure t)
+    :url "https://github.com/conao3/feather.el"
+    :el-get conao3/feather.el
+    :config (feather-mode)
+    )
+  )
 #+END_SRC
 ** TODO see blackout configuration
-* COMMENT leaf examples
+** COMMENT leaf examples
 :PROPERTIES:
 :header-args+: :tangle nil
 :END:
@@ -116,14 +128,6 @@ rm -rf org
            (tool-bar-mode . t)
            (scroll-bar-mode . t)
            (indent-tabs-mode . nil)))
-#+END_SRC
-* emacs server
-#+NAME: emacs server
-#+BEGIN_SRC elisp
-;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
-(require 'server)
-(unless (server-running-p)
-  (server-start))
 #+END_SRC
 * emacs defaults
 :PROPERTIES:
@@ -153,6 +157,14 @@ rm -rf org
 :PROPERTIES:
 :CREATED:  [2020-11-23 Mon 18:23]
 :END:
+** emacs server
+#+NAME: emacs server
+#+BEGIN_SRC elisp
+;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+#+END_SRC
 ** default directory
 #+BEGIN_SRC elisp
 (setq default-directory user-emacs-directory)
@@ -385,11 +397,39 @@ It can also be activated only for prog-modes:
 ** uniquify-files
 #+BEGIN_SRC elisp
 (leaf uniquify-files
-  ;; :tag "builtin" "internal"
+  :tag "builtin" "internal"
   :require t
   :tag "gnu"
   )
 #+END_SRC
+** standard libraries
+*** file path utils
+Modern API for working with files and directories
+
+f-join, f-filename, f-direname...
+#+BEGIN_SRC elisp
+(leaf f)
+#+END_SRC
+** yasnippet
+*** yasnippet configuration
+#+BEGIN_SRC elisp
+(leaf yasnippet
+  ;; https://github.com/joaotavora/yasnippet
+  ;; http://joaotavora.github.io/yasnippet/
+  :straight
+  (:host github :repo "joaotavora/yasnippet" :branch "master")
+  :custom
+  (yas-snippet-dirs
+   (list (concat user-emacs-directory "snippets/home")
+         (concat user-emacs-directory "snippets/birdz")
+         (concat user-emacs-directory "straight/build/elpy/snippets/")))
+  :config
+  (yas-global-mode 1)
+  )
+#+END_SRC
+*** TODO remove home / birdz directories, use condition inside snippets.
+*** links
+https://github.com/mrkkrp/common-lisp-snippets
 * TODO COMMENT Standard configuration TO_INTEGRATE
 ** package
 #+BEGIN_SRC elisp
@@ -520,14 +560,6 @@ https://jwiegley.github.io/use-package/
 #+END_SRC
 *** TODO integrate git-package [[https://github.com/mnewt/git-package][git-package (installation par un depot git)]]
 *** TODO if I separate each src block in headers, they are not tangled.   :bug:
-** standard libraries
-**** file path utils
-Modern API for working with files and directories
-
-f-join, f-filename, f-direname...
-#+BEGIN_SRC elisp
-(use-package f)
-#+END_SRC
 ** gpg EasyPG
 #+BEGIN_SRC elisp
 (use-package epg
@@ -839,26 +871,6 @@ use ~/bash-aliases
 #+END_SRC
 *** Links
 see https://www.emacswiki.org/emacs/ChangingEncodings
-** yasnippet
-** yasnippet configuration
-#+BEGIN_SRC elisp
-(use-package yasnippet
-  ;; https://github.com/joaotavora/yasnippet
-  ;; http://joaotavora.github.io/yasnippet/
-  :straight
-  (:host github :repo "joaotavora/yasnippet" :branch "master")
-  :custom
-  (yas-snippet-dirs
-   (list (concat user-emacs-directory "snippets/home")
-         (concat user-emacs-directory "snippets/birdz")
-         (concat user-emacs-directory "straight/build/elpy/snippets/")))
-  :config
-  (yas-global-mode 1)
-  )
-#+END_SRC
-** TODO remove home / birdz directories, use condition inside snippets.
-*** links
-https://github.com/mrkkrp/common-lisp-snippets
 ** fill column
 #+BEGIN_SRC elisp
 (use-package fill-column-indicator
