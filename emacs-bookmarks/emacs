@@ -2,7 +2,19 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(#1=(#("cus-start.el" 0 12
+(#1=(#("README-leaf.org" 0 15
+(bmkp-full-record #1#))
+(filename . "~/.emacs.d/README-leaf.org")
+(buffer-name . "README-leaf.org")
+(front-context-string . "# README-leaf.or")
+(rear-context-string)
+(front-context-region-string)
+(rear-context-region-string)
+(visits . 0)
+(time . #2=(24594 57552 859223 65000))
+(created . #2#)
+(position . 1))
+#1=(#("cus-start.el" 0 12
 (bmkp-full-record #1#))
 (filename . "/usr/share/emacs/26.1/lisp/cus-start.el.gz")
 (buffer-name . "cus-start.el.gz")
@@ -10,9 +22,9 @@
 (rear-context-string)
 (front-context-region-string)
 (rear-context-region-string)
-(visits . 0)
-(time . #2=(24594 56358 459441 904000))
-(created . #2#)
+(visits . 1)
+(time 24594 57070 456221 4000)
+(created 24594 56358 459441 904000)
 (position . 1))
 #1=(#("emacs-install-lisp-debian-dir" 0 29
 (bmkp-full-record #1#))
@@ -100,14 +112,14 @@
 (tags)
 (filename . "~/workspace/org/capture.org")
 (buffer-name . "capture.org")
-(front-context-string . "** IT-LINK. Doss")
-(rear-context-string . "hu 15:22]\n:END:\n")
+(front-context-string . "** Why you shoul")
+(rear-context-string . "hu 15:29]\n:END:\n")
 (front-context-region-string)
 (rear-context-region-string)
 (visits . 0)
-(time . #2=(24594 51804 801633 141000))
+(time . #2=(24600 6697 598396 332000))
 (created . #2#)
-(position . 20834))
+(position . 21123))
 #1=(#("jinja2" 0 6
 (bmkp-full-record #1#))
 (buffer-name . "jinja2")
@@ -359,8 +371,8 @@
 (rear-context-string)
 (front-context-region-string)
 (rear-context-region-string)
-(visits . 1)
-(time 24577 49661 258652 680000)
+(visits . 3)
+(time 24600 5732 431146 24000)
 (created 24513 64 324122 521000)
 (position . 1)
 (filename . "~/workspace/org/reference-cards/")
