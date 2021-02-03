@@ -5,14 +5,19 @@
 # STARTUP options: see [[help:org-startup-options]]
 
 * TODO emacs > 27 : early-init-file
-
 * NOTE remove native org from emacs
 #+BEGIN_SRC shell
 cd /usr/share/emacs/26.1/lisp/
 tar czf org
 rm -rf org
 #+END_SRC
-
+* remove use-package signature checks (msys2 bug)
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init-leaf.el"
+:END:
+#+BEGIN_SRC elisp
+(setq package-check-signature nil)
+#+END_SRC
 * [[id:b125ad69-be40-4b14-8c75-963d3c01d61e][Intro]]
 * Minimum configuration
 :PROPERTIES:
@@ -338,8 +343,7 @@ system-name)
 *** explanations
 **** straight (package manager)
 [[https://github.com/raxod502/straight.el][github: straight.el]]
-[[https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/][
-why and how to switch from package to straight]]
+[[https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/][why and how to switch from package to straight]]
 
 TODO see hydra integration
 https://github.com/abo-abo/hydra/wiki/straight.el
@@ -1275,7 +1279,7 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   (setq c-default-style '((c++-mode . "birdz")))
   )
 #+END_SRC
-** ada mode                                                                     :dev:
+** COMMENT ada mode                                                                     :dev:
 #+BEGIN_SRC elisp
 (use-package wisi
   :straight (:host github :repo "emacsmirror/wisi")

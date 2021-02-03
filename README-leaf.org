@@ -66,7 +66,7 @@ rm -rf org
     (package-install 'leaf)))
 
 (leaf leaf
-  :url "https://github.com/conao3/leaf.el"
+  :url "[[https://github.com/conao3/leaf.el]]"
   :config
   (leaf leaf-keywords
     :url "https://github.com/conao3/leaf-keywords.el"
@@ -92,6 +92,7 @@ rm -rf org
     :custom ((imenu-list-size . 40)
              (imenu-list-position . 'left)))
   (leaf feather
+    :after el-get
     :init
     (leaf page-break-lines
       :ensure t)
@@ -105,6 +106,10 @@ rm -rf org
     )
   )
 #+END_SRC
+
+#+RESULTS:
+: leaf
+
 ** TODO see blackout configuration
 ** COMMENT leaf examples
 :PROPERTIES:
@@ -129,6 +134,18 @@ rm -rf org
            (scroll-bar-mode . t)
            (indent-tabs-mode . nil)))
 #+END_SRC
+* [[https://github.com/quelpa/quelpa][quelpa]]
+#+BEGIN_SRC elisp
+(leaf quelpa
+  :init
+  (unless (package-installed-p 'quelpa)
+    (with-temp-buffer
+      (url-insert-file-contents "https://github.com/quelpa/quelpa/raw/master/quelpa.el")
+      (eval-buffer)
+      (quelpa-self-upgrade)))
+  )
+#+END_SRC
+
 * emacs defaults
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init-leaf.el"
@@ -430,6 +447,16 @@ f-join, f-filename, f-direname...
 *** TODO remove home / birdz directories, use condition inside snippets.
 *** links
 https://github.com/mrkkrp/common-lisp-snippets
+** ada-mode
+#+BEGIN_SRC elisp
+(leaf ada-mode
+  :package t
+  :init
+  (leaf wisi
+    :package t)
+  (leaf uniquify-files
+    :package t))
+#+END_SRC
 * TODO COMMENT Standard configuration TO_INTEGRATE
 ** package
 #+BEGIN_SRC elisp
