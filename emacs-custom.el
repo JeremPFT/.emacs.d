@@ -3,7 +3,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ada-build-make-cmd "${cross_prefix}gprbuild -P${gpr_file} ${gprbuild_opt} ")
+ '(initial-buffer-choice "~/.emacs.d/README.org")
  '(org-directory "~/workspace/org")
+ '(package-selected-packages
+   '(bookmark+ counsel swiper ivy flx f yasnippet ada-mode wisi use-package-hydra use-package-ensure-system-package use-package-el-get uniquify-files ppp page-break-lines magit leaf-tree leaf-keywords hydra el-get blackout async-await))
  '(safe-local-eval-forms
    '((add-hook 'write-file-hooks 'time-stamp)
      (add-hook 'write-file-functions 'time-stamp)
@@ -70,7 +74,9 @@
      (eval progn
            (org-babel-tangle)
            (load-file "output/datasys-1.el"))))
- '(tab-width 2))
+ '(tab-width 2)
+ '(yas-snippet-dirs
+   '("/home/jeremy/.emacs.d/snippets/home" "/home/jeremy/.emacs.d/snippets/birdz")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

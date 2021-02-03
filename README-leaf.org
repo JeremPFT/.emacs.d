@@ -10,10 +10,17 @@ rm -rf org
 #+END_SRC
 * remove use-package signature checks (msys2 bug)
 :PROPERTIES:
-:header-args+: :tangle "~/.emacs.d/init-leaf.el"
+:header-args+: :tangle "~/.emacs.d/init.el"
 :END:
 #+BEGIN_SRC elisp
 (setq package-check-signature nil)
+#+END_SRC
+* goto .emacs.d
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init.el"
+:END:
+#+BEGIN_SRC elisp
+  (setq-default default-directory user-emacs-directory)
 #+END_SRC
 * [[https://github.com/conao3/leaf.el][github: leaf]]
 ** How to test a leaf macro (from [[https://emacs.stackexchange.com/questions/55774/working-with-printed-macro-expansions][emacs.stackexchange.com]]):
@@ -52,59 +59,69 @@ rm -rf org
 - VICTORY!!!
 ** leaf installation                                                                                                                       :package:leaf:
 :PROPERTIES:
-:header-args+: :tangle "~/.emacs.d/init-leaf.el"
+:header-args+: :tangle "~/.emacs.d/init.el"
 :END:
 #+BEGIN_SRC elisp
-(eval-and-compile
-  (customize-set-variable
-   'package-archives '(("org" . "https://orgmode.org/elpa/")
-                       ("melpa" . "https://melpa.org/packages/")
-                       ("gnu" . "https://elpa.gnu.org/packages/")))
-  (package-initialize)
-  (unless (package-installed-p 'leaf)
-    (package-refresh-contents)
-    (package-install 'leaf)))
+  (eval-and-compile
+    (customize-set-variable
+     'package-archives
+      '(
+          ("org" . "https://orgmode.org/elpa/")
+          ("gnu" . "https://elpa.gnu.org/packages/")
+          ("melpa" . "https://melpa.org/packages/")
+          ("melpa stable" . "https://stable.melpa.org/packages/")))
+    ;; (package-initialize)
+    ;; (package-refresh-contents)
+    (defvar my-package-list '(el-get leaf))
+    (dolist (package my-package-list)
+      (unless (package-installed-p package)
+        (package-install package))))
 
-(leaf leaf
-  :url "[[https://github.com/conao3/leaf.el]]"
-  :config
+  (leaf el-get
+        :url
+        "https://www.emacswiki.org/emacs/el-get"
+        "https://github.com/dimitri/el-get"
+        :doc "see package recipe on page"
+        :package t)
+
   (leaf leaf-keywords
-    :url "https://github.com/conao3/leaf-keywords.el"
-    :ensure t
-    :init
-    ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
-    (leaf hydra
-      :ensure t)
-    (leaf el-get
-      :url
-      "https://www.emacswiki.org/emacs/el-get"
-      "https://github.com/dimitri/el-get"
-      :doc "see package recipe on page"
-      :ensure t)
-    (leaf blackout
-      :ensure t)
-    :config
-    ;; initialize leaf-keywords.el
-    (leaf-keywords-init))
-  (leaf leaf-tree
-    :url "https://github.com/conao3/leaf-tree.el"
-    :ensure t
-    :custom ((imenu-list-size . 40)
-             (imenu-list-position . 'left)))
+      :url "https://github.com/conao3/leaf-keywords.el"
+      :package t
+      :init
+      ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
+      (leaf hydra
+        :package t)
+
+      (leaf blackout
+        :package t)
+      :config
+      ;; initialize leaf-keywords.el
+      (leaf-keywords-init))
+
   (leaf feather
-    :after el-get
+      :after el-get
+      :init
+      (leaf page-break-lines
+        :package t)
+      (leaf async-await
+        :package t)
+      (leaf ppp
+        :package t)
+      :url "https://github.com/conao3/feather.el"
+      :el-get conao3/feather.el
+      :config (feather-mode)
+      )
+
+  (leaf leaf
+    :url "[[https://github.com/conao3/leaf.el]]"
     :init
-    (leaf page-break-lines
-      :ensure t)
-    (leaf async-await
-      :ensure t)
-    (leaf ppp
-      :ensure t)
-    :url "https://github.com/conao3/feather.el"
-    :el-get conao3/feather.el
-    :config (feather-mode)
     )
-  )
+
+  (leaf leaf-tree
+      :url "https://github.com/conao3/leaf-tree.el"
+      :package t
+      :custom ((imenu-list-size . 40)
+               (imenu-list-position . 'left)))
 #+END_SRC
 
 #+RESULTS:
@@ -118,7 +135,7 @@ rm -rf org
 #+BEGIN_SRC elisp
 ;; Now you can use leaf!
 (leaf transient-dwim
-  :ensure t
+  :package t
   :bind (("M-=" . transient-dwim-dispatch)))
 
 ;; You can also configure builtin package via leaf!
@@ -148,7 +165,7 @@ rm -rf org
 
 * emacs defaults
 :PROPERTIES:
-:header-args+: :tangle "~/.emacs.d/init-leaf.el"
+:header-args+: :tangle "~/.emacs.d/init.el"
 :END:
 ** Speed-up at startup: boost garbage collector memory
 #+BEGIN_SRC elisp
@@ -174,6 +191,11 @@ rm -rf org
 :PROPERTIES:
 :CREATED:  [2020-11-23 Mon 18:23]
 :END:
+** emacs custom file
+#+BEGIN_SRC elisp
+(setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
+(when (file-exists-p custom-file) (load custom-file))
+#+END_SRC
 ** emacs server
 #+NAME: emacs server
 #+BEGIN_SRC elisp
@@ -181,10 +203,6 @@ rm -rf org
 (require 'server)
 (unless (server-running-p)
   (server-start))
-#+END_SRC
-** default directory
-#+BEGIN_SRC elisp
-(setq default-directory user-emacs-directory)
 #+END_SRC
 ** backup configuration, recentf, desktop
 #+BEGIN_SRC elisp
@@ -256,16 +274,18 @@ system-name)
 - untabify-whole-buffer
 - kill passwords.org.el
 #+BEGIN_SRC elisp
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-(defun untabify-whole-buffer()
+(defun untabify-whole-buffer ()
   (unless (derived-mode-p 'makefile-mode)
     (untabify (point-min) (point-max))))
 (add-hook 'before-save-hook 'untabify-whole-buffer)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 (defun kill-passwords-gpg ()
   (interactive)
-  (let ((buffer-name "passwords.org.gpg"))
-    (when (buffer-exists buffer-name)
-      (kill-buffer buffer-name))))
+  (let ((buffer (get-buffer "passwords.org.gpg")))
+    (when buffer
+      (kill-buffer buffer))))
+
 (add-hook 'kill-emacs-hook 'kill-passwords-gpg)
 #+END_SRC
 **** note about before-save-hook
@@ -297,20 +317,6 @@ It can also be activated only for prog-modes:
 (add-to-list 'load-path lisp-dir)
 ;; functions used by my snippets
 (add-to-list 'load-path (concat lisp-dir "yasnippet"))
-#+END_SRC
-
-#+NAME: straight preparations
-#+BEGIN_SRC elisp
-(defconst using-straight nil)
-
-(when using-straight
-  ;; immediately load use-package (can be 'not found' otherwise)
-  (add-to-list 'load-path (concat user-emacs-directory "straight/build/use-package"))
-  (load-file (concat user-emacs-directory "straight/build/use-package/use-package-autoloads.el"))
-  ;; load use-package version of org (prevent mixed versions problems, see org-mode section below)
-  (add-to-list 'load-path (concat user-emacs-directory "straight/build/org"))
-  (load-file (concat user-emacs-directory "straight/build/org/org-autoloads.el"))
-  )
 #+END_SRC
 ** my constants
 #+BEGIN_SRC elisp
@@ -411,51 +417,119 @@ It can also be activated only for prog-modes:
 (setq initial-buffer-choice (concat user-emacs-directory "README.org"))
 #+END_SRC
 * Standard configuration
-** uniquify-files
-#+BEGIN_SRC elisp
-(leaf uniquify-files
-  :tag "builtin" "internal"
-  :require t
-  :tag "gnu"
-  )
-#+END_SRC
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init.el"
+:END:
 ** standard libraries
 *** file path utils
 Modern API for working with files and directories
 
 f-join, f-filename, f-direname...
 #+BEGIN_SRC elisp
-(leaf f)
+  (leaf f :package t)
 #+END_SRC
 ** yasnippet
 *** yasnippet configuration
 #+BEGIN_SRC elisp
 (leaf yasnippet
-  ;; https://github.com/joaotavora/yasnippet
-  ;; http://joaotavora.github.io/yasnippet/
-  :straight
-  (:host github :repo "joaotavora/yasnippet" :branch "master")
-  :custom
-  (yas-snippet-dirs
-   (list (concat user-emacs-directory "snippets/home")
-         (concat user-emacs-directory "snippets/birdz")
-         (concat user-emacs-directory "straight/build/elpy/snippets/")))
-  :config
-  (yas-global-mode 1)
-  )
+    :package t
+    :url "https://github.com/joaotavora/yasnippet"
+    :url "http://joaotavora.github.io/yasnippet/"
+    :config
+    (yas-global-mode 1)
+    :custom
+    (yas-snippet-dirs . '("~/.emacs.d/snippets/home"
+                          "~/.emacs.d/snippets/birdz"))
+    )
 #+END_SRC
 *** TODO remove home / birdz directories, use condition inside snippets.
 *** links
 https://github.com/mrkkrp/common-lisp-snippets
 ** ada-mode
 #+BEGIN_SRC elisp
-(leaf ada-mode
-  :package t
-  :init
-  (leaf wisi
-    :package t)
-  (leaf uniquify-files
-    :package t))
+  (leaf ada-mode
+    :init
+    (leaf uniquify-files :package t)
+    (leaf wisi :package t)
+    :package t
+    )
+#+END_SRC
+** completion
+#+BEGIN_SRC elisp
+  (leaf flx
+    ;; flx mode. Used with completion list
+    ;; flx-isearch exists, but take a long time inside a long file
+    :package t
+    )
+
+  (leaf ivy
+    ;; completion
+    ;; https://oremacs.com/swiper/#key-bindings
+    ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
+    ;; https://www.youtube.com/user/abo5abo
+    ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+    :package t
+    :bind
+    (:ivy-minibuffer-map
+    :package ivy
+    ("<RET>" . ivy-alt-done)
+    ("C-j" . ivy-immediate-done)
+    )
+    :custom
+    (ivy-re-builders-alist . '((counsel-ag . ivy--regex-plus)
+       (swiper-isearch . ivy--regex-ignore-order)
+       (t      . ivy--regex-fuzzy)))
+    (ivy-use-virtual-buffers . 'bookmarks)
+    (ivy-height . 15)
+    )
+
+  (leaf swiper
+    :doc "completion"
+    :package t
+    )
+
+  (leaf counsel
+    :package t
+    :bind
+    (("M-y" . counsel-yank-pop)
+     ("C-x r b" . counsel-bookmark)
+     ("C-x b" . ivy-switch-buffer) ;; counsel-switch-buffer show a
+     ;; preview of buffer, it's too long
+     ("M-x" . counsel-M-x)
+     ("C-h f" . counsel-describe-function)
+     ("C-h v" . counsel-describe-variable)
+     ("C-x C-f" . counsel-find-file)
+     ("C-x C-d" . counsel-find-file)
+     ("C-x d" . counsel-find-file))
+     (:ivy-minibuffer-map
+       ("M-y" . ivy-next-line)))
+
+  (global-set-key (kbd "C-s") 'isearch-forward)
+  (global-set-key (kbd "C-r") 'isearch-backward)
+#+END_SRC
+*** links
+https://oremacs.com/swiper/#actions
+https://github.com/abo-abo/swiper
+https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+http://pragmaticemacs.com/page/6/
+http://blog.binchen.org/posts/emacs-is-easy-if-you-read-code.html
+
+https://github.com/abo-abo/swiper
+https://oremacs.com/swiper/
+https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/
+https://www.reddit.com/r/emacs/comments/6yi6dl/most_useful_parts_of_ivycounselswiper_manual_too/
+https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
+*** TODO setup key in counsel
+** bookmark+
+#+BEGIN_SRC elisp
+  (leaf bookmark+
+    :el-get emacsmirror/bookmark-plus
+    ;; https://www.emacswiki.org/emacs/BookmarkPlus
+    :custom
+    (bmkp-bmenu-state-file . "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
+    (bookmark-default-file . "~/.emacs.d/emacs-bookmarks/emacs")
+    (bmkp-last-as-first-bookmark-file . nil)
+    )
 #+END_SRC
 * TODO COMMENT Standard configuration TO_INTEGRATE
 ** package
@@ -653,7 +727,6 @@ use ~/bash-aliases
 *** grep configuration
 #+BEGIN_SRC elisp
 (use-package grep
-  :ensure nil
   :preface
   :custom
   (grep-command "grep --color=always -nH -ie ")
@@ -1283,83 +1356,6 @@ Note: use counsel-yank instead
   )
 #+END_SRC
 *** TODO links
-** completion
-#+BEGIN_SRC elisp
-(use-package flx
-  ;; flx mode. Used with completion list
-  ;; flx-isearch exists, but take a long time inside a long file
-  )
-
-(use-package ivy
-  ;; completion
-  ;; https://oremacs.com/swiper/#key-bindings
-  ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
-  ;; https://www.youtube.com/user/abo5abo
-  ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
-  :bind (:map ivy-minibuffer-map
-              ("<RET>" . ivy-alt-done)
-              ("C-j" . ivy-immediate-done)
-              )
-  :custom
-  (ivy-re-builders-alist
-   '((counsel-ag . ivy--regex-plus)
-     (swiper-isearch . ivy--regex-ignore-order)
-     (t      . ivy--regex-fuzzy)))
-  (ivy-use-virtual-buffers 'bookmarks)
-  (ivy-height 15)
-  )
-
-(use-package swiper
-  ;; completion
-  )
-
-(use-package counsel
-  :bind
-  (("M-y" . counsel-yank-pop)
-   ("C-x r b" . counsel-bookmark)
-   ("C-x b" . ivy-switch-buffer) ;; counsel-switch-buffer show a
-   ;; preview of buffer, it's too long
-   ("M-x" . counsel-M-x)
-   ("C-h f" . counsel-describe-function)
-   ("C-h v" . counsel-describe-variable)
-   ("C-x C-f" . counsel-find-file)
-   ("C-x C-d" . counsel-find-file)
-   ("C-x d" . counsel-find-file)
-
-   :map ivy-minibuffer-map
-   ("M-y" . ivy-next-line)))
-
-(global-set-key (kbd "C-s") 'isearch-forward)
-(global-set-key (kbd "C-r") 'isearch-backward)
-#+END_SRC
-*** links
-https://oremacs.com/swiper/#actions
-https://github.com/abo-abo/swiper
-https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
-http://pragmaticemacs.com/page/6/
-http://blog.binchen.org/posts/emacs-is-easy-if-you-read-code.html
-
-https://github.com/abo-abo/swiper
-https://oremacs.com/swiper/
-https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/
-https://www.reddit.com/r/emacs/comments/6yi6dl/most_useful_parts_of_ivycounselswiper_manual_too/
-https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
-*** TODO setup key in counsel
-
-** bookmark+
-#+BEGIN_SRC elisp
-(use-package bookmark+
-  ;; https://www.emacswiki.org/emacs/BookmarkPlus
-  :straight
-  (:host github :repo "emacsmirror/bookmark-plus" :branch "master")
-  :custom
-  (bmkp-bmenu-state-file (concat user-emacs-directory "emacs-bookmarks/.bmk-bmenu-state.el"))
-  (bookmark-default-file (concat user-emacs-directory
-                                 (cond (birdz-computer-p "emacs-bookmarks/birdz")
-                                       (t                "emacs-bookmarks/emacs"))))
-  (bmkp-last-as-first-bookmark-file nil)
-  )
-#+END_SRC
 ** imenu                                                               :dev:
 #+BEGIN_SRC elisp
 (require 'imenu)
@@ -1879,7 +1875,7 @@ T - tag prefix
 ** calfw calendar
 #+BEGIN_SRC elisp
 (use-package calfw
-  :ensure t)
+  :package t)
 #+END_SRC
 
 ** latex * auctex * context
@@ -1889,7 +1885,6 @@ T - tag prefix
     ;; https://www.gnu.org/software/auctex/
     :when home-computer-p
     :defer t
-    :ensure nil
     :defines TeX-command-list TeX-command-default
     :custom
     (ConTeXt-Mark-version "IV")
@@ -2146,11 +2141,6 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
                       :family face-family))
 #+END_SRC
 
-** load custom file
-#+BEGIN_SRC elisp
-(setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
-(when (file-exists-p custom-file) (load custom-file))
-#+END_SRC
 ** line numbering
 #+BEGIN_SRC elisp
 (defun jp-config-linum()
@@ -2188,7 +2178,7 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 #+BEGIN_SRC elisp
 (use-package all-the-icons
   :disabled
-  :ensure t
+  :package t
   :config
   (unless (file-directory-p (concat user-emacs-directory "all-the-icons-fonts"))
     (make-directory (concat user-emacs-directory "all-the-icons-fonts"))
@@ -2351,7 +2341,6 @@ https://medium.com/@shibucite/emacs-and-plantuml-for-uml-diagrams-academic-tools
 
 ;; (use-package plantuml-mode
 ;;   :load-path lisp-dir ;; JPI: has to modify indent rules for notes
-;;   :ensure nil
 ;;   :mode ("\\.puml\\'" . plantuml-mode)
 ;;   :custom
 ;;    (plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
@@ -2393,7 +2382,7 @@ https://medium.com/@shibucite/emacs-and-plantuml-for-uml-diagrams-academic-tools
   )
 
 ;; (use-package ls-lisp
-;;   :ensure t
+;;   :package t
 ;;   :config
 ;;   (setq  ls-lisp-use-insert-directory-program nil
 ;;          ls-lisp-verbosity nil))
@@ -2417,7 +2406,7 @@ https://medium.com/@shibucite/emacs-and-plantuml-for-uml-diagrams-academic-tools
 
 (use-package treemacs
   :disabled ;; doesn't work on my personal computer ???
-  :ensure t
+  :package t
 
   :defer t
 
@@ -2440,7 +2429,7 @@ https://medium.com/@shibucite/emacs-and-plantuml-for-uml-diagrams-academic-tools
 ;; (use-package dired-sidebar
 ;;   :straight
 ;;   (:host github :repo "jojojames/dired-sidebar" :branch "master")
-;;   :ensure t
+;;   :package t
 ;;   :commands (dired-sidebar-toggle-sidebar)
 ;; )
 
@@ -2450,7 +2439,7 @@ https://medium.com/@shibucite/emacs-and-plantuml-for-uml-diagrams-academic-tools
 
 ;; (use-package dired-quick-sort
 ;;   ;; https://gitlab.com/xuhdev/dired-quick-sort
-;;   :ensure t
+;;   :package t
 ;;   :config
 ;;   (add-hook 'dired-mode-hook (lambda ()
 ;;                                (when (eq system-type 'windows-nt)
@@ -2556,7 +2545,7 @@ https://medium.com/@shibucite/emacs-and-plantuml-for-uml-diagrams-academic-tools
 ;;   :straight (:host github :repo "waymondo/popup-kill-ring" :branch "master")
 
 (use-package doom-modeline
-  :ensure t
+  :package t
   :config (doom-modeline-mode)
   :init
   (doom-modeline-project-detection 'projectile))
@@ -2805,10 +2794,10 @@ https://medium.com/@shibucite/emacs-and-plantuml-for-uml-diagrams-academic-tools
 (setq calendar-holidays holiday-french-holidays)
 
 (use-package csv-mode
-  :ensure t)
+  :package t)
 
 (use-package csv
-  :ensure t)
+  :package t)
 
 (use-package page-break-lines
   :disabled ;; dependance of dashboard
@@ -2823,7 +2812,7 @@ https://medium.com/@shibucite/emacs-and-plantuml-for-uml-diagrams-academic-tools
   :disabled ;; see if useful
   :straight (:host github :repo "emacs-dashboard/emacs-dashboard")
   :after (page-break-lines all-the-icons)
-  :ensure t
+  :package t
   :config
   (dashboard-setup-startup-hook)
   (setq
