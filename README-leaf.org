@@ -13,14 +13,15 @@ rm -rf org
 :header-args+: :tangle "~/.emacs.d/init.el"
 :END:
 #+BEGIN_SRC elisp
-(setq package-check-signature nil)
+(setq-default package-check-signature nil)
 #+END_SRC
-* goto .emacs.d
+* open .emacs.d/README.org
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init.el"
 :END:
 #+BEGIN_SRC elisp
-  (setq-default default-directory user-emacs-directory)
+(setq-default default-directory "~/.emacs.d")
+(customize-set-variable 'initial-buffer-choice "~/.emacs.d/README.org")
 #+END_SRC
 * [[https://github.com/conao3/leaf.el][github: leaf]]
 ** How to test a leaf macro (from [[https://emacs.stackexchange.com/questions/55774/working-with-printed-macro-expansions][emacs.stackexchange.com]]):
@@ -30,7 +31,7 @@ rm -rf org
 - With the following code:
 #+NAME: code-to-check
 #+BEGIN_SRC elisp
-(leaf a-package-configuration-to-expand
+(leaf leaf-xpl-a-package-configuration-to-expand
     :require t
     :tag "builtin"
     :config
@@ -41,7 +42,7 @@ rm -rf org
 #+NAME: using macroexpand-1
 #+BEGIN_SRC elisp
 (macroexpand-1
- '(leaf a-package-configuration-to-expand
+ '(leaf leaf-xpl-a-package-configuration-to-expand
     :require t
     :config
     (do-something)
@@ -51,9 +52,9 @@ rm -rf org
 - A new buffer is created, with the expanded macro !
 #+NAME: output
 #+BEGIN_SRC elisp
-(prog1 'a-package-configuration-to-expand
-  (leaf-handler-leaf-protect a-package-configuration-to-expand
-    (require 'a-package-configuration-to-expand)
+(prog1 'leaf-xpl-a-package-configuration-to-expand
+  (leaf-handler-leaf-protect leaf-xpl-a-package-configuration-to-expand
+    (require 'leaf-xpl-a-package-configuration-to-expand)
     (do-something)))
 #+END_SRC
 - VICTORY!!!
@@ -61,70 +62,102 @@ rm -rf org
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init.el"
 :END:
+The following sets package archives. Install leaf.
+#+NAME: indent-buffer
 #+BEGIN_SRC elisp
-  (eval-and-compile
-    (customize-set-variable
-     'package-archives
-      '(
-          ("org" . "https://orgmode.org/elpa/")
-          ("gnu" . "https://elpa.gnu.org/packages/")
-          ("melpa" . "https://melpa.org/packages/")
-          ("melpa stable" . "https://stable.melpa.org/packages/")))
-    ;; (package-initialize)
-    ;; (package-refresh-contents)
-    (defvar my-package-list '(el-get leaf))
-    (dolist (package my-package-list)
-      (unless (package-installed-p package)
-        (package-install package))))
+  (defun indent-buffer ()
+    (interactive)
+    (let ((position (point)))
+      (cond ((derived-mode-p 'cc-mode)
+       (clang-format-buffer))
+      (t
+       (indent-region (point-min) (point-max))
+       (goto-char position)))))
+#+END_SRC
+#+NAME: set-package-el
+#+BEGIN_SRC elisp
+  (progn
+    (defvar jpi/package-refresh-contents-done nil)
+    (defvar jpi/packages-to-install '(leaf leaf-keywords))
+    (eval-and-compile
+      (customize-set-variable
+       'package-archives
+       '(
+   ("org" . "https://orgmode.org/elpa/")
+   ("gnu" . "https://elpa.gnu.org/packages/")
+   ("melpa" . "https://melpa.org/packages/")
+   ("melpa stable" . "https://stable.melpa.org/packages/")))
+      (package-initialize)
+      (unless jpi/package-refresh-contents-done
+  (package-refresh-contents)
+  (setq jpi/package-refresh-contents-done t))
 
-  (leaf el-get
-        :url
-        "https://www.emacswiki.org/emacs/el-get"
-        "https://github.com/dimitri/el-get"
-        :doc "see package recipe on page"
-        :package t)
-
-  (leaf leaf-keywords
-      :url "https://github.com/conao3/leaf-keywords.el"
-      :package t
-      :init
-      ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
-      (leaf hydra
-        :package t)
-
-      (leaf blackout
-        :package t)
-      :config
-      ;; initialize leaf-keywords.el
-      (leaf-keywords-init))
-
-  (leaf feather
-      :after el-get
-      :init
-      (leaf page-break-lines
-        :package t)
-      (leaf async-await
-        :package t)
-      (leaf ppp
-        :package t)
-      :url "https://github.com/conao3/feather.el"
-      :el-get conao3/feather.el
-      :config (feather-mode)
-      )
-
-  (leaf leaf
-    :url "[[https://github.com/conao3/leaf.el]]"
-    :init
-    )
-
-  (leaf leaf-tree
-      :url "https://github.com/conao3/leaf-tree.el"
-      :package t
-      :custom ((imenu-list-size . 40)
-               (imenu-list-position . 'left)))
+      ;; (defvar my-package-list '(el-get leaf))
+      (dolist (package jpi/packages-to-install)
+  (unless (package-installed-p package)
+    (package-install package)))))
 #+END_SRC
 
-#+RESULTS:
+#+NAME: first packages
+#+BEGIN_SRC elisp
+    (leaf el-get
+      :url
+      "https://www.emacswiki.org/emacs/el-get"
+      "https://github.com/dimitri/el-get"
+      :doc
+      "see package recipe on page"
+      "recipes: https://github.com/dimitri/el-get/find/master"
+      :init
+      (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+      (unless (require 'el-get nil t)
+        (with-current-buffer
+            (url-retrieve-synchronously
+             "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+          (goto-char (point-max))
+          (eval-print-last-sexp)))
+      (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
+      )
+
+    (leaf leaf
+      :url "https://github.com/conao3/leaf.el"
+      :after el-get
+      :init
+      (leaf leaf-keywords
+        :url "https://github.com/conao3/leaf-keywords.el"
+        :package t
+        :init
+        ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
+        (leaf hydra
+        :el-get abo-abo/hydra)
+        (leaf blackout :el-get raxod502/blackout)
+        :config
+        ;; initialize leaf-keywords.el
+        (leaf-keywords-init))
+      (leaf feather
+        :url "https://github.com/conao3/feather.el"
+        :el-get conao3/feather.el
+        :after el-get leaf-keywords
+        :init
+        (leaf page-break-lines :el-get purcell/page-break-lines)
+        (leaf async
+        :el-get jwiegley/emacs-async
+        :init
+        (leaf promise :el-get chuntaro/emacs-promise))
+        (leaf async-await :el-get chuntaro/emacs-async-await)
+        (leaf ppp :el-get conao3/ppp.el)
+        :config (feather-mode)
+        :blackout 'feather
+        )
+      :config
+      (leaf leaf-tree
+        :url "https://github.com/conao3/leaf-tree.el"
+        :el-get conao3/leaf-tree.el
+        :custom ((imenu-list-size . 40)
+                 (imenu-list-position . 'left)))
+      )
+#+END_SRC
+
+#+RESULTS: first packages
 : leaf
 
 ** TODO see blackout configuration
@@ -141,7 +174,7 @@ rm -rf org
 ;; You can also configure builtin package via leaf!
 (leaf cus-start
   :doc "define customization properties of builtins"
-  :tag "builtin" "internal"
+  :tag "internal"
   :custom ((user-full-name . "Jérémy Piffret")
            (user-mail-address . "j.piffret@gmail.com")
            (user-login-name . "j.piffret")
@@ -315,8 +348,6 @@ It can also be activated only for prog-modes:
 (defconst lisp-dir (file-name-as-directory (concat user-emacs-directory "lisp")))
 ;; lisp perso / downloaded files
 (add-to-list 'load-path lisp-dir)
-;; functions used by my snippets
-(add-to-list 'load-path (concat lisp-dir "yasnippet"))
 #+END_SRC
 ** my constants
 #+BEGIN_SRC elisp
@@ -378,18 +409,6 @@ It can also be activated only for prog-modes:
   ;;   (set-frame-height (selected-frame) 53)))
   )
 #+END_SRC
-*** indent-buffer
-#+NAME: indent-buffer
-#+BEGIN_SRC elisp
-(defun indent-buffer ()
-  (interactive)
-  (let ((position (point)))
-    (cond ((derived-mode-p 'cc-mode)
-           (clang-format-buffer))
-          (t
-           (indent-region (point-min) (point-max))
-           (goto-char position)))))
-#+END_SRC
 *** aliases, global-set-key
 #+NAME: aliases, global set keys
 #+BEGIN_SRC elisp
@@ -426,70 +445,34 @@ Modern API for working with files and directories
 
 f-join, f-filename, f-direname...
 #+BEGIN_SRC elisp
-  (leaf f :package t)
+(leaf f :el-get rejeep/f.el)
 #+END_SRC
-** yasnippet
-*** yasnippet configuration
+** bookmark+
 #+BEGIN_SRC elisp
-(leaf yasnippet
-    :package t
-    :url "https://github.com/joaotavora/yasnippet"
-    :url "http://joaotavora.github.io/yasnippet/"
-    :config
-    (yas-global-mode 1)
+  (leaf bookmark+
+    :el-get emacsmirror/bookmark-plus
+    ;; https://www.emacswiki.org/emacs/BookmarkPlus
     :custom
-    (yas-snippet-dirs . '("~/.emacs.d/snippets/home"
-                          "~/.emacs.d/snippets/birdz"))
-    )
-#+END_SRC
-*** TODO remove home / birdz directories, use condition inside snippets.
-*** links
-https://github.com/mrkkrp/common-lisp-snippets
-** ada-mode
-#+BEGIN_SRC elisp
-  (leaf ada-mode
-    :init
-    (leaf uniquify-files :package t)
-    (leaf wisi :package t)
-    :package t
+    (bmkp-bmenu-state-file . "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
+    (bookmark-default-file . "~/.emacs.d/emacs-bookmarks/emacs")
+    (bmkp-last-as-first-bookmark-file . nil)
     )
 #+END_SRC
 ** completion
 #+BEGIN_SRC elisp
-  (leaf flx
-    ;; flx mode. Used with completion list
-    ;; flx-isearch exists, but take a long time inside a long file
-    :package t
-    )
+(leaf flx
+  ;; flx mode. Used with completion list
+  ;; flx-isearch exists, but take a long time inside a long file
+  :el-get lewang/flx
+  )
 
-  (leaf ivy
-    ;; completion
-    ;; https://oremacs.com/swiper/#key-bindings
-    ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
-    ;; https://www.youtube.com/user/abo5abo
-    ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
-    :package t
-    :bind
-    (:ivy-minibuffer-map
-    :package ivy
-    ("<RET>" . ivy-alt-done)
-    ("C-j" . ivy-immediate-done)
-    )
-    :custom
-    (ivy-re-builders-alist . '((counsel-ag . ivy--regex-plus)
-       (swiper-isearch . ivy--regex-ignore-order)
-       (t      . ivy--regex-fuzzy)))
-    (ivy-use-virtual-buffers . 'bookmarks)
-    (ivy-height . 15)
-    )
-
-  (leaf swiper
-    :doc "completion"
-    :package t
-    )
-
+(leaf swiper
+  :url "https://github.com/abo-abo/swiper"
+  :doc "completion engine"
+  :doc "install ivy, counsel, swiper"
+  :el-get abo-abo/swiper
+  :config
   (leaf counsel
-    :package t
     :bind
     (("M-y" . counsel-yank-pop)
      ("C-x r b" . counsel-bookmark)
@@ -501,11 +484,34 @@ https://github.com/mrkkrp/common-lisp-snippets
      ("C-x C-f" . counsel-find-file)
      ("C-x C-d" . counsel-find-file)
      ("C-x d" . counsel-find-file))
-     (:ivy-minibuffer-map
-       ("M-y" . ivy-next-line)))
-
+    (:ivy-minibuffer-map
+     ("M-y" . ivy-next-line)))
+  (leaf ivy
+    ;; completion
+    ;; https://oremacs.com/swiper/#key-bindings
+    ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
+    ;; https://www.youtube.com/user/abo5abo
+    ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+    :bind
+    (:ivy-minibuffer-map
+     ("<RET>" . ivy-alt-done)
+     ("C-j" . ivy-immediate-done)
+     )
+    :custom
+    (ivy-re-builders-alist . '((counsel-ag     . ivy--regex-plus)
+                               (swiper-isearch . ivy--regex-ignore-order)
+                               (t              . ivy--regex-fuzzy)))
+    (ivy-use-virtual-buffers . 'bookmarks)
+    (ivy-height . 15)
+    )
   (global-set-key (kbd "C-s") 'isearch-forward)
   (global-set-key (kbd "C-r") 'isearch-backward)
+  )
+
+
+
+
+
 #+END_SRC
 *** links
 https://oremacs.com/swiper/#actions
@@ -520,16 +526,321 @@ https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs
 https://www.reddit.com/r/emacs/comments/6yi6dl/most_useful_parts_of_ivycounselswiper_manual_too/
 https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
 *** TODO setup key in counsel
-** bookmark+
+** yasnippet
+*** yasnippet configuration
 #+BEGIN_SRC elisp
-  (leaf bookmark+
-    :el-get emacsmirror/bookmark-plus
-    ;; https://www.emacswiki.org/emacs/BookmarkPlus
-    :custom
-    (bmkp-bmenu-state-file . "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
-    (bookmark-default-file . "~/.emacs.d/emacs-bookmarks/emacs")
-    (bmkp-last-as-first-bookmark-file . nil)
+  (leaf yasnippet
+      :el-get joaotavora/yasnippet
+      :url "https://github.com/joaotavora/yasnippet"
+      :url "http://joaotavora.github.io/yasnippet/"
+      :config
+      (yas-global-mode 1)
+      (add-to-list 'load-path (concat lisp-dir "yasnippet"))
+      :custom
+      (yas-snippet-dirs . '("~/.emacs.d/snippets/home"
+                            "~/.emacs.d/snippets/birdz"))
+      :blackout 'yas-minor-mode
+      )
+#+END_SRC
+*** TODO remove home / birdz directories, use condition inside snippets.
+*** links
+https://github.com/mrkkrp/common-lisp-snippets
+** ada-mode
+#+BEGIN_SRC elisp
+(leaf uniquify-files :el-get emacsmirror/uniquify-files)
+(leaf ada-mode
+  :el-get emacs-straight/ada-mode
+  :doc
+  """to setup ada-mode: renames ada-mode to ada-mode-i.j.k and wisi to wisi-i.j.k
+  then in ada-mode-i.j.k :
+  > bash build.sh && bash install.sh"""
+  :init
+  (leaf wisi :el-get emacs-straight/wisi)
+  :config
+
+  (defun ada-before-save ()
+    (when (derived-mode-p 'ada-mode 'gpr-mode)
+      (wisi-case-adjust-buffer)
+      (wisi-reset-parser)
+      (indent-buffer)))
+
+  (defun hippie-expand-ada-symbols (orig-fun &rest args)
+    (if (derived-mode-p 'ada-mode)
+        (let ((table (make-syntax-table ada-mode-syntax-table)))
+          (modify-syntax-entry ?. "_" table)
+          (with-syntax-table table (apply orig-fun args)))
+      (apply orig-fun args)))
+
+  ;; (define-key map "\C-c`"   'ada-show-secondary-error)
+  ;; (define-key map "\C-c\M-`"        'wisi-fix-compiler-error)
+
+  (setq fci-rule-column 78)
+  ;; (ada-case-read-all-exceptions)
+
+  (add-hook 'before-save-hook 'ada-before-save)
+  (add-hook 'ada-mode-hook (lambda () (electric-pair-mode)))
+
+  ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
+  (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
+
+  (global-set-key (kbd "C-M-*") 'wisi-fix-compiler-error)
+  )
+#+END_SRC
+** moving in emacs
+#+BEGIN_SRC elisp
+(leaf avy
+  :el-get abo-abo/avy
+  :url "https://github.com/abo-abo/avy"
+  :doc "like ace-jump"
+  :custom
+  (avy-timeout-seconds . 0.3)
+  (avy-all-windows . 'all-frames)
+  :bind
+  (("C-M-:" . avy-goto-char-timer)
+   ("C-:" . avy-goto-char-2))
+  :config
+  (leaf avy-menu
+    :url "https://github.com/mrkkrp/avy-menu"
+    :el-get mrkkrp/avy-menu
     )
+  )
+
+#+END_SRC
+** magit
+#+BEGIN_SRC elisp
+(leaf magit
+  :package t
+  ;;
+  ;; TODO see magit-gitflow
+  ;;
+  :after hydra
+  :init
+  (leaf magit-popup :package t)
+  :config
+  (defun magit-fetch-and-status ()
+    (magit-fetch-from-upstream)
+    (magit-status)
+    )
+
+  :custom
+  (magit-repository-directories .
+                                '(("~/.emacs.d"  . 0)
+                                  ("~/.emacs.d/lisp/comb"  . 0)
+                                  ("~/workspace/" . 2)
+                                  ))
+
+  (magit-repolist-columns .
+                          '(("Name" 25 magit-repolist-column-ident nil)
+                            ("Version" 25 magit-repolist-column-version nil)
+                            ("Branch" 15 magit-repolist-column-branch nil)
+                            ("Branches" 8 magit-repolist-column-branches nil)
+                            ("Flag" 4 magit-repolist-column-flag ((:right-align t)))
+                            ("B<U" 3 magit-repolist-column-unpulled-from-upstream
+                             ((:right-align t)
+                              (:help-echo "Upstream changes not in branch")))
+                            ("B>U" 3 magit-repolist-column-unpushed-to-upstream
+                             ((:right-align t)
+                              (:help-echo "Local changes not in upstream")))
+                            ("Path" 30 magit-repolist-column-path nil)
+                            ("Push" 4 magit-repolist-column-unpushed-to-pushremote))
+                          )
+
+  ;; TODO
+  ;; ;; commit after save
+  ;; (defun git-commit-after-save ()
+  ;;   (let ((git-rev-parse-output "")
+  ;;         (git-rev-parse-cmd "git rev-parse")
+  ;;         (repository-p nil)
+  ;;         (git-commit-cmd "git commit")
+  ;;         (current-output ""))
+  ;;     (setq current-output (call-process git-rev-parse-cmd))
+  ;;     ))
+
+  :hydra
+  (hydra-magit (:hint nil)
+               "
+  _s_ status    _c_ commit
+  _P_ pull      _la_ log all
+  _p_ push      _d_ diff
+  "
+                                        ;               ("s" magit-fetch-and-status :exit t)
+               ("s" magit-status :exit t)
+               ("p" magit-push :exit t)
+               ("P" magit-pull :exit t)
+               ("c" magit-commit :exit t)
+               ("d" magit-diff :exit t)
+               ("la" magit-log-all :exit t)
+               )
+  )
+
+(leaf git-link
+  :after magit
+  :el-get sshaw/git-link
+  )
+
+;; (defhydra hydra-magit (:hint nil)
+;;   "
+;; _s_ status    _c_ commit
+;; _P_ pull      _la_ log all
+;; _p_ push      _d_ diff
+;; "
+;;   ("p" magit-push :exit t)
+;;   ("P" magit-pull :exit t)
+;;   ("c" magit-commit :exit t)
+;;   ("d" magit-diff :exit t)
+;;   ("la" magit-log-all :exit t)
+;;   ("s" magit-status :exit t)
+;;   )
+#+END_SRC
+
+#+BEGIN_SRC elisp
+(leaf magit-gitflow
+  :el-get jtatarik/magit-gitflow
+  :after magit
+  :config
+  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+  )
+#+END_SRC
+
+*** TODO link: [[https://github.com/magit/magit/issues/2971][Batch operation in magit-list-repositories]]
+** link-hint
+#+BEGIN_SRC elisp
+  (leaf link-hint
+    :el-get noctuid/link-hint.el
+    :bind
+    ("C-c l o" . link-hint-open-link)
+    ("C-c l c" . link-hint-copy-link))
+#+END_SRC
+*** links
+https://github.com/noctuid/link-hint.el
+** org-mode
+*** about mixed installs: https://orgmode.org/worg/org-faq.html#mixed-install
+*** org core configuration
+#+BEGIN_SRC elisp
+(leaf org
+  :tag "builtin"
+  :mode
+  ("\\.\\(org\\|txt\\)\\'" . org-mode)
+  ("\\*notes\\*" . org-mode)
+  :bind
+  ("C-c a" . org-agenda)
+  :custom
+  ((org-adapt-indentation . nil) ; "don't indent levels contents"
+   (org-default-notes-file . "~/workspace/org/capture.org")
+   (org-edit-src-content-indentation . 0)
+   (org-hide-leading-stars . nil) ; "show all levels stars")
+   (org-html-table-default-attributes . nil) ; "no html table default attributes")
+   (org-id-link-to-org-use-id . 'create-if-interactive-and-no-custom-id) ; "org-store-link create an id")
+   (org-indent-indentation-per-level . 0) ; "sub levels indentation to 0")
+   (org-indent-mode . nil) ; "don't try to indent sub levels")
+   (org-level-color-stars-only . nil) ; "level titles are colored too")
+   (org-modules . '(org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
+   (org-publish-timestamp-directory . "~/workspace/org/.org-timestamps/")
+   (org-src-window-setup . 'current-window)
+   (org-startup-shrink-all-tables . t)
+   (org-tags-column . -153) ; "tags alignment")
+   (org-time-stamp-custom-formats . '("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
+
+   (org-file-apps . '(("\\.mm\\'" . default)
+                      ("\\.x?html?\\'" . "firefox %s")
+                      ("^http" . "firefox %s")
+                      (auto-mode . emacs)
+                      (directory . emacs))))
+
+
+  ;; org-headline-done ((t (:foreground "medium aquamarine")))
+  ;; :config
+  ;; (add-to-list 'load-path (concat user-emacs-directory "straight/repos/org/contrib/lisp"))
+  ;; (require 'org-velocity) ;; TODO remove it. org-ql is a lot more rich (but I don't understand it yet...)
+  )
+
+;; patched function org-translate-time from org.el
+;; replaced
+;;
+;; (concat
+;;  (if inactive "[" "<") (substring tf 1 -1)
+;;  (if inactive "]" ">"))
+;;
+;; with
+;;
+;; (require 'org-collector)
+;;
+;; removed: default behavior is better ...
+;;
+;; see https://orgmode.org/manual/Capturing-column-view.html:
+;;    C-c C-x i (org-insert-columns-dblock)
+
+(progn
+  (defvar org-html-postamble)
+  (setq org-html-postamble nil))
+
+(leaf org-web-tools :el-get alphapapa/org-web-tools)
+
+(leaf ob-async
+  :el-get astahlman/ob-async
+  :url https://github.com/astahlman/ob-async
+  :after org
+  )
+
+(leaf org-generate
+  :el-get
+  :url https://github.com/conao3/org-generate.el
+  :after org
+  )
+
+;; Fix an incompatibility between the ob-async and ob-ipython packages
+;; TODO integrate in use-package
+(progn
+  (defvar ob-async-no-async-languages-alist)
+  (setq ob-async-no-async-languages-alist '("ipython")))
+
+(leaf org-mind-map
+  :el-get theodorewiles/org-mind-map
+  ;; mind map
+  :init (require 'ox-org)
+  :custom
+  (org-mind-map-engine . "dot")
+  (org-mind-map-default-graph-attribs .
+                                      '(("autosize" . "false")
+                                        ("size" . "9,12")
+                                        ("resolution" . "100")
+                                        ("nodesep" . "0.75")
+                                        ("overlap" . "false")
+                                        ("splines" . "ortho")
+                                        ("rankdir" . "LR")))
+  (org-mind-map-dot-output . '("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff"))
+  )
+
+(leaf org-brain
+  :el-get Kungsgeten/org-brain
+  ;; mind map
+  )
+
+(leaf poporg
+  :el-get QBobWatson/poporg
+  ;; http://pragmaticemacs.com/emacs/write-code-comments-in-org-mode-with-poporg/
+  ;; https://github.com/QBobWatson/poporg
+  :bind (("C-c /" . poporg-dwim)))
+
+(leaf htmlize
+  :el-get hniksic/emacs-htmlize
+  ;; to export html file
+  )
+
+(defun org-save-this-readme ()
+  (let ((this-file-name (expand-file-name "README.org" user-emacs-directory))
+        (init-el-file (expand-file-name "init.el" user-emacs-directory))
+        (init-elc-file (expand-file-name "init.elc" user-emacs-directory)))
+    (when (and (not (eq (buffer-file-name) nil))
+               (string= (buffer-file-name) this-file-name))
+      (when (file-exists-p init-el-file) (delete-file init-el-file))
+      (when (file-exists-p init-elc-file) (delete-file init-elc-file))
+      (org-babel-tangle)
+      ;; (when (y-or-n-p-with-timeout "Recompile? " 2 nil)
+      ;;   (byte-compile-file "init.el" t))
+      )))
+;; (defun org-save-this-readme ()())
+(add-hook 'after-save-hook 'org-save-this-readme)
 #+END_SRC
 * TODO COMMENT Standard configuration TO_INTEGRATE
 ** package
@@ -695,10 +1006,14 @@ use ~/bash-aliases
 (setq shell-command-switch "-c")
 
 (cond
- (linux-p nil)
+ (linux-p (dolist (dir '(
+                         "/opt/gnatstudio/bin"
+                         ))
+            (setenv "PATH" (concat dir path-separator (getenv "PATH")))
+            (setq exec-path (add-to-list 'exec-path dir)))
+          )
  (birdz-computer-p (setenv "PATH" (concat "c:/installs/msys64/usr/bin" path-separator (getenv "PATH"))))
  (home-computer-p (dolist (dir '(
-                                 "~/.emacs.d/straight/repos/ada-mode"
                                  "c:/Program Files/Git/cmd"
                                  "c:/Program Files/Git/bin"
                                  "e:/programs/msys64/mingw64/bin"
@@ -857,102 +1172,6 @@ use ~/bash-aliases
   :after use-package hydra
   )
 #+END_SRC
-** magit
-#+BEGIN_SRC elisp
-(use-package magit
-  ;;
-  ;; TODO see magit-gitflow
-  ;;
-  ;; :pin gnu
-  :after hydra
-  :config
-  (defun magit-fetch-and-status ()
-    (magit-fetch-from-upstream)
-    (magit-status)
-    )
-
-  :custom
-  (magit-repository-directories
-   '(("~/.emacs.d"  . 0)
-     ("~/.emacs.d/lisp/comb"  . 0)
-     ("~/workspace/" . 2)
-     ))
-
-  (magit-repolist-columns
-   '(("Name" 25 magit-repolist-column-ident nil)
-     ("Version" 25 magit-repolist-column-version nil)
-     ("Branch" 15 magit-repolist-column-branch nil)
-     ("Branches" 8 magit-repolist-column-branches nil)
-     ("Flag" 4 magit-repolist-column-flag ((:right-align t)))
-     ("B<U" 3 magit-repolist-column-unpulled-from-upstream
-      ((:right-align t)
-       (:help-echo "Upstream changes not in branch")))
-     ("B>U" 3 magit-repolist-column-unpushed-to-upstream
-      ((:right-align t)
-       (:help-echo "Local changes not in upstream")))
-     ("Path" 30 magit-repolist-column-path nil)
-     ("Push" 4 magit-repolist-column-unpushed-to-pushremote))
-   )
-
-  ;; TODO
-  ;; ;; commit after save
-  ;; (defun git-commit-after-save ()
-  ;;   (let ((git-rev-parse-output "")
-  ;;         (git-rev-parse-cmd "git rev-parse")
-  ;;         (repository-p nil)
-  ;;         (git-commit-cmd "git commit")
-  ;;         (current-output ""))
-  ;;     (setq current-output (call-process git-rev-parse-cmd))
-  ;;     ))
-
-  :hydra
-  (hydra-magit (:hint nil)
-               "
-  _s_ status    _c_ commit
-  _P_ pull      _la_ log all
-  _p_ push      _d_ diff
-  "
-;               ("s" magit-fetch-and-status :exit t)
-               ("s" magit-status :exit t)
-               ("p" magit-push :exit t)
-               ("P" magit-pull :exit t)
-               ("c" magit-commit :exit t)
-               ("d" magit-diff :exit t)
-               ("la" magit-log-all :exit t)
-               )
-  )
-
-(use-package git-link
-  :after magit
-  :straight (:host github :repo "sshaw/git-link")
-  )
-
-;; (defhydra hydra-magit (:hint nil)
-;;   "
-;; _s_ status    _c_ commit
-;; _P_ pull      _la_ log all
-;; _p_ push      _d_ diff
-;; "
-;;   ("p" magit-push :exit t)
-;;   ("P" magit-pull :exit t)
-;;   ("c" magit-commit :exit t)
-;;   ("d" magit-diff :exit t)
-;;   ("la" magit-log-all :exit t)
-;;   ("s" magit-status :exit t)
-;;   )
-#+END_SRC
-
-#+BEGIN_SRC elisp
-(use-package magit-gitflow
-  :after magit
-  :straight (:host github :repo "jtatarik/magit-gitflow")
-  :config
-  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
-  )
-#+END_SRC
-
-*** TODO link: [[https://github.com/magit/magit/issues/2971][Batch operation in magit-list-repositories]]
-
 ** Encoding
 #+BEGIN_SRC elisp
 ;; utf-8-unix
@@ -994,128 +1213,6 @@ https://github.com/apchamberlain/undo-tree.el
 https://www.emacswiki.org/emacs/UndoTree
 *** TODO undo-tree and yasnippet https://github.com/joaotavora/yasnippet/issues/478 :bug:
 ** org-mode
-*** about mixed installs: https://orgmode.org/worg/org-faq.html#mixed-install
-*** org core configuration
-#+BEGIN_SRC elisp
-(use-package org
-  ;; used tag: release_9.3.7
-  :mode
-  ("\\.\\(org\\|txt\\)\\'" . org-mode)
-  ("\\*notes\\*" . org-mode)
-  :bind
-  (("C-c a" . org-agenda))
-  :custom
-  (org-adapt-indentation nil "don't indent levels contents")
-  (org-default-notes-file "~/workspace/org/capture.org")
-  (org-edit-src-content-indentation 0)
-  (org-hide-leading-stars nil "show all levels stars")
-  (org-html-table-default-attributes nil "no html table default attributes")
-  (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id "org-store-link create an id")
-  (org-indent-indentation-per-level 0 "sub levels indentation to 0")
-  (org-indent-mode nil "don't try to indent sub levels")
-  (org-level-color-stars-only nil "level titles are colored too")
-  (org-modules '(org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
-  (org-publish-timestamp-directory "~/workspace/org/.org-timestamps/")
-  (org-src-window-setup (quote current-window))
-  (org-startup-shrink-all-tables t)
-  (org-tags-column -153 "tags alignment")
-  (org-time-stamp-custom-formats (quote ("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>")))
-
-  (org-file-apps '(("\\.mm\\'" . default)
-                   ("\\.x?html?\\'" . default)
-                   (auto-mode . emacs)
-                   (directory . emacs)))
-
-
-  ;; org-headline-done ((t (:foreground "medium aquamarine")))
-  :config
-  (add-to-list 'load-path (concat user-emacs-directory "straight/repos/org/contrib/lisp"))
-  (require 'org-velocity) ;; TODO remove it. org-ql is a lot more rich (but I don't understand it yet...)
-  )
-
-;; patched function org-translate-time from org.el
-;; replaced
-;;
-;; (concat
-;;  (if inactive "[" "<") (substring tf 1 -1)
-;;  (if inactive "]" ">"))
-;;
-;; with
-;;
-;; (require 'org-collector)
-;;
-;; removed: default behavior is better ...
-;;
-;; see https://orgmode.org/manual/Capturing-column-view.html:
-;;    C-c C-x i (org-insert-columns-dblock)
-
-(progn
-  (defvar org-html-postamble)
-  (setq org-html-postamble nil))
-
-(use-package org-web-tools)
-
-(use-package ob-async
-  ;; https://github.com/astahlman/ob-async
-  :after org
-  )
-
-(use-package org-generate
-  :after org
-  :straight (:host github :repo "conao3/org-generate.el"))
-
-;; Fix an incompatibility between the ob-async and ob-ipython packages
-;; TODO integrate in use-package
-(progn
-  (defvar ob-async-no-async-languages-alist)
-  (setq ob-async-no-async-languages-alist '("ipython")))
-
-(use-package org-mind-map
-  ;; mind map
-  :init (require 'ox-org)
-  :custom
-  (org-mind-map-engine "dot")
-  (org-mind-map-default-graph-attribs
-   (quote
-    (("autosize" . "false")
-     ("size" . "9,12")
-     ("resolution" . "100")
-     ("nodesep" . "0.75")
-     ("overlap" . "false")
-     ("splines" . "ortho")
-     ("rankdir" . "LR"))))
-  (org-mind-map-dot-output (quote ("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff")))
-  :config
-  )
-
-(use-package org-brain
-  ;; mind map
-  )
-
-(use-package poporg
-  ;; http://pragmaticemacs.com/emacs/write-code-comments-in-org-mode-with-poporg/
-  ;; https://github.com/QBobWatson/poporg
-  :bind (("C-c /" . poporg-dwim)))
-
-(use-package htmlize
-  ;; to export html file
-  )
-
-(defun org-save-this-readme ()
-  (let ((this-file-name (expand-file-name "README.org" user-emacs-directory))
-        (init-el-file (expand-file-name "init.el" user-emacs-directory))
-        (init-elc-file (expand-file-name "init.elc" user-emacs-directory)))
-    (when (and (not (eq (buffer-file-name) nil))
-               (string= (buffer-file-name) this-file-name))
-      (when (file-exists-p init-el-file) (delete-file init-el-file))
-      (when (file-exists-p init-elc-file) (delete-file init-elc-file))
-      (org-babel-tangle)
-      ;; (when (y-or-n-p-with-timeout "Recompile? " 2 nil)
-      ;;   (byte-compile-file "init.el" t))
-      )))
-;; (defun org-save-this-readme ()())
-(add-hook 'after-save-hook 'org-save-this-readme)
-#+END_SRC
 *** org-capture                                                                 :emacs:org:capture:
 **** org-capture configuration
 #+BEGIN_SRC elisp
@@ -1319,32 +1416,6 @@ templates.
 :PROPERTIES:
 :CREATED:  [2020-10-30 Fri 01:29]
 :END:
-** link-hint
-#+BEGIN_SRC elisp
-(use-package link-hint
-  :bind
-  ("C-c l o" . link-hint-open-link)
-  ("C-c l c" . link-hint-copy-link))
-#+END_SRC
-*** links
-https://github.com/noctuid/link-hint.el
-** moving in emacs
-#+BEGIN_SRC elisp
-(use-package avy
-  ;; https://github.com/abo-abo/avy
-  ;; like ace-jump
-  :custom
-  (avy-timeout-seconds 0.3)
-  (avy-all-windows 'all-frames)
-  :bind
-  (("C-M-:" . avy-goto-char-timer)
-   ("C-:" . avy-goto-char-2))
-  )
-
-(use-package avy-menu
-  ;; https://github.com/mrkkrp/avy-menu
-  )
-#+END_SRC
 ** browse-kill-ring
 Note: use counsel-yank instead
 #+BEGIN_SRC elisp :tangle no
@@ -1434,49 +1505,6 @@ Universal tags: https://github.com/universal-ctags/ctags-win32/releases/tag/2020
   (setq c-default-style '((c++-mode . "birdz")))
   )
 #+END_SRC
-** ada mode                                                                     :dev:
-#+BEGIN_SRC elisp
-(use-package wisi
-  :straight (:host github :repo "emacsmirror/wisi")
-  )
-
-(defun ada-before-save ()
-  (when (derived-mode-p 'ada-mode 'gpr-mode)
-    (wisi-case-adjust-buffer)
-    (wisi-reset-parser)
-    (indent-buffer)))
-
-(defun hippie-expand-ada-symbols (orig-fun &rest args)
-  (if (derived-mode-p 'ada-mode)
-      (let ((table (make-syntax-table ada-mode-syntax-table)))
-        (modify-syntax-entry ?. "_" table)
-        (with-syntax-table table (apply orig-fun args)))
-    (apply orig-fun args)))
-
-(use-package ada-mode
-  :straight (:host github :repo "emacsmirror/ada-mode")
-  :after wisi fill-column-indicator
-  :defines ada-mode-syntax-table
-  :functions hippie-expand-ada-symbols
-  :config
-
-  (setq fci-rule-column 78)
-  ;; (ada-case-read-all-exceptions)
-
-  (add-hook 'before-save-hook 'ada-before-save)
-  (add-hook 'ada-mode-hook (lambda () (electric-pair-mode)))
-
-  ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
-  (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
-
-  (global-set-key (kbd "C-M-*") 'wisi-fix-compiler-error)
-
-  )
-
-;; (define-key map "\C-c`"   'ada-show-secondary-error)
-;; (define-key map "\C-c\M-`"        'wisi-fix-compiler-error)
-
-(message "jp-config-ada-mode.el ok")
 #+END_SRC
 ** python                                                              :dev:
 #+BEGIN_SRC elisp

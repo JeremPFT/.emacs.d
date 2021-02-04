@@ -1,0 +1,5 @@
+(:name ada-mode
+       :description "mode for ada"
+       :type github
+       :pkgname "emacs-straight/ada-mode"
+       :depends (uniquify-files wisi))

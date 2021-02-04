@@ -1,0 +1,5 @@
+(:name wisi
+       :description "for ada-mode"
+       :type github
+       :pkgname "emacs-straight/wisi"
+       :depends (uniquify-files))

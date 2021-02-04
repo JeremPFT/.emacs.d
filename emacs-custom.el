@@ -7,14 +7,25 @@
  '(initial-buffer-choice "~/.emacs.d/README.org")
  '(org-directory "~/workspace/org")
  '(package-selected-packages
-   '(bookmark+ counsel swiper ivy flx f yasnippet ada-mode wisi use-package-hydra use-package-ensure-system-package use-package-el-get uniquify-files ppp page-break-lines magit leaf-tree leaf-keywords hydra el-get blackout async-await))
+   '(magit-popup leaf-keywords bookmark+ yasnippet ada-mode wisi use-package-hydra use-package-ensure-system-package use-package-el-get uniquify-files magit))
  '(safe-local-eval-forms
    '((add-hook 'write-file-hooks 'time-stamp)
      (add-hook 'write-file-functions 'time-stamp)
      (add-hook 'before-save-hook 'time-stamp nil t)
      (add-hook 'before-save-hook 'delete-trailing-whitespace nil t)))
  '(safe-local-variable-values
-   '((checkdoc-minor-mode . 1)
+   '((eval ignore-errors "Write-contents-functions is a buffer-local alternative to before-save-hook"
+           (add-hook 'write-contents-functions
+                     (lambda nil
+                       (delete-trailing-whitespace)
+                       nil))
+           (require 'whitespace)
+           "Sometimes the mode needs to be toggled off and on."
+           (whitespace-mode 0)
+           (whitespace-mode 1))
+     (whitespace-line-column . 80)
+     (whitespace-style face tabs trailing lines-tail)
+     (checkdoc-minor-mode . 1)
      (eval when
            (and
             (buffer-file-name)
