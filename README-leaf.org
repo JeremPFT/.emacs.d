@@ -15,15 +15,104 @@ rm -rf org
 #+BEGIN_SRC elisp
 (setq-default package-check-signature nil)
 #+END_SRC
-* open .emacs.d/README.org
+* open .emacs.d/README-leaf.org
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init.el"
 :END:
 #+BEGIN_SRC elisp
 (setq-default default-directory "~/.emacs.d")
-(customize-set-variable 'initial-buffer-choice "~/.emacs.d/README.org")
+(customize-set-variable 'initial-buffer-choice "~/.emacs.d/README-leaf.org")
+#+END_SRC
+* my constants
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init.el"
+:END:
+#+BEGIN_SRC elisp
+(defconst current-computer-name (upcase (system-name)))
+(defconst ingenico-computer-name "FR0WSC3NRYM2")
+(defconst home-computer-name "DESKTOP-5R08DIM")
+(defconst birdz-computer-name "JPIFFRET-PC")
+(defconst birdz-debian-computer-name "DEBIAN-BIRDZ-JPI")
+
+(defconst ingenico-computer-p (string= current-computer-name ingenico-computer-name))
+(defconst home-computer-p (string= current-computer-name home-computer-name))
+(defconst birdz-computer-p (string= current-computer-name birdz-computer-name))
+(defconst birdz-debian-computer-p (string= current-computer-name birdz-debian-computer-name))
+
+(defconst windows-p (eq system-type 'windows-nt))
+(defconst cygwin-p (eq system-type 'cygwin))
+(defconst linux-p (eq system-type 'gnu/linux))
+
+(unless (or
+         ingenico-computer-p
+         home-computer-p
+         birdz-computer-p
+         birdz-debian-computer-p)
+  (warn (concat "current computer unknown: " current-computer-name)))
+#+END_SRC
+* my functions
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init.el"
+:END:
+#+NAME: indent-buffer
+#+BEGIN_SRC elisp
+  (defun indent-buffer ()
+    (interactive)
+    (let ((position (point)))
+      (cond ((derived-mode-p 'cc-mode)
+       (clang-format-buffer))
+      (t
+       (indent-region (point-min) (point-max))
+       (goto-char position)))))
+#+END_SRC
+#+NAME: jp/initial-buffer
+#+BEGIN_SRC elisp
+(defun jp/initial-buffer()
+  (interactive)
+  (let ((jp--buffer (get-buffer-create "*fetching.org*")))
+    (set-buffer jp--buffer)
+    (org-mode)
+    (insert "#+NAME: output-fetch-repositories\n"
+            "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
+    (beginning-of-line)
+    jp--buffer
+    ))
+
+;; (setq initial-buffer-choice 'jp/initial-buffer)
+#+END_SRC
+* package setup
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init.el"
+:END:
+#+NAME: set-package-el
+#+BEGIN_SRC elisp
+(progn
+
+  (defvar jpi/package-refresh-contents-done nil)
+
+  (defvar jpi/packages-to-install '(leaf feather))
+
+  (eval-and-compile
+    (customize-set-variable
+     'package-archives
+     '(
+       ("org" . "https://orgmode.org/elpa/")
+       ("gnu" . "https://elpa.gnu.org/packages/")
+       ("melpa" . "https://melpa.org/packages/")
+       ("melpa stable" . "https://stable.melpa.org/packages/")))
+    (package-initialize)
+    (unless jpi/package-refresh-contents-done
+      (package-refresh-contents)
+      (setq jpi/package-refresh-contents-done t))
+
+    (dolist (package jpi/packages-to-install)
+      (unless (package-installed-p package)
+        (package-install package)))))
 #+END_SRC
 * [[https://github.com/conao3/leaf.el][github: leaf]]
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init.el"
+:END:
 ** How to test a leaf macro (from [[https://emacs.stackexchange.com/questions/55774/working-with-printed-macro-expansions][emacs.stackexchange.com]]):
 :PROPERTIES:
 :header-args+: :tangle nil
@@ -58,108 +147,64 @@ rm -rf org
     (do-something)))
 #+END_SRC
 - VICTORY!!!
-** leaf installation                                                                                                                       :package:leaf:
-:PROPERTIES:
-:header-args+: :tangle "~/.emacs.d/init.el"
-:END:
-The following sets package archives. Install leaf.
-#+NAME: indent-buffer
+** leaf installation                                           :package:leaf:
 #+BEGIN_SRC elisp
-  (defun indent-buffer ()
-    (interactive)
-    (let ((position (point)))
-      (cond ((derived-mode-p 'cc-mode)
-       (clang-format-buffer))
-      (t
-       (indent-region (point-min) (point-max))
-       (goto-char position)))))
+(leaf leaf
+  :init
+  (leaf leaf-keywords
+    :package t blackout hydra
+    :require blackout
+    :defun blackout
+    :config
+    (leaf-keywords-init)
+    ) ;; leaf-keywords-init
+  :config
+  (leaf feather
+    :require blackout
+    :config (feather-mode 1)
+    :blackout feather-mode
+    ) ;; feather
+  )
 #+END_SRC
-#+NAME: set-package-el
+** shell
+use ~/bash-aliases
 #+BEGIN_SRC elisp
-  (progn
-    (defvar jpi/package-refresh-contents-done nil)
-    (defvar jpi/packages-to-install '(leaf leaf-keywords))
-    (eval-and-compile
-      (customize-set-variable
-       'package-archives
-       '(
-   ("org" . "https://orgmode.org/elpa/")
-   ("gnu" . "https://elpa.gnu.org/packages/")
-   ("melpa" . "https://melpa.org/packages/")
-   ("melpa stable" . "https://stable.melpa.org/packages/")))
-      (package-initialize)
-      (unless jpi/package-refresh-contents-done
-  (package-refresh-contents)
-  (setq jpi/package-refresh-contents-done t))
+(defconst home-dir (file-name-as-directory (getenv "HOME")))
 
-      ;; (defvar my-package-list '(el-get leaf))
-      (dolist (package jpi/packages-to-install)
-  (unless (package-installed-p package)
-    (package-install package)))))
+(defconst home-bin-dir (file-name-as-directory (concat home-dir "bin")))
+
+(defconst workspace-dir (file-name-as-directory (concat home-dir "workspace")))
+
+(when nil
+  (unless (file-exists-p home-bin-dir)
+    (warn "please create \"~/bin\" directory"))
+  (setq shell-file-name (concat home-bin-dir "bash"))
+  (unless (file-exists-p shell-file-name)
+    (warn "please create \"~/bin/bash\" file, and make it executable"))
+  )
+
+(setq shell-command-switch "-c")
+
+(cond
+ (linux-p (dolist (dir '(
+                         "/opt/gnatstudio/bin"
+                         ))
+            (setenv "PATH" (concat dir path-separator (getenv "PATH")))
+            (setq exec-path (add-to-list 'exec-path dir)))
+          )
+ (birdz-computer-p (setenv "PATH" (concat "c:/installs/msys64/usr/bin" path-separator (getenv "PATH"))))
+ (home-computer-p (dolist (dir '(
+                                 "c:/Program Files/Git/cmd"
+                                 "c:/Program Files/Git/bin"
+         "e:/programs/cygwin64/bin"
+                                 "e:/programs/msys64/mingw64/bin"
+                                 "e:/programs/msys64/usr/bin"
+                                 ))
+                    (setenv "PATH" (concat dir path-separator (getenv "PATH")))
+                    (setq exec-path (add-to-list 'exec-path dir))))
+ (t (warn "ERROR JPI: undefined environment for this computer"))
+ )
 #+END_SRC
-
-#+NAME: first packages
-#+BEGIN_SRC elisp
-    (leaf el-get
-      :url
-      "https://www.emacswiki.org/emacs/el-get"
-      "https://github.com/dimitri/el-get"
-      :doc
-      "see package recipe on page"
-      "recipes: https://github.com/dimitri/el-get/find/master"
-      :init
-      (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-      (unless (require 'el-get nil t)
-        (with-current-buffer
-            (url-retrieve-synchronously
-             "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-          (goto-char (point-max))
-          (eval-print-last-sexp)))
-      (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
-      )
-
-    (leaf leaf
-      :url "https://github.com/conao3/leaf.el"
-      :after el-get
-      :init
-      (leaf leaf-keywords
-        :url "https://github.com/conao3/leaf-keywords.el"
-        :package t
-        :init
-        ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
-        (leaf hydra
-        :el-get abo-abo/hydra)
-        (leaf blackout :el-get raxod502/blackout)
-        :config
-        ;; initialize leaf-keywords.el
-        (leaf-keywords-init))
-      (leaf feather
-        :url "https://github.com/conao3/feather.el"
-        :el-get conao3/feather.el
-        :after el-get leaf-keywords
-        :init
-        (leaf page-break-lines :el-get purcell/page-break-lines)
-        (leaf async
-        :el-get jwiegley/emacs-async
-        :init
-        (leaf promise :el-get chuntaro/emacs-promise))
-        (leaf async-await :el-get chuntaro/emacs-async-await)
-        (leaf ppp :el-get conao3/ppp.el)
-        :config (feather-mode)
-        :blackout 'feather
-        )
-      :config
-      (leaf leaf-tree
-        :url "https://github.com/conao3/leaf-tree.el"
-        :el-get conao3/leaf-tree.el
-        :custom ((imenu-list-size . 40)
-                 (imenu-list-position . 'left)))
-      )
-#+END_SRC
-
-#+RESULTS: first packages
-: leaf
-
 ** TODO see blackout configuration
 ** COMMENT leaf examples
 :PROPERTIES:
@@ -184,18 +229,31 @@ The following sets package archives. Install leaf.
            (scroll-bar-mode . t)
            (indent-tabs-mode . nil)))
 #+END_SRC
-* [[https://github.com/quelpa/quelpa][quelpa]]
+** security
 #+BEGIN_SRC elisp
-(leaf quelpa
-  :init
-  (unless (package-installed-p 'quelpa)
-    (with-temp-buffer
-      (url-insert-file-contents "https://github.com/quelpa/quelpa/raw/master/quelpa.el")
-      (eval-buffer)
-      (quelpa-self-upgrade)))
+;; gpg command https://www.linuxtricks.fr/wiki/chiffrer-des-fichiers-par-mot-de-passe-avec-gnupg
+;; gpg in emacs https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources
+;; emacs info: EasyPG Assistant
+;; customize-group: epa, epg (EasyPG Assistant and EasyPG)
+;; to encrypt a region : `epa-encrypt-region'
+
+;; WIP: gpg-agent
+;; pinentry downloaded in ~/tmp/pinentry-1.1.0 (doesn't build, missing fltk-config, installed with cygwin)
+;; https://www.qwant.com/?client=brz-moz&q=emacs%20pinentry%20windows
+;; https://github.com/ecraven/pinentry-emacs
+;; https://emacs.stackexchange.com/questions/32881/enabling-minibuffer-pinentry-with-emacs-25-and-gnupg-2-1-on-ubuntu-xenial
+;; https://stackoverflow.com/questions/60812866/emacs-gpg-pinentry-el-for-authentication
+;; https://blog.grdryn.me/blog/flatpak-emacs-with-gpg-agent.html
+;;
+;; fltk: gui library
+;; https://www.fltk.org/doc-1.3/common.html#common_boxtypes
+
+(leaf epg
+  :custom (epg-gpg-program . "gpg2")
+  :config
+  (setenv "GPG_AGENT_INFO" nil) ; disable external pin entry
   )
 #+END_SRC
-
 * emacs defaults
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init.el"
@@ -203,7 +261,6 @@ The following sets package archives. Install leaf.
 ** Speed-up at startup: boost garbage collector memory
 #+BEGIN_SRC elisp
 (leaf emacs ; garbage collector
-      :require nil
       :config
       (progn
         (defconst normal-gc-cons-threshold (* 20 1024 1024))
@@ -289,7 +346,6 @@ system-name)
 (setq custom-enabled-themes '(tsdh-dark))
 #+END_SRC
 
-** TODO personnal functions & shortcuts
 ** global modes
 #+BEGIN_SRC elisp
 (require 'autorevert)
@@ -349,30 +405,6 @@ It can also be activated only for prog-modes:
 ;; lisp perso / downloaded files
 (add-to-list 'load-path lisp-dir)
 #+END_SRC
-** my constants
-#+BEGIN_SRC elisp
-(defconst current-computer-name (upcase (system-name)))
-(defconst ingenico-computer-name "FR0WSC3NRYM2")
-(defconst home-computer-name "DESKTOP-5R08DIM")
-(defconst birdz-computer-name "JPIFFRET-PC")
-(defconst birdz-debian-computer-name "DEBIAN-BIRDZ-JPI")
-
-(defconst ingenico-computer-p (string= current-computer-name ingenico-computer-name))
-(defconst home-computer-p (string= current-computer-name home-computer-name))
-(defconst birdz-computer-p (string= current-computer-name birdz-computer-name))
-(defconst birdz-debian-computer-p (string= current-computer-name birdz-debian-computer-name))
-
-(defconst windows-p (eq system-type 'windows-nt))
-(defconst linux-p (eq system-type 'gnu/linux))
-
-(unless (or
-         ingenico-computer-p
-         home-computer-p
-         birdz-computer-p
-         birdz-debian-computer-p)
-  (warn (concat "current computer unknown: " current-computer-name)))
-#+END_SRC
-
 ** my functions
 *** jpi-full-screen
 #+NAME: jpi-full-screen
@@ -420,176 +452,80 @@ It can also be activated only for prog-modes:
 #+END_SRC
 ** TODO check clang exists.
 ** TODO COMMENT initial-buffer
+** custom set faces
 #+BEGIN_SRC elisp
-(defun jp/initial-buffer()
-  (interactive)
-  (let ((jp--buffer (get-buffer-create "*fetching.org*")))
-    (set-buffer jp--buffer)
-    (org-mode)
-    (insert "#+NAME: output-fetch-repositories\n"
-            "#+CALL: ~/workspace/org/startup.org:fetch-repositories()")
-    (beginning-of-line)
-    jp--buffer
-    ))
-
-;; (setq initial-buffer-choice 'jp/initial-buffer)
-(setq initial-buffer-choice (concat user-emacs-directory "README.org"))
+(let ((face-foundry (cond
+                     ((or windows-p cygwin-p) "outline")
+                     (linux-p   "PfEd")
+                     (t         "")
+                     ))
+      (face-family (cond
+                    ((or windows-p cygwin-p) "Consolas")
+                    (linux-p   "DejaVu Sans Mono")
+                    (t         "")
+                    ))
+      (face-height (cond
+               (home-computer-p 200)
+               (birdz-debian-computer-p 140)
+               (t 140)))
+      )
+  (set-face-attribute 'default nil
+                      :inherit nil
+                      :stipple nil
+                      :background "#050000"
+                      :foreground "#bbe0f0"
+                      :inverse-video nil
+                      :box nil
+                      :strike-through nil
+                      :overline nil
+                      :underline nil
+                      :slant 'normal
+                      :weight 'normal
+                      :height face-height
+                      :width 'normal
+                      :foundry face-foundry
+                      :family face-family))
 #+END_SRC
-* Standard configuration
+
+** line numbering
+#+BEGIN_SRC elisp
+(defun jp-config-linum()
+
+  (defvar linum-format-fmt)
+  (defvar linum-format)
+  (unless window-system
+    (add-hook 'linum-before-numbering-hook
+              (lambda ()
+                (setq-local linum-format-fmt
+                            (let ((w (length (number-to-string
+                                              (count-lines (point-min) (point-max))))))
+                              (concat "%" (number-to-string w) "d"))))))
+
+  (defun linum-format-func (line)
+    (concat
+     (propertize (format linum-format-fmt line) 'face 'linum)
+     (propertize " " 'face 'mode-line)))
+
+  (unless window-system
+    (setq linum-format 'linum-format-func))
+
+  "jp-config-linum success"
+  )
+
+(jp-config-linum)
+#+END_SRC
+*** links
+[[https://www.emacswiki.org/emacs/LineNumbers][linum]]
+# customize -format
+# source: https://www.emacswiki.org/emacs/LineNumbers#toc8
+* Packages configuration
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init.el"
 :END:
-** standard libraries
-*** file path utils
-Modern API for working with files and directories
-
-f-join, f-filename, f-direname...
-#+BEGIN_SRC elisp
-(leaf f :el-get rejeep/f.el)
-#+END_SRC
-** bookmark+
-#+BEGIN_SRC elisp
-  (leaf bookmark+
-    :el-get emacsmirror/bookmark-plus
-    ;; https://www.emacswiki.org/emacs/BookmarkPlus
-    :custom
-    (bmkp-bmenu-state-file . "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
-    (bookmark-default-file . "~/.emacs.d/emacs-bookmarks/emacs")
-    (bmkp-last-as-first-bookmark-file . nil)
-    )
-#+END_SRC
-** completion
-#+BEGIN_SRC elisp
-(leaf flx
-  ;; flx mode. Used with completion list
-  ;; flx-isearch exists, but take a long time inside a long file
-  :el-get lewang/flx
-  )
-
-(leaf swiper
-  :url "https://github.com/abo-abo/swiper"
-  :doc "completion engine"
-  :doc "install ivy, counsel, swiper"
-  :el-get abo-abo/swiper
-  :config
-  (leaf counsel
-    :bind
-    (("M-y" . counsel-yank-pop)
-     ("C-x r b" . counsel-bookmark)
-     ("C-x b" . ivy-switch-buffer) ;; counsel-switch-buffer show a
-     ;; preview of buffer, it's too long
-     ("M-x" . counsel-M-x)
-     ("C-h f" . counsel-describe-function)
-     ("C-h v" . counsel-describe-variable)
-     ("C-x C-f" . counsel-find-file)
-     ("C-x C-d" . counsel-find-file)
-     ("C-x d" . counsel-find-file))
-    (:ivy-minibuffer-map
-     ("M-y" . ivy-next-line)))
-  (leaf ivy
-    ;; completion
-    ;; https://oremacs.com/swiper/#key-bindings
-    ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
-    ;; https://www.youtube.com/user/abo5abo
-    ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
-    :bind
-    (:ivy-minibuffer-map
-     ("<RET>" . ivy-alt-done)
-     ("C-j" . ivy-immediate-done)
-     )
-    :custom
-    (ivy-re-builders-alist . '((counsel-ag     . ivy--regex-plus)
-                               (swiper-isearch . ivy--regex-ignore-order)
-                               (t              . ivy--regex-fuzzy)))
-    (ivy-use-virtual-buffers . 'bookmarks)
-    (ivy-height . 15)
-    )
-  (global-set-key (kbd "C-s") 'isearch-forward)
-  (global-set-key (kbd "C-r") 'isearch-backward)
-  )
-
-
-
-
-
-#+END_SRC
-*** links
-https://oremacs.com/swiper/#actions
-https://github.com/abo-abo/swiper
-https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
-http://pragmaticemacs.com/page/6/
-http://blog.binchen.org/posts/emacs-is-easy-if-you-read-code.html
-
-https://github.com/abo-abo/swiper
-https://oremacs.com/swiper/
-https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/
-https://www.reddit.com/r/emacs/comments/6yi6dl/most_useful_parts_of_ivycounselswiper_manual_too/
-https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
-*** TODO setup key in counsel
-** yasnippet
-*** yasnippet configuration
-#+BEGIN_SRC elisp
-  (leaf yasnippet
-      :el-get joaotavora/yasnippet
-      :url "https://github.com/joaotavora/yasnippet"
-      :url "http://joaotavora.github.io/yasnippet/"
-      :config
-      (yas-global-mode 1)
-      (add-to-list 'load-path (concat lisp-dir "yasnippet"))
-      :custom
-      (yas-snippet-dirs . '("~/.emacs.d/snippets/home"
-                            "~/.emacs.d/snippets/birdz"))
-      :blackout 'yas-minor-mode
-      )
-#+END_SRC
-*** TODO remove home / birdz directories, use condition inside snippets.
-*** links
-https://github.com/mrkkrp/common-lisp-snippets
-** ada-mode
-#+BEGIN_SRC elisp
-(leaf uniquify-files :el-get emacsmirror/uniquify-files)
-(leaf ada-mode
-  :el-get emacs-straight/ada-mode
-  :doc
-  """to setup ada-mode: renames ada-mode to ada-mode-i.j.k and wisi to wisi-i.j.k
-  then in ada-mode-i.j.k :
-  > bash build.sh && bash install.sh"""
-  :init
-  (leaf wisi :el-get emacs-straight/wisi)
-  :config
-
-  (defun ada-before-save ()
-    (when (derived-mode-p 'ada-mode 'gpr-mode)
-      (wisi-case-adjust-buffer)
-      (wisi-reset-parser)
-      (indent-buffer)))
-
-  (defun hippie-expand-ada-symbols (orig-fun &rest args)
-    (if (derived-mode-p 'ada-mode)
-        (let ((table (make-syntax-table ada-mode-syntax-table)))
-          (modify-syntax-entry ?. "_" table)
-          (with-syntax-table table (apply orig-fun args)))
-      (apply orig-fun args)))
-
-  ;; (define-key map "\C-c`"   'ada-show-secondary-error)
-  ;; (define-key map "\C-c\M-`"        'wisi-fix-compiler-error)
-
-  (setq fci-rule-column 78)
-  ;; (ada-case-read-all-exceptions)
-
-  (add-hook 'before-save-hook 'ada-before-save)
-  (add-hook 'ada-mode-hook (lambda () (electric-pair-mode)))
-
-  ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
-  (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
-
-  (global-set-key (kbd "C-M-*") 'wisi-fix-compiler-error)
-  )
-#+END_SRC
 ** moving in emacs
 #+BEGIN_SRC elisp
 (leaf avy
-  :el-get abo-abo/avy
+  :feather t
   :url "https://github.com/abo-abo/avy"
   :doc "like ace-jump"
   :custom
@@ -601,112 +537,14 @@ https://github.com/mrkkrp/common-lisp-snippets
   :config
   (leaf avy-menu
     :url "https://github.com/mrkkrp/avy-menu"
-    :el-get mrkkrp/avy-menu
+    :feather t
     )
   )
-
 #+END_SRC
-** magit
-#+BEGIN_SRC elisp
-(leaf magit
-  :package t
-  ;;
-  ;; TODO see magit-gitflow
-  ;;
-  :after hydra
-  :init
-  (leaf magit-popup :package t)
-  :config
-  (defun magit-fetch-and-status ()
-    (magit-fetch-from-upstream)
-    (magit-status)
-    )
-
-  :custom
-  (magit-repository-directories .
-                                '(("~/.emacs.d"  . 0)
-                                  ("~/.emacs.d/lisp/comb"  . 0)
-                                  ("~/workspace/" . 2)
-                                  ))
-
-  (magit-repolist-columns .
-                          '(("Name" 25 magit-repolist-column-ident nil)
-                            ("Version" 25 magit-repolist-column-version nil)
-                            ("Branch" 15 magit-repolist-column-branch nil)
-                            ("Branches" 8 magit-repolist-column-branches nil)
-                            ("Flag" 4 magit-repolist-column-flag ((:right-align t)))
-                            ("B<U" 3 magit-repolist-column-unpulled-from-upstream
-                             ((:right-align t)
-                              (:help-echo "Upstream changes not in branch")))
-                            ("B>U" 3 magit-repolist-column-unpushed-to-upstream
-                             ((:right-align t)
-                              (:help-echo "Local changes not in upstream")))
-                            ("Path" 30 magit-repolist-column-path nil)
-                            ("Push" 4 magit-repolist-column-unpushed-to-pushremote))
-                          )
-
-  ;; TODO
-  ;; ;; commit after save
-  ;; (defun git-commit-after-save ()
-  ;;   (let ((git-rev-parse-output "")
-  ;;         (git-rev-parse-cmd "git rev-parse")
-  ;;         (repository-p nil)
-  ;;         (git-commit-cmd "git commit")
-  ;;         (current-output ""))
-  ;;     (setq current-output (call-process git-rev-parse-cmd))
-  ;;     ))
-
-  :hydra
-  (hydra-magit (:hint nil)
-               "
-  _s_ status    _c_ commit
-  _P_ pull      _la_ log all
-  _p_ push      _d_ diff
-  "
-                                        ;               ("s" magit-fetch-and-status :exit t)
-               ("s" magit-status :exit t)
-               ("p" magit-push :exit t)
-               ("P" magit-pull :exit t)
-               ("c" magit-commit :exit t)
-               ("d" magit-diff :exit t)
-               ("la" magit-log-all :exit t)
-               )
-  )
-
-(leaf git-link
-  :after magit
-  :el-get sshaw/git-link
-  )
-
-;; (defhydra hydra-magit (:hint nil)
-;;   "
-;; _s_ status    _c_ commit
-;; _P_ pull      _la_ log all
-;; _p_ push      _d_ diff
-;; "
-;;   ("p" magit-push :exit t)
-;;   ("P" magit-pull :exit t)
-;;   ("c" magit-commit :exit t)
-;;   ("d" magit-diff :exit t)
-;;   ("la" magit-log-all :exit t)
-;;   ("s" magit-status :exit t)
-;;   )
-#+END_SRC
-
-#+BEGIN_SRC elisp
-(leaf magit-gitflow
-  :el-get jtatarik/magit-gitflow
-  :after magit
-  :config
-  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
-  )
-#+END_SRC
-
-*** TODO link: [[https://github.com/magit/magit/issues/2971][Batch operation in magit-list-repositories]]
 ** link-hint
 #+BEGIN_SRC elisp
   (leaf link-hint
-    :el-get noctuid/link-hint.el
+    :feather t
     :bind
     ("C-c l o" . link-hint-open-link)
     ("C-c l c" . link-hint-copy-link))
@@ -774,18 +612,17 @@ https://github.com/noctuid/link-hint.el
   (defvar org-html-postamble)
   (setq org-html-postamble nil))
 
-(leaf org-web-tools :el-get alphapapa/org-web-tools)
+(leaf org-web-tools
+  :feather t)
 
 (leaf ob-async
-  :el-get astahlman/ob-async
+  :feather t org
   :url https://github.com/astahlman/ob-async
-  :after org
   )
 
 (leaf org-generate
-  :el-get
+  :feather t org
   :url https://github.com/conao3/org-generate.el
-  :after org
   )
 
 ;; Fix an incompatibility between the ob-async and ob-ipython packages
@@ -795,7 +632,7 @@ https://github.com/noctuid/link-hint.el
   (setq ob-async-no-async-languages-alist '("ipython")))
 
 (leaf org-mind-map
-  :el-get theodorewiles/org-mind-map
+  :feather t
   ;; mind map
   :init (require 'ox-org)
   :custom
@@ -812,23 +649,23 @@ https://github.com/noctuid/link-hint.el
   )
 
 (leaf org-brain
-  :el-get Kungsgeten/org-brain
+  :feather t
   ;; mind map
   )
 
 (leaf poporg
-  :el-get QBobWatson/poporg
+  :feather t
   ;; http://pragmaticemacs.com/emacs/write-code-comments-in-org-mode-with-poporg/
   ;; https://github.com/QBobWatson/poporg
   :bind (("C-c /" . poporg-dwim)))
 
 (leaf htmlize
-  :el-get hniksic/emacs-htmlize
+  :feather t
   ;; to export html file
   )
 
 (defun org-save-this-readme ()
-  (let ((this-file-name (expand-file-name "README.org" user-emacs-directory))
+  (let ((this-file-name (expand-file-name "README-leaf.org" user-emacs-directory))
         (init-el-file (expand-file-name "init.el" user-emacs-directory))
         (init-elc-file (expand-file-name "init.elc" user-emacs-directory)))
     (when (and (not (eq (buffer-file-name) nil))
@@ -841,6 +678,278 @@ https://github.com/noctuid/link-hint.el
       )))
 ;; (defun org-save-this-readme ()())
 (add-hook 'after-save-hook 'org-save-this-readme)
+#+END_SRC
+** magit
+#+BEGIN_SRC elisp
+  (leaf magit
+    :feather t
+    :init
+    (leaf hydra :feather t)
+    (leaf magit-popup :feather t)
+    ;;
+    ;; TODO see magit-gitflow
+    ;;
+    :config
+    (defun magit-fetch-and-status ()
+      (magit-fetch-from-upstream)
+      (magit-status)
+      )
+    (leaf git-link
+      :feather t magit
+      )
+    (leaf magit-gitflow
+      :feather t magit
+      :config
+      (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+      )
+
+    :custom
+    (magit-repository-directories .
+          '(("~/.emacs.d"  . 0)
+            ("~/.emacs.d/lisp/comb"  . 0)
+            ("~/workspace/" . 2)
+            ))
+
+    (magit-repolist-columns .
+          '(("Name" 25 magit-repolist-column-ident nil)
+            ("Version" 25 magit-repolist-column-version nil)
+            ("Branch" 15 magit-repolist-column-branch nil)
+            ("Branches" 8 magit-repolist-column-branches nil)
+            ("Flag" 4 magit-repolist-column-flag ((:right-align t)))
+            ("B<U" 3 magit-repolist-column-unpulled-from-upstream
+             ((:right-align t)
+        (:help-echo "Upstream changes not in branch")))
+            ("B>U" 3 magit-repolist-column-unpushed-to-upstream
+             ((:right-align t)
+        (:help-echo "Local changes not in upstream")))
+            ("Path" 30 magit-repolist-column-path nil)
+            ("Push" 4 magit-repolist-column-unpushed-to-pushremote))
+          )
+
+    ;; TODO
+    ;; ;; commit after save
+    ;; (defun git-commit-after-save ()
+    ;;   (let ((git-rev-parse-output "")
+    ;;         (git-rev-parse-cmd "git rev-parse")
+    ;;         (repository-p nil)
+    ;;         (git-commit-cmd "git commit")
+    ;;         (current-output ""))
+    ;;     (setq current-output (call-process git-rev-parse-cmd))
+    ;;     ))
+
+    :hydra
+    (hydra-magit (:hint nil)
+     "
+    _s_ status    _c_ commit
+    _P_ pull      _la_ log all
+    _p_ push      _d_ diff
+    "
+            ;               ("s" magit-fetch-and-status :exit t)
+     ("s" magit-status :exit t)
+     ("p" magit-push :exit t)
+     ("P" magit-pull :exit t)
+     ("c" magit-commit :exit t)
+     ("d" magit-diff :exit t)
+     ("la" magit-log-all :exit t)
+     )
+    )
+
+  ;; (defhydra hydra-magit (:hint nil)
+  ;;   "
+  ;; _s_ status    _c_ commit
+  ;; _P_ pull      _la_ log all
+  ;; _p_ push      _d_ diff
+  ;; "
+  ;;   ("p" magit-push :exit t)
+  ;;   ("P" magit-pull :exit t)
+  ;;   ("c" magit-commit :exit t)
+  ;;   ("d" magit-diff :exit t)
+  ;;   ("la" magit-log-all :exit t)
+  ;;   ("s" magit-status :exit t)
+  ;;   )
+#+END_SRC
+*** TODO link: [[https://github.com/magit/magit/issues/2971][Batch operation in magit-list-repositories]]
+** standard libraries
+*** file path utils
+Modern API for working with files and directories
+
+f-join, f-filename, f-direname...
+#+BEGIN_SRC elisp
+(leaf f :feather t)
+#+END_SRC
+** COMMENT bookmark+
+#+BEGIN_SRC elisp
+  (leaf bookmark+
+    :el-get emacsmirror/bookmark-plus
+    ;; https://www.emacswiki.org/emacs/BookmarkPlus
+    :custom
+    (bmkp-bmenu-state-file . "~/.emacs.d/emacs-bookmarks/.bmk-bmenu-state.el")
+    (bookmark-default-file . "~/.emacs.d/emacs-bookmarks/emacs")
+    (bmkp-last-as-first-bookmark-file . nil)
+    )
+#+END_SRC
+** completion
+#+BEGIN_SRC elisp
+(leaf flx
+  :feather t
+  ;; flx mode. Used with completion list
+  ;; flx-isearch exists, but take a long time inside a long file
+  :el-get lewang/flx
+  )
+
+(leaf swiper
+  :feather t
+  :url "https://github.com/abo-abo/swiper"
+  :doc "completion engine"
+  :doc "install ivy, counsel, swiper"
+  :el-get abo-abo/swiper
+  :config
+  (leaf counsel
+    :feather t
+    :bind
+    (("M-y" . counsel-yank-pop)
+     ("C-x r b" . counsel-bookmark)
+     ("C-x b" . ivy-switch-buffer) ;; counsel-switch-buffer show a
+     ;; preview of buffer, it's too long
+     ("M-x" . counsel-M-x)
+     ("C-h f" . counsel-describe-function)
+     ("C-h v" . counsel-describe-variable)
+     ("C-x C-f" . counsel-find-file)
+     ("C-x C-d" . counsel-find-file)
+     ("C-x d" . counsel-find-file))
+    (:ivy-minibuffer-map
+     ("M-y" . ivy-next-line)))
+  (leaf ivy
+    ;; completion
+    ;; https://oremacs.com/swiper/#key-bindings
+    ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
+    ;; https://www.youtube.com/user/abo5abo
+    ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+    :feather t
+    :bind
+    (:ivy-minibuffer-map
+     ("<RET>" . ivy-alt-done)
+     ("C-j" . ivy-immediate-done)
+     )
+    :custom
+    (ivy-re-builders-alist . '((counsel-ag     . ivy--regex-plus)
+                               (swiper-isearch . ivy--regex-ignore-order)
+                               (t              . ivy--regex-fuzzy)))
+    (ivy-use-virtual-buffers . 'bookmarks)
+    (ivy-height . 15)
+    )
+  (global-set-key (kbd "C-s") 'isearch-forward)
+  (global-set-key (kbd "C-r") 'isearch-backward)
+  )
+#+END_SRC
+*** links
+https://oremacs.com/swiper/#actions
+https://github.com/abo-abo/swiper
+https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+http://pragmaticemacs.com/page/6/
+http://blog.binchen.org/posts/emacs-is-easy-if-you-read-code.html
+
+https://github.com/abo-abo/swiper
+https://oremacs.com/swiper/
+https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/
+https://www.reddit.com/r/emacs/comments/6yi6dl/most_useful_parts_of_ivycounselswiper_manual_too/
+https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
+*** TODO setup key in counsel
+* COMMENT remove packages
+#+BEGIN_SRC elisp
+(when nil
+  (list-packages)
+  (switch-to-buffer "*Packages*")
+  (goto-char (point-min))
+  (search-forward-regexp "^  blackout")
+  (package-menu-mark-delete)
+  (package-menu-mark-delete)
+  (package-menu-mark-delete)
+  (package-menu-mark-delete)
+  (package-menu-mark-delete)
+  (package-menu-mark-delete)
+  (package-menu-mark-delete)
+  (package-menu-mark-delete)
+  (package-menu-mark-delete)
+  (package-menu-mark-delete)
+  (package-menu-mark-delete)
+  (package-menu-mark-delete)
+  )#+END_SRC
+* COMMENT [[https://github.com/quelpa/quelpa][quelpa]]
+#+BEGIN_SRC elisp
+(leaf quelpa
+  :init
+  (unless (package-installed-p 'quelpa)
+    (with-temp-buffer
+      (url-insert-file-contents "https://github.com/quelpa/quelpa/raw/master/quelpa.el")
+      (eval-buffer)
+      (quelpa-self-upgrade)))
+  )
+#+END_SRC
+** TODO TOSEE [[https://github.com/quelpa/quelpa][quelpa]] https://framagit.org/steckerhalter/steckemacs.el/-/tree/master [[https://github.com/quelpa/quelpa-use-package][quelpa-use-package]]
+* COMMENT Standard configuration
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init.el"
+:END:
+** yasnippet
+*** yasnippet configuration
+#+BEGIN_SRC elisp
+  (leaf yasnippet
+      :el-get joaotavora/yasnippet
+      :url "https://github.com/joaotavora/yasnippet"
+      :url "http://joaotavora.github.io/yasnippet/"
+      :config
+      (yas-global-mode 1)
+      (add-to-list 'load-path (concat lisp-dir "yasnippet"))
+      :custom
+      (yas-snippet-dirs . '("~/.emacs.d/snippets/home"
+                            "~/.emacs.d/snippets/birdz"))
+      :blackout 'yas-minor-mode
+      )
+#+END_SRC
+*** TODO remove home / birdz directories, use condition inside snippets.
+*** links
+https://github.com/mrkkrp/common-lisp-snippets
+** ada-mode
+#+BEGIN_SRC elisp
+(leaf uniquify-files :el-get emacsmirror/uniquify-files)
+(leaf ada-mode
+  :el-get emacs-straight/ada-mode
+  :doc
+  """to setup ada-mode: renames ada-mode to ada-mode-i.j.k and wisi to wisi-i.j.k
+  then in ada-mode-i.j.k :
+  > bash build.sh && bash install.sh"""
+  :init
+  (leaf wisi :el-get emacs-straight/wisi)
+  :config
+
+  (defun ada-before-save ()
+    (when (derived-mode-p 'ada-mode 'gpr-mode)
+      (wisi-case-adjust-buffer)
+      (wisi-reset-parser)
+      (indent-buffer)))
+
+  (defun hippie-expand-ada-symbols (orig-fun &rest args)
+    (if (derived-mode-p 'ada-mode)
+        (let ((table (make-syntax-table ada-mode-syntax-table)))
+          (modify-syntax-entry ?. "_" table)
+          (with-syntax-table table (apply orig-fun args)))
+      (apply orig-fun args)))
+
+  ;; (define-key map "\C-c`"   'ada-show-secondary-error)
+  ;; (define-key map "\C-c\M-`"        'wisi-fix-compiler-error)
+
+  (setq fci-rule-column 78)
+  ;; (ada-case-read-all-exceptions)
+
+  (add-hook 'before-save-hook 'ada-before-save)
+  (add-hook 'ada-mode-hook (lambda () (electric-pair-mode)))
+
+  ;; source : https://emacs.stackexchange.com/questions/13078/use-hippie-expand-to-complete-ruby-symbols-without-prefix
+  (advice-add 'hippie-expand :around #'hippie-expand-ada-symbols)
+
+  (global-set-key (kbd "C-M-*") 'wisi-fix-compiler-error)
+  )
 #+END_SRC
 * TODO COMMENT Standard configuration TO_INTEGRATE
 ** package
@@ -986,44 +1095,6 @@ https://jwiegley.github.io/use-package/
   :custom
   (case-fold-search t))
 #+END_SRC
-** shell
-use ~/bash-aliases
-#+BEGIN_SRC elisp
-(defconst home-dir (file-name-as-directory (getenv "HOME")))
-
-(defconst home-bin-dir (file-name-as-directory (concat home-dir "bin")))
-
-(defconst workspace-dir (file-name-as-directory (concat home-dir "workspace")))
-
-(when nil
-  (unless (file-exists-p home-bin-dir)
-    (warn "please create \"~/bin\" directory"))
-  (setq shell-file-name (concat home-bin-dir "bash"))
-  (unless (file-exists-p shell-file-name)
-    (warn "please create \"~/bin/bash\" file, and make it executable"))
-  )
-
-(setq shell-command-switch "-c")
-
-(cond
- (linux-p (dolist (dir '(
-                         "/opt/gnatstudio/bin"
-                         ))
-            (setenv "PATH" (concat dir path-separator (getenv "PATH")))
-            (setq exec-path (add-to-list 'exec-path dir)))
-          )
- (birdz-computer-p (setenv "PATH" (concat "c:/installs/msys64/usr/bin" path-separator (getenv "PATH"))))
- (home-computer-p (dolist (dir '(
-                                 "c:/Program Files/Git/cmd"
-                                 "c:/Program Files/Git/bin"
-                                 "e:/programs/msys64/mingw64/bin"
-                                 "e:/programs/msys64/usr/bin"
-                                 ))
-                    (setenv "PATH" (concat dir path-separator (getenv "PATH")))
-                    (setq exec-path (add-to-list 'exec-path dir))))
- (t (warn "ERROR JPI: undefined environment for this computer"))
- )
-#+END_SRC
 ** desktop
 #+BEGIN_SRC elisp
 (use-package desktop
@@ -1150,7 +1221,6 @@ use ~/bash-aliases
 *** TOSEE https://emacs.stackexchange.com/questions/19019/read-find-grep-exclusion-patterns-from-a-findignore-file
 *** TODO fd (find-like command)
 **** https://www.howtogeek.com/682244/how-to-use-the-fd-command-on-linux/
-** TODO TOSEE [[https://github.com/quelpa/quelpa][quelpa]] https://framagit.org/steckerhalter/steckemacs.el/-/tree/master [[https://github.com/quelpa/quelpa-use-package][quelpa-use-package]]
 ** Hydra
 #+BEGIN_SRC elisp
 (use-package hydra
@@ -2136,71 +2206,6 @@ https://www.ntg.nl/maps/24/16.pdf latex to context
 :PROPERTIES:
 :CREATED:  [2020-11-24 Tue 15:41]
 :END:
-** custom set faces
-#+BEGIN_SRC elisp
-(let ((face-foundry (cond (windows-p "outline")
-                     (linux-p   "PfEd")
-                     (t         "")
-                     ))
-      (face-family (cond (windows-p "Consolas")
-                    (linux-p   "DejaVu Sans Mono")
-                    (t         "")
-                    ))
-      (face-height (cond
-               (home-computer-p 160)
-               (birdz-debian-computer-p 140)
-               (t 140)))
-      )
-  (set-face-attribute 'default nil
-                      :inherit nil
-                      :stipple nil
-                      :background "#050000"
-                      :foreground "#bbe0f0"
-                      :inverse-video nil
-                      :box nil
-                      :strike-through nil
-                      :overline nil
-                      :underline nil
-                      :slant 'normal
-                      :weight 'normal
-                      :height face-height
-                      :width 'normal
-                      :foundry face-foundry
-                      :family face-family))
-#+END_SRC
-
-** line numbering
-#+BEGIN_SRC elisp
-(defun jp-config-linum()
-
-  (defvar linum-format-fmt)
-  (defvar linum-format)
-  (unless window-system
-    (add-hook 'linum-before-numbering-hook
-              (lambda ()
-                (setq-local linum-format-fmt
-                            (let ((w (length (number-to-string
-                                              (count-lines (point-min) (point-max))))))
-                              (concat "%" (number-to-string w) "d"))))))
-
-  (defun linum-format-func (line)
-    (concat
-     (propertize (format linum-format-fmt line) 'face 'linum)
-     (propertize " " 'face 'mode-line)))
-
-  (unless window-system
-    (setq linum-format 'linum-format-func))
-
-  "jp-config-linum success"
-  )
-
-(jp-config-linum)
-#+END_SRC
-*** links
-[[https://www.emacswiki.org/emacs/LineNumbers][linum]]
-# customize -format
-# source: https://www.emacswiki.org/emacs/LineNumbers#toc8
-
 ** FOLLOWING PARTS ARE COMMENTED
 ** COMMENT visual
 #+BEGIN_SRC elisp
@@ -3006,6 +3011,6 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
 Local Variables:
 mode: org
 coding: utf-8-unix
-eval: (progn "README.org: evaluate all blocks without confirmation:"
-        (setq org-confirm-babel-evaluate nil)))
 End:
+# eval: (progn "README-leaf.org: evaluate all blocks without confirmation:"
+#         (setq org-confirm-babel-evaluate nil)))

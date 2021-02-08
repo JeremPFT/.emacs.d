@@ -4,10 +4,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ada-build-make-cmd "${cross_prefix}gprbuild -P${gpr_file} ${gprbuild_opt} ")
- '(initial-buffer-choice "~/.emacs.d/README.org")
+ '(initial-buffer-choice "~/.emacs.d/README-leaf.org")
  '(org-directory "~/workspace/org")
  '(package-selected-packages
-   '(magit-popup leaf-keywords bookmark+ yasnippet ada-mode wisi use-package-hydra use-package-ensure-system-package use-package-el-get uniquify-files magit))
+   '(bookmark+ yasnippet use-package-hydra use-package-ensure-system-package use-package-el-get uniquify-files))
  '(safe-local-eval-forms
    '((add-hook 'write-file-hooks 'time-stamp)
      (add-hook 'write-file-functions 'time-stamp)
