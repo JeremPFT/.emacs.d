@@ -15,13 +15,48 @@ rm -rf org
 #+BEGIN_SRC elisp
 (setq-default package-check-signature nil)
 #+END_SRC
-* open .emacs.d/README-leaf.org
+* initial buffer
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init.el"
 :END:
 #+BEGIN_SRC elisp
 (setq-default default-directory "~/.emacs.d")
-(customize-set-variable 'initial-buffer-choice "~/.emacs.d/README-leaf.org")
+(customize-set-variable 'initial-buffer-choice "~/.emacs.d/init.el")
+#+END_SRC
+* package setup
+:PROPERTIES:
+:header-args+: :tangle "~/.emacs.d/init.el"
+:END:
+#+NAME: set-package-el
+#+BEGIN_SRC elisp
+  (eval-and-compile
+    (customize-set-variable
+     'package-archives
+     '(
+       ("org" . "https://orgmode.org/elpa/")
+       ("gnu" . "https://elpa.gnu.org/packages/")
+       ("melpa" . "https://melpa.org/packages/")
+       ("melpa stable" . "https://stable.melpa.org/packages/")))
+    (package-initialize)
+    (unless jpi/package-refresh-contents-done
+      (package-refresh-contents)
+      (setq jpi/package-refresh-contents-done t))
+
+      (unless (package-installed-p 'leaf)
+	(package-install package))
+    
+    (leaf leaf-keywords
+      :ensure t
+      :init
+      ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
+      (leaf hydra :ensure t)
+      (leaf el-get :ensure t)
+      (leaf blackout :ensure t)
+
+      :config
+      ;; initialize leaf-keywords.el
+      (leaf-keywords-init)))    
+  )
 #+END_SRC
 * my constants
 :PROPERTIES:
@@ -80,35 +115,6 @@ rm -rf org
 
 ;; (setq initial-buffer-choice 'jp/initial-buffer)
 #+END_SRC
-* package setup
-:PROPERTIES:
-:header-args+: :tangle "~/.emacs.d/init.el"
-:END:
-#+NAME: set-package-el
-#+BEGIN_SRC elisp
-(progn
-
-  (defvar jpi/package-refresh-contents-done nil)
-
-  (defvar jpi/packages-to-install '(leaf feather))
-
-  (eval-and-compile
-    (customize-set-variable
-     'package-archives
-     '(
-       ("org" . "https://orgmode.org/elpa/")
-       ("gnu" . "https://elpa.gnu.org/packages/")
-       ("melpa" . "https://melpa.org/packages/")
-       ("melpa stable" . "https://stable.melpa.org/packages/")))
-    (package-initialize)
-    (unless jpi/package-refresh-contents-done
-      (package-refresh-contents)
-      (setq jpi/package-refresh-contents-done t))
-
-    (dolist (package jpi/packages-to-install)
-      (unless (package-installed-p package)
-        (package-install package)))))
-#+END_SRC
 * [[https://github.com/conao3/leaf.el][github: leaf]]
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init.el"
@@ -150,20 +156,13 @@ rm -rf org
 ** leaf installation                                           :package:leaf:
 #+BEGIN_SRC elisp
 (leaf leaf
-  :init
-  (leaf leaf-keywords
-    :package t blackout hydra
-    :require blackout
-    :defun blackout
-    :config
-    (leaf-keywords-init)
-    ) ;; leaf-keywords-init
   :config
   (leaf feather
-    :require blackout
-    :config (feather-mode 1)
-    :blackout feather-mode
-    ) ;; feather
+  :ensure t
+  :require blackout
+  :config (feather-mode 1)
+  :blackout feather-mode
+  ) ;; feather
   )
 #+END_SRC
 ** shell

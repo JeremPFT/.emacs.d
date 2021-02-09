@@ -1,0 +1,794 @@
+# README-leaf.org
+#+SETUPFILE: README-setup.org
+
+* current configuration
+  :PROPERTIES:
+  :header-args+: :tangle "~/.emacs.d/init.el"
+  :END:
+  #+BEGIN_SRC elisp
+    (customize-set-variable
+     'debug-on-error t)
+
+    (defun emacs-dir-file (filename)
+      (expand-file-name filename user-emacs-directory))
+
+    (customize-set-variable
+     'initial-buffer-choice (emacs-dir-file "init.el"))
+
+    (customize-set-variable
+     'custom-file (emacs-dir-file "emacs-custom.el"))
+
+    ;; Speed-up at startup: boost garbage collector memory
+    ;; article: https://elmord.org/blog/?entry=20190913-emacs-gc
+    (defconst normal-gc-cons-threshold (* 10 1024 1024))
+    (defconst init-gc-cons-threshold (* 100 1024 1024))
+    (customize-set-variable 'gc-cons-threshold init-gc-cons-threshold)
+    (add-hook 'emacs-startup-hook
+              (lambda () (setq gc-cons-threshold normal-gc-cons-threshold)))
+
+    (load-file "~/.emacs.d/init-jpi-functions.el")
+
+    (load-file "~/.emacs.d/init-jpi-constants.el")
+
+    (load-file "~/.emacs.d/init-faces.el")
+
+    ;; custom set faces
+
+    ;; [[file:~/.emacs.d/README-leaf.org::*custom set faces][custom set faces:1]]
+
+    ;; custom set faces:1 ends here
+
+
+    (unless (file-exists-p (emacs-dir-file "init-package.el"))
+      (let ((dir "~/.emacs.d/elpa"))
+        (when (file-exists-p dir)
+          (delete-directory dir t)))
+
+      (eval-and-compile
+        (defvar jpi/package-refresh-contents-p nil)
+
+        (customize-set-variable
+         'package-archives
+         '(
+           ("org" . "https://orgmode.org/elpa/")
+           ("gnu" . "https://elpa.gnu.org/packages/")
+           ("melpa" . "https://melpa.org/packages/")
+           ("melpa stable" . "https://stable.melpa.org/packages/")))
+        (unless jpi/package-refresh-contents-p
+          (package-initialize)
+          (package-refresh-contents)
+          (setq jpi/package-refresh-contents-p t))
+
+        (unless (package-installed-p 'leaf)
+          (package-install 'leaf))
+
+        (write-region "" nil (emacs-dir-file "init-package.el"))
+        )
+
+      ) ;; unless init-package.el
+
+    (leaf leaf-setup
+      :init
+      (leaf leaf-keywords
+        :url "https://github.com/conao3/leaf-keywords.el"
+        :init
+        (leaf hydra
+          :url "https://github.com/abo-abo/hydra"
+          :ensure t)
+        (leaf el-get
+          :ensure t)
+        (leaf blackout
+          :ensure t)
+        :ensure t
+        :config
+        (leaf-keywords-init)) ;; leaf-keywords
+
+      ;; (leaf feather
+      ;;   :ensure nil
+      ;;   :require blackout
+      ;;   :config
+      ;;   (feather-mode 1)
+      ;;   (customize-set-variable 'leaf-alias-keyword-alist '((:ensure . :package)))
+      ;;   :blackout
+      ;;   feather-mode
+      ;;   ) ;; feather
+
+      (leaf leaf-tree
+        :ensure t) ;; leaf-tree
+
+      ) ;; leaf-setup
+
+    (leaf cus-start
+      :doc "define customization properties of builtins"
+      :tag "builtin" "internal"
+      :custom ((user-full-name . "Jeremy Piffret")
+               (user-mail-address . "j.piffret@gmail.com")
+               (user-login-name . "jpiffret")
+               (truncate-lines . t)
+               (menu-bar-mode . t)
+               (tool-bar-mode . t)
+               (scroll-bar-mode . t)
+               (indent-tabs-mode . nil))
+      :config
+      (defalias 'yes-or-no-p 'y-or-n-p)
+      :bind*
+      ("<f5>" . revert-buffer)
+      ("C-x C-g" . goto-line)
+      ("C-*" . next-error)
+      ("C-/" . previous-error)
+      ) ;; cus-start
+
+    (leaf emacs-env
+      :config
+      (setq shell-command-switch "-c")
+      (let ((dir-list (cond (linux-p '(
+                                       "/opt/gnatstudio/bin"
+                                       ))
+                            (birdz-computer-p '(
+                                                "c:/installs/msys64/usr/bin"
+                                                ))
+                            (home-computer-p '(
+                                               "c:/Program Files/Git/cmd"
+                                               "c:/Program Files/Git/bin"
+                                               "e:/programs/cygwin64/bin"
+                                               ))
+                            (t
+                             (warn "ERROR JPI: undefined environment for this computer")
+                             nil)
+                            )))
+        (dolist (dir dir-list)
+          (setenv "PATH" (concat dir path-separator (getenv "PATH")))
+          (setq exec-path (add-to-list 'exec-path dir))))  
+      ) ;; emacs-env
+
+    (leaf epg
+      :custom (epg-gpg-program . "gpg2")
+      :config
+      (setenv "GPG_AGENT_INFO" nil) ; disable external pin entry (doesn't work with debian)
+      )
+
+    (leaf hydra
+      :hydra
+      (hydra-summary ()
+                     ("m" hydra-magit/body "magit" :exit t))
+      ;; ("b" hydra-bookmarks/body "bookmarks" :exit t)
+      ;; ("z" hydra-zoom/body "zoom" :exit t)
+      :bind*
+      ("<f1>" . hydra-summary/body)
+      ) ;; hydra
+
+    (leaf magit
+      :ensure t
+      :init
+      (leaf magit-popup :ensure t)
+      :config
+      (leaf git-link
+        :ensure t 
+        )
+      (leaf magit-gitflow
+        ;;
+        ;; TODO see magit-gitflow
+        ;;
+        :ensure t 
+        :config
+        (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+        )
+      :custom
+      (magit-repository-directories .
+                                    '(("~/.emacs.d"  . 0)
+                                      ("~/.emacs.d/lisp/comb"  . 0)
+                                      ("~/workspace/" . 2)
+                                      ))
+
+      (magit-repolist-columns .
+                              '(("Name" 25 magit-repolist-column-ident nil)
+                                ("Version" 25 magit-repolist-column-version nil)
+                                ("Branch" 15 magit-repolist-column-branch nil)
+                                ("Branches" 8 magit-repolist-column-branches nil)
+                                ("Flag" 4 magit-repolist-column-flag ((:right-align t)))
+                                ("B<U" 3 magit-repolist-column-unpulled-from-upstream
+                                 ((:right-align t)
+                                  (:help-echo "Upstream changes not in branch")))
+                                ("B>U" 3 magit-repolist-column-unpushed-to-upstream
+                                 ((:right-align t)
+                                  (:help-echo "Local changes not in upstream")))
+                                ("Path" 30 magit-repolist-column-path nil)
+                                ("Push" 4 magit-repolist-column-unpushed-to-pushremote))
+                              )
+
+      ;; TODO
+      ;; ;; commit after save
+      ;; (defun git-commit-after-save ()
+      ;;   (let ((git-rev-parse-output "")
+      ;;         (git-rev-parse-cmd "git rev-parse")
+      ;;         (repository-p nil)
+      ;;         (git-commit-cmd "git commit")
+      ;;         (current-output ""))
+      ;;     (setq current-output (call-process git-rev-parse-cmd))
+      ;;     ))
+
+      :hydra
+      (hydra-magit 
+       (:color red :hint nil)
+       "
+            ^Magit commands^
+    --------------------------------
+        _s_ status   _c_ commit
+        _P_ pull    _la_ log all
+        _p_ push     _d_ diff
+        "
+       ("p" magit-push :exit t :column "commits")
+       ("P" magit-pull :exit t)
+       ("s" magit-status :exit t)
+       ("c" magit-commit :exit t :column "others")
+       ("d" magit-diff :exit t)
+       ("la" magit-log-all :exit t)
+       ) ;; hydra-magit
+      )
+
+    (leaf face-remap
+           :hydra (hydra-zoom
+                   (global-map "<f2>")
+                   "zoom"
+                   ("g" text-scale-increase "in")
+                   ("l" text-scale-decrease "out")))
+
+    ;; JP
+    ;; JP;; security
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*security][security:1]]
+    ;; JP;; gpg command https://www.linuxtricks.fr/wiki/chiffrer-des-fichiers-par-mot-de-passe-avec-gnupg
+    ;; JP;; gpg in emacs https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources
+    ;; JP;; emacs info: EasyPG Assistant
+    ;; JP;; customize-group: epa, epg (EasyPG Assistant and EasyPG)
+    ;; JP;; to encrypt a region : `epa-encrypt-region'
+    ;; JP
+    ;; JP;; WIP: gpg-agent
+    ;; JP;; pinentry downloaded in ~/tmp/pinentry-1.1.0 (doesn't build, missing fltk-config, installed with cygwin)
+    ;; JP;; https://www.qwant.com/?client=brz-moz&q=emacs%20pinentry%20windows
+    ;; JP;; https://github.com/ecraven/pinentry-emacs
+    ;; JP;; https://emacs.stackexchange.com/questions/32881/enabling-minibuffer-pinentry-with-emacs-25-and-gnupg-2-1-on-ubuntu-xenial
+    ;; JP;; https://stackoverflow.com/questions/60812866/emacs-gpg-pinentry-el-for-authentication
+    ;; JP;; https://blog.grdryn.me/blog/flatpak-emacs-with-gpg-agent.html
+    ;; JP;;
+    ;; JP;; fltk: gui library
+    ;; JP;; https://www.fltk.org/doc-1.3/common.html#common_boxtypes
+    ;; JP
+    ;; JP;; security:1 ends here
+    ;; JP
+    ;; JP;; emacs custom file
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*emacs custom file][emacs custom file:1]]
+    ;; JP(setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
+    ;; JP(when (file-exists-p custom-file) (load custom-file))
+    ;; JP;; emacs custom file:1 ends here
+    ;; JP
+    ;; JP;; emacs server
+    ;; JP;; #+NAME: emacs server
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::emacs server][emacs server]]
+    ;; JP;; setenv EMACS_SERVER_FILE=.emacs.d/server/server
+    ;; JP(require 'server)
+    ;; JP(unless (server-running-p)
+    ;; JP  (server-start))
+    ;; JP;; emacs server ends here
+    ;; JP
+    ;; JP;; backup configuration, recentf, desktop
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*backup configuration, recentf, desktop][backup configuration, recentf, desktop:1]]
+    ;; JP(leaf files-backup
+    ;; JP  (setq-default backup-by-copying t
+    ;; JP                backup-directory-alist '(("." . "~/.emacs.d/backup"))
+    ;; JP                recentf-auto-cleanup 'never
+    ;; JP                recentf-mode nil
+    ;; JP                enable-remote-dir-locals t
+    ;; JP                ))
+    ;; JP;; backup configuration, recentf, desktop:1 ends here
+    ;; JP
+    ;; JP;; TODO frame title
+    ;; JP;; sources:
+    ;; JP;; - [[https://emacs.stackexchange.com/questions/16834/how-to-change-the-title-from-emacshost-to-file-name][emacs.stackexchange]]
+    ;; JP;; - [[https://www.emacswiki.org/emacs/FrameTitle][emacswiki]]
+    ;; JP;; #+BEGIN_COMMENT default value
+    ;; JP;; (setq-default frame-title-format
+    ;; JP;; '(:eval
+    ;; JP;; (format "%s@%s: %s %s"
+    ;; JP;; (or (file-remote-p default-directory 'user)
+    ;; JP;; user-real-login-name)
+    ;; JP;; (or (file-remote-p default-directory 'host)
+    ;; JP;; system-name)
+    ;; JP;; (buffer-name)
+    ;; JP;; (cond
+    ;; JP;; (buffer-file-truename
+    ;; JP;; (concat "(" buffer-file-truename ")"))
+    ;; JP;; (dired-directory
+    ;; JP;; (concat "{" dired-directory "}"))
+    ;; JP;; (t
+    ;; JP;; "[no file]")))))
+    ;; JP;; #+END_COMMENT
+    ;; JP
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*frame title][frame title:1]]
+    ;; JP(setq-default frame-title-format
+    ;; JP              '(:eval
+    ;; JP                (format "%s: %s %s"
+    ;; JP                        (or (file-remote-p default-directory 'host)
+    ;; JP                            system-name)
+    ;; JP                        (buffer-name)
+    ;; JP                        (cond
+    ;; JP                         (buffer-file-truename
+    ;; JP                          (concat "(" buffer-file-truename ")"))
+    ;; JP                         (dired-directory
+    ;; JP                          (concat "{" dired-directory "}"))
+    ;; JP                         (t
+    ;; JP                          "[no file]")))))
+    ;; JP;; frame title:1 ends here
+    ;; JP
+    ;; JP;; theme
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*theme][theme:1]]
+    ;; JP(setq custom-enabled-themes '(tsdh-dark))
+    ;; JP;; theme:1 ends here
+    ;; JP
+    ;; JP;; global modes
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*global modes][global modes:1]]
+    ;; JP(require 'autorevert)
+    ;; JP(global-auto-revert-mode)
+    ;; JP(setq-default auto-revert-interval 1)
+    ;; JP(global-hl-line-mode)
+    ;; JP(electric-pair-mode)
+    ;; JP(show-paren-mode)
+    ;; JP
+    ;; JP;; setting indent-tabs-mode. Using `setq' make the value buffer-local.
+    ;; JP(setq-default indent-tabs-mode nil)
+    ;; JP;; global modes:1 ends here
+    ;; JP
+    ;; JP;; emacs hooks
+    ;; JP;; - delete-trailing-whitespace
+    ;; JP;; - untabify-whole-buffer
+    ;; JP;; - kill passwords.org.el
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*emacs hooks][emacs hooks:1]]
+    ;; JP(defun untabify-whole-buffer ()
+    ;; JP  (unless (derived-mode-p 'makefile-mode)
+    ;; JP    (untabify (point-min) (point-max))))
+    ;; JP(add-hook 'before-save-hook 'untabify-whole-buffer)
+    ;; JP(add-hook 'before-save-hook 'delete-trailing-whitespace)
+    ;; JP
+    ;; JP(defun kill-passwords-gpg ()
+    ;; JP  (interactive)
+    ;; JP  (let ((buffer (get-buffer "passwords.org.gpg")))
+    ;; JP    (when buffer
+    ;; JP      (kill-buffer buffer))))
+    ;; JP
+    ;; JP(add-hook 'kill-emacs-hook 'kill-passwords-gpg)
+    ;; JP;; emacs hooks:1 ends here
+    ;; JP
+    ;; JP;; custom
+    ;; JP;; #+NAME: default-frame-alist
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::default-frame-alist][default-frame-alist]]
+    ;; JP(add-to-list 'default-frame-alist '(fullscreen . maximized))
+    ;; JP;; default-frame-alist ends here
+    ;; JP
+    ;; JP
+    ;; JP
+    ;; JP;; #+NAME: setq-default
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::setq-default][setq-default]]
+    ;; JP(setq-default
+    ;; JP column-number-mode t
+    ;; JP fill-column 79)
+    ;; JP;; setq-default ends here
+    ;; JP
+    ;; JP
+    ;; JP
+    ;; JP;; #+NAME: directory constants, load-path
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::directory constants, load-path][directory constants, load-path]]
+    ;; JP(defconst emacs-install-lisp-dir (file-name-as-directory "/usr/share/emacs/26.1/lisp"))
+    ;; JP(defconst lisp-dir (file-name-as-directory (concat user-emacs-directory "lisp")))
+    ;; JP;; lisp perso / downloaded files
+    ;; JP(add-to-list 'load-path lisp-dir)
+    ;; JP;; directory constants, load-path ends here
+    ;; JP
+    ;; JP;; jpi-full-screen
+    ;; JP;; #+NAME: jpi-full-screen
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::jpi-full-screen][jpi-full-screen]]
+    ;; JP;; frame & display:
+    ;; JP;; https://stackoverflow.com/questions/16481984/get-width-of-current-monitor-in-emacs-lisp
+    ;; JP;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Frame-Commands.html
+    ;; JP;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Parameter-Access.html
+    ;; JP(defun jpi-full-screen ()
+    ;; JP  (interactive)
+    ;; JP  (cond
+    ;; JP   (ingenico-computer-p
+    ;; JP    (set-frame-position (selected-frame) 0 0)
+    ;; JP    (set-frame-width (selected-frame) 188)
+    ;; JP    (set-frame-height (selected-frame) 52))
+    ;; JP   ;; (set-frame-position (selected-frame) -5 0)
+    ;; JP   ;; (set-frame-width (selected-frame) 380)
+    ;; JP   ;; (set-frame-height (selected-frame) 53))
+    ;; JP   (home-computer-p
+    ;; JP    (set-frame-position (selected-frame) 0 0)
+    ;; JP    (set-frame-width (selected-frame) 188)
+    ;; JP    (set-frame-height (selected-frame) 53)))
+    ;; JP  ;; (cond
+    ;; JP  ;;  ((string= (system-name) ingenico-system-name)
+    ;; JP  ;;   (set-frame-position (selected-frame) 0 0)
+    ;; JP  ;;   (set-frame-width (selected-frame) 188)
+    ;; JP  ;;   (set-frame-height (selected-frame) 52))
+    ;; JP  ;;  ;; (set-frame-position (selected-frame) -5 0)
+    ;; JP  ;;  ;; (set-frame-width (selected-frame) 380)
+    ;; JP  ;;  ;; (set-frame-height (selected-frame) 53))
+    ;; JP  ;;  ((string= (system-name) home-system-name)
+    ;; JP  ;;   (set-frame-position (selected-frame) 0 0)
+    ;; JP  ;;   (set-frame-width (selected-frame) 188)
+    ;; JP  ;;   (set-frame-height (selected-frame) 53)))
+    ;; JP  )
+    ;; JP;; jpi-full-screen ends here
+    ;; JP
+    ;; JP;; aliases, global set keys ends here
+    ;; JP
+    ;; JP;; line numbering
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*line numbering][line numbering:1]]
+    ;; JP(defun jp-config-linum()
+    ;; JP
+    ;; JP  (defvar linum-format-fmt)
+    ;; JP  (defvar linum-format)
+    ;; JP  (unless window-system
+    ;; JP    (add-hook 'linum-before-numbering-hook
+    ;; JP              (lambda ()
+    ;; JP                (setq-local linum-format-fmt
+    ;; JP                            (let ((w (length (number-to-string
+    ;; JP                                              (count-lines (point-min) (point-max))))))
+    ;; JP                              (concat "%" (number-to-string w) "d"))))))
+    ;; JP
+    ;; JP  (defun linum-format-func (line)
+    ;; JP    (concat
+    ;; JP     (propertize (format linum-format-fmt line) 'face 'linum)
+    ;; JP     (propertize " " 'face 'mode-line)))
+    ;; JP
+    ;; JP  (unless window-system
+    ;; JP    (setq linum-format 'linum-format-func))
+    ;; JP
+    ;; JP  "jp-config-linum success"
+    ;; JP  )
+    ;; JP
+    ;; JP(jp-config-linum)
+    ;; JP;; line numbering:1 ends here
+    ;; JP
+    ;; JP;; moving in emacs
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*moving in emacs][moving in emacs:1]]
+    ;; JP(leaf avy
+    ;; JP  :ensure t
+    ;; JP  :url "https://github.com/abo-abo/avy"
+    ;; JP  :doc "like ace-jump"
+    ;; JP  :custom
+    ;; JP  (avy-timeout-seconds . 0.3)
+    ;; JP  (avy-all-windows . 'all-frames)
+    ;; JP  :bind
+    ;; JP  (("C-M-:" . avy-goto-char-timer)
+    ;; JP   ("C-:" . avy-goto-char-2))
+    ;; JP  :config
+    ;; JP  (leaf avy-menu
+    ;; JP    :url "https://github.com/mrkkrp/avy-menu"
+    ;; JP    :ensure t
+    ;; JP    )
+    ;; JP  )
+    ;; JP;; moving in emacs:1 ends here
+    ;; JP
+    ;; JP;; link-hint
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*link-hint][link-hint:1]]
+    ;; JP(leaf link-hint
+    ;; JP  :ensure t
+    ;; JP  :bind
+    ;; JP  ("C-c l o" . link-hint-open-link)
+    ;; JP  ("C-c l c" . link-hint-copy-link))
+    ;; JP;; link-hint:1 ends here
+    ;; JP
+    ;; JP;; org core configuration
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*org core configuration][org core configuration:1]]
+    ;; JP(leaf org
+    ;; JP  :tag "builtin"
+    ;; JP  :mode
+    ;; JP  ("\\.\\(org\\|txt\\)\\'" . org-mode)
+    ;; JP  ("\\*notes\\*" . org-mode)
+    ;; JP  :bind
+    ;; JP  ("C-c a" . org-agenda)
+    ;; JP  :custom
+    ;; JP  ((org-adapt-indentation . nil) ; "don't indent levels contents"
+    ;; JP   (org-default-notes-file . "~/workspace/org/capture.org")
+    ;; JP   (org-edit-src-content-indentation . 0)
+    ;; JP   (org-hide-leading-stars . nil) ; "show all levels stars")
+    ;; JP   (org-html-table-default-attributes . nil) ; "no html table default attributes")
+    ;; JP   (org-id-link-to-org-use-id . 'create-if-interactive-and-no-custom-id) ; "org-store-link create an id")
+    ;; JP   (org-indent-indentation-per-level . 0) ; "sub levels indentation to 0")
+    ;; JP   (org-indent-mode . nil) ; "don't try to indent sub levels")
+    ;; JP   (org-level-color-stars-only . nil) ; "level titles are colored too")
+    ;; JP   (org-modules . '(org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
+    ;; JP   (org-publish-timestamp-directory . "~/workspace/org/.org-timestamps/")
+    ;; JP   (org-src-window-setup . 'current-window)
+    ;; JP   (org-startup-shrink-all-tables . t)
+    ;; JP   (org-tags-column . -153) ; "tags alignment")
+    ;; JP   (org-time-stamp-custom-formats . '("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
+    ;; JP
+    ;; JP   (org-file-apps . '(("\\.mm\\'" . default)
+    ;; JP                      ("\\.x?html?\\'" . "firefox %s")
+    ;; JP                      ("^http" . "firefox %s")
+    ;; JP                      (auto-mode . emacs)
+    ;; JP                      (directory . emacs))))
+    ;; JP
+    ;; JP
+    ;; JP  ;; org-headline-done ((t (:foreground "medium aquamarine")))
+    ;; JP  ;; :config
+    ;; JP  ;; (add-to-list 'load-path (concat user-emacs-directory "straight/repos/org/contrib/lisp"))
+    ;; JP  ;; (require 'org-velocity) ;; TODO remove it. org-ql is a lot more rich (but I don't understand it yet...)
+    ;; JP  )
+    ;; JP
+    ;; JP;; patched function org-translate-time from org.el
+    ;; JP;; replaced
+    ;; JP;;
+    ;; JP;; (concat
+    ;; JP;;  (if inactive "[" "<") (substring tf 1 -1)
+    ;; JP;;  (if inactive "]" ">"))
+    ;; JP;;
+    ;; JP;; with
+    ;; JP;;
+    ;; JP;; (require 'org-collector)
+    ;; JP;;
+    ;; JP;; removed: default behavior is better ...
+    ;; JP;;
+    ;; JP;; see https://orgmode.org/manual/Capturing-column-view.html:
+    ;; JP;;    C-c C-x i (org-insert-columns-dblock)
+    ;; JP
+    ;; JP(progn
+    ;; JP  (defvar org-html-postamble)
+    ;; JP  (setq org-html-postamble nil))
+    ;; JP
+    ;; JP(leaf org-web-tools
+    ;; JP  :ensure t)
+    ;; JP
+    ;; JP(leaf ob-async
+    ;; JP  :ensure t org
+    ;; JP  :url https://github.com/astahlman/ob-async
+    ;; JP  )
+    ;; JP
+    ;; JP(leaf org-generate
+    ;; JP  :ensure t org
+    ;; JP  :url https://github.com/conao3/org-generate.el
+    ;; JP  )
+    ;; JP
+    ;; JP;; Fix an incompatibility between the ob-async and ob-ipython packages
+    ;; JP;; TODO integrate in use-package
+    ;; JP(progn
+    ;; JP  (defvar ob-async-no-async-languages-alist)
+    ;; JP  (setq ob-async-no-async-languages-alist '("ipython")))
+    ;; JP
+    ;; JP(leaf org-mind-map
+    ;; JP  :ensure t
+    ;; JP  ;; mind map
+    ;; JP  :init (require 'ox-org)
+    ;; JP  :custom
+    ;; JP  (org-mind-map-engine . "dot")
+    ;; JP  (org-mind-map-default-graph-attribs .
+    ;; JP                                      '(("autosize" . "false")
+    ;; JP                                        ("size" . "9,12")
+    ;; JP                                        ("resolution" . "100")
+    ;; JP                                        ("nodesep" . "0.75")
+    ;; JP                                        ("overlap" . "false")
+    ;; JP                                        ("splines" . "ortho")
+    ;; JP                                        ("rankdir" . "LR")))
+    ;; JP  (org-mind-map-dot-output . '("png" "pdf" "jpeg" "svg" "eps" "gif" "tiff"))
+    ;; JP  )
+    ;; JP
+    ;; JP(leaf org-brain
+    ;; JP  :ensure t
+    ;; JP  ;; mind map
+    ;; JP  )
+    ;; JP
+    ;; JP(leaf poporg
+    ;; JP  :ensure t
+    ;; JP  ;; http://pragmaticemacs.com/emacs/write-code-comments-in-org-mode-with-poporg/
+    ;; JP  ;; https://github.com/QBobWatson/poporg
+    ;; JP  :bind (("C-c /" . poporg-dwim)))
+    ;; JP
+    ;; JP(leaf htmlize
+    ;; JP  :ensure t
+    ;; JP  ;; to export html file
+    ;; JP  )
+    ;; JP
+    ;; JP(defun org-save-this-readme ()
+    ;; JP  (let ((this-file-name (expand-file-name "README-leaf.org" user-emacs-directory))
+    ;; JP        (init-el-file (expand-file-name "init.el" user-emacs-directory))
+    ;; JP        (init-elc-file (expand-file-name "init.elc" user-emacs-directory)))
+    ;; JP    (when (and (not (eq (buffer-file-name) nil))
+    ;; JP               (string= (buffer-file-name) this-file-name))
+    ;; JP      (when (file-exists-p init-el-file) (delete-file init-el-file))
+    ;; JP      (when (file-exists-p init-elc-file) (delete-file init-elc-file))
+    ;; JP      (org-babel-tangle)
+    ;; JP      ;; (when (y-or-n-p-with-timeout "Recompile? " 2 nil)
+    ;; JP      ;;   (byte-compile-file "init.el" t))
+    ;; JP      )))
+    ;; JP;; (defun org-save-this-readme ()())
+    ;; JP(add-hook 'after-save-hook 'org-save-this-readme)
+    ;; JP;; org core configuration:1 ends here
+    ;; JP
+    ;; JP;; magit
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*magit][magit:1]]
+    ;; JP(leaf magit :package t)
+    ;; JP
+    ;; JP(leaf magit
+    ;; JP  :ensure t
+    ;; JP  :init
+    ;; JP  (leaf hydra :ensure t)
+    ;; JP  (leaf magit-popup :ensure t)
+    ;; JP  ;;
+    ;; JP  ;; TODO see magit-gitflow
+    ;; JP  ;;
+    ;; JP  :config
+    ;; JP  (defun magit-fetch-and-status ()
+    ;; JP    (magit-fetch-from-upstream)
+    ;; JP    (magit-status)
+    ;; JP    )
+    ;; JP  (leaf git-link
+    ;; JP    :ensure t magit
+    ;; JP    )
+    ;; JP  (leaf magit-gitflow
+    ;; JP    :ensure t magit
+    ;; JP    :config
+    ;; JP    (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+    ;; JP    )
+    ;; JP
+    ;; JP  ;; :custom
+    ;; JP  ;; (magit-repository-directories .
+    ;; JP  ;;       '(("~/.emacs.d"  . 0)
+    ;; JP  ;;         ("~/.emacs.d/lisp/comb"  . 0)
+    ;; JP  ;;         ("~/workspace/" . 2)
+    ;; JP  ;;         ))
+    ;; JP
+    ;; JP  ;; (magit-repolist-columns .
+    ;; JP  ;;       '(("Name" 25 magit-repolist-column-ident nil)
+    ;; JP  ;;         ("Version" 25 magit-repolist-column-version nil)
+    ;; JP  ;;         ("Branch" 15 magit-repolist-column-branch nil)
+    ;; JP  ;;         ("Branches" 8 magit-repolist-column-branches nil)
+    ;; JP  ;;         ("Flag" 4 magit-repolist-column-flag ((:right-align t)))
+    ;; JP  ;;         ("B<U" 3 magit-repolist-column-unpulled-from-upstream
+    ;; JP  ;;          ((:right-align t)
+    ;; JP  ;;     (:help-echo "Upstream changes not in branch")))
+    ;; JP  ;;         ("B>U" 3 magit-repolist-column-unpushed-to-upstream
+    ;; JP  ;;          ((:right-align t)
+    ;; JP  ;;     (:help-echo "Local changes not in upstream")))
+    ;; JP  ;;         ("Path" 30 magit-repolist-column-path nil)
+    ;; JP  ;;         ("Push" 4 magit-repolist-column-unpushed-to-pushremote))
+    ;; JP  ;;       )
+    ;; JP
+    ;; JP  ;; ;; TODO
+    ;; JP  ;; ;; ;; commit after save
+    ;; JP  ;; ;; (defun git-commit-after-save ()
+    ;; JP  ;; ;;   (let ((git-rev-parse-output "")
+    ;; JP  ;; ;;         (git-rev-parse-cmd "git rev-parse")
+    ;; JP  ;; ;;         (repository-p nil)
+    ;; JP  ;; ;;         (git-commit-cmd "git commit")
+    ;; JP  ;; ;;         (current-output ""))
+    ;; JP  ;; ;;     (setq current-output (call-process git-rev-parse-cmd))
+    ;; JP  ;; ;;     ))
+    ;; JP
+    ;; JP  ;; :hydra
+    ;; JP  ;; (hydra-magit (:hint nil)
+    ;; JP  ;;  "
+    ;; JP  ;; _s_ status    _c_ commit
+    ;; JP  ;; _P_ pull      _la_ log all
+    ;; JP  ;; _p_ push      _d_ diff
+    ;; JP  ;; "
+    ;; JP  ;;         ;               ("s" magit-fetch-and-status :exit t)
+    ;; JP  ;;  ("s" magit-status :exit t)
+    ;; JP  ;;  ("p" magit-push :exit t)
+    ;; JP  ;;  ("P" magit-pull :exit t)
+    ;; JP  ;;  ("c" magit-commit :exit t)
+    ;; JP  ;;  ("d" magit-diff :exit t)
+    ;; JP  ;;  ("la" magit-log-all :exit t)
+    ;; JP  ;;  )
+    ;; JP  )
+    ;; JP
+    ;; JP;; (defhydra hydra-magit (:hint nil)
+    ;; JP;;   "
+    ;; JP;; _s_ status    _c_ commit
+    ;; JP;; _P_ pull      _la_ log all
+    ;; JP;; _p_ push      _d_ diff
+    ;; JP;; "
+    ;; JP;;   ("p" magit-push :exit t)
+    ;; JP;;   ("P" magit-pull :exit t)
+    ;; JP;;   ("c" magit-commit :exit t)
+    ;; JP;;   ("d" magit-diff :exit t)
+    ;; JP;;   ("la" magit-log-all :exit t)
+    ;; JP;;   ("s" magit-status :exit t)
+    ;; JP;;   )
+    ;; JP;; magit:1 ends here
+    ;; JP
+    ;; JP;; file path utils
+    ;; JP;; Modern API for working with files and directories
+    ;; JP
+    ;; JP;; f-join, f-filename, f-direname...
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*file path utils][file path utils:1]]
+    ;; JP(leaf f :ensure t)
+    ;; JP;; file path utils:1 ends here
+    ;; JP
+    ;; JP;; completion
+    ;; JP
+    ;; JP;; [[file:~/.emacs.d/README-leaf.org::*completion][completion:1]]
+    ;; JP(leaf flx
+    ;; JP  :ensure t
+    ;; JP  ;; flx mode. Used with completion list
+    ;; JP  ;; flx-isearch exists, but take a long time inside a long file
+    ;; JP  :el-get lewang/flx
+    ;; JP  )
+    ;; JP
+    ;; JP(leaf swiper
+    ;; JP  :ensure t
+    ;; JP  :url "https://github.com/abo-abo/swiper"
+    ;; JP  :doc "completion engine"
+    ;; JP  :doc "install ivy, counsel, swiper"
+    ;; JP  :el-get abo-abo/swiper
+    ;; JP  :config
+    ;; JP  (leaf counsel
+    ;; JP    :ensure t
+    ;; JP    :bind
+    ;; JP    (("M-y" . counsel-yank-pop)
+    ;; JP     ("C-x r b" . counsel-bookmark)
+    ;; JP     ("C-x b" . ivy-switch-buffer) ;; counsel-switch-buffer show a
+    ;; JP     ;; preview of buffer, it's too long
+    ;; JP     ("M-x" . counsel-M-x)
+    ;; JP     ("C-h f" . counsel-describe-function)
+    ;; JP     ("C-h v" . counsel-describe-variable)
+    ;; JP     ("C-x C-f" . counsel-find-file)
+    ;; JP     ("C-x C-d" . counsel-find-file)
+    ;; JP     ("C-x d" . counsel-find-file))
+    ;; JP    (:ivy-minibuffer-map
+    ;; JP     ("M-y" . ivy-next-line)))
+    ;; JP  (leaf ivy
+    ;; JP    ;; completion
+    ;; JP    ;; https://oremacs.com/swiper/#key-bindings
+    ;; JP    ;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
+    ;; JP    ;; https://www.youtube.com/user/abo5abo
+    ;; JP    ;; https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+    ;; JP    :ensure t
+    ;; JP    :bind
+    ;; JP    (:ivy-minibuffer-map
+    ;; JP     ("<RET>" . ivy-alt-done)
+    ;; JP     ("C-j" . ivy-immediate-done)
+    ;; JP     )
+    ;; JP    :custom
+    ;; JP    (ivy-re-builders-alist . '((counsel-ag     . ivy--regex-plus)
+    ;; JP                               (swiper-isearch . ivy--regex-ignore-order)
+    ;; JP                               (t              . ivy--regex-fuzzy)))
+    ;; JP    (ivy-use-virtual-buffers . 'bookmarks)
+    ;; JP    (ivy-height . 15)
+    ;; JP    )
+    ;; JP  (global-set-key (kbd "C-s") 'isearch-forward)
+    ;; JP  (global-set-key (kbd "C-r") 'isearch-backward)
+    ;; JP  )
+    ;; JP;; completion:1 ends here
+    ;; JP
+    (custom-set-variables
+     ;; custom-set-variables was added by Custom.
+     ;; If you edit it by hand, you could mess it up, so be careful.
+     ;; Your init file should contain only one such instance.
+     ;; If there is more than one, they won't work right.
+     '(package-selected-packages '(feather leaf-keywords blackout el-get hydra leaf)))
+    (custom-set-faces
+     ;; custom-set-faces was added by Custom.
+     ;; If you edit it by hand, you could mess it up, so be careful.
+     ;; Your init file should contain only one such instance.
+     ;; If there is more than one, they won't work right.
+     )
+
+  #+END_SRC
