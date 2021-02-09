@@ -1,1 +1,8 @@
-README-leaf.org
+# README.org
+#+SETUPFILE: README-setup.org
+
+emacs configuration is no more handle by an org file.
+
+leaf and leaf-tree are doing a fine job.
+
+#+INCLUDE: "~/.emacs.d/init.el" src emacs-lisp

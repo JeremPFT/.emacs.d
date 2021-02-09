@@ -131,6 +131,7 @@
                                                "c:/Program Files/Git/cmd"
                                                "c:/Program Files/Git/bin"
                                                "e:/programs/cygwin64/bin"
+                                               "C:/Program Files (x86)/GnuPG/bin"
                                                ))
                             (t
                              (warn "ERROR JPI: undefined environment for this computer")
@@ -142,7 +143,7 @@
       ) ;; emacs-env
 
     (leaf epg
-      :custom (epg-gpg-program . "gpg2")
+      :custom (epg-gpg-program . "gpg")
       :config
       (setenv "GPG_AGENT_INFO" nil) ; disable external pin entry (doesn't work with debian)
       )

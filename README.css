@@ -4,9 +4,10 @@
 
 body
 {
-    width: 100ex;
-    margin-left: 30%;
+    width: 140ex;
+    margin-left: 20%;
     font-family: Arial, sans-serif;
+    font-size: 1.2em;
     /* font-family: "Times New Roman", Times, serif; */
 }
 
@@ -17,9 +18,11 @@ pre.example, pre.src, code
 
 pre.example, pre.src
 {
+    color: #DCDCCC;
     line-height: 120%;
-    font-size: 90%;
-    background: #f5f2f0;
+    font-size: 100%;
+    background: #3F3F3F;
+    /* background: #f5f2f0; */
 }
 
 pre[class*="src-"]

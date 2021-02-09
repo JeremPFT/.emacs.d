@@ -4,7 +4,6 @@
 #+STARTUP: showall
 # STARTUP options: see [[help:org-startup-options]]
 
-* TODO emacs > 27 : early-init-file
 * NOTE remove native org from emacs
 #+BEGIN_SRC shell
 cd /usr/share/emacs/26.1/lisp/
