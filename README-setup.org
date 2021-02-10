@@ -22,3 +22,11 @@
 #+FILETAGS: :emacs:configuration:with_leaf:
 
 https://orgmode.org/manual/In_002dbuffer-Settings.html
+* COMMENT Local Variables
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
+# Local Variables:
+# mode: org
+# coding: utf-8-unix
+# End:

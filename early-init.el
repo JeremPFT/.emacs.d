@@ -4,11 +4,9 @@
 (defun emacs-dir-file (filename)
   (expand-file-name filename user-emacs-directory))
 
-(customize-set-variable
- 'initial-buffer-choice (emacs-dir-file "init.el"))
-
-(customize-set-variable
- 'custom-file (emacs-dir-file "init-emacs-custom.el"))
+;; don't use `customize-set-variable', or paths are 'absoluted' in custom file
+(setq initial-buffer-choice "~/.emacs.d/init.el")
+(setq custom-file "~/.emacs.d/init-emacs-custom.el")
 
 ;; Speed-up at startup: boost garbage collector memory
 ;; article: https://elmord.org/blog/?entry=20190913-emacs-gc

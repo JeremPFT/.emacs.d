@@ -2,12 +2,21 @@
  * css used by README.org
  */
 
+:root
+{
+    --font-size: 10pt;
+    --font-size: 20pt;
+}
+
 body
 {
     width: 140ex;
-    margin-left: 20%;
+    margin-left: 10%;
+    /* margin-right: 10%; */
     font-family: Arial, sans-serif;
     font-size: 1.2em;
+    font-size: var(--font-size);
+    width: calc(var(--font-size) * 50);
     /* font-family: "Times New Roman", Times, serif; */
 }
 

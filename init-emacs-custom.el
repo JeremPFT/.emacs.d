@@ -4,7 +4,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(custom-file "/home/jeremy/.emacs.d/init-emacs-custom.el")
  '(debug-on-error t)
  '(electric-pair-mode t)
  '(fill-column 79)
@@ -24,8 +23,9 @@
  '(gc-cons-threshold 104857600)
  '(global-hl-line-mode t)
  '(indent-tabs-mode nil)
- '(initial-buffer-choice "/home/jeremy/.emacs.d/init.el")
  '(menu-bar-mode t)
+ '(org-indent-indentation-per-level 0 nil nil "Customized with leaf in `org' block at `c:/Users/jeremy/AppData/Roaming/.emacs.d/init.el'")
+ '(org-level-color-stars-only nil nil nil "Customized with leaf in `org' block at `c:/Users/jeremy/AppData/Roaming/.emacs.d/init.el'")
  '(package-archives
    '(("org" . "https://orgmode.org/elpa/")
      ("gnu" . "https://elpa.gnu.org/packages/")

@@ -1,5 +1,10 @@
 ;;; init.el --- emacs setup
 
+(leaf emacs-html-articles
+  :doc Emacs-la-communaute-se-demande-comment-accroitre-son-attractivite
+  :url https://edi.developpez.com/actu/309395/Emacs-la-communaute-se-demande-comment-accroitre-son-attractivite-certains-suggerent-plus-de-modernite-et-Richard-Stallman-se-prete-au-jeu-des-echanges-d-idees/
+  )
+
 (unless (file-exists-p (emacs-dir-file "init-package.el"))
   (let ((dir "~/.emacs.d/elpa"))
     (when (file-exists-p dir)
@@ -29,18 +34,21 @@
   ) ;; unless init-package.el
 
 (leaf leaf-setup
-  :url "https://github.com/conao3/leaf.el"
+  :url https://github.com/conao3/leaf.el
   :init
   (leaf leaf-keywords
-    :url "https://github.com/conao3/leaf-keywords.el"
+    :url https://github.com/conao3/leaf-keywords.el
     :init
     (leaf hydra
-      :url "https://github.com/abo-abo/hydra"
+      :url https://github.com/abo-abo/hydra
       :ensure t)
     (leaf el-get
+      :url https://github.com/dimitri/el-get
+      :url https://www.emacswiki.org/emacs/el-get
       :ensure t)
     (leaf blackout
       :ensure t
+      :url https://github.com/raxod502/blackout
       :config
       (blackout 'emacs-lisp-mode "elisp")
       (blackout 'eldoc-mode "")
@@ -57,13 +65,13 @@
     :config
     (feather-mode 1)
     (customize-set-variable 'leaf-alias-keyword-alist '((:ensure . :package)))
-    :blackout
-    feather-mode
+    :blackout feather-mode
     ) ;; feather
 
   (leaf leaf-tree
     :ensure t
     :bind
+    :blackout leaf-tree-mode
     ) ;; leaf-tree
 
   ) ;; leaf-setup
@@ -229,8 +237,13 @@ saving it."
                          (t         "")
                          ))
   (defconst face-height (cond
+                         <<<<<<< Updated upstream
                          (home-computer-p 200)
                          (birdz-debian-computer-p 180)
+                         =======
+                         (home-computer-p 240)
+                         (birdz-debian-computer-p 140)
+                         >>>>>>> Stashed changes
                          (t 140)))
 
   (set-face-attribute 'default nil
@@ -331,9 +344,19 @@ saving it."
     :config
     (add-to-list 'default-frame-alist '(fullscreen . maximized))
     (leaf zenburn-theme
+      :disabled t
       :ensure t
       :config
       (load-theme 'zenburn t))
+    (leaf solarized-theme
+      :url https://github.com/bbatsov/solarized-emacs
+      :ensure t
+      :config
+      (load-theme 'solarized-dark t)
+      :custom
+      (solarized-use-variable-pitch . nil)
+      (solarized-scale-org-headlines . nil)
+      )
     (leaf face-remap
       :hydra (hydra-zoom
               (global-map "<f2>")
@@ -484,7 +507,7 @@ saving it."
   (leaf f
     :doc "Modern API for working with files and directories:
   f-join, f-filename, f-direname..."
-    :url "http://github.com/rejeep/f.el"
+    :url http://github.com/rejeep/f.el
     :ensure t
     :require t)
   (leaf recentf
@@ -504,7 +527,7 @@ saving it."
   :config
   (leaf avy
     :ensure t
-    :url "https://github.com/abo-abo/avy"
+    :url https://github.com/abo-abo/avy
     :doc "like ace-jump"
     :custom
     (avy-timeout-seconds . 0.3)
@@ -514,7 +537,7 @@ saving it."
      ("C-:" . avy-goto-char-2))
     :config
     (leaf avy-menu
-      :url "https://github.com/mrkkrp/avy-menu"
+      :url https://github.com/mrkkrp/avy-menu
       :ensure t
       )
     )
@@ -537,7 +560,7 @@ saving it."
 
   (leaf swiper
     :doc "Completion engine.  Install ivy, counsel, swiper."
-    :url "https://github.com/abo-abo/swiper"
+    :url https://github.com/abo-abo/swiper
     :ensure t
     :config
     (leaf counsel
@@ -654,12 +677,12 @@ saving it."
 
   (leaf ob-async
     :ensure t org
-    :url "https://github.com/astahlman/ob-async"
+    :url https://github.com/astahlman/ob-async
     )
 
   (leaf org-generate
     :ensure t org
-    :url "https://github.com/conao3/org-generate.el"
+    :url https://github.com/conao3/org-generate.el
     )
 
   ;; Fix an incompatibility between the ob-async and ob-ipython packages
@@ -789,7 +812,7 @@ saving it."
   ) ;; org
 
 (leaf bookmark+
-  ;; https://www.emacswiki.org/emacs/BookmarkPlus
+  :url https://www.emacswiki.org/emacs/BookmarkPlus
   :el-get emacsmirror/bookmark-plus
   :config
   (setq bmkp-bmenu-state-file (f-join user-emacs-directory "emacs-bookmarks/.bmk-bmenu-state.el")
@@ -797,9 +820,10 @@ saving it."
                                       (cond (birdz-computer-p "emacs-bookmarks/birdz")
                                             (t                "emacs-bookmarks/emacs")))
         bmkp-last-as-first-bookmark-file nil)
+  :require bookmark+
   :hydra
   (hydra-bookmarks ()
-                   "bookmarks+"
+                   "bookmark+"
                    ("D"  (find-file org-bmk-dir)                                      "directory" :column "my bookmarks" :exit t)
                    ("bc" (find-file (concat org-bmk-dir "bookmarks-current.org.txt")) "current" :exit t)
                    ("bl" (find-file (concat org-bmk-dir "bookmarks-loisirs.org.txt")) "loisir" :exit t)
@@ -811,57 +835,77 @@ saving it."
                    ("c" bmkp-copy-tags      "copy")
                    ("p" bmkp-paste-add-tags "past")
                    )
-  ) ;; bookmarks+
+  ) ;; bookmark+
+
+(leaf yasnippet
+  :doc links
+  :url https://github.com/joaotavora/yasnippet
+  :url http://joaotavora.github.io/yasnippet
+  :url https://github.com/mrkkrp/common-lisp-snippets
+  :doc TODO remove home / birdz directories, use condition inside snippets.
+  :ensure t
+  :config
+  (yas-global-mode 1)
+  (add-to-list 'load-path (concat lisp-dir "yasnippet"))
+  :custom
+  (yas-snippet-dirs . '("~/.emacs.d/snippets/home"
+                        "~/.emacs.d/snippets/birdz"))
+  :blackout 'yas-minor-mode
+  )
 
 (leaf ibuffer
-  :require t
-  :bind
-  ("C-x C-b" . ibuffer)
-
-  ;; :bind-keymap
-  ;; ("<f1>" . hydra-ibuffer-main/body)
-
+  :url tips:      http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html
+  :url example:   https://github.com/reinh/dotemacs/blob/master/conf/init.org
+  :url emacswiki: https://www.emacswiki.org/emacs/IbufferMode
   :init
+  ;; prevent "functions might not be defined at runtime" message when
+  ;; byte-compiling
+  (require 'ibuffer nil t) ;; TODO meaning of the arguments nil t
   (add-hook 'ibuffer-mode-hook
             (lambda ()
               (ibuffer-auto-mode)
               (ibuffer-switch-to-saved-filter-groups "default")))
-
+  :bind
+  (("C-x C-b" . ibuffer)
+   (:ibuffer-mode-map
+    ("<f1>" . hydra-ibuffer-main/body)
+    ))
   :custom
-  (ibuffer-show-empty-filter-groups . nil)
-  ;; *Help*
-  ;; ibuffer-filtering-alist
-  ;; ibuffer-filtering-qualifiers
-  (ibuffer-saved-filter-groups
-   . (quote (("default"
-              ("bookmarks" (name . "bookmarks"))
-              ("Magit" (name . "^magit"))
-              ("birdz-dirs" (and (mode . dired-mode)(filename . "birdz")))
-              ("ada_utils" (or (filename . "ada_utils")))
-              ("ada_test_architectures" (or (filename . "ada_test_architectures")))
-              ("birdz" (or (filename . "birdz") (name . "cnd-161")))
-              ("ssh:dev" (filename . "ssh:dev"))
-              ("Help" (or (name . "\*Help\*") (name . "\*Apropos\*") (name . "\*info\*")))
-              ))))
-  (ibuffer-directory-abbrev-alist
-   . (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"
-              . "SUPTER-7682_mexique")
-             ("dllsch_t3_bbva_key_injection_pin_block_private"
-              . "dllsch_t3_..._private"))))
-  (ibuffer-default-sorting-mode . (quote filename-or-dired))
-  (ibuffer-formats
-   . (quote
-      ((mark modified read-only locked " "
-             (name 25 25 :left :elide)
-             " "
-             (size 7 -1 :right)
-             " "
-             (mode 8 8 :left :elide)
-             " " filename-and-process)
-       (mark " "
-             (name 16 -1)
-             " " filename))))
-
+  (
+   (ibuffer-show-empty-filter-groups . nil)
+   ;; *Help*
+   ;; ibuffer-filtering-alist
+   ;; ibuffer-filtering-qualifiers
+   (ibuffer-saved-filter-groups
+    . (quote (("default"
+               ("bookmarks" (name . "bookmarks"))
+               ("Magit" (name . "^magit"))
+               ("birdz-dirs" (and (mode . dired-mode)(filename . "birdz")))
+               ("ada_utils" (or (filename . "ada_utils")))
+               ("ada_test_architectures" (or (filename . "ada_test_architectures")))
+               ("birdz" (or (filename . "birdz") (name . "cnd-161")))
+               ("ssh:dev" (filename . "ssh:dev"))
+               ("Help" (or (name . "\*Help\*") (name . "\*Apropos\*") (name . "\*info\*")))
+               ))))
+   (ibuffer-directory-abbrev-alist
+    . (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"
+               . "SUPTER-7682_mexique")
+              ("dllsch_t3_bbva_key_injection_pin_block_private"
+               . "dllsch_t3_..._private"))))
+   (ibuffer-default-sorting-mode . (quote filename-or-dired))
+   (ibuffer-formats
+    . (quote
+       ((mark modified read-only locked " "
+              (name 25 25 :left :elide)
+              " "
+              (size 7 -1 :right)
+              " "
+              (mode 8 8 :left :elide)
+              " " filename-and-process)
+        (mark " "
+              (name 16 -1)
+              " " filename))))
+   ) ;; :custom
   :config
   (progn
     (define-ibuffer-sorter filename-or-dired
@@ -891,10 +935,11 @@ saving it."
        ((> (buffer-size) 100000) (format "%7.0fk" (/ (buffer-size) 1000.0)))
        ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
        (t (format "%8d" (buffer-size)))))
-    ) ;; progn :config
+    ) ;; :config
 
   :hydra
-  ((hydra-ibuffer-main
+  (
+   (hydra-ibuffer-main
     (:color pink :hint nil)
     "
   ^Navigation^ | ^Mark^        | ^Actions^        | ^View^
@@ -990,9 +1035,7 @@ saving it."
     ("/" ibuffer-filter-disable "disable")
     ("b" hydra-ibuffer-main/body "back" :color blue))
    ) ;; :hydra
-
   ) ;; ibuffer
-
 
 ;; TODO frame title
 ;; sources:
