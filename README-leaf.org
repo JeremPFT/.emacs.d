@@ -43,8 +43,8 @@ rm -rf org
       (setq jpi/package-refresh-contents-done t))
 
       (unless (package-installed-p 'leaf)
-	(package-install package))
-    
+        (package-install package))
+
     (leaf leaf-keywords
       :ensure t
       :init
@@ -55,7 +55,7 @@ rm -rf org
 
       :config
       ;; initialize leaf-keywords.el
-      (leaf-keywords-init)))    
+      (leaf-keywords-init)))
   )
 #+END_SRC
 * my constants
@@ -562,34 +562,42 @@ https://github.com/noctuid/link-hint.el
   :bind
   ("C-c a" . org-agenda)
   :custom
-  ((org-adapt-indentation . nil) ; "don't indent levels contents"
+  (
+   (org-adapt-indentation . nil) ; "don't indent levels contents"
    (org-default-notes-file . "~/workspace/org/capture.org")
    (org-edit-src-content-indentation . 0)
-   (org-hide-leading-stars . nil) ; "show all levels stars")
-   (org-html-table-default-attributes . nil) ; "no html table default attributes")
-   (org-id-link-to-org-use-id . 'create-if-interactive-and-no-custom-id) ; "org-store-link create an id")
-   (org-indent-indentation-per-level . 0) ; "sub levels indentation to 0")
-   (org-indent-mode . nil) ; "don't try to indent sub levels")
-   (org-level-color-stars-only . nil) ; "level titles are colored too")
-   (org-modules . '(org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
+   (org-hide-leading-stars . nil) ; "show all levels stars"
+   (org-html-postamble . nil)
+   (org-html-table-default-attributes . nil) ; "no html table default attributes"
+   (org-id-link-to-org-use-id . 'create-if-interactive-and-no-custom-id) ; "org-store-link create an id"
+   (org-indent-indentation-per-level . 0) ; "sub levels indentation to 0"
+   (org-indent-mode . nil) ; "don't try to indent sub levels"
+   (org-level-color-stars-only . nil) ; "level titles are colored too"
    (org-publish-timestamp-directory . "~/workspace/org/.org-timestamps/")
    (org-src-window-setup . 'current-window)
    (org-startup-shrink-all-tables . t)
-   (org-tags-column . -153) ; "tags alignment")
-   (org-time-stamp-custom-formats . '("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
+   (org-tags-column . -153) ; "tags alignment"
+
+   (org-time-stamp-custom-formats
+    . '("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
 
    (org-file-apps . '(("\\.mm\\'" . default)
                       ("\\.x?html?\\'" . "firefox %s")
                       ("^http" . "firefox %s")
                       (auto-mode . emacs)
-                      (directory . emacs))))
+                      (directory . emacs)))
 
+   (org-modules . '(org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail org-w3m))
 
-  ;; org-headline-done ((t (:foreground "medium aquamarine")))
-  ;; :config
+   ;; org-headline-done ((t (:foreground "medium aquamarine")))
+
+   ) ;; :custom
+
+  :config
   ;; (add-to-list 'load-path (concat user-emacs-directory "straight/repos/org/contrib/lisp"))
   ;; (require 'org-velocity) ;; TODO remove it. org-ql is a lot more rich (but I don't understand it yet...)
-  )
+
+  ) ;; org
 
 ;; patched function org-translate-time from org.el
 ;; replaced
@@ -606,10 +614,6 @@ https://github.com/noctuid/link-hint.el
 ;;
 ;; see https://orgmode.org/manual/Capturing-column-view.html:
 ;;    C-c C-x i (org-insert-columns-dblock)
-
-(progn
-  (defvar org-html-postamble)
-  (setq org-html-postamble nil))
 
 (leaf org-web-tools
   :feather t)

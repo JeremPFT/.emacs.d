@@ -1,25 +1,4 @@
-(customize-set-variable
- 'debug-on-error t)
-
-(defun emacs-dir-file (filename)
-  (expand-file-name filename user-emacs-directory))
-
-(customize-set-variable
- 'initial-buffer-choice (emacs-dir-file "init.el"))
-
-(customize-set-variable
- 'custom-file (emacs-dir-file "init-emacs-custom.el"))
-
-;; Speed-up at startup: boost garbage collector memory
-;; article: https://elmord.org/blog/?entry=20190913-emacs-gc
-(defconst normal-gc-cons-threshold (* 10 1024 1024))
-(defconst init-gc-cons-threshold (* 100 1024 1024))
-(customize-set-variable 'gc-cons-threshold init-gc-cons-threshold)
-(add-hook 'emacs-startup-hook
-          (lambda () (setq gc-cons-threshold normal-gc-cons-threshold)))
-
-(leaf emacs>27
-  :doc "see `early-init-file'")
+;;; init.el --- emacs setup
 
 (unless (file-exists-p (emacs-dir-file "init-package.el"))
   (let ((dir "~/.emacs.d/elpa"))
@@ -224,7 +203,7 @@ saving it."
     (unless (file-exists-p home-bin-dir) (warn "please create \"~/bin\" directory"))
 
     (defconst workspace-dir
-      (file-name-as-directory (expand-file-name "workspace-dir" home-dir)))
+      (file-name-as-directory (expand-file-name "workspace" home-dir)))
 
     (defconst emacs-install-lisp-dir
       (file-name-as-directory
@@ -251,7 +230,7 @@ saving it."
                          ))
   (defconst face-height (cond
                          (home-computer-p 200)
-                         (birdz-debian-computer-p 140)
+                         (birdz-debian-computer-p 180)
                          (t 140)))
 
   (set-face-attribute 'default nil
@@ -281,7 +260,7 @@ saving it."
              (user-mail-address . "j.piffret@gmail.com")
              (user-login-name . "jpiffret")
              (column-number-mode . t)
-             (fill-column . 79)
+             (fill-column . 69)
              (truncate-lines . t)
              (menu-bar-mode . t)
              (tool-bar-mode . t)
@@ -350,6 +329,7 @@ saving it."
       (server-start)))
   (leaf emacs-visual
     :config
+    (add-to-list 'default-frame-alist '(fullscreen . maximized))
     (leaf zenburn-theme
       :ensure t
       :config
@@ -606,42 +586,45 @@ saving it."
   ("\\.org\\'" . org-mode)
   ("\\.\\(org\\|txt\\)\\'" . org-mode)
   ("\\*notes\\*" . org-mode)
-  :bind
-  ("C-c a" . org-agenda)
   :custom
-  ((org-adapt-indentation . nil)                                         ; don't indent levels contents
+  (
+   (org-adapt-indentation . nil)                                         ; don't indent levels contents
    (org-default-notes-file . "~/workspace/org/capture.org")
    (org-edit-src-content-indentation . 0)
    (org-hide-leading-stars . nil)                                        ; show all levels stars
+   (org-html-postamble . nil)
    (org-html-table-default-attributes . nil)                             ; no html table default attributes
    (org-id-link-to-org-use-id . 'create-if-interactive-and-no-custom-id) ; org-store-link create an id
    (org-indent-indentation-per-level . 0)                                ; sub levels indentation to 0
    (org-indent-mode . nil)                                               ; don't try to indent sub levels
    (org-level-color-stars-only . nil)                                    ; level titles are colored too
-   (org-tags-column . -153)                                              ; tags alignment
    (org-publish-timestamp-directory . "~/workspace/org/.org-timestamps/")
    (org-src-window-setup . 'current-window)
    (org-startup-shrink-all-tables . t)
-   (org-time-stamp-custom-formats . '("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
-   (org-html-postamble . nil)
+   (org-tags-column . -153)                                              ; tags alignment
+   ;; (org-headline-done ((t (:foreground "medium aquamarine"))))
+
+   (org-time-stamp-custom-formats
+    . '("<%A %d %B %Y>" . "<%A %d %B %Y, %H:%M>"))
 
    (org-file-apps . '(("\\.mm\\'" . default)
                       ("\\.x?html?\\'" . "firefox %s")
                       ("^http" . "firefox %s")
                       (auto-mode . emacs)
-                      (directory . emacs))))
+                      (directory . emacs)))
 
-  (org-modules . '(org-bbdb
-                   org-bibtex
-                   org-docview
-                   org-gnus
-                   org-info
-                   org-irc
-                   org-mhe
-                   org-rmail
-                   org-w3m))
+   (org-modules . '(org-bbdb
+                    org-bibtex
+                    org-docview
+                    org-gnus
+                    org-info
+                    org-irc
+                    org-mhe
+                    org-rmail
+                    org-w3m))
 
-  ;; (org-headline-done ((t (:foreground "medium aquamarine"))))
+   ) ;; :custom
+
   :config
   ;; (add-to-list 'load-path (concat user-emacs-directory "straight/repos/org/contrib/lisp"))
 
@@ -681,10 +664,12 @@ saving it."
 
   ;; Fix an incompatibility between the ob-async and ob-ipython packages
   ;; TODO integrate in use-package
-  (leaf TODO-integrate-to-leaf)
-  (progn
-    (defvar ob-async-no-async-languages-alist)
-    (setq ob-async-no-async-languages-alist '("ipython")))
+  (leaf TODO-integrate-to-leaf
+    :config
+    (progn
+      (defvar ob-async-no-async-languages-alist)
+      (setq ob-async-no-async-languages-alist '("ipython")))
+    )
 
   (leaf org-mind-map
     :ensure t
@@ -718,6 +703,89 @@ saving it."
     :ensure t
     ;; to export html file
     )
+
+  (leaf org-capture
+    :ensure nil ;; not a package
+    :bind
+    (("C-c c" . org-capture))
+
+    :custom
+    (
+     (org-capture-templates
+      .
+      (quote
+       (
+
+        ("l" "Link" entry
+         (file+headline "~/workspace/org/capture.org" "any/every-thing")
+         (file "~/.emacs.d/org-capture-templates/capt-tmpl-link.org")
+         )
+
+        ("t" "Task" entry
+         (file+headline "" "Tasks")
+         "* TODO %?
+           %u
+           %a")
+
+        ("c" "Clope" entry
+         (file+headline "e:/Dropbox/org/pauses.org" "pauses")
+         "** clope
+           :PROPERTIES:
+           :TIMES: %U%?
+           :END:
+           ")
+
+        ("E" "Event With Clipboard" entry (file+headline "~/workspace/org/events.org" "Transient")
+         "* EVENT %?\n%U\n   %c" :empty-lines 1)
+
+        ("e" "note" entry (file+headline "~/workspace/org/capture.org" "any/every-thing")
+         (file "~/.emacs.d/org-capture-templates/capt-tmpl-link.org")
+         :empty-lines 1)
+
+        ("b" "bookmark")
+
+        ("bm" "manga" entry (file+headline "~/workspace/org/bookmarks/bookmarks-loisirs-mangas.org" "liste")
+         (file "~/.emacs.d/org-capture-templates/capt-tmpl-bmk-mangas.org")
+         :empty-lines 1)
+
+        ("p" "passwords" entry (file "~/workspace/org/passwords.org.gpg")
+         (file "~/.emacs.d/org-capture-templates/capt-tmpl-pwd.org"))
+
+        )
+       )
+
+      ) ;; org-capture-templates
+     ) ;; :custom
+    ) ;; org-capture
+
+  (leaf org-agenda
+    :ensure nil ;; not a package
+    :bind
+    ("C-c a" . org-agenda)
+    :config
+    :custom
+    (
+     (org-agenda-files
+      . (quote
+         (
+          "~/.emacs.d/README.org"
+          "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org"
+          "~/workspace/ada_test_architectures"
+          "~/workspace/ada_utils/src/result/README.org"
+          "~/workspace/birdz/notes"
+          "~/workspace/org/agenda"
+          "~/workspace/org/bookmarks"
+          "~/workspace/org/capture.org"
+          "~/workspace/org/emploi"
+          "~/workspace/org/reference-cards"
+          "~/workspace/org/reference-cards/tests"
+          )))
+     (org-log-done . t)
+     ;; org-agenda-files (quote ("~/workspace/org/agenda"))
+     (org-refile-targets . (quote ((org-agenda-files :maxlevel . 4))))
+
+     ) ;; :custom
+    ) ;; org-agenda
   ) ;; org
 
 (leaf bookmark+
@@ -745,6 +813,185 @@ saving it."
                    )
   ) ;; bookmarks+
 
+(leaf ibuffer
+  :require t
+  :bind
+  ("C-x C-b" . ibuffer)
+
+  ;; :bind-keymap
+  ;; ("<f1>" . hydra-ibuffer-main/body)
+
+  :init
+  (add-hook 'ibuffer-mode-hook
+            (lambda ()
+              (ibuffer-auto-mode)
+              (ibuffer-switch-to-saved-filter-groups "default")))
+
+  :custom
+  (ibuffer-show-empty-filter-groups . nil)
+  ;; *Help*
+  ;; ibuffer-filtering-alist
+  ;; ibuffer-filtering-qualifiers
+  (ibuffer-saved-filter-groups
+   . (quote (("default"
+              ("bookmarks" (name . "bookmarks"))
+              ("Magit" (name . "^magit"))
+              ("birdz-dirs" (and (mode . dired-mode)(filename . "birdz")))
+              ("ada_utils" (or (filename . "ada_utils")))
+              ("ada_test_architectures" (or (filename . "ada_test_architectures")))
+              ("birdz" (or (filename . "birdz") (name . "cnd-161")))
+              ("ssh:dev" (filename . "ssh:dev"))
+              ("Help" (or (name . "\*Help\*") (name . "\*Apropos\*") (name . "\*info\*")))
+              ))))
+  (ibuffer-directory-abbrev-alist
+   . (quote (("~/Ingenico_Workspace/SUPTER-7682_mexique"
+              . "SUPTER-7682_mexique")
+             ("dllsch_t3_bbva_key_injection_pin_block_private"
+              . "dllsch_t3_..._private"))))
+  (ibuffer-default-sorting-mode . (quote filename-or-dired))
+  (ibuffer-formats
+   . (quote
+      ((mark modified read-only locked " "
+             (name 25 25 :left :elide)
+             " "
+             (size 7 -1 :right)
+             " "
+             (mode 8 8 :left :elide)
+             " " filename-and-process)
+       (mark " "
+             (name 16 -1)
+             " " filename))))
+
+  :config
+  (progn
+    (define-ibuffer-sorter filename-or-dired
+      "Sort the buffers by their pathname."
+      (:description "filenames plus dired")
+      (string-lessp
+       (with-current-buffer (car a)
+         (or buffer-file-name
+             (if (derived-mode-p 'dired-mode)
+                 (expand-file-name dired-directory))
+             ;; so that all non pathnames are at the end
+             "~"))
+       (with-current-buffer (car b)
+         (or buffer-file-name
+             (if (derived-mode-p 'dired-mode)
+                 (expand-file-name dired-directory))
+             ;; so that all non pathnames are at the end
+             "~"))))
+
+    (define-key ibuffer-mode-map (kbd "s p")
+      'ibuffer-do-sort-by-filename-or-dired)
+
+    (define-ibuffer-column size-h
+      (:name "Size" :inline t)
+      (cond
+       ((> (buffer-size) 1000000) (format "%7.1fM" (/ (buffer-size) 1000000.0)))
+       ((> (buffer-size) 100000) (format "%7.0fk" (/ (buffer-size) 1000.0)))
+       ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
+       (t (format "%8d" (buffer-size)))))
+    ) ;; progn :config
+
+  :hydra
+  ((hydra-ibuffer-main
+    (:color pink :hint nil)
+    "
+  ^Navigation^ | ^Mark^        | ^Actions^        | ^View^
+ -^----------^-+-^----^--------+-^-------^--------+-^----^-------
+   _k_:    ʌ   | _m_: mark     | _D_: delete      | _g_: refresh
+  _RET_: visit | _u_: unmark   | _S_: save        | _s_: sort
+   _j_:    v   | _*_: specific | _a_: all actions | _/_: filter
+ -^----------^-+-^----^--------+-^-------^--------+-^----^-------
+ "
+    ("j" ibuffer-forward-line)
+    ("RET" ibuffer-visit-buffer :color blue)
+    ("k" ibuffer-backward-line)
+
+    ("m" ibuffer-mark-forward)
+    ("u" ibuffer-unmark-forward)
+    ("*" hydra-ibuffer-mark/body :color blue)
+
+    ("D" ibuffer-do-delete)
+    ("S" ibuffer-do-save)
+    ("a" hydra-ibuffer-action/body :color blue)
+
+    ("g" ibuffer-update)
+    ("s" hydra-ibuffer-sort/body :color blue)
+    ("/" hydra-ibuffer-filter/body :color blue)
+
+    ("o" ibuffer-visit-buffer-other-window "other window" :color blue)
+    ("q" quit-window "quit ibuffer" :color blue)
+    ("." nil "toggle hydra" :color blue))
+
+   (hydra-ibuffer-mark
+    (:color teal
+            :columns 5
+            :after-exit (hydra-ibuffer-main/body))
+    "Mark"
+    ("*" ibuffer-unmark-all "unmark all")
+    ("M" ibuffer-mark-by-mode "mode")
+    ("m" ibuffer-mark-modified-buffers "modified")
+    ("u" ibuffer-mark-unsaved-buffers "unsaved")
+    ("s" ibuffer-mark-special-buffers "special")
+    ("r" ibuffer-mark-read-only-buffers "read-only")
+    ("/" ibuffer-mark-dired-buffers "dired")
+    ("e" ibuffer-mark-dissociated-buffers "dissociated")
+    ("h" ibuffer-mark-help-buffers "help")
+    ("z" ibuffer-mark-compressed-file-buffers "compressed")
+    ("b" hydra-ibuffer-main/body "back" :color blue))
+
+   (hydra-ibuffer-action
+    (:color teal :columns 4
+            :after-exit
+            (if (derived-mode-p 'ibuffer-mode)
+                (hydra-ibuffer-main/body)))
+    "Action"
+    ("A" ibuffer-do-view "view")
+    ("E" ibuffer-do-eval "eval")
+    ("F" ibuffer-do-shell-command-file "shell-command-file")
+    ("I" ibuffer-do-query-replace-regexp "query-replace-regexp")
+    ("H" ibuffer-do-view-other-frame "view-other-frame")
+    ("N" ibuffer-do-shell-command-pipe-replace "shell-cmd-pipe-replace")
+    ("M" ibuffer-do-toggle-modified "toggle-modified")
+    ("O" ibuffer-do-occur "occur")
+    ("P" ibuffer-do-print "print")
+    ("Q" ibuffer-do-query-replace "query-replace")
+    ("R" ibuffer-do-rename-uniquely "rename-uniquely")
+    ("T" ibuffer-do-toggle-read-only "toggle-read-only")
+    ("U" ibuffer-do-replace-regexp "replace-regexp")
+    ("V" ibuffer-do-revert "revert")
+    ("W" ibuffer-do-view-and-eval "view-and-eval")
+    ("X" ibuffer-do-shell-command-pipe "shell-command-pipe")
+    ("b" nil "back"))
+
+   (hydra-ibuffer-sort
+    (:color amaranth :columns 3)
+    "Sort"
+    ("i" ibuffer-invert-sorting "invert")
+    ("a" ibuffer-do-sort-by-alphabetic "alphabetic")
+    ("v" ibuffer-do-sort-by-recency "recently used")
+    ("s" ibuffer-do-sort-by-size "size")
+    ("f" ibuffer-do-sort-by-filename/process "filename")
+    ("m" ibuffer-do-sort-by-major-mode "mode")
+    ("b" hydra-ibuffer-main/body "back" :color blue))
+
+   (hydra-ibuffer-filter
+    (:color amaranth :columns 4)
+    "Filter"
+    ("m" ibuffer-filter-by-used-mode "mode")
+    ("M" ibuffer-filter-by-derived-mode "derived mode")
+    ("n" ibuffer-filter-by-name "name")
+    ("c" ibuffer-filter-by-content "content")
+    ("e" ibuffer-filter-by-predicate "predicate")
+    ("f" ibuffer-filter-by-filename "filename")
+    (">" ibuffer-filter-by-size-gt "size")
+    ("<" ibuffer-filter-by-size-lt "size")
+    ("/" ibuffer-filter-disable "disable")
+    ("b" hydra-ibuffer-main/body "back" :color blue))
+   ) ;; :hydra
+
+  ) ;; ibuffer
 
 
 ;; TODO frame title
@@ -773,7 +1020,6 @@ saving it."
 ;; JP;; #+NAME: default-frame-alist
 ;; JP
 ;; JP;; [[file:~/.emacs.d/README-leaf.org::default-frame-alist][default-frame-alist]]
-;; JP(add-to-list 'default-frame-alist '(fullscreen . maximized))
 ;; JP;; default-frame-alist ends here
 ;; JP
 

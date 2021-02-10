@@ -2835,6 +2835,6 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
 Local Variables:
 mode: org
 coding: utf-8-unix
-eval: (progn "README.org: evaluate all blocks without confirmation:"
-        (setq org-confirm-babel-evaluate nil)))
+# eval: (progn "README.org: evaluate all blocks without confirmation:"
+#         (setq org-confirm-babel-evaluate nil)))
 End:
