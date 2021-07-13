@@ -237,13 +237,8 @@ saving it."
                          (t         "")
                          ))
   (defconst face-height (cond
-                         <<<<<<< Updated upstream
                          (home-computer-p 200)
-                         (birdz-debian-computer-p 180)
-                         =======
-                         (home-computer-p 240)
                          (birdz-debian-computer-p 140)
-                         >>>>>>> Stashed changes
                          (t 140)))
 
   (set-face-attribute 'default nil
@@ -325,7 +320,9 @@ saving it."
                                              "c:/Program Files/Git/cmd"
                                              "c:/Program Files/Git/bin"
                                              "e:/programs/cygwin64/bin"
+                                             "e:/programs/GNAT/2020/bin"
                                              "C:/Program Files (x86)/GnuPG/bin"
+                                             "~/.emacs.d/"
                                              ))
                           (t
                            (warn "ERROR JPI: undefined environment for this computer")
@@ -432,19 +429,19 @@ saving it."
 (leaf magit
   :ensure t
   :init
-  (leaf magit-popup :ensure t)
+  ;; (leaf magit-popup :ensure t)
   :config
   (leaf git-link
     :ensure t
     )
-  (leaf magit-gitflow
-    ;;
-    ;; TODO see magit-gitflow
-    ;;
-    :ensure t
-    :config
-    (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
-    )
+  ;; (leaf magit-gitflow
+  ;;   ;;
+  ;;   ;; TODO see magit-gitflow
+  ;;   ;;
+  ;;   :ensure t
+  ;;   :config
+  ;;   (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+  ;;   )
   :custom
   (magit-repository-directories .
                                 '(("~/.emacs.d"  . 0)
@@ -624,7 +621,7 @@ saving it."
    (org-publish-timestamp-directory . "~/workspace/org/.org-timestamps/")
    (org-src-window-setup . 'current-window)
    (org-startup-shrink-all-tables . t)
-   (org-tags-column . -153)                                              ; tags alignment
+   (org-tags-column . -120)                                              ; tags alignment
    ;; (org-headline-done ((t (:foreground "medium aquamarine"))))
 
    (org-time-stamp-custom-formats
@@ -793,13 +790,15 @@ saving it."
          (
           "~/.emacs.d/README.org"
           "~/.emacs.d/lisp/yasnippet/org-snippet-new-link.org"
-          "~/workspace/ada_test_architectures"
-          "~/workspace/ada_utils/src/result/README.org"
+          "~/workspace/ada/ada_test_architectures"
+          "~/workspace/ada/ada_utils/src/result/README.org"
           "~/workspace/birdz/notes"
           "~/workspace/org/agenda"
           "~/workspace/org/bookmarks"
+          "~/workspace/org/bookmarks/bookmarks-loisirs-jeux"
           "~/workspace/org/capture.org"
           "~/workspace/org/emploi"
+          "~/workspace/org/gtd"
           "~/workspace/org/reference-cards"
           "~/workspace/org/reference-cards/tests"
           )))
@@ -878,13 +877,13 @@ saving it."
    ;; ibuffer-filtering-qualifiers
    (ibuffer-saved-filter-groups
     . (quote (("default"
-               ("bookmarks" (name . "bookmarks"))
+               ("bookmarks" (filename . "workspace/org/bookmarks"))
                ("Magit" (name . "^magit"))
-               ("birdz-dirs" (and (mode . dired-mode)(filename . "birdz")))
-               ("ada_utils" (or (filename . "ada_utils")))
-               ("ada_test_architectures" (or (filename . "ada_test_architectures")))
-               ("birdz" (or (filename . "birdz") (name . "cnd-161")))
-               ("ssh:dev" (filename . "ssh:dev"))
+               ;; ("birdz-dirs" (and (mode . dired-mode)(filename . "birdz")))
+               ;; ("ada_utils" (or (filename . "ada_utils")))
+               ;; ("ada_test_architectures" (or (filename . "ada_test_architectures")))
+               ;; ("birdz" (or (filename . "birdz") (name . "cnd-161")))
+               ;; ("ssh:dev" (filename . "ssh:dev"))
                ("Help" (or (name . "\*Help\*") (name . "\*Apropos\*") (name . "\*info\*")))
                ))))
    (ibuffer-directory-abbrev-alist
@@ -1036,6 +1035,18 @@ saving it."
     ("b" hydra-ibuffer-main/body "back" :color blue))
    ) ;; :hydra
   ) ;; ibuffer
+
+(leaf ada-mode
+  :doc "see refcard ada"
+  :ensure t
+  :init (leaf wisi  :ensure t)
+  :config
+  (defun ada-before-save ()
+    (when (derived-mode-p 'ada-mode 'gpr-mode)
+      (wisi-case-adjust-buffer)
+      (wisi-reset-parser)
+      (indent-buffer)))
+  )
 
 ;; TODO frame title
 ;; sources:

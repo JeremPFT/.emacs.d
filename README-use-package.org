@@ -4,12 +4,6 @@
 #+STARTUP: showall
 # STARTUP options: see [[help:org-startup-options]]
 
-* NOTE remove native org from emacs
-#+BEGIN_SRC shell
-cd /usr/share/emacs/26.1/lisp/
-tar czf org
-rm -rf org
-#+END_SRC
 * remove use-package signature checks (msys2 bug)
 :PROPERTIES:
 :header-args+: :tangle "~/.emacs.d/init-leaf.el"
@@ -2832,9 +2826,10 @@ _s-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache 
 #+RESULTS: insert-custom-file
 
 * COMMENT Local Variables
+# eval: (progn "README.org: evaluate all blocks without confirmation:"
+#         (setq org-confirm-babel-evaluate nil)))
+
 Local Variables:
 mode: org
 coding: utf-8-unix
-# eval: (progn "README.org: evaluate all blocks without confirmation:"
-#         (setq org-confirm-babel-evaluate nil)))
 End:

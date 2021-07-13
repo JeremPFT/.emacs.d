@@ -6,7 +6,7 @@
  '(column-number-mode t)
  '(debug-on-error t)
  '(electric-pair-mode t)
- '(fill-column 79)
+ '(fill-column 69)
  '(frame-title-format
    '(:eval
      (format "%s: %s %s"
@@ -24,17 +24,17 @@
  '(global-hl-line-mode t)
  '(indent-tabs-mode nil)
  '(menu-bar-mode t)
- '(org-indent-indentation-per-level 0 nil nil "Customized with leaf in `org' block at `c:/Users/jeremy/AppData/Roaming/.emacs.d/init.el'")
- '(org-level-color-stars-only nil nil nil "Customized with leaf in `org' block at `c:/Users/jeremy/AppData/Roaming/.emacs.d/init.el'")
  '(package-archives
    '(("org" . "https://orgmode.org/elpa/")
      ("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "https://melpa.org/packages/")
      ("melpa stable" . "https://stable.melpa.org/packages/")))
  '(package-selected-packages
-   '(htmlize poporg org-brain org-mind-map org-generate ob-async org-web-tools zenburn-theme magit-gitflow link-hint leaf-tree leaf-keywords hydra git-link flx f el-get counsel blackout avy-menu))
+   '(magit zenburn-theme yasnippet solarized-theme poporg org-web-tools org-mind-map org-generate org-brain ob-async link-hint leaf-tree leaf-keywords hydra htmlize git-link flx f el-get counsel blackout avy-menu ada-mode))
  '(scroll-bar-mode t)
  '(show-paren-mode t)
+ '(solarized-scale-org-headlines nil)
+ '(solarized-use-variable-pitch nil)
  '(tool-bar-mode t)
  '(truncate-lines t)
  '(user-full-name "Jeremy Piffret")
